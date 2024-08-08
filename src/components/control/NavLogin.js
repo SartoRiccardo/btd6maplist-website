@@ -26,14 +26,20 @@ export function NavLogin() {
     const fetchMaplistProfile = async () => {
       if (accessToken && accessToken.valid) {
         const discordProfile = await getDiscordUser(accessToken.access_token);
+        if (!discordProfile) {
+          dispatch(revokeAuth());
+          return;
+        }
         dispatch(setDiscordProfile({ discordProfile }));
+
         const maplistProfile = {
-          oak: "9ced1583dd95adf04e138c185877e471cd021cbe9613db6e",
+          oak: "9ced1583dd95adf04e138c185877e471cd021cbe9613db6e", // Random dude for test purposes
           roles: [],
         }; // Fetch that too...
         dispatch(setMaplistProfile({ maplistProfile }));
+
         if (maplistProfile.oak) {
-          const btd6Profile = await getBtd6User(maplistProfile.oak); // Random dude for test purposes
+          const btd6Profile = await getBtd6User(maplistProfile.oak);
           dispatch(setBtd6Profile({ btd6Profile }));
         }
       }
@@ -70,7 +76,7 @@ export function NavLogin() {
 
           <ul className={`${stylesNav.submenu} shadow`}>
             <li>
-              <Link href="/profile">Profile</Link>
+              <Link href={`/profile/${discordProfile.id}`}>Profile</Link>
             </li>
             <li>
               <a href="#" onClick={(_e) => logout()}>
@@ -96,7 +102,7 @@ export function NavLogin() {
             <div>
               <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
                 <li>
-                  <Link href="/profile">Profile</Link>
+                  <Link href={`/profile/${discordProfile.id}`}>Profile</Link>
                 </li>
                 <li>
                   <a href="#" onClick={(_e) => logout()}>
