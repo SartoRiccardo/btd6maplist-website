@@ -4,7 +4,12 @@ export default function Footer() {
   return (
     <footer className={`${styles.footer} px-3`}>
       <hr className={styles.hr} />
-      <p>Made by Sarto</p>
+      <p>
+        Join the{" "}
+        <a href="https://discord.gg/ZgMtM7X2TS" target="_blank">
+          BTD6 Maplist Discord!
+        </a>
+      </p>
     </footer>
   );
 }

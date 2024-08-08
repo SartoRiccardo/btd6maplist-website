@@ -1,7 +1,20 @@
+:root {
+  --color-primary: #202c39;
+  --color-secondary: #34495b;
+  --color-highlight: #f29559;
+  --color-text: white;
+}
+
 body {
-  background-color: #e0f7fa;
+  background-color: var(--color-primary);
+  color: var(--color-text);
   min-height: 100vh;
   display: flex;
+}
+
+a,
+a:visited {
+  color: var(--color-highlight);
 }
 
 .content {
@@ -22,6 +35,11 @@ body {
 
 body {
   font-family: var(--font-inter);
+}
+
+.font-border {
+  text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
+    -1px -1px #000, 1px -1px #000, -1px 1px #000;
 }
 
 .offscreen {
