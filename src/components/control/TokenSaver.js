@@ -30,7 +30,7 @@ export default function TokenSaver({ accessToken, justFetched }) {
         })
       );
     } else {
-      dispatch(setNullDIscordAccessToken());
+      dispatch(setNullDiscordAccessToken());
     }
   }, []);
   return null;

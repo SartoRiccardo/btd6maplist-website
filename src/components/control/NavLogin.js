@@ -8,9 +8,10 @@ import {
   setBtd6Profile,
   setDiscordProfile,
   setMaplistProfile,
+  revokeAuth,
 } from "@/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
-import { getDiscordUser } from "@/server/discordRequests";
+import { getDiscordUser, revokeAccessToken } from "@/server/discordRequests";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
 import { useEffect, useState } from "react";
 
@@ -21,7 +22,7 @@ export function NavLogin() {
 
   useEffect(() => {
     const fetchMaplistProfile = async () => {
-      if (accessToken !== null) {
+      if (accessToken && accessToken.valid) {
         const discordProfile = await getDiscordUser(accessToken.access_token);
         dispatch(setDiscordProfile({ discordProfile }));
         const maplistProfile = {
@@ -37,6 +38,13 @@ export function NavLogin() {
     };
     fetchMaplistProfile();
   }, [accessToken]);
+
+  const logout = async () => {
+    await fetch(`/api/auth/revoke?token=${accessToken.access_token}`, {
+      method: "POST",
+    });
+    dispatch(revokeAuth());
+  };
 
   const params = {
     client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
@@ -59,10 +67,12 @@ export function NavLogin() {
 
         <ul className={`${stylesNav.submenu} shadow`}>
           <li>
-            <Link href="/experts">Profile</Link>
+            <Link href="/profile">Profile</Link>
           </li>
           <li>
-            <Link href="/list">Logout</Link>
+            <a href="#" onClick={(_e) => logout()}>
+              Logout
+            </a>
           </li>
         </ul>
       </li>
