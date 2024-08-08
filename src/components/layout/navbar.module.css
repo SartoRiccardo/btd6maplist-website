@@ -1,0 +1,70 @@
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  display: inline;
+  position: relative;
+  margin: 0 0.7rem;
+}
+
+.submenu:not(.mobile) {
+  position: absolute;
+  right: 0;
+  opacity: 0.5;
+  top: -10rem;
+  transition: opacity 0.1s ease-out;
+
+  padding: 0.5rem 3rem 0 3rem;
+  background-color: var(--color-secondary);
+  border-top: 5px solid var(--color-highlight);
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.navbar li:focus-within .submenu {
+  top: 170%;
+  opacity: 1;
+}
+
+.submenu li {
+  display: block;
+  padding: 0.2rem 0;
+  margin: 0;
+}
+
+.hamburgerBtn {
+  font-size: 2rem;
+}
+
+.navbar a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.navmobile {
+  background-color: var(--color-secondary);
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+
+.closeButton {
+  font-size: 2rem;
+}
+
+.closeButton:hover {
+  cursor: pointer;
+}
+
+.navbar.mobile li {
+  display: block;
+  border-bottom: 1px solid var(--color-primary);
+  padding: 0.3rem 0;
+  margin-top: 0.3rem;
+}
+
+.navbar.mobile li:last-child {
+  border-bottom: none;
+}

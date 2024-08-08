@@ -1,11 +1,13 @@
 import { luckiestGuy } from "@/lib/fonts";
-import styles from "./header.module.css";
+import stylesHeader from "./header.module.css";
+import stylesNav from "./navbar.module.css";
 import Link from "next/link";
+import { NavbarMobile } from "./NavbarMobile";
 
 export default function Header() {
   return (
     <header
-      className={`${luckiestGuy.className} font-border ${styles.header} shadow`}
+      className={`${luckiestGuy.className} font-border ${stylesHeader.header} shadow`}
     >
       <div className="row">
         <div className="col-auto">
@@ -18,13 +20,13 @@ export default function Header() {
         <div className="col d-flex justify-content-end">
           <nav>
             <div className="d-none d-md-block">
-              <ul className={`${styles.navbar}`}>
+              <ul className={`${stylesNav.navbar}`}>
                 <li>
                   <a href="#">
                     Maps <i className="bi bi-caret-down-fill" />
                   </a>
 
-                  <ul className={`${styles.submenu} shadow`}>
+                  <ul className={`${stylesNav.submenu} shadow`}>
                     <li>
                       <Link href="/experts">Experts</Link>
                     </li>
@@ -39,7 +41,7 @@ export default function Header() {
                     Leaderboard <i className="bi bi-caret-down-fill" />
                   </a>
 
-                  <ul className={`${styles.submenu} shadow`}>
+                  <ul className={`${stylesNav.submenu} shadow`}>
                     <li>
                       <Link href="/experts">Experts</Link>
                     </li>
@@ -54,9 +56,7 @@ export default function Header() {
             </div>
 
             <div className="d-block d-md-none">
-              <p className={styles.hamburgerBtn}>
-                <i className="bi bi-list" />
-              </p>
+              <NavbarMobile />
             </div>
           </nav>
         </div>
