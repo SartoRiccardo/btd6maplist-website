@@ -14,11 +14,13 @@ import { useAppDispatch, useAppSelector } from "@/lib/store";
 import { getDiscordUser, revokeAccessToken } from "@/server/discordRequests";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
 import { useEffect, useState } from "react";
+import Collapse from "react-bootstrap/Collapse";
 
 export function NavLogin() {
   const accessToken = useAppSelector(selectDiscordAccessToken);
   const { discordProfile, btd6Profile } = useAppSelector(selectMaplistProfile);
   const dispatch = useAppDispatch();
+  const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchMaplistProfile = async () => {
@@ -59,23 +61,53 @@ export function NavLogin() {
   return (
     accessToken &&
     (accessToken.valid ? (
-      <li>
-        <a href="#">
-          <img className={`${styles.pfp}`} src={btd6Profile.avatarURL} />
-          {discordProfile ? discordProfile.username : "..."}
-        </a>
+      <>
+        <li className="d-none d-md-inline-block">
+          <a href="#">
+            <img className={`${styles.pfp}`} src={btd6Profile.avatarURL} />
+            {discordProfile ? discordProfile.username : "..."}
+          </a>
 
-        <ul className={`${stylesNav.submenu} shadow`}>
-          <li>
-            <Link href="/profile">Profile</Link>
-          </li>
-          <li>
-            <a href="#" onClick={(_e) => logout()}>
-              Logout
-            </a>
-          </li>
-        </ul>
-      </li>
+          <ul className={`${stylesNav.submenu} shadow`}>
+            <li>
+              <Link href="/profile">Profile</Link>
+            </li>
+            <li>
+              <a href="#" onClick={(_e) => logout()}>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li className={`d-md-none`}>
+          <a
+            href="#"
+            onClick={(_e) => setMobileSubmenuOpen(!mobileSubmenuOpen)}
+          >
+            <img
+              className={`${styles.pfp} ${styles.mobile}`}
+              src={btd6Profile.avatarURL}
+            />
+            {discordProfile ? discordProfile.username : "..."}
+          </a>
+
+          <Collapse in={mobileSubmenuOpen}>
+            <div>
+              <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
+                <li>
+                  <Link href="/profile">Profile</Link>
+                </li>
+                <li>
+                  <a href="#" onClick={(_e) => logout()}>
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </Collapse>
+        </li>
+      </>
     ) : (
       <a
         href={`https://discord.com/oauth2/authorize?${new URLSearchParams(

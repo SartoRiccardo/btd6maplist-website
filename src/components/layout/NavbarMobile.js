@@ -36,7 +36,7 @@ export function NavbarMobile() {
         className={`${styles.navmobile} ${titleFont.className} font-border h-100`}
         responsive="md"
       >
-        <Offcanvas.Header className="d-flex justify-content-end">
+        <Offcanvas.Header className="d-flex justify-content-end pb-0">
           <i
             className={`${styles.closeButton} bi bi-x-lg text-5`}
             onClick={(_e) => setIsMenuOpen(false)}

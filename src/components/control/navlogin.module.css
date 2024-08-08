@@ -6,3 +6,9 @@
   scale: 1.5;
   transform: translateY(-0.1rem);
 }
+
+.pfp.mobile {
+  transform: none;
+  transform: translateY(-0.1rem);
+  scale: 1.3;
+}
