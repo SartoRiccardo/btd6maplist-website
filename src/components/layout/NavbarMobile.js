@@ -1,10 +1,11 @@
 "use client";
-import { luckiestGuy } from "@/lib/fonts";
+import { titleFont } from "@/lib/fonts";
 import styles from "./navbar.module.css";
 import { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Link from "next/link";
 import Collapse from "react-bootstrap/Collapse";
+import { NavLogin } from "../control/NavLogin";
 
 export function NavbarMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,7 +33,7 @@ export function NavbarMobile() {
         show={isMenuOpen}
         onHide={(_e) => setIsMenuOpen(false)}
         placement="top"
-        className={`${styles.navmobile} ${luckiestGuy.className} font-border h-100`}
+        className={`${styles.navmobile} ${titleFont.className} font-border h-100`}
         responsive="md"
       >
         <Offcanvas.Header className="d-flex justify-content-end">
@@ -44,7 +45,7 @@ export function NavbarMobile() {
 
         <Offcanvas.Body>
           <ul className={`${styles.navbar} ${styles.mobile}`}>
-            <li>Login</li>
+            <NavLogin />
 
             <li>
               <a href="#" onClick={toggleSubmenu(0, openSubmenus.includes(0))}>

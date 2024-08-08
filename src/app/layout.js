@@ -3,7 +3,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { luckiestGuy, inter } from "@/lib/fonts";
+import { titleFont, pFont } from "@/lib/fonts";
 
 export const metadata = {
   title: "Bloons TD 6 Maplist",
@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${luckiestGuy.variable} ${inter.variable}`}>
+      <body className={`${titleFont.variable} ${pFont.variable}`}>
         <div className={`content`}>
           <Header />
           {children}

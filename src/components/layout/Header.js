@@ -1,13 +1,14 @@
-import { luckiestGuy } from "@/lib/fonts";
+import { titleFont } from "@/lib/fonts";
 import stylesHeader from "./header.module.css";
 import stylesNav from "./navbar.module.css";
 import Link from "next/link";
 import { NavbarMobile } from "./NavbarMobile";
+import { NavLogin } from "../control/NavLogin";
 
 export default function Header() {
   return (
     <header
-      className={`${luckiestGuy.className} font-border ${stylesHeader.header} shadow`}
+      className={`${titleFont.className} font-border ${stylesHeader.header} shadow`}
     >
       <div className="row">
         <div className="col-auto">
@@ -51,7 +52,7 @@ export default function Header() {
                   </ul>
                 </li>
 
-                <li>Login</li>
+                <NavLogin />
               </ul>
             </div>
 
