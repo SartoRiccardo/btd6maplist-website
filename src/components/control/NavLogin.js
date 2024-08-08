@@ -74,16 +74,18 @@ export function NavLogin() {
             {discordProfile ? discordProfile.username : "..."}
           </a>
 
-          <ul className={`${stylesNav.submenu} shadow`}>
-            <li>
-              <Link href={`/profile/${discordProfile.id}`}>Profile</Link>
-            </li>
-            <li>
-              <a href="#" onClick={(_e) => logout()}>
-                Logout
-              </a>
-            </li>
-          </ul>
+          {discordProfile && (
+            <ul className={`${stylesNav.submenu} shadow`}>
+              <li>
+                <Link href={`/profile/${discordProfile.id}`}>Profile</Link>
+              </li>
+              <li>
+                <a href="#" onClick={(_e) => logout()}>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          )}
         </li>
 
         <li className={`d-md-none`}>
@@ -98,20 +100,22 @@ export function NavLogin() {
             {discordProfile ? discordProfile.username : "..."}
           </a>
 
-          <Collapse in={mobileSubmenuOpen}>
-            <div>
-              <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
-                <li>
-                  <Link href={`/profile/${discordProfile.id}`}>Profile</Link>
-                </li>
-                <li>
-                  <a href="#" onClick={(_e) => logout()}>
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </Collapse>
+          {discordProfile && (
+            <Collapse in={mobileSubmenuOpen}>
+              <div>
+                <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
+                  <li>
+                    <Link href={`/profile/${discordProfile.id}`}>Profile</Link>
+                  </li>
+                  <li>
+                    <a href="#" onClick={(_e) => logout()}>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </Collapse>
+          )}
         </li>
       </>
     ) : (
