@@ -1,3 +1,7 @@
+import { maplistGuild } from "@/utils/maplistDiscord";
+
+const API_BASE_URL = "https://discord.com/api/v10";
+
 export async function getAccessToken(code) {
   const body = new URLSearchParams({
     grant_type: "authorization_code",
@@ -33,7 +37,7 @@ export async function refreshAccessToken(refresh_token) {
     "Content-Type": "application/x-www-form-urlencoded",
   };
 
-  const response = await fetch("https://discord.com/api/v10/oauth2/token", {
+  const response = await fetch(`${API_BASE_URL}/oauth2/token`, {
     method: "POST",
     body,
     headers,
@@ -55,15 +59,61 @@ export async function revokeAccessToken(accessToken) {
     "Content-Type": "application/x-www-form-urlencoded",
   };
 
+  const response = await fetch(`${API_BASE_URL}/oauth2/token/revoke`, {
+    method: "POST",
+    body,
+    headers,
+  });
+
+  if (response.status === 200) return await response.json();
+  return null;
+}
+
+export async function isInMaplist(accessToken) {
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+  };
+
+  const response = await fetch(`${API_BASE_URL}/users/@me/guilds`, {
+    body,
+    headers,
+  });
+
+  if (response.status !== 200) return false;
+  const data = await response.json();
+  for (const guild of data) {
+    if (guild.id === maplistGuild) return true;
+  }
+  return false;
+}
+
+export async function getDiscordUser(accessToken) {
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+  };
+
+  const response = await fetch(`${API_BASE_URL}/users/@me`, {
+    body,
+    headers,
+  });
+
+  if (response.status !== 200) return null;
+  return await response.json();
+}
+
+export async function getMaplistRoles(accessToken) {
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+  };
+
   const response = await fetch(
-    "https://discord.com/api/v10/oauth2/token/revoke",
+    `${API_BASE_URL}/users/@me/guilds/${maplistGuild}/member`,
     {
-      method: "POST",
       body,
       headers,
     }
   );
 
-  if (response.status === 200) return await response.json();
-  return null;
+  if (response.status !== 200) return null;
+  return await response.json()["roles"];
 }

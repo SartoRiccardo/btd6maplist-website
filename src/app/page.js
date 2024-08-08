@@ -1,5 +1,5 @@
 import TokenSaver from "@/components/control/TokenSaver";
-import { getAccessToken } from "@/server/discordAuth";
+import { getAccessToken } from "@/server/discordRequests";
 
 export default async function Home({ searchParams }) {
   let accessToken = null;
@@ -13,7 +13,10 @@ export default async function Home({ searchParams }) {
 
   return (
     <>
-      {fetchAccessTokenSuccess && <TokenSaver accessToken={accessToken} />}
+      <TokenSaver
+        accessToken={accessToken}
+        justFetched={fetchAccessTokenSuccess}
+      />
       <div className="container"></div>
     </>
   );
