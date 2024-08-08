@@ -1,6 +1,7 @@
 :root {
   --color-primary: #202c39;
   --color-secondary: #34495b;
+  --color-less-highlight: #f2d492;
   --color-highlight: #f29559;
   --color-text: white;
 }
@@ -15,6 +16,11 @@ body {
 a,
 a:visited {
   color: var(--color-highlight);
+  transition: color 0.1s linear;
+}
+
+a:hover {
+  color: var(--color-less-highlight);
 }
 
 .content {
