@@ -18,7 +18,7 @@ export const authSlice = createSlice({
     setDiscordAccessToken: (state, { payload }) => {
       state.discordAccessToken = {
         ...payload.discordAccessToken,
-        expires_at: payload.discordAccessToken.expires_at * 1000,
+        expires_at: payload.discordAccessToken.expires_at,
         valid: true,
       };
     },
@@ -35,11 +35,11 @@ export const authSlice = createSlice({
       state.btd6Profile = payload.btd6Profile;
     },
     revokeAuth: (state, _p) => {
+      window.localStorage.removeItem("accessToken");
       state.discordAccessToken = { valid: false };
       state.discordProfile = null;
       state.maplistProfile = null;
       state.btd6Profile = { ...initialBtd6Profile };
-      window.localStorage.removeItem("accessToken");
     },
   },
 });

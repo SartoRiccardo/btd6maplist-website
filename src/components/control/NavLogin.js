@@ -26,10 +26,8 @@ export function NavLogin() {
     const fetchMaplistProfile = async () => {
       if (accessToken && accessToken.valid) {
         const discordProfile = await getDiscordUser(accessToken.access_token);
-        if (!discordProfile) {
-          dispatch(revokeAuth());
-          return;
-        }
+        if (!discordProfile) return dispatch(revokeAuth());
+
         dispatch(setDiscordProfile({ discordProfile }));
 
         const maplistProfile = {
