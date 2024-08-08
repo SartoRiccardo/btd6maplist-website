@@ -75,7 +75,6 @@ export async function isInMaplist(accessToken) {
   };
 
   const response = await fetch(`${API_BASE_URL}/users/@me/guilds`, {
-    body,
     headers,
   });
 
@@ -93,7 +92,6 @@ export async function getDiscordUser(accessToken) {
   };
 
   const response = await fetch(`${API_BASE_URL}/users/@me`, {
-    body,
     headers,
   });
 
@@ -109,7 +107,6 @@ export async function getMaplistRoles(accessToken) {
   const response = await fetch(
     `${API_BASE_URL}/users/@me/guilds/${maplistGuild}/member`,
     {
-      body,
       headers,
     }
   );

@@ -1,5 +1,8 @@
 "use client";
-import { setDiscordAccessToken } from "@/features/authSlice";
+import {
+  setDiscordAccessToken,
+  setNullDiscordAccessToken,
+} from "@/features/authSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
@@ -26,6 +29,8 @@ export default function TokenSaver({ accessToken, justFetched }) {
           ),
         })
       );
+    } else {
+      dispatch(setNullDIscordAccessToken());
     }
   }, []);
   return null;

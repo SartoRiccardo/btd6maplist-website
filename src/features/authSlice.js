@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 export const authSlice = createSlice({
   name: "auth",
@@ -6,14 +6,22 @@ export const authSlice = createSlice({
     discordAccessToken: null,
     discordProfile: null,
     maplistProfile: null,
-    btd6Profile: null,
+    btd6Profile: {
+      avatarURL:
+        "https://static-api.nkstatic.com/appdocs/4/assets/opendata/4d406ac8b5d3b1490b813296b824b7ef_ProfileAvatar41.png", // TODO proper default avatar
+      bannerURL: "", // TODO proper default banner
+    },
   },
   reducers: {
     setDiscordAccessToken: (state, { payload }) => {
       state.discordAccessToken = {
         ...payload.discordAccessToken,
         expires_at: payload.discordAccessToken.expires_at * 1000,
+        valid: true,
       };
+    },
+    setNullDiscordAccessToken: (state, _p) => {
+      state.discordAccessToken = { valid: false };
     },
     setDiscordProfile: (state, { payload }) => {
       state.discordProfile = payload.discordProfile;
@@ -28,13 +36,19 @@ export const authSlice = createSlice({
 });
 
 export const selectDiscordAccessToken = ({ auth }) => auth.discordAccessToken;
-export const selectMaplistProfile = ({ auth }) => ({
-  discordAccessToken: auth.discordAccessToken,
-  maplistProfile: auth.maplistProfile,
-});
-export const selectBtd6Profile = ({ auth }) => auth.discordAccessToken;
+export const selectMaplistProfile = createSelector(
+  ({ auth }) => auth.discordProfile,
+  ({ auth }) => auth.maplistProfile,
+  ({ auth }) => auth.btd6Profile,
+  (discordProfile, maplistProfile, btd6Profile) => ({
+    discordProfile,
+    maplistProfile,
+    btd6Profile,
+  })
+);
 
 export const {
+  setNullDiscordAccessToken,
   setDiscordAccessToken,
   setDiscordProfile,
   setMaplistProfile,

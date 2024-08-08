@@ -3,7 +3,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { titleFont, pFont } from "@/lib/fonts";
+import { titleFont, pFont, btd6Font } from "@/lib/fonts";
 import StoreProvider from "@/components/StoreProvider";
 
 export const metadata = {
@@ -14,7 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${titleFont.variable} ${pFont.variable}`}>
+      <body
+        className={`${btd6Font.variable} ${titleFont.variable} ${pFont.variable}`}
+      >
         <StoreProvider>
           <div className={`content`}>
             <Header />

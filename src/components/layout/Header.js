@@ -1,4 +1,4 @@
-import { titleFont } from "@/lib/fonts";
+import { btd6Font, titleFont } from "@/lib/fonts";
 import stylesHeader from "./header.module.css";
 import stylesNav from "./navbar.module.css";
 import Link from "next/link";
@@ -13,7 +13,7 @@ export default function Header() {
       <div className="row">
         <div className="col-auto">
           <div className="d-flex flex-column justify-content-center h-100">
-            <Link href="/">
+            <Link href="/" className={btd6Font.className}>
               <p>BTD6 Maplist</p>
             </Link>
           </div>

@@ -17,7 +17,8 @@
   top: -10rem;
   transition: opacity 0.1s linear;
 
-  padding: 0.5rem 3rem 0 3rem;
+  width: max-content;
+  padding: 0.5rem 2rem;
   background-color: var(--color-secondary);
   border-top: 5px solid var(--color-highlight);
   border-bottom-left-radius: 0.5rem;
