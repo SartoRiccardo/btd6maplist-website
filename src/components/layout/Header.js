@@ -3,7 +3,7 @@ import stylesHeader from "./header.module.css";
 import stylesNav from "./navbar.module.css";
 import Link from "next/link";
 import { NavbarMobile } from "./NavbarMobile";
-import { NavLogin } from "../control/NavLogin";
+import NavLogin from "../control/NavLogin";
 
 export default function Header() {
   return (

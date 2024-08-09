@@ -15,15 +15,19 @@ export const authSlice = createSlice({
     btd6Profile: { ...initialBtd6Profile },
   },
   reducers: {
+    initializeAuthSlice: (state, { payload }) => {
+      state.discordAccessToken = {
+        ...payload.discordAccessToken,
+      };
+      state.discordProfile = payload.discordProfile;
+      state.maplistProfile = payload.maplistProfile;
+      state.btd6Profile = payload.btd6Profile;
+    },
     setDiscordAccessToken: (state, { payload }) => {
       state.discordAccessToken = {
         ...payload.discordAccessToken,
         expires_at: payload.discordAccessToken.expires_at,
-        valid: true,
       };
-    },
-    setNullDiscordAccessToken: (state, _p) => {
-      state.discordAccessToken = { valid: false };
     },
     setDiscordProfile: (state, { payload }) => {
       state.discordProfile = payload.discordProfile;
@@ -35,8 +39,7 @@ export const authSlice = createSlice({
       state.btd6Profile = payload.btd6Profile;
     },
     revokeAuth: (state, _p) => {
-      window.localStorage.removeItem("accessToken");
-      state.discordAccessToken = { valid: false };
+      state.discordAccessToken = null;
       state.discordProfile = null;
       state.maplistProfile = null;
       state.btd6Profile = { ...initialBtd6Profile };
@@ -57,7 +60,7 @@ export const selectMaplistProfile = createSelector(
 );
 
 export const {
-  setNullDiscordAccessToken,
+  initializeAuthSlice,
   setDiscordAccessToken,
   setDiscordProfile,
   setMaplistProfile,

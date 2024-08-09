@@ -112,5 +112,5 @@ export async function getMaplistRoles(accessToken) {
   );
 
   if (response.status !== 200) return null;
-  return await response.json()["roles"];
+  return (await response.json()).roles;
 }
