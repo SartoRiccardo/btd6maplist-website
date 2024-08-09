@@ -1,0 +1,36 @@
+.difficultySelector {
+  justify-content: center;
+  margin: 0;
+}
+
+.difficulty {
+  padding: 1rem 0.5rem;
+}
+
+.difficulty:hover {
+  cursor: pointer;
+}
+
+.imgWrapper p {
+  position: absolute;
+  width: 100%;
+  bottom: -1rem;
+  left: 0;
+  margin-bottom: 0;
+}
+
+.imgWrapper {
+  position: relative;
+  background-color: var(--color-secondary);
+  border: 7px solid var(--color-misc);
+  border-radius: 50%;
+  transition: border-color 0.3s linear;
+}
+
+.difficulty.active .imgWrapper {
+  border-color: var(--color-highlight);
+}
+
+.difficulty:hover .imgWrapper {
+  border-color: var(--color-less-highlight);
+}

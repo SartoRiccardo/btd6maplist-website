@@ -9,6 +9,7 @@
 
 .btd6map img {
   width: 100%;
+  aspect-ratio: 3/2;
 }
 
 .mapTitle {
@@ -18,6 +19,11 @@
   text-align: center;
   width: 100%;
   font-size: 1.5rem;
+}
+
+.imgPlaceholder {
+  aspect-ratio: 3/2;
+  width: 100%;
 }
 
 .points {
