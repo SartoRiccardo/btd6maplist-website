@@ -68,7 +68,7 @@ export default async function RootLayout({ children }) {
           )}
           <div className={`content`}>
             <Header />
-            {children}
+            <div className="container mb-5 mt-3">{children}</div>
             <Footer />
           </div>
         </StoreProvider>
