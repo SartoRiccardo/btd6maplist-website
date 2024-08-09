@@ -54,3 +54,13 @@ body {
   left: -9999px;
   top: -9999px;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-oswald);
+  margin-bottom: 1.5rem;
+}
