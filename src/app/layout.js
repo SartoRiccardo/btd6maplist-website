@@ -7,8 +7,7 @@ import { titleFont, pFont, btd6Font } from "@/lib/fonts";
 import StoreProvider from "@/components/StoreProvider";
 import { cookies } from "next/headers";
 import { getDiscordUser, getMaplistRoles } from "@/server/discordRequests";
-import { Suspense } from "react";
-import S_Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader.server";
+import Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader";
 
 export const metadata = {
   title: "Bloons TD 6 Maplist",
@@ -60,11 +59,7 @@ export default async function RootLayout({ children }) {
       >
         <StoreProvider initialState={initReduxState}>
           {initReduxState.auth && (
-            <Suspense>
-              <S_Btd6ProfileLoader
-                oak={initReduxState.auth.maplistProfile.oak}
-              />
-            </Suspense>
+            <Btd6ProfileLoader oak={initReduxState.auth.maplistProfile.oak} />
           )}
           <div className={`content`}>
             <Header />
