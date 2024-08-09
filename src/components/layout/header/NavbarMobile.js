@@ -5,7 +5,7 @@ import { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Link from "next/link";
 import Collapse from "react-bootstrap/Collapse";
-import NavLogin from "../control/NavLogin";
+import NavLogin from "../header/NavLogin";
 
 export function NavbarMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

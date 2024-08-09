@@ -1,9 +1,9 @@
 import { btd6Font, titleFont } from "@/lib/fonts";
 import stylesHeader from "./header.module.css";
-import stylesNav from "./navbar.module.css";
+import stylesNav from "./header/navbar.module.css";
 import Link from "next/link";
-import { NavbarMobile } from "./NavbarMobile";
-import NavLogin from "../control/NavLogin";
+import { NavbarMobile } from "./header/NavbarMobile";
+import NavLogin from "./header/NavLogin";
 
 export default function Header() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 import styles from "./navlogin.module.css";
-import stylesNav from "../layout/navbar.module.css";
+import stylesNav from "./navbar.module.css";
 import Link from "next/link";
 import {
   selectDiscordAccessToken,
@@ -26,7 +26,6 @@ export default function NavLogin() {
   const dispatch = useAppDispatch();
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(false);
 
-  const cmpLoading = null;
   const cmpLoggedOut = (
     <a
       href={`https://discord.com/oauth2/authorize?${new URLSearchParams(
@@ -85,5 +84,5 @@ export default function NavLogin() {
     </>
   );
 
-  return accessToken && accessToken.valid ? cmpLoggedIn : cmpLoggedOut;
+  return accessToken ? cmpLoggedIn : cmpLoggedOut;
 }

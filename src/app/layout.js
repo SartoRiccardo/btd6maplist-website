@@ -7,11 +7,23 @@ import { titleFont, pFont, btd6Font } from "@/lib/fonts";
 import StoreProvider from "@/components/StoreProvider";
 import { cookies } from "next/headers";
 import { getDiscordUser, getMaplistRoles } from "@/server/discordRequests";
-import { getBtd6User } from "@/server/ninjakiwiRequests";
+import { Suspense } from "react";
+import S_Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader.server";
 
 export const metadata = {
   title: "Bloons TD 6 Maplist",
   description: "A community curated list of the best Bloons TD 6 custom maps",
+};
+
+const getUserInfo = async (accessToken) => {
+  const discordProfile = await getDiscordUser(accessToken);
+  if (!discordProfile) return { discordProfile: null, maplistProfile: null };
+
+  // This is supposed to be an API call with discordProfile.id
+  const maplistProfile = {
+    oak: "9ced1583dd95adf04e138c185877e471cd021cbe9613db6e", // Random dude for test purposes
+  };
+  return { discordProfile, maplistProfile };
 };
 
 export default async function RootLayout({ children }) {
@@ -25,31 +37,19 @@ export default async function RootLayout({ children }) {
     } catch (exc) {}
 
     if (accessToken && accessToken.access_token) {
-      const discordProfile = await getDiscordUser(accessToken.access_token);
-      if (discordProfile) {
-        const [maplistRoles] = await Promise.all([
-          // TODO Maplist API call profile
-          getMaplistRoles(accessToken.access_token),
-        ]);
-        const maplistProfile = {
+      const [userInfo, maplistRoles] = await Promise.all([
+        getUserInfo(accessToken.access_token),
+        getMaplistRoles(accessToken.access_token),
+      ]);
+
+      initReduxState.auth = {
+        discordAccessToken: accessToken,
+        discordProfile: userInfo.discordProfile,
+        maplistProfile: {
           roles: maplistRoles,
-          oak: "9ced1583dd95adf04e138c185877e471cd021cbe9613db6e", // Random dude for test purposes
-        };
-
-        initReduxState.auth = {
-          discordAccessToken: { ...accessToken, valid: true },
-          discordProfile,
-          maplistProfile,
-        };
-
-        if (maplistProfile.oak) {
-          const btd6Profile = await getBtd6User(maplistProfile.oak);
-          initReduxState.auth = {
-            ...initReduxState.auth,
-            btd6Profile,
-          };
-        }
-      }
+          ...userInfo.maplistProfile,
+        },
+      };
     }
   }
 
@@ -59,6 +59,13 @@ export default async function RootLayout({ children }) {
         className={`${btd6Font.variable} ${titleFont.variable} ${pFont.variable}`}
       >
         <StoreProvider initialState={initReduxState}>
+          {initReduxState.auth && (
+            <Suspense>
+              <S_Btd6ProfileLoader
+                oak={initReduxState.auth.maplistProfile.oak}
+              />
+            </Suspense>
+          )}
           <div className={`content`}>
             <Header />
             {children}

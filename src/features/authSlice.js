@@ -21,7 +21,7 @@ export const authSlice = createSlice({
       };
       state.discordProfile = payload.discordProfile;
       state.maplistProfile = payload.maplistProfile;
-      state.btd6Profile = payload.btd6Profile;
+      if ("btd6profile" in payload) state.btd6Profile = payload.btd6Profile;
     },
     setDiscordAccessToken: (state, { payload }) => {
       state.discordAccessToken = {
