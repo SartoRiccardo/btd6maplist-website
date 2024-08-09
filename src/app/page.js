@@ -17,7 +17,7 @@ export default async function Home({ searchParams }) {
         accessToken={accessToken}
         justFetched={fetchAccessTokenSuccess}
       />
-      <div className="container"></div>
+      <div />
     </>
   );
 }

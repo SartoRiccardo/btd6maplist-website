@@ -1,0 +1,60 @@
+.btd6map {
+  margin: 1.5rem 0.2rem;
+  background-color: var(--color-secondary);
+  padding: 0.4rem;
+  padding-bottom: 1rem;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.btd6map img {
+  width: 100%;
+}
+
+.mapTitle {
+  position: absolute;
+  top: -0.7rem;
+
+  text-align: center;
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+.points {
+  position: absolute;
+  top: 7%;
+  left: -4%;
+
+  width: 3.5rem;
+  height: 3.5rem;
+  padding-top: 0.5rem;
+  background-color: var(--color-highlight);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-less-highlight);
+}
+
+/* <lg */
+@media only screen and (max-width: 991.98px) {
+}
+
+/* <md */
+@media only screen and (max-width: 767.98px) {
+  .mapTitle {
+    font-size: 1rem;
+  }
+}
+
+/* <xs */
+@media only screen and (max-width: 575.98px) {
+  .mapTitle {
+    font-size: 1.5rem;
+  }
+  .points {
+    top: 1.3rem;
+    left: -0.2rem;
+  }
+}
