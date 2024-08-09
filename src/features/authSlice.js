@@ -2,7 +2,7 @@ import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 const initialBtd6Profile = {
   avatarURL:
-    "https://static-api.nkstatic.com/appdocs/4/assets/opendata/4d406ac8b5d3b1490b813296b824b7ef_ProfileAvatar41.png", // TODO proper default avatar
+    "https://static-api.nkstatic.com/appdocs/4/assets/opendata/db32af61df5646951a18c60fe0013a31_ProfileAvatar01.png",
   bannerURL: "", // TODO proper default banner
 };
 
