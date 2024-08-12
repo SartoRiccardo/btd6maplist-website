@@ -1,10 +1,15 @@
 .btd6map {
   margin: 1.5rem 0.2rem;
   background-color: var(--color-secondary);
+  transition: background-color 0.2s linear;
   padding: 0.4rem;
   padding-bottom: 1rem;
   border-radius: 0.5rem;
   position: relative;
+}
+
+.clickable:hover .btd6map {
+  background-color: var(--color-less-highlight);
 }
 
 .btd6map img {
@@ -17,6 +22,7 @@
   position: absolute;
   top: -0.7rem;
 
+  color: var(--color-text);
   text-align: center;
   width: 100%;
   font-size: 1.5rem;

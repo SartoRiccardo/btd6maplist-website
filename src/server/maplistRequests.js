@@ -11,3 +11,7 @@ export async function getTheList(version) {
   if (response.status !== 200) return [];
   return await response.json();
 }
+
+export async function getMap(code) {
+  return {};
+}

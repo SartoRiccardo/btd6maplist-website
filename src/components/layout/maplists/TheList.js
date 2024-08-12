@@ -33,7 +33,12 @@ export default function TheList({ current, allvers }) {
       <div className="row">
         {(version.value ? allvers : current).map(({ code, creator, name }) => (
           <div key={code} className="col-12 col-sm-6 col-lg-4">
-            <Btd6Map code={code} creator={creator} name={name} />
+            <Btd6Map
+              code={code}
+              creator={creator}
+              name={name}
+              hrefBase="/list"
+            />
           </div>
         ))}
       </div>
