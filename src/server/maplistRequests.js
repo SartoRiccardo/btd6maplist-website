@@ -1,5 +1,5 @@
-import maplistDummyData from "@/app/api/experts/exmapsdatadummy";
-
 export async function getExpertMaplist() {
-  return maplistDummyData;
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/exmaps`);
+  if (response.status !== 200) return [];
+  return await response.json();
 }
