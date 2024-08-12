@@ -9,6 +9,7 @@
 
 .btd6map img {
   width: 100%;
+  height: auto;
   aspect-ratio: 3/2;
 }
 

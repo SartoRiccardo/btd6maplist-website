@@ -1,18 +1,15 @@
-"use client";
-import { getCustomMap } from "@/server/ninjakiwiRequests";
 import styles from "./btd6map.module.css";
 import { btd6Font } from "@/lib/fonts";
-import { useEffect, useState } from "react";
 
-export default function Btd6Map({ name, code, creator, placement }) {
-  const [mapData, setMapData] = useState(null);
-  useEffect(() => {
-    const fetchMapData = async () => {
-      const mapData = await getCustomMap(code);
-      setMapData(mapData);
-    };
-    fetchMapData();
-  }, [code]);
+export default function Btd6Map({ name, code, _creator, placement }) {
+  // const [mapData, setMapData] = useState(null);
+  // useEffect(() => {
+  //   const fetchMapData = async () => {
+  //     const mapData = await getCustomMap(code);
+  //     setMapData(mapData);
+  //   };
+  //   fetchMapData();
+  // }, [code]);
 
   return (
     <div className={`shadow ${styles.btd6map}`}>
@@ -26,11 +23,8 @@ export default function Btd6Map({ name, code, creator, placement }) {
           </p>
         </div>
       )}
-      {mapData ? (
-        <img src={mapData.mapURL} />
-      ) : (
-        <div className={styles.imgPlaceholder} />
-      )}
+
+      <img src={`https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`} />
     </div>
   );
 }
