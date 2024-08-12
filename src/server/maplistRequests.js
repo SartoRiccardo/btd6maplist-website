@@ -15,3 +15,9 @@ export async function getTheList(version) {
 export async function getMap(code) {
   return {};
 }
+
+export async function getConfig() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/config`);
+  if (response.status !== 200) return {};
+  return await response.json();
+}

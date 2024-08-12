@@ -49,14 +49,9 @@ export default function ExpertMaplist({ maplist }) {
       <div className="row">
         {maplist
           .filter((map) => map.difficulty === difficulty.value)
-          .map(({ code, creator, name }) => (
+          .map(({ code, name }) => (
             <div key={code} className="col-12 col-sm-6 col-lg-4">
-              <Btd6Map
-                code={code}
-                creator={creator}
-                name={name}
-                hrefBase="/experts"
-              />
+              <Btd6Map code={code} name={name} hrefBase="/experts" />
             </div>
           ))}
       </div>

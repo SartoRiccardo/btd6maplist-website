@@ -6,6 +6,7 @@
   padding-bottom: 1rem;
   border-radius: 0.5rem;
   position: relative;
+  color: var(--color-text);
 }
 
 .clickable:hover .btd6map {
@@ -22,7 +23,6 @@
   position: absolute;
   top: -0.7rem;
 
-  color: var(--color-text);
   text-align: center;
   width: 100%;
   font-size: 1.5rem;

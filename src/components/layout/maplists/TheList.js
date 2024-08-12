@@ -31,16 +31,18 @@ export default function TheList({ current, allvers }) {
       />
       <p className={`${styles.diffDesc}`}>{version.description}</p>
       <div className="row">
-        {(version.value ? allvers : current).map(({ code, creator, name }) => (
-          <div key={code} className="col-12 col-sm-6 col-lg-4">
-            <Btd6Map
-              code={code}
-              creator={creator}
-              name={name}
-              hrefBase="/list"
-            />
-          </div>
-        ))}
+        {(version.value ? allvers : current).map(
+          ({ code, placement, name }) => (
+            <div key={code} className="col-12 col-sm-6 col-lg-4">
+              <Btd6Map
+                code={code}
+                name={name}
+                hrefBase="/list"
+                placement={placement}
+              />
+            </div>
+          )
+        )}
       </div>
     </div>
   );

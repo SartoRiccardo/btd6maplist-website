@@ -8,6 +8,7 @@ import StoreProvider from "@/components/StoreProvider";
 import { cookies } from "next/headers";
 import { getDiscordUser, getMaplistRoles } from "@/server/discordRequests";
 import Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader";
+import { getConfig } from "@/server/maplistRequests";
 
 export const metadata = {
   title: "Bloons TD 6 Maplist",
@@ -25,32 +26,45 @@ const getUserInfo = async (accessToken) => {
   return { discordProfile, maplistProfile };
 };
 
+const authenticate = async (cookieStore) => {
+  if (!cookieStore.has("accessToken")) return null;
+
+  let accessToken = null;
+  try {
+    accessToken = JSON.parse(cookieStore.get("accessToken").value);
+  } catch (exc) {
+    return null;
+  }
+
+  if (accessToken && accessToken.access_token) {
+    const [userInfo, maplistRoles] = await Promise.all([
+      getUserInfo(accessToken.access_token),
+      getMaplistRoles(accessToken.access_token),
+    ]);
+
+    return {
+      discordAccessToken: accessToken,
+      discordProfile: userInfo.discordProfile,
+      maplistProfile: {
+        roles: maplistRoles,
+        ...userInfo.maplistProfile,
+      },
+    };
+  }
+};
+
 export default async function RootLayout({ children }) {
   const initReduxState = {};
   const cookieStore = cookies();
 
-  if (cookieStore.has("accessToken")) {
-    let accessToken = null;
-    try {
-      accessToken = JSON.parse(cookieStore.get("accessToken").value);
-    } catch (exc) {}
+  const [maplistCfg, authState] = await Promise.all([
+    getConfig(),
+    authenticate(cookieStore),
+  ]);
 
-    if (accessToken && accessToken.access_token) {
-      const [userInfo, maplistRoles] = await Promise.all([
-        getUserInfo(accessToken.access_token),
-        getMaplistRoles(accessToken.access_token),
-      ]);
-
-      initReduxState.auth = {
-        discordAccessToken: accessToken,
-        discordProfile: userInfo.discordProfile,
-        maplistProfile: {
-          roles: maplistRoles,
-          ...userInfo.maplistProfile,
-        },
-      };
-    }
-  }
+  initReduxState.auth = authState;
+  initReduxState.maplist = {};
+  for (const cfg of maplistCfg) initReduxState.maplist[cfg.name] = cfg.value;
 
   return (
     <html lang="en">
