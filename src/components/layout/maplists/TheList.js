@@ -37,7 +37,7 @@ export default function TheList({ current, allvers }) {
               <Btd6Map
                 code={code}
                 name={name}
-                hrefBase="/list"
+                hrefBase="/map"
                 placement={placement}
               />
             </div>

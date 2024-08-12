@@ -2,7 +2,7 @@
 import Link from "next/link";
 import styles from "./btd6map.module.css";
 import { btd6Font } from "@/lib/fonts";
-import { calcMapPoints } from "@/utils/formulas";
+import { calcMapPoints } from "@/utils/maplistUtils";
 import { useAppSelector } from "@/lib/store";
 import { selectMaplistConfig } from "@/features/maplistSlice";
 
@@ -17,12 +17,7 @@ export default function Btd6Map({ name, code, _creator, placement, hrefBase }) {
       {placement !== undefined && Object.keys(maplistCfg).length && (
         <div className={`${styles.points} shadow`}>
           <p className={`my-0 text-center ${btd6Font.className} font-border`}>
-            {calcMapPoints(placement, {
-              points_top_map: maplistCfg.points_top_map,
-              points_bottom_map: maplistCfg.points_bottom_map,
-              formula_slope: maplistCfg.formula_slope,
-              map_count: maplistCfg.map_count,
-            }).toFixed(maplistCfg.decimal_digits)}
+            {calcMapPoints(placement, maplistCfg)}
           </p>
         </div>
       )}

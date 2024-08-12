@@ -13,7 +13,11 @@ export async function getTheList(version) {
 }
 
 export async function getMap(code) {
-  return {};
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/maps/${code}`
+  );
+  if (response.status !== 200) return {};
+  return await response.json();
 }
 
 export async function getConfig() {

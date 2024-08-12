@@ -27,7 +27,8 @@
   transition: border-color 0.3s linear;
 }
 
-.difficulty.active .imgWrapper {
+.difficulty.active .imgWrapper,
+.imgWrapper.active {
   border-color: var(--color-highlight);
 }
 
