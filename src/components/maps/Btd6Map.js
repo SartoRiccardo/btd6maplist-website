@@ -13,6 +13,7 @@ export default function Btd6Map({
   hrefBase,
   playBtn,
   otherCodes,
+  verified,
 }) {
   const maplistCfg = useAppSelector(selectMaplistConfig);
 
@@ -30,6 +31,10 @@ export default function Btd6Map({
       )}
 
       <img src={`https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`} />
+
+      {verified && (
+        <i className={`${styles.verifiedCheck} bi bi-check-square-fill`} />
+      )}
 
       {playBtn && (
         <>

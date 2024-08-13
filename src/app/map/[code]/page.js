@@ -17,7 +17,12 @@ export default async function ExpertMap({ params }) {
       </div>
       <div className="row">
         <div className="col-12 col-md-6 col-lg-5">
-          <Btd6Map code={code} playBtn otherCodes={mapData.additional_codes} />
+          <Btd6Map
+            code={code}
+            playBtn
+            otherCodes={mapData.additional_codes}
+            verified={mapData.verified}
+          />
         </div>
         <div className="col"></div>
       </div>
