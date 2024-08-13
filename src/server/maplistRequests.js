@@ -20,6 +20,14 @@ export async function getMap(code) {
   return await response.json();
 }
 
+export async function getMapCompletions(code) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/maps/${code}/completions`
+  );
+  if (response.status !== 200) return {};
+  return await response.json();
+}
+
 export async function getConfig() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/config`);
   if (response.status !== 200) return {};

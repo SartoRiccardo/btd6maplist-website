@@ -1,9 +1,11 @@
+import MapCompletions from "@/components/maps/MaplistCompletions";
 import styles from "./mapinfo.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
 import UserEntry from "@/components/users/UserEntry";
 import { getMap } from "@/server/maplistRequests";
 import { numberWithCommas } from "@/utils/functions";
+import { Suspense } from "react";
 
 export default async function MapOverview({ params }) {
   const { code } = params;
@@ -132,6 +134,14 @@ export default async function MapOverview({ params }) {
       )}
 
       <h3 className="text-center">All Completions</h3>
+
+      <Suspense fallback={null}>
+        <MapCompletions
+          code={code}
+          mapIdxCurver={mapData.placement_cur}
+          mapIdxAllver={mapData.placement_all}
+        />
+      </Suspense>
     </>
   );
 }

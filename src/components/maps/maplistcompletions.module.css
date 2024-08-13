@@ -1,0 +1,25 @@
+.pointsLabelContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pointsLabelContainer p {
+  margin-bottom: 0;
+  margin-left: 0.5rem;
+}
+
+.marginLeft {
+  margin-left: 1rem;
+}
+
+.blocked {
+  filter: brightness(0%);
+}
+
+/* >=lg */
+@media only screen and (min-width: 991.98px) {
+  .pointsGainedContanier > div {
+    width: 50%;
+  }
+}

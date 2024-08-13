@@ -14,7 +14,7 @@ export const calcMapPoints = (
       points_bottom_map *
       (points_top_map / points_bottom_map) **
         ((1 + (1 - idx) / (map_count - 1)) ** formula_slope);
-    mapPointsCache[idx] = result.toFixed(decimal_digits);
+    mapPointsCache[idx] = parseFloat(result.toFixed(decimal_digits));
   }
   return mapPointsCache[idx];
 };
