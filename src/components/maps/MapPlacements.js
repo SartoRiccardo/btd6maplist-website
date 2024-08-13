@@ -52,7 +52,7 @@ export default function MapPlacements({ mapData }) {
 function DifficultyPanel({ image, shortLabel, label }) {
   return (
     <div className="col-auto">
-      <div className={`${styles.difficultyContainer}`}>
+      <div className={`${styles.difficultyContainer} shadow`}>
         <div>
           <SelectorButton text={shortLabel} active>
             <Image src={image} width={75} height={75} />
