@@ -18,8 +18,13 @@ export default function Btd6Map({
   const maplistCfg = useAppSelector(selectMaplistConfig);
 
   const cmpMap = (
-    <div className={`shadow ${styles.btd6map}`}>
+    <div className={`shadow ${styles.btd6map} pb-3`}>
       <p className={`${styles.mapTitle} ${btd6Font.className} font-border`}>
+        {name && verified && (
+          <i
+            className={`${styles.verifiedCheck} ${styles.small} bi bi-check-square-fill`}
+          />
+        )}{" "}
         {name}
       </p>
       {placement !== undefined && Object.keys(maplistCfg).length && (
@@ -32,14 +37,19 @@ export default function Btd6Map({
 
       <img src={`https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`} />
 
-      {verified && (
+      {verified && (!name || name.length === 0) && (
         <i className={`${styles.verifiedCheck} bi bi-check-square-fill`} />
       )}
 
       {playBtn && (
         <>
-          <PlayBtn code={code} className="my-2" />
-          {otherCodes.length && (
+          <PlayBtn
+            code={code}
+            className={`mt-${otherCodes.length > 0 ? "2" : "3"} ${
+              otherCodes.length > 0 ? "mb-2" : ""
+            }`}
+          />
+          {otherCodes.length > 0 && (
             <>
               <hr className={`m-0`} />
               <div className="px-4">

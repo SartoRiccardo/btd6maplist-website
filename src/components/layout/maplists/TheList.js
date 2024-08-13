@@ -32,12 +32,13 @@ export default function TheList({ current, allvers }) {
       <p className={`${styles.diffDesc}`}>{version.description}</p>
       <div className="row">
         {(version.value ? allvers : current).map(
-          ({ code, placement, name }) => (
+          ({ code, placement, name, verified }) => (
             <div key={code} className="col-12 col-sm-6 col-lg-4">
               <Btd6Map
                 code={code}
                 name={name}
                 hrefBase="/map"
+                verified={verified}
                 placement={placement}
               />
             </div>
