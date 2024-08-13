@@ -1,3 +1,4 @@
+import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
 import { getMap } from "@/server/maplistRequests";
 
@@ -15,8 +16,9 @@ export default async function ExpertMap({ params }) {
         <MapPlacements mapData={mapData} />
       </div>
       <div className="row">
-        {/* Map preview */}
-        <div className="col"></div>
+        <div className="col-12 col-md-6 col-lg-5">
+          <Btd6Map code={code} playBtn otherCodes={mapData.additional_codes} />
+        </div>
         <div className="col"></div>
       </div>
     </>
