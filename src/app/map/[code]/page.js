@@ -68,6 +68,13 @@ export default async function MapOverview({ params }) {
                   </h3>
                 )}
 
+                {mapData.map_data !== "ask" && (
+                  <p>
+                    You must ask permission to the creator to use the map data
+                    for this map.
+                  </p>
+                )}
+
                 <ul className={styles.compatibility}>
                   {mapData.map_data_compatibility.map(
                     ({ status, version }, i) => (
@@ -84,13 +91,6 @@ export default async function MapOverview({ params }) {
                     )
                   )}
                 </ul>
-
-                {mapData.map_data !== "ask" && (
-                  <p className="mb-0">
-                    You must ask permission to the creator to use the map data
-                    for this map.
-                  </p>
-                )}
               </div>
             )}
           </div>
