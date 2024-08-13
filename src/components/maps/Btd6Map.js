@@ -14,11 +14,12 @@ export default function Btd6Map({
   playBtn,
   otherCodes,
   verified,
+  className,
 }) {
   const maplistCfg = useAppSelector(selectMaplistConfig);
 
   const cmpMap = (
-    <div className={`shadow ${styles.btd6map} pb-3`}>
+    <div className={`shadow ${styles.btd6map} pb-3 ${className || ""}`}>
       <p className={`${styles.mapTitle} ${btd6Font.className} font-border`}>
         {name && verified && (
           <i

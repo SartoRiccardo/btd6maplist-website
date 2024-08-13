@@ -1,0 +1,36 @@
+.link:link {
+  text-decoration: none;
+}
+
+.userEntry {
+  display: flex;
+  margin: 0.4rem 0;
+  align-items: stretch;
+  color: var(--color-text);
+}
+
+.userEntry div:nth-child(2) {
+  flex: 1;
+  padding-left: 0.5rem;
+}
+
+.pfp {
+  width: 45px;
+  height: 45px;
+  border: 2px solid white;
+  border-radius: 0.2rem;
+}
+
+.name {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.small {
+  margin-bottom: 0;
+  font-size: 0.8rem;
+}
+
+.link:hover .name {
+  color: var(--color-less-highlight);
+}

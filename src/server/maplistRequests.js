@@ -25,3 +25,11 @@ export async function getConfig() {
   if (response.status !== 200) return {};
   return await response.json();
 }
+
+export async function getUser(id) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/users/${id}`
+  );
+  if (response.status !== 200) return {};
+  return await response.json();
+}

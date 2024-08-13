@@ -40,8 +40,9 @@ a:hover {
   height: 100%;
 }
 
-body {
-  font-family: var(--font-inter);
+body,
+footer {
+  font-family: var(--font-p);
 }
 
 .font-border {

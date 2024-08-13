@@ -1,4 +1,4 @@
-import { Luckiest_Guy, Inter, Oswald } from "next/font/google";
+import { Luckiest_Guy, Inter, Oswald, Raleway } from "next/font/google";
 
 const luckiestGuy = Luckiest_Guy({
   weight: "400",
@@ -9,7 +9,7 @@ const luckiestGuy = Luckiest_Guy({
 const inter = Inter({
   weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-p",
 });
 
 const oswald = Oswald({
@@ -18,6 +18,12 @@ const oswald = Oswald({
   variable: "--font-oswald",
 });
 
+const raleway = Raleway({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-p",
+});
+
 export const btd6Font = luckiestGuy;
 export const titleFont = oswald;
-export const pFont = inter;
+export const pFont = raleway;
