@@ -65,3 +65,9 @@ h6 {
   font-family: var(--font-oswald);
   margin-bottom: 1.5rem;
 }
+
+.panel {
+  background-color: var(--color-secondary);
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+}

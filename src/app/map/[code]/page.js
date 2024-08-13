@@ -3,6 +3,7 @@ import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
 import UserEntry from "@/components/users/UserEntry";
 import { getMap } from "@/server/maplistRequests";
+import { numberWithCommas } from "@/utils/functions";
 
 export default async function MapOverview({ params }) {
   const { code } = params;
@@ -18,7 +19,7 @@ export default async function MapOverview({ params }) {
         <MapPlacements mapData={mapData} />
       </div>
 
-      <div className="row mt-4">
+      <div className="row my-4">
         <div className="col-12 col-md-6 col-lg-5">
           <Btd6Map
             code={code}
@@ -96,6 +97,41 @@ export default async function MapOverview({ params }) {
           </div>
         </div>
       </div>
+
+      <h2 className="text-center">Completions</h2>
+
+      {mapData.lcc && (
+        <>
+          {mapData.lcc.proof ? (
+            <a href={mapData.lcc.proof} target="_blank">
+              <h3 className="text-center">
+                Current LCC &nbsp;
+                <i className="bi bi-box-arrow-up-right ml-2" />
+              </h3>
+            </a>
+          ) : (
+            <h3>Current LCC</h3>
+          )}
+
+          <div className="panel mb-4">
+            <div className={`row`}>
+              <div className="col">
+                {mapData.lcc.players.map((id) => (
+                  <UserEntry key={id} id={id} />
+                ))}
+              </div>
+
+              <div className="col d-flex flex-column justify-content-center">
+                <p className="fs-5 mb-0">
+                  Saveup: <b>${numberWithCommas(mapData.lcc.leftover)}</b>
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      <h3 className="text-center">All Completions</h3>
     </>
   );
 }
