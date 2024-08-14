@@ -72,6 +72,10 @@ export function NavbarMobile() {
             </li>
 
             <li>
+              <Link href="/list/leaderboard">Leaderboard</Link>
+            </li>
+
+            {/* <li>
               <a href="#" onClick={toggleSubmenu(1, openSubmenus.includes(1))}>
                 <i
                   className={`bi bi-caret-${
@@ -93,7 +97,7 @@ export function NavbarMobile() {
                   </ul>
                 </div>
               </Collapse>
-            </li>
+            </li> */}
           </ul>
         </Offcanvas.Body>
       </Offcanvas>

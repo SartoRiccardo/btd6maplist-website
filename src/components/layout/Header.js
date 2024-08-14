@@ -38,6 +38,10 @@ export default function Header() {
                 </li>
 
                 <li>
+                  <Link href="/list/leaderboard">Leaderboard</Link>
+                </li>
+
+                {/* <li>
                   <a href="#">
                     Leaderboard <i className="bi bi-caret-down-fill" />
                   </a>
@@ -50,7 +54,7 @@ export default function Header() {
                       <Link href="/list">The List</Link>
                     </li>
                   </ul>
-                </li>
+                </li> */}
 
                 <NavLogin />
               </ul>
