@@ -84,7 +84,11 @@ export default function Btd6Map({
 function PlayBtn({ code, displayCode, className }) {
   return (
     <div className={`${styles.playBtn} ${btd6Font.className} ${className}`}>
-      <a href="#" target="_blank" className={`shadow font-border`}>
+      <a
+        href={`https://join.btd6.com/Map/${code}`}
+        target="_blank"
+        className={`shadow font-border`}
+      >
         <p>{displayCode ? code : "Play"}</p>
       </a>
     </div>
