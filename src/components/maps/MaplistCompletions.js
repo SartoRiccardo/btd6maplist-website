@@ -18,7 +18,7 @@ export default async function MaplistCompletions({
         <div key={completion.user_id} className="panel my-2">
           <div className="row">
             <div className="col-6 col-lg-5">
-              <UserEntry id={completion.user_id} />
+              <UserEntry id={completion.user_id} centered lead="sm" />
             </div>
 
             {/* TODO Placeholders - will add medals */}

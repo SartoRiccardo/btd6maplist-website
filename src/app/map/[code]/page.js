@@ -10,6 +10,7 @@ import { Suspense } from "react";
 export default async function MapOverview({ params }) {
   const { code } = params;
   const mapData = await getMap(code);
+  console.log(mapData.creators);
 
   return (
     <>
@@ -119,7 +120,7 @@ export default async function MapOverview({ params }) {
             <div className={`row`}>
               <div className="col">
                 {mapData.lcc.players.map((id) => (
-                  <UserEntry key={id} id={id} />
+                  <UserEntry key={id} id={id} centered lead="sm" />
                 ))}
               </div>
 
