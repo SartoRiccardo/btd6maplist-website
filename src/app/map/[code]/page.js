@@ -1,4 +1,4 @@
-import MapCompletions from "@/components/maps/MaplistCompletions";
+import MaplistCompletions from "@/components/maps/MaplistCompletions";
 import styles from "./mapinfo.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
@@ -133,15 +133,19 @@ export default async function MapOverview({ params }) {
         </>
       )}
 
-      <h3 className="text-center">All Completions</h3>
+      {(mapData.placement_cur > -1 || mapData.placement_all > -1) && (
+        <>
+          <h3 className="text-center">All Completions</h3>
 
-      <Suspense fallback={null}>
-        <MapCompletions
-          code={code}
-          mapIdxCurver={mapData.placement_cur}
-          mapIdxAllver={mapData.placement_all}
-        />
-      </Suspense>
+          <Suspense fallback={null}>
+            <MaplistCompletions
+              code={code}
+              mapIdxCurver={mapData.placement_cur}
+              mapIdxAllver={mapData.placement_all}
+            />
+          </Suspense>
+        </>
+      )}
     </>
   );
 }
