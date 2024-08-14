@@ -1,0 +1,22 @@
+.lbValueChooser {
+  column-gap: 1rem;
+  margin: 1rem 0 1.5rem 0;
+}
+
+.lbValueChooser a {
+  text-decoration: none;
+  color: white;
+}
+
+.lbValueChooser a div {
+  transition: background-color 0.2s linear;
+}
+
+.lbValueChooser a:hover div {
+  background-color: var(--color-less-highlight);
+  transition: background-color 0.2s linear;
+}
+
+.lbValueActive div {
+  background-color: var(--color-highlight);
+}

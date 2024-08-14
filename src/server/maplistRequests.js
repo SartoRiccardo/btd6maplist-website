@@ -41,3 +41,11 @@ export async function getUser(id) {
   if (response.status !== 200) return {};
   return await response.json();
 }
+
+export async function getListLeaderboard(version, value) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/maps/leaderboard?version=${version}&value=${value}`
+  );
+  if (response.status !== 200) return [];
+  return await response.json();
+}

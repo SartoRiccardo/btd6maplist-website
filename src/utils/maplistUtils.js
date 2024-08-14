@@ -49,3 +49,18 @@ export const difficulties = [
       "If you're asking for one of the best, you'd better be one of the best. Many strategies will not work. Comparable to, or even greater difficulty than maps like Bloody Puddles and Ouch.",
   },
 ];
+
+export const listVersions = [
+  {
+    name: "Current",
+    value: 0,
+    image: "/icon_curver.png",
+    description: "",
+  },
+  {
+    name: "All Versions",
+    value: 1,
+    image: "/icon_allver.png",
+    description: "",
+  },
+];
