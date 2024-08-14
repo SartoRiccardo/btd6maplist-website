@@ -8,10 +8,10 @@ export default function MaplistPoints({ completion, idx }) {
 
   return (
     <>
-      {(calcMapPoints(idx, maplistCfg) +
-        (completion.current_lcc ? maplistCfg.points_extra_lcc : 0)) *
+      {calcMapPoints(idx, maplistCfg) *
         (completion.no_geraldo ? maplistCfg.points_multi_gerry : 1) *
-        (completion.black_border ? maplistCfg.points_multi_bb : 1)}
+        (completion.black_border ? maplistCfg.points_multi_bb : 1) +
+        (completion.current_lcc ? maplistCfg.points_extra_lcc : 0)}
     </>
   );
 }
