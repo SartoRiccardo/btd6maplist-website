@@ -8,7 +8,7 @@ import StoreProvider from "@/components/StoreProvider";
 import { cookies } from "next/headers";
 import { getDiscordUser, getMaplistRoles } from "@/server/discordRequests";
 import Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader";
-import { getConfig } from "@/server/maplistRequests";
+import { getConfig, getUser } from "@/server/maplistRequests";
 
 export const metadata = {
   title: "Bloons TD 6 Maplist",
@@ -19,10 +19,7 @@ const getUserInfo = async (accessToken) => {
   const discordProfile = await getDiscordUser(accessToken);
   if (!discordProfile) return { discordProfile: null, maplistProfile: null };
 
-  // This is supposed to be an API call with discordProfile.id
-  const maplistProfile = {
-    oak: "9ced1583dd95adf04e138c185877e471cd021cbe9613db6e", // Random dude for test purposes
-  };
+  const maplistProfile = (await getUser(discordProfile.id)) || { oak: null };
   return { discordProfile, maplistProfile };
 };
 
