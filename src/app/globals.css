@@ -80,3 +80,9 @@ h6 {
 .muted {
   color: var(--color-text-muted);
 }
+
+.flex-vcenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

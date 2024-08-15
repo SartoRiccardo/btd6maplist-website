@@ -22,31 +22,34 @@ export default async function MaplistCompletions({
 
             {/* TODO Placeholders - will add medals */}
             <div className="col-6 col-lg-3">
-              <div className="d-flex justify-content-end justify-content-lg-start">
-                <SelectorButton active>
-                  <img
-                    src="/icon_true.png"
-                    width={35}
-                    height={35}
-                    className={!completion.black_border ? "comp-blocked" : ""}
-                  />
-                </SelectorButton>
-                <SelectorButton className="mx-1 mx-md-3" active>
-                  <img
-                    src="/icon_true.png"
-                    width={35}
-                    height={35}
-                    className={!completion.no_geraldo ? "comp-blocked" : ""}
-                  />
-                </SelectorButton>
-                <SelectorButton active>
-                  <img
-                    src="/icon_true.png"
-                    width={35}
-                    height={35}
-                    className={!completion.current_lcc ? "comp-blocked" : ""}
-                  />
-                </SelectorButton>
+              <div className="d-flex justify-content-end justify-content-lg-start h-100">
+                <div className="flex-vcenter">
+                  <div>
+                    <img
+                      src={
+                        completion.black_border
+                          ? "/medal_bb.webp"
+                          : "/medal_win.webp"
+                      }
+                      width={45}
+                      height={45}
+                    />
+                    <img
+                      src="/medal_nogerry.png"
+                      width={45}
+                      height={45}
+                      className={`${
+                        !completion.no_geraldo ? "comp-blocked" : ""
+                      } mx-2`}
+                    />
+                    <img
+                      src="/medal_lcc.webp"
+                      width={45}
+                      height={45}
+                      className={!completion.current_lcc ? "comp-blocked" : ""}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
