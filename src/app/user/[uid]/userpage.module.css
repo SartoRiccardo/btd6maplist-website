@@ -5,3 +5,28 @@
   bottom: 0;
   width: 100%;
 }
+
+.profilePfp {
+  width: 6rem;
+  height: 6rem;
+  border: 2px solid white;
+  border-radius: 0.7rem;
+}
+
+.rolesContainer {
+  display: flex;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.rolesContainer > div {
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.3rem;
+}
+
+.profileViewContainer {
+  background-size: cover;
+  background-position: center;
+  border: 5px solid var(--color-secondary);
+}

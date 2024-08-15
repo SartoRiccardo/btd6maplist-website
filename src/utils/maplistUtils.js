@@ -64,3 +64,61 @@ export const listVersions = [
     description: "",
   },
 ];
+
+export const userRoles = [
+  {
+    name: "List Map Creator",
+    color: "#ffb74d",
+    description: "Have a map on the list",
+    requirement: ({ user }) => {
+      for (const map of user.created_maps) {
+        if (map.placement_cur > -1 || map.placement_all > -1) return true;
+      }
+      return false;
+    },
+  },
+
+  {
+    name: "Beginner",
+    color: "#00695c",
+    description: "1+ points on the leaderboard",
+    requirement: ({ user }) =>
+      (user.maplist.current.points > 0 && user.maplist.current.points < 100) ||
+      (user.maplist.all.points > 0 && user.maplist.all.points < 100),
+  },
+  {
+    name: "Intermediate",
+    color: "#00897b",
+    description: "100+ points on the leaderboard",
+    requirement: ({ user }) =>
+      (user.maplist.current.points >= 100 &&
+        user.maplist.current.points < 350) ||
+      (user.maplist.all.points >= 100 && user.maplist.all.points < 350),
+  },
+  {
+    name: "Advanced",
+    color: "#26a69a",
+    description: "350+ points on the leaderboard",
+    requirement: ({ user }) =>
+      (user.maplist.current.points >= 350 &&
+        user.maplist.current.points < 1000) ||
+      (user.maplist.all.points >= 350 && user.maplist.all.points < 1000),
+  },
+  {
+    name: "Expert",
+    color: "#80cbc4",
+    description: "100+ points on the leaderboard",
+    requirement: ({ user }) =>
+      (user.maplist.current.points >= 1000 &&
+        user.maplist.current.pts_placement > 1) ||
+      (user.maplist.all.points >= 1000 && user.maplist.all.pts_placement > 1),
+  },
+  {
+    name: "The GOAT",
+    color: "#e0f2f1",
+    description: "#1 on the points leaderboard",
+    requirement: ({ user }) =>
+      user.maplist.current.pts_placement === 1 ||
+      user.maplist.all.pts_placement === 1,
+  },
+];

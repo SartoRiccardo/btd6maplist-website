@@ -5,7 +5,8 @@ import SelectorButton from "@/components/maps/SelectorButton";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
-import { difficulties } from "@/utils/maplistUtils";
+import { difficulties, userRoles } from "@/utils/maplistUtils";
+import { initialBtd6Profile } from "@/features/authSlice";
 
 const btnSize = 50;
 
@@ -17,6 +18,36 @@ export default async function PageUser({ params }) {
 
   return (
     <>
+      <div
+        className={`panel d-flex mb-3 py-3 ${styles.profileViewContainer}`}
+        style={{
+          backgroundImage: `url(${
+            userData.bannerURL || initialBtd6Profile.bannerURL
+          })`,
+        }}
+      >
+        <img
+          src={userData.avatarURL || initialBtd6Profile.avatarURL}
+          className={styles.profilePfp}
+        />
+        <div className="ps-3 d-flex flex-column">
+          <h1 className="font-border">{userData.name}</h1>
+          <div className={styles.rolesContainer}>
+            {userRoles.map(({ name, color, description, requirement }) =>
+              requirement({ user: userData }) ? (
+                <div
+                  key={name}
+                  style={{ backgroundColor: color }}
+                  className="font-border"
+                >
+                  {name}
+                </div>
+              ) : null
+            )}
+          </div>
+        </div>
+      </div>
+
       <h2 className="text-center">Overview</h2>
       <div className="row justify-content-center">
         <div className="col-6 col-md-5 col-lg-4 col-xl-3">
