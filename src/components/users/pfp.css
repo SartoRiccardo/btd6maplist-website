@@ -31,6 +31,6 @@
   font-size: 0.8rem;
 }
 
-.pfp-link:hover .name {
+.pfp-link:hover .pfp-name {
   color: var(--color-less-highlight);
 }
