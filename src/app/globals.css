@@ -5,6 +5,7 @@
   --color-highlight: #f29559;
   --color-misc: #b8b08d;
   --color-text: white;
+  --color-text-muted: #b0bec5;
 }
 
 body {
@@ -70,4 +71,12 @@ h6 {
   background-color: var(--color-secondary);
   padding: 0.3rem 0.7rem;
   border-radius: 0.5rem;
+}
+
+.p-relative {
+  position: relative;
+}
+
+.muted {
+  color: var(--color-text-muted);
 }

@@ -18,7 +18,7 @@ async function UserEntry_S({ id, label, centered, lead }) {
     lead && !label ? `fs${lead !== true ? `-${lead}` : ""}-4` : "";
 
   return (
-    <Link href={`/users/${id}`} className={`${pfpStyles.link}`}>
+    <Link href={`/user/${id}`} className={`${pfpStyles.link}`}>
       <div className={`${pfpStyles.userEntry}`}>
         <img
           className={`${pfpStyles.pfp}`}

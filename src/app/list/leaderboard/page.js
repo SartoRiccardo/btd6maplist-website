@@ -3,6 +3,7 @@ import UserEntry from "@/components/users/UserEntry";
 import { getListLeaderboard } from "@/server/maplistRequests";
 import ListLeaderboardDifficulty from "./page.client";
 import Link from "next/link";
+import { getPositionColor } from "@/utils/functions";
 
 const verToValue = {
   current: 0,
@@ -52,9 +53,8 @@ export default async function ListLeaderboard({ searchParams }) {
       <div className="my-4">
         {leaderboard.map(({ user_id, score, position }) => {
           let style = {};
-          if (position === 1) style = { backgroundColor: "#ffd54f" };
-          else if (position === 2) style = { backgroundColor: "#e0e0e0" };
-          else if (position === 3) style = { backgroundColor: "#cd7f32" };
+          const posColor = getPositionColor(position);
+          if (posColor !== null) style.backgroundColor = posColor;
 
           return (
             <div

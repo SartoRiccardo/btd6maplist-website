@@ -1,22 +1,41 @@
+.btd6map,
+.btd6mapRow {
+  color: var(--color-text);
+  transition: background-color 0.2s linear;
+  background-color: var(--color-secondary);
+}
+
 .btd6map {
   margin: 1.5rem 0.2rem;
-  background-color: var(--color-secondary);
-  transition: background-color 0.2s linear;
   padding: 0.4rem;
   padding-bottom: 1rem;
   border-radius: 0.5rem;
   position: relative;
-  color: var(--color-text);
 }
 
-.clickable:hover .btd6map {
+.btd6mapRow {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.clickable {
+  text-decoration: none;
+}
+
+.clickable:hover .btd6map,
+.clickable:hover .btd6mapRow {
   background-color: var(--color-less-highlight);
 }
 
-.btd6map img {
+.btd6map img,
+.btd6mapImage {
   width: 100%;
   height: auto;
   aspect-ratio: 3/2;
+}
+
+.btd6mapRow .btd6mapImage {
+  width: 6rem;
 }
 
 .mapTitle {
