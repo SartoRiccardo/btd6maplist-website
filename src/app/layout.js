@@ -8,7 +8,7 @@ import StoreProvider from "@/components/StoreProvider";
 import { cookies } from "next/headers";
 import { getDiscordUser, getMaplistRoles } from "@/server/discordRequests";
 import Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader";
-import { getConfig, getUser } from "@/server/maplistRequests";
+import { getConfig, maplistAuthenticate } from "@/server/maplistRequests";
 
 export const metadata = {
   title: "Bloons TD 6 Maplist",
@@ -16,11 +16,10 @@ export const metadata = {
 };
 
 const getUserInfo = async (accessToken) => {
-  const discordProfile = await getDiscordUser(accessToken);
-  if (!discordProfile) return { discordProfile: null, maplistProfile: null };
-
-  const maplistProfile = (await getUser(discordProfile.id)) || { oak: null };
-  return { discordProfile, maplistProfile };
+  const { discord_profile, maplist_profile } = await maplistAuthenticate(
+    accessToken
+  );
+  return { discordProfile: discord_profile, maplistProfile: maplist_profile };
 };
 
 const authenticate = async (cookieStore) => {
