@@ -5,7 +5,6 @@ import SelectorButton from "@/components/maps/SelectorButton";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
 import { difficulties } from "@/utils/maplistUtils";
-import Image from "next/image";
 
 const btnSize = 50;
 
@@ -54,7 +53,7 @@ export default async function PageUser({ params }) {
                 >
                   {placement_cur > -1 && (
                     <SelectorButton text={`#${placement_cur}`} active>
-                      <Image
+                      <img
                         src={"/icon_curver.png"}
                         alt="Cur"
                         width={btnSize}
@@ -65,7 +64,7 @@ export default async function PageUser({ params }) {
 
                   {placement_all > -1 && (
                     <SelectorButton text={`#${placement_all}`} active>
-                      <Image
+                      <img
                         src={"/icon_allver.png"}
                         alt="All"
                         width={btnSize}
@@ -76,7 +75,7 @@ export default async function PageUser({ params }) {
 
                   {difficulty > -1 && (
                     <SelectorButton active>
-                      <Image
+                      <img
                         src={difficulties[difficulty].image}
                         alt="Diff"
                         width={btnSize}
@@ -108,7 +107,7 @@ function MaplistOverview({ stats, all }) {
     <div className="panel my-3">
       <div className="d-flex justify-content-center my-2">
         <SelectorButton active>
-          <Image
+          <img
             src={all ? "/icon_allver.png" : "/icon_curver.png"}
             alt="Cur"
             width={50}

@@ -11,7 +11,7 @@
   cursor: pointer;
 }
 
-.imgWrapper p {
+.diffsel-imgWrapper p {
   position: absolute;
   width: 100%;
   bottom: -1rem;
@@ -19,7 +19,7 @@
   margin-bottom: 0;
 }
 
-.imgWrapper {
+.diffsel-imgWrapper {
   position: relative;
   background-color: var(--color-secondary);
   border: 7px solid var(--color-misc);
@@ -27,11 +27,11 @@
   transition: border-color 0.3s linear;
 }
 
-.difficulty.active .imgWrapper,
-.imgWrapper.active {
+.difficulty.diffsel-active .diffsel-imgWrapper,
+.diffsel-imgWrapper.diffsel-active {
   border-color: var(--color-highlight);
 }
 
-.difficulty:hover .imgWrapper {
+.difficulty:hover .diffsel-imgWrapper {
   border-color: var(--color-less-highlight);
 }

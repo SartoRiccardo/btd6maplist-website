@@ -1,11 +1,10 @@
 "use client";
-import styles from "./mapplacements.module.css";
+import "./mapplacements.css";
 import { selectMaplistConfig } from "@/features/maplistSlice";
 import { useAppSelector } from "@/lib/store";
 import { calcMapPoints, difficulties } from "@/utils/maplistUtils";
 import SelectorButton from "./SelectorButton";
 import { titleFont } from "@/lib/fonts";
-import Image from "next/image";
 
 export default function MapPlacements({ mapData }) {
   const maplistCfg = useAppSelector(selectMaplistConfig);
@@ -52,17 +51,15 @@ export default function MapPlacements({ mapData }) {
 function DifficultyPanel({ image, shortLabel, label }) {
   return (
     <div className="col-auto">
-      <div className={`${styles.difficultyContainer} shadow`}>
+      <div className={`difficultyContainer shadow`}>
         <div>
           <SelectorButton text={shortLabel} active>
-            <Image src={image} width={75} height={75} />
+            <img src={image} width={75} height={75} />
           </SelectorButton>
         </div>
 
         <div className="d-flex flex-column justify-content-center">
-          <p className={`${titleFont.className} ${styles.difficultyLabel}`}>
-            {label}
-          </p>
+          <p className={`${titleFont.className} difficultyLabel`}>{label}</p>
         </div>
       </div>
     </div>

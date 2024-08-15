@@ -1,4 +1,4 @@
-.link:link {
+.pfp-link:link {
   text-decoration: none;
 }
 
@@ -21,16 +21,16 @@
   border-radius: 0.2rem;
 }
 
-.name {
+.pfp-name {
   font-weight: 700;
   margin-bottom: 0;
 }
 
-.small {
+.pfp-small {
   margin-bottom: 0;
   font-size: 0.8rem;
 }
 
-.link:hover .name {
+.pfp-link:hover .name {
   color: var(--color-less-highlight);
 }

@@ -9,11 +9,7 @@
   margin-left: 0.5rem;
 }
 
-.marginLeft {
-  margin-left: 1rem;
-}
-
-.blocked {
+.comp-blocked {
   filter: brightness(0%);
 }
 

@@ -18,12 +18,12 @@
   overflow-y: hidden;
 }
 
-.clickable {
+.btd6map-clickable {
   text-decoration: none;
 }
 
-.clickable:hover .btd6map,
-.clickable:hover .btd6mapRow {
+.btd6map-clickable:hover .btd6map,
+.btd6map-clickable:hover .btd6mapRow {
   background-color: var(--color-less-highlight);
 }
 
@@ -102,7 +102,7 @@
   color: lightskyblue;
 }
 
-.verifiedCheck:not(.small) {
+.verifiedCheck:not(.btd6map-small) {
   font-size: 2.5rem;
   position: absolute;
   top: -1.5rem;

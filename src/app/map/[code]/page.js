@@ -10,7 +10,6 @@ import { Suspense } from "react";
 export default async function MapOverview({ params }) {
   const { code } = params;
   const mapData = await getMap(code);
-  console.log(mapData.creators);
 
   return (
     <>

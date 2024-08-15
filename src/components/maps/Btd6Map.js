@@ -1,6 +1,6 @@
 "use client";
+import "./btd6map.css";
 import Link from "next/link";
-import styles from "./btd6map.module.css";
 import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";
 import { useAppSelector } from "@/lib/store";
@@ -19,17 +19,17 @@ export default function Btd6Map({
   const maplistCfg = useAppSelector(selectMaplistConfig);
 
   const cmpMap = (
-    <div className={`shadow ${styles.btd6map} pb-3 ${className || ""}`}>
-      <p className={`${styles.mapTitle} ${btd6Font.className} font-border`}>
+    <div className={`shadow btd6map pb-3 ${className || ""}`}>
+      <p className={`mapTitle ${btd6Font.className} font-border`}>
         {name && verified && (
           <i
-            className={`${styles.verifiedCheck} ${styles.small} bi bi-check-square-fill`}
+            className={`verifiedCheck btd6map-small bi bi-check-square-fill`}
           />
         )}{" "}
         {name}
       </p>
       {placement !== undefined && Object.keys(maplistCfg).length && (
-        <div className={`${styles.points} shadow`}>
+        <div className={`points shadow`}>
           <p className={`my-0 text-center ${btd6Font.className} font-border`}>
             {calcMapPoints(placement, maplistCfg)}
           </p>
@@ -39,7 +39,7 @@ export default function Btd6Map({
       <img src={`https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`} />
 
       {verified && (!name || name.length === 0) && (
-        <i className={`${styles.verifiedCheck} bi bi-check-square-fill`} />
+        <i className={`verifiedCheck bi bi-check-square-fill`} />
       )}
 
       {playBtn && (
@@ -73,7 +73,7 @@ export default function Btd6Map({
   );
 
   return hrefBase ? (
-    <Link className={styles.clickable} href={`${hrefBase}/${code}`}>
+    <Link className="btd6map-clickable" href={`${hrefBase}/${code}`}>
       {cmpMap}
     </Link>
   ) : (
@@ -83,7 +83,7 @@ export default function Btd6Map({
 
 function PlayBtn({ code, displayCode, className }) {
   return (
-    <div className={`${styles.playBtn} ${btd6Font.className} ${className}`}>
+    <div className={`playBtn ${btd6Font.className} ${className || ""}`}>
       <a
         href={`https://join.btd6.com/Map/${code}`}
         target="_blank"

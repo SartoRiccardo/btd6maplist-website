@@ -1,6 +1,6 @@
 import { btd6Font } from "@/lib/fonts";
-import stylesMedal from "./maplistcompletions.module.css";
-import styles from "./btd6map.module.css";
+import "./maplistcompletions.css";
+import "./btd6map.css";
 import Link from "next/link";
 import SelectorButton from "./SelectorButton";
 import MaplistPoints from "./MaplistPoints";
@@ -14,11 +14,11 @@ export default function Btd6MapRow({
   mapIdxCurver,
 }) {
   const cmpMap = (
-    <div className={`panel py-2 my-2 ${styles.btd6mapRow}`}>
+    <div className={`panel py-2 my-2 btd6mapRow`}>
       <div className="row">
         <div className="col-12 col-lg-5 d-flex">
           <img
-            className={`${styles.btd6mapImage}`}
+            className={`btd6mapImage`}
             src={`https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`}
           />
           <div className="d-flex flex-column justify-content-center">
@@ -38,7 +38,7 @@ export default function Btd6MapRow({
                     src="/icon_true.png"
                     width={35}
                     height={35}
-                    className={!completion.black_border && stylesMedal.blocked}
+                    className={!completion.black_border && "comp-blocked"}
                   />
                 </SelectorButton>
                 <SelectorButton className="mx-1 mx-md-3" active>
@@ -46,7 +46,7 @@ export default function Btd6MapRow({
                     src="/icon_true.png"
                     width={35}
                     height={35}
-                    className={!completion.no_geraldo && stylesMedal.blocked}
+                    className={!completion.no_geraldo && "comp-blocked"}
                   />
                 </SelectorButton>
                 <SelectorButton active>
@@ -54,7 +54,7 @@ export default function Btd6MapRow({
                     src="/icon_true.png"
                     width={35}
                     height={35}
-                    className={!completion.current_lcc && stylesMedal.blocked}
+                    className={!completion.current_lcc && "comp-blocked"}
                   />
                 </SelectorButton>
               </div>
@@ -62,7 +62,7 @@ export default function Btd6MapRow({
 
             <div className="col-12 col-sm-6 col-lg-4">
               <div
-                className={`${stylesMedal.pointsGainedContanier} d-flex justify-content-center`}
+                className={`pointsGainedContanier d-flex justify-content-center`}
               >
                 {mapIdxCurver && mapIdxCurver > -1 && (
                   <div className="d-flex">
@@ -70,7 +70,7 @@ export default function Btd6MapRow({
                       <img src="/icon_curver.png" width={40} height={40} />
                     </SelectorButton>
 
-                    <div className={stylesMedal.pointsLabelContainer}>
+                    <div className={"pointsLabelContainer"}>
                       <p className="fs-5">
                         +
                         <MaplistPoints
@@ -84,12 +84,12 @@ export default function Btd6MapRow({
                 )}
 
                 {mapIdxAllver && mapIdxAllver > -1 && (
-                  <div className={`${stylesMedal.marginLeft} d-flex`}>
+                  <div className={`ms-3 d-flex`}>
                     <SelectorButton text="all" active>
                       <img src="/icon_allver.png" width={40} height={40} />
                     </SelectorButton>
 
-                    <div className={stylesMedal.pointsLabelContainer}>
+                    <div className={"pointsLabelContainer"}>
                       <p className="fs-5">
                         +
                         <MaplistPoints
@@ -110,7 +110,7 @@ export default function Btd6MapRow({
   );
 
   return hrefBase ? (
-    <Link className={styles.clickable} href={`${hrefBase}/${code}`}>
+    <Link className={"btd6map-clickable"} href={`${hrefBase}/${code}`}>
       {cmpMap}
     </Link>
   ) : (
