@@ -127,7 +127,7 @@ export default async function MapOverview({ params }) {
               </div>
 
               <div className="col d-flex flex-column justify-content-center">
-                <p className="fs-5 mb-0">
+                <p className="fs-5 mb-0 text-end">
                   Saveup: <b>${numberWithCommas(mapData.lcc.leftover)}</b>
                 </p>
               </div>
