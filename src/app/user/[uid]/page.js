@@ -2,7 +2,7 @@ import styles from "./userpage.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
 import Btd6MapRow from "@/components/maps/Btd6MapRow";
 import SelectorButton from "@/components/maps/SelectorButton";
-import UserNotFound from "@/components/users/UserNotFound";
+import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
 import { difficulties } from "@/utils/maplistUtils";
@@ -13,7 +13,7 @@ export default async function PageUser({ params }) {
   const { uid } = params;
   const userData = await getUser(uid);
 
-  if (!userData) return <UserNotFound />;
+  if (!userData) return <ResourceNotFound label="user" />;
 
   return (
     <>

@@ -6,10 +6,13 @@ import UserEntry from "@/components/users/UserEntry";
 import { getMap } from "@/server/maplistRequests";
 import { numberWithCommas } from "@/utils/functions";
 import { Suspense } from "react";
+import ResourceNotFound from "@/components/layout/ResourceNotFound";
 
 export default async function MapOverview({ params }) {
   const { code } = params;
   const mapData = await getMap(code);
+
+  if (!mapData) return <ResourceNotFound label="map" />;
 
   return (
     <>
