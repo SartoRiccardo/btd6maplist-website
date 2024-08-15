@@ -6,7 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { titleFont, pFont, btd6Font } from "@/lib/fonts";
 import StoreProvider from "@/components/StoreProvider";
 import { cookies } from "next/headers";
-import { getDiscordUser, getMaplistRoles } from "@/server/discordRequests";
+import { getMaplistRoles } from "@/server/discordRequests";
 import Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader";
 import { getConfig, maplistAuthenticate } from "@/server/maplistRequests";
 

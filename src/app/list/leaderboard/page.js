@@ -5,6 +5,11 @@ import ListLeaderboardDifficulty from "./page.client";
 import Link from "next/link";
 import { getPositionColor } from "@/utils/functions";
 
+export const metadata = {
+  title: "BTD6 Maplist Leaderboard",
+  description: "A community curated list of the best Bloons TD 6 custom maps",
+};
+
 const verToValue = {
   current: 0,
   all: 1,

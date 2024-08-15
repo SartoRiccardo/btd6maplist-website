@@ -16,6 +16,8 @@ export default async function MapOverview({ params }) {
 
   return (
     <>
+      <title>{`${mapData.name} | BTD6 Maplist`}</title>
+
       <h1 className="text-center mb-2">{mapData.name}</h1>
       <p className="text-center lead">
         Code: <u>{mapData.code}</u>

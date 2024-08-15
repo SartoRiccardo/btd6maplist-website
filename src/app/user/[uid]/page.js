@@ -18,6 +18,8 @@ export default async function PageUser({ params }) {
 
   return (
     <>
+      <title>{`${userData.name} | BTD6 Maplist`}</title>
+
       <div
         className={`panel d-flex mb-3 py-3 ${styles.profileViewContainer}`}
         style={{
