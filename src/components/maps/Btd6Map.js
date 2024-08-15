@@ -19,7 +19,7 @@ export default function Btd6Map({
   const maplistCfg = useAppSelector(selectMaplistConfig);
 
   const cmpMap = (
-    <div className={`shadow btd6map pb-3 ${className || ""}`}>
+    <div className={`shadow btd6map pb-3 ${className ? className : ""}`}>
       <p className={`mapTitle ${btd6Font.className} font-border`}>
         {name && verified && (
           <i
@@ -83,7 +83,9 @@ export default function Btd6Map({
 
 function PlayBtn({ code, displayCode, className }) {
   return (
-    <div className={`playBtn ${btd6Font.className} ${className || ""}`}>
+    <div
+      className={`playBtn ${btd6Font.className} ${className ? className : ""}`}
+    >
       <a
         href={`https://join.btd6.com/Map/${code}`}
         target="_blank"

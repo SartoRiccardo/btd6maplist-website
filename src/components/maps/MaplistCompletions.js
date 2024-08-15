@@ -28,7 +28,7 @@ export default async function MaplistCompletions({
                     src="/icon_true.png"
                     width={35}
                     height={35}
-                    className={!completion.black_border && "comp-blocked"}
+                    className={!completion.black_border ? "comp-blocked" : ""}
                   />
                 </SelectorButton>
                 <SelectorButton className="mx-1 mx-md-3" active>
@@ -36,7 +36,7 @@ export default async function MaplistCompletions({
                     src="/icon_true.png"
                     width={35}
                     height={35}
-                    className={!completion.no_geraldo && "comp-blocked"}
+                    className={!completion.no_geraldo ? "comp-blocked" : ""}
                   />
                 </SelectorButton>
                 <SelectorButton active>
@@ -44,7 +44,7 @@ export default async function MaplistCompletions({
                     src="/icon_true.png"
                     width={35}
                     height={35}
-                    className={!completion.current_lcc && "comp-blocked"}
+                    className={!completion.current_lcc ? "comp-blocked" : ""}
                   />
                 </SelectorButton>
               </div>
