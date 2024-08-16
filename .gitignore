@@ -1,5 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# deploying
+compose.yaml
+.env.production
+
 # misc
 src/app/api/experts/exmapsdatadummy.js
 
