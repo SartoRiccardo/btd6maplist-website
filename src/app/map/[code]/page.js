@@ -76,7 +76,7 @@ export default async function MapOverview({ params }) {
                   </h3>
                 )}
 
-                {mapData.map_data !== "ask" && (
+                {mapData.map_data === "a" && (
                   <p>
                     You must ask permission to the creator to use the map data
                     for this map.
