@@ -45,7 +45,7 @@ export function NavbarMobile() {
 
         <Offcanvas.Body>
           <ul className={`${styles.navbar} ${styles.mobile}`}>
-            <NavLogin />
+            <NavLogin onNavigate={(_e) => setIsMenuOpen(false)} />
 
             <li>
               <a href="#" onClick={toggleSubmenu(0, openSubmenus.includes(0))}>
@@ -61,12 +61,20 @@ export function NavbarMobile() {
                 <div>
                   <ul className={`${styles.submenu} ${styles.mobile}`}>
                     <li>
-                      <Link scroll={false} href="/experts">
+                      <Link
+                        scroll={false}
+                        href="/experts"
+                        onClick={(_e) => setIsMenuOpen(false)}
+                      >
                         Experts
                       </Link>
                     </li>
                     <li>
-                      <Link scroll={false} href="/list">
+                      <Link
+                        scroll={false}
+                        href="/list"
+                        onClick={(_e) => setIsMenuOpen(false)}
+                      >
                         The List
                       </Link>
                     </li>
@@ -76,7 +84,11 @@ export function NavbarMobile() {
             </li>
 
             <li>
-              <Link scroll={false} href="/list/leaderboard">
+              <Link
+                scroll={false}
+                href="/list/leaderboard"
+                onClick={(_e) => setIsMenuOpen(false)}
+              >
                 Leaderboard
               </Link>
             </li>

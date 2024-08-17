@@ -20,7 +20,7 @@ const discOAuth2Params = {
   // state: "15773059ghq9183habn",
 };
 
-export default function NavLogin() {
+export default function NavLogin({ onNavigate }) {
   const accessToken = useAppSelector(selectDiscordAccessToken);
   const { discordProfile, btd6Profile } = useAppSelector(selectMaplistProfile);
   const dispatch = useAppDispatch();
@@ -46,7 +46,11 @@ export default function NavLogin() {
         {discordProfile && (
           <ul className={`${stylesNav.submenu} shadow`}>
             <li>
-              <Link scroll={false} href={`/user/${discordProfile.id}`}>
+              <Link
+                scroll={false}
+                href={`/user/${discordProfile.id}`}
+                onClick={(_e) => onNavigate && onNavigate(_e)}
+              >
                 Profile
               </Link>
             </li>
@@ -71,7 +75,11 @@ export default function NavLogin() {
             <div>
               <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
                 <li>
-                  <Link scroll={false} href={`/user/${discordProfile.id}`}>
+                  <Link
+                    scroll={false}
+                    href={`/user/${discordProfile.id}`}
+                    onClick={(_e) => onNavigate && onNavigate(_e)}
+                  >
                     Profile
                   </Link>
                 </li>

@@ -16,6 +16,9 @@ export default async function PageUser({ params }) {
 
   if (!userData) return <ResourceNotFound label="user" />;
 
+  const grantedRoles = userRoles.filter(({ requirement }) =>
+    requirement({ user: userData })
+  );
   return (
     <>
       <title>{`${userData.name} | BTD6 Maplist`}</title>
@@ -34,9 +37,9 @@ export default async function PageUser({ params }) {
         />
         <div className="ps-3 d-flex flex-column">
           <h1 className={`${styles.title} font-border`}>{userData.name}</h1>
-          <div className={styles.rolesContainer}>
-            {userRoles.map(({ name, color, description, requirement }) =>
-              requirement({ user: userData }) ? (
+          {grantedRoles.length > 0 && (
+            <div className={styles.rolesContainer}>
+              {grantedRoles.map(({ name, color, description }) => (
                 <div
                   key={name}
                   style={{ backgroundColor: color }}
@@ -44,9 +47,9 @@ export default async function PageUser({ params }) {
                 >
                   {name}
                 </div>
-              ) : null
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
