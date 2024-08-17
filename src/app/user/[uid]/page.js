@@ -33,7 +33,7 @@ export default async function PageUser({ params }) {
           className={styles.profilePfp}
         />
         <div className="ps-3 d-flex flex-column">
-          <h1 className="font-border">{userData.name}</h1>
+          <h1 className={`${styles.title} font-border`}>{userData.name}</h1>
           <div className={styles.rolesContainer}>
             {userRoles.map(({ name, color, description, requirement }) =>
               requirement({ user: userData }) ? (
