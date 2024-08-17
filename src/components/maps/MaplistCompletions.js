@@ -14,7 +14,10 @@ export default async function MaplistCompletions({
   return (
     <div>
       {completions.map((completion) => (
-        <div key={completion.user_id} className="panel my-2">
+        <div
+          key={`${completion.user_id}+${completion.formats.join(",")}`}
+          className="panel my-2"
+        >
           <div className="row">
             <div className="col-6 col-lg-5">
               <UserEntry id={completion.user_id} centered lead="sm" />

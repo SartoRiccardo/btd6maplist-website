@@ -7,6 +7,8 @@ import { getMap } from "@/server/maplistRequests";
 import { numberWithCommas } from "@/utils/functions";
 import { Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
+import SelectorButton from "@/components/maps/SelectorButton";
+import { listVersions } from "@/utils/maplistUtils";
 
 export default async function MapOverview({ params }) {
   const { code } = params;
@@ -107,40 +109,21 @@ export default async function MapOverview({ params }) {
 
       <h2 className="text-center">Completions</h2>
 
-      {mapData.lcc && (
+      {mapData.lccs.length ? (
         <>
-          {mapData.lcc.proof ? (
-            <a href={mapData.lcc.proof} target="_blank">
-              <h3 className="text-center">
-                Current LCC &nbsp;
-                <i className="bi bi-box-arrow-up-right ml-2" />
-              </h3>
-            </a>
-          ) : (
-            <h3>Current LCC</h3>
-          )}
+          <h3 className="text-center">
+            Current LCC{mapData.lccs.length !== 1 && "s"}
+          </h3>
 
-          <div className="panel mb-4">
-            <div className={`row`}>
-              <div className="col">
-                {mapData.lcc.players.map((id) => (
-                  <UserEntry key={id} id={id} centered lead="sm" />
-                ))}
-              </div>
-
-              <div className="col d-flex flex-column justify-content-center">
-                <p className="fs-5 mb-0 text-end">
-                  Saveup: <b>${numberWithCommas(mapData.lcc.leftover)}</b>
-                </p>
-              </div>
-            </div>
-          </div>
+          {mapData.lccs.map((lcc) => (
+            <LCC lcc={lcc} key={lcc.id} />
+          ))}
         </>
-      )}
+      ) : null}
 
       {(mapData.placement_cur > -1 || mapData.placement_all > -1) && (
         <>
-          <h3 className="text-center">All Completions</h3>
+          <h3 className="text-center mt-3">All Completions</h3>
 
           <Suspense fallback={null}>
             <MaplistCompletions
@@ -162,5 +145,43 @@ function MapCompatibility({ status, startVer, endVer }) {
       v{startVer}
       {endVer ? endVer !== startVer && `~${endVer}` : "~Current"}
     </li>
+  );
+}
+
+function LCC({ lcc }) {
+  let format = listVersions.filter(({ value }) => value === lcc.format - 1);
+  format = format.length ? format[0] : listVersions[0];
+
+  return (
+    <div className="panel my-2">
+      <div className="row">
+        <div className="col-12 col-md-6">
+          {lcc.players.map((id) => (
+            <UserEntry key={id} id={id} centered lead="sm" />
+          ))}
+        </div>
+
+        <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
+          <SelectorButton text={format.short} active>
+            <img src={format.image} width={40} height={40} />
+          </SelectorButton>
+
+          <div className="flex-vcenter ps-3">
+            {lcc.proof ? (
+              <a href={lcc.proof} target="_blank">
+                <p className="fs-5 mb-0">
+                  Saveup: <b>${numberWithCommas(lcc.leftover)}</b> &nbsp;
+                  <i className="bi bi-box-arrow-up-right ml-2" />
+                </p>
+              </a>
+            ) : (
+              <p className="fs-5 mb-0">
+                Saveup: <b>${numberWithCommas(lcc.leftover)}</b>
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

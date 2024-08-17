@@ -53,12 +53,14 @@ export const difficulties = [
 export const listVersions = [
   {
     name: "Current",
+    short: "Cur",
     value: 0,
     image: "/icon_curver.png",
     description: "",
   },
   {
     name: "All Versions",
+    short: "All",
     value: 1,
     image: "/icon_allver.png",
     description: "",
