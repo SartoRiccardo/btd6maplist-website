@@ -18,7 +18,7 @@ async function UserEntry_S({ id, label, centered, lead }) {
     lead && !label ? `fs${lead !== true ? `-${lead}` : ""}-4` : "";
 
   return (
-    <Link href={`/user/${id}`} className={`pfp-link`}>
+    <Link scroll={false} href={`/user/${id}`} className={`pfp-link`}>
       <div className={`userEntry`}>
         <img className={`pfp`} src={initialBtd6Profile.avatarURL} />
         <div

@@ -73,7 +73,11 @@ export default function Btd6Map({
   );
 
   return hrefBase ? (
-    <Link className="btd6map-clickable" href={`${hrefBase}/${code}`}>
+    <Link
+      scroll={false}
+      className="btd6map-clickable"
+      href={`${hrefBase}/${code}`}
+    >
       {cmpMap}
     </Link>
   ) : (

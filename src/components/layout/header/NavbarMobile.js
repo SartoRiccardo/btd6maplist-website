@@ -61,10 +61,14 @@ export function NavbarMobile() {
                 <div>
                   <ul className={`${styles.submenu} ${styles.mobile}`}>
                     <li>
-                      <Link href="/experts">Experts</Link>
+                      <Link scroll={false} href="/experts">
+                        Experts
+                      </Link>
                     </li>
                     <li>
-                      <Link href="/list">The List</Link>
+                      <Link scroll={false} href="/list">
+                        The List
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -72,7 +76,9 @@ export function NavbarMobile() {
             </li>
 
             <li>
-              <Link href="/list/leaderboard">Leaderboard</Link>
+              <Link scroll={false} href="/list/leaderboard">
+                Leaderboard
+              </Link>
             </li>
 
             {/* <li>
@@ -89,10 +95,10 @@ export function NavbarMobile() {
                 <div>
                   <ul className={`${styles.submenu} ${styles.mobile}`}>
                     <li>
-                      <Link href="/experts">Experts</Link>
+                      <Link scroll={false} href="/experts">Experts</Link>
                     </li>
                     <li>
-                      <Link href="/list">The List</Link>
+                      <Link scroll={false} href="/list">The List</Link>
                     </li>
                   </ul>
                 </div>

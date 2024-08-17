@@ -7,7 +7,9 @@ export default function ResourceNotFound({ label }) {
         Looks like that {label} doesn't exist!
       </p>
       <p className="muted text-center">
-        <Link href="/">&laquo; Home</Link>
+        <Link scroll={false} href="/">
+          &laquo; Home
+        </Link>
       </p>
     </div>
   );

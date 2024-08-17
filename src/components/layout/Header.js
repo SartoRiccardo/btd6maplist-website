@@ -13,7 +13,7 @@ export default function Header() {
       <div className="row">
         <div className="col-auto">
           <div className="d-flex flex-column justify-content-center h-100">
-            <Link href="/" className={btd6Font.className}>
+            <Link scroll={false} href="/" className={btd6Font.className}>
               <p>BTD6 Maplist</p>
             </Link>
           </div>
@@ -29,16 +29,22 @@ export default function Header() {
 
                   <ul className={`${stylesNav.submenu} shadow`}>
                     <li>
-                      <Link href="/experts">Experts</Link>
+                      <Link scroll={false} href="/experts">
+                        Experts
+                      </Link>
                     </li>
                     <li>
-                      <Link href="/list">The List</Link>
+                      <Link scroll={false} href="/list">
+                        The List
+                      </Link>
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <Link href="/list/leaderboard">Leaderboard</Link>
+                  <Link scroll={false} href="/list/leaderboard">
+                    Leaderboard
+                  </Link>
                 </li>
 
                 {/* <li>
@@ -48,10 +54,10 @@ export default function Header() {
 
                   <ul className={`${stylesNav.submenu} shadow`}>
                     <li>
-                      <Link href="/experts">Experts</Link>
+                      <Link scroll={false} href="/experts">Experts</Link>
                     </li>
                     <li>
-                      <Link href="/list">The List</Link>
+                      <Link scroll={false} href="/list">The List</Link>
                     </li>
                   </ul>
                 </li> */}

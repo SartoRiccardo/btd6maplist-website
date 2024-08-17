@@ -46,7 +46,9 @@ export default function NavLogin() {
         {discordProfile && (
           <ul className={`${stylesNav.submenu} shadow`}>
             <li>
-              <Link href={`/user/${discordProfile.id}`}>Profile</Link>
+              <Link scroll={false} href={`/user/${discordProfile.id}`}>
+                Profile
+              </Link>
             </li>
             <li>
               <a href={`/api/auth/revoke`}>Logout</a>
@@ -69,7 +71,9 @@ export default function NavLogin() {
             <div>
               <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
                 <li>
-                  <Link href={`/user/${discordProfile.id}`}>Profile</Link>
+                  <Link scroll={false} href={`/user/${discordProfile.id}`}>
+                    Profile
+                  </Link>
                 </li>
                 <li>
                   <a href="#" onClick={(_e) => logout()}>

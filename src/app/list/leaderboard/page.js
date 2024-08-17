@@ -40,6 +40,7 @@ export default async function ListLeaderboard({ searchParams }) {
       <div className={`d-flex justify-content-center ${styles.lbValueChooser}`}>
         {leaderboards.map(({ key, title }) => (
           <Link
+            scroll={false}
             key={key}
             href={`/list/leaderboard?version=${version}&value=${key}`}
             className={`${
