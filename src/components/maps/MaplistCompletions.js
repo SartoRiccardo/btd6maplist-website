@@ -20,7 +20,6 @@ export default async function MaplistCompletions({
               <UserEntry id={completion.user_id} centered lead="sm" />
             </div>
 
-            {/* TODO Placeholders - will add medals */}
             <div className="col-6 col-lg-3">
               <div className="d-flex justify-content-end justify-content-lg-start h-100">
                 <div className="flex-vcenter">
@@ -57,43 +56,47 @@ export default async function MaplistCompletions({
               <div
                 className={`pointsGainedContanier d-flex justify-content-center`}
               >
-                {mapIdxCurver > -1 && (
-                  <div className="d-flex">
-                    <SelectorButton text="cur" active>
-                      <img src="/icon_curver.png" width={40} height={40} />
-                    </SelectorButton>
+                {mapIdxCurver > -1 &&
+                  (completion.formats.includes(1) ||
+                    completion.formats.includes(0)) && (
+                    <div className="d-flex">
+                      <SelectorButton text="cur" active>
+                        <img src="/icon_curver.png" width={40} height={40} />
+                      </SelectorButton>
 
-                    <div className={"pointsLabelContainer"}>
-                      <p className="fs-5">
-                        +
-                        <MaplistPoints
-                          completion={completion}
-                          idx={mapIdxCurver}
-                        />
-                        pt
-                      </p>
+                      <div className={"pointsLabelContainer"}>
+                        <p className="fs-5">
+                          +
+                          <MaplistPoints
+                            completion={completion}
+                            idx={mapIdxCurver}
+                          />
+                          pt
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {mapIdxAllver > -1 && (
-                  <div className={`ms-3 d-flex`}>
-                    <SelectorButton text="all" active>
-                      <img src="/icon_allver.png" width={40} height={40} />
-                    </SelectorButton>
+                {mapIdxAllver > -1 &&
+                  (completion.formats.includes(2) ||
+                    completion.formats.includes(0)) && (
+                    <div className={`ms-3 d-flex`}>
+                      <SelectorButton text="all" active>
+                        <img src="/icon_allver.png" width={40} height={40} />
+                      </SelectorButton>
 
-                    <div className={"pointsLabelContainer"}>
-                      <p className="fs-5">
-                        +
-                        <MaplistPoints
-                          completion={completion}
-                          idx={mapIdxAllver}
-                        />
-                        pt
-                      </p>
+                      <div className={"pointsLabelContainer"}>
+                        <p className="fs-5">
+                          +
+                          <MaplistPoints
+                            completion={completion}
+                            idx={mapIdxAllver}
+                          />
+                          pt
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
             </div>
           </div>
