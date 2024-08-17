@@ -10,7 +10,12 @@ export async function GET(request) {
   }
 
   const accessToken = await getAccessToken(code);
-  if (accessToken) cookies().set("accessToken", JSON.stringify(accessToken));
+  const expires_at = Math.floor(Date.now() / 1000 + accessToken.expires_in);
+  if (accessToken)
+    cookies().set(
+      "accessToken",
+      JSON.stringify({ ...accessToken, expires_at })
+    );
 
   return NextResponse.redirect(`${process.env.HOST}/`);
 }

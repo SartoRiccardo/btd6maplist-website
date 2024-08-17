@@ -16,10 +16,12 @@ export const metadata = {
 };
 
 const getUserInfo = async (accessToken) => {
-  const { discord_profile, maplist_profile } = await maplistAuthenticate(
-    accessToken
-  );
-  return { discordProfile: discord_profile, maplistProfile: maplist_profile };
+  const profile = await maplistAuthenticate(accessToken);
+  if (profile === null) return null;
+  return {
+    discordProfile: profile.discord_profile,
+    maplistProfile: profile.maplist_profile,
+  };
 };
 
 const authenticate = async (cookieStore) => {
@@ -37,6 +39,8 @@ const authenticate = async (cookieStore) => {
       getUserInfo(accessToken.access_token),
       getMaplistRoles(accessToken.access_token),
     ]);
+
+    if (userInfo === null) return null;
 
     return {
       discordAccessToken: accessToken,
@@ -58,7 +62,7 @@ export default async function RootLayout({ children }) {
     authenticate(cookieStore),
   ]);
 
-  initReduxState.auth = authState;
+  if (authState) initReduxState.auth = authState;
   initReduxState.maplist = {};
   for (const cfg of maplistCfg) initReduxState.maplist[cfg.name] = cfg.value;
 

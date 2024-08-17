@@ -3,7 +3,8 @@ export async function maplistAuthenticate(token) {
     `${process.env.NEXT_PUBLIC_API_URL}/auth?discord_token=${token}`,
     { method: "POST" }
   );
-  if (response.status !== 200)
+  if (response.status === 400) return null;
+  else if (response.status !== 200)
     return { discord_profile: null, maplist_profile: null };
   return await response.json();
 }
