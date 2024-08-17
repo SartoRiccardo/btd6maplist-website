@@ -4,7 +4,7 @@ import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
 import UserEntry from "@/components/users/UserEntry";
 import { getMap } from "@/server/maplistRequests";
-import { numberWithCommas } from "@/utils/functions";
+import { listEquals, numberWithCommas } from "@/utils/functions";
 import { Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/maps/SelectorButton";
@@ -15,6 +15,43 @@ export default async function MapOverview({ params }) {
   const mapData = await getMap(code);
 
   if (!mapData) return <ResourceNotFound label="map" />;
+
+  let lccs = [];
+  if (mapData.lccs.length) {
+    let curRun = [
+      mapData.lccs[0].leftover,
+      mapData.lccs[0].proof,
+      mapData.lccs[0].players,
+      mapData.lccs[0].id,
+    ];
+    let formats = [];
+    for (const run of mapData.lccs) {
+      if (
+        curRun[0] === run.leftover &&
+        curRun[1] === run.proof &&
+        listEquals(curRun[2], run.players)
+      ) {
+        formats.push(run.format);
+      } else {
+        lccs.push({
+          id: curRun[3], // Dummy ID for compressed run
+          formats,
+          leftover: curRun[0],
+          proof: curRun[1],
+          players: curRun[2],
+        });
+        curRun = [run.leftover, run.proof, run.players, run.id];
+        formats = [run.format];
+      }
+    }
+    lccs.push({
+      id: curRun[3], // Dummy ID for compressed run
+      formats,
+      leftover: curRun[0],
+      proof: curRun[1],
+      players: curRun[2],
+    });
+  }
 
   return (
     <>
@@ -109,13 +146,11 @@ export default async function MapOverview({ params }) {
 
       <h2 className="text-center">Completions</h2>
 
-      {mapData.lccs.length ? (
+      {lccs.length ? (
         <>
-          <h3 className="text-center">
-            Current LCC{mapData.lccs.length !== 1 && "s"}
-          </h3>
+          <h3 className="text-center">Current LCC{lccs.length !== 1 && "s"}</h3>
 
-          {mapData.lccs.map((lcc) => (
+          {lccs.map((lcc) => (
             <LCC lcc={lcc} key={lcc.id} />
           ))}
         </>
@@ -149,8 +184,9 @@ function MapCompatibility({ status, startVer, endVer }) {
 }
 
 function LCC({ lcc }) {
-  let format = listVersions.filter(({ value }) => value === lcc.format - 1);
-  format = format.length ? format[0] : listVersions[0];
+  let formats = listVersions.filter(
+    ({ value }) => lcc.formats.includes(value + 1) || lcc.formats.includes(0)
+  );
 
   return (
     <div className="panel my-2">
@@ -162,11 +198,15 @@ function LCC({ lcc }) {
         </div>
 
         <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
-          <SelectorButton text={format.short} active>
-            <img src={format.image} width={40} height={40} />
-          </SelectorButton>
+          {formats.map(({ short, image, value }) => (
+            <div className="pe-3">
+              <SelectorButton key={value} text={short} active>
+                <img src={image} width={40} height={40} />
+              </SelectorButton>
+            </div>
+          ))}
 
-          <div className="flex-vcenter ps-3">
+          <div className="flex-vcenter">
             {lcc.proof ? (
               <a href={lcc.proof} target="_blank">
                 <p className="fs-5 mb-0">
