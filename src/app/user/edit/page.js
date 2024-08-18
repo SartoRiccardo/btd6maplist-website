@@ -8,7 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/store";
 import { Button, Form } from "react-bootstrap";
 import { Formik } from "formik";
-import { editProfile } from "@/server/maplistRequests";
+import { editProfile } from "@/server/maplistRequests.client";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
 import { revalidateUser } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
