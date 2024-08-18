@@ -45,6 +45,13 @@ export const authSlice = createSlice({
       state.maplistProfile = null;
       state.btd6Profile = { ...initialBtd6Profile };
     },
+    setMinMaplistProfile: (state, { payload }) => {
+      if (state.maplistProfile === null) state.maplistProfile = {};
+      state.maplistProfile = {
+        ...state.maplistProfile,
+        ...payload,
+      };
+    },
   },
 });
 
@@ -67,5 +74,6 @@ export const {
   setMaplistProfile,
   setBtd6Profile,
   revokeAuth,
+  setMinMaplistProfile,
 } = authSlice.actions;
 export default authSlice.reducer;

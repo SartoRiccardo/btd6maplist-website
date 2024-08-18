@@ -22,8 +22,7 @@ const discOAuth2Params = {
 
 export default function NavLogin({ onNavigate }) {
   const accessToken = useAppSelector(selectDiscordAccessToken);
-  const { discordProfile, btd6Profile } = useAppSelector(selectMaplistProfile);
-  const dispatch = useAppDispatch();
+  const { maplistProfile, btd6Profile } = useAppSelector(selectMaplistProfile);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(false);
 
   const cmpLoggedOut = (
@@ -40,15 +39,15 @@ export default function NavLogin({ onNavigate }) {
       <li className="d-none d-md-inline-block">
         <a href="#">
           <img className={`${styles.pfp}`} src={btd6Profile.avatarURL} />
-          {discordProfile ? discordProfile.username : "..."}
+          {maplistProfile ? maplistProfile.name : "..."}
         </a>
 
-        {discordProfile && (
+        {maplistProfile && (
           <ul className={`${stylesNav.submenu} shadow`}>
             <li>
               <Link
                 scroll={false}
-                href={`/user/${discordProfile.id}`}
+                href={`/user/${maplistProfile.id}`}
                 onClick={(_e) => onNavigate && onNavigate(_e)}
               >
                 Profile
@@ -67,17 +66,17 @@ export default function NavLogin({ onNavigate }) {
             className={`${styles.pfp} ${styles.mobile}`}
             src={btd6Profile.avatarURL}
           />
-          {discordProfile ? discordProfile.username : "..."}
+          {maplistProfile ? maplistProfile.name : "..."}
         </a>
 
-        {discordProfile && (
+        {maplistProfile && (
           <Collapse in={mobileSubmenuOpen}>
             <div>
               <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
                 <li>
                   <Link
                     scroll={false}
-                    href={`/user/${discordProfile.id}`}
+                    href={`/user/${maplistProfile.id}`}
                     onClick={(_e) => onNavigate && onNavigate(_e)}
                   >
                     Profile

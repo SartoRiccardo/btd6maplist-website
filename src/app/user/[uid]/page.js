@@ -7,6 +7,7 @@ import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
 import { difficulties, userRoles } from "@/utils/maplistUtils";
 import { initialBtd6Profile } from "@/features/authSlice";
+import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 
 const btnSize = 50;
 
@@ -36,7 +37,9 @@ export default async function PageUser({ params }) {
           className={styles.profilePfp}
         />
         <div className="ps-3 d-flex flex-column">
-          <h1 className={`${styles.title} font-border`}>{userData.name}</h1>
+          <h1 className={`${styles.title} font-border`}>
+            {userData.name} <EditProfilePencil userId={userData.id} />
+          </h1>
           {grantedRoles.length > 0 && (
             <div className={styles.rolesContainer}>
               {grantedRoles.map(({ name, color, description }) => (

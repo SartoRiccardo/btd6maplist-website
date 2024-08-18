@@ -86,3 +86,45 @@ h6 {
   flex-direction: column;
   justify-content: center;
 }
+
+.flex-row-space {
+  row-gap: 0.5rem;
+}
+
+.flex-col-space {
+  column-gap: 0.5rem;
+}
+
+.mono {
+  font-family: Courier;
+}
+
+/* Buttons */
+
+.btn-primary {
+  background-color: var(--color-secondary);
+  color: white;
+  font-weight: bold;
+  font-family: var(--font-p);
+  text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
+    -1px -1px #000, 1px -1px #000, -1px 1px #000;
+  font-size: calc(1.3rem + 0.6vw);
+  border: 0;
+}
+
+.btn-primary:disabled {
+  background-color: var(--color-secondary);
+}
+
+.btn-primary.active {
+  background-color: var(--color-highlight);
+}
+
+.btn-primary {
+  transition: background-color 0.2s linear;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-less-highlight);
+  transition: background-color 0.2s linear;
+}

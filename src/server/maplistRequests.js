@@ -60,3 +60,11 @@ export async function getListLeaderboard(version, value) {
   if (response.status !== 200) return [];
   return await response.json();
 }
+
+export async function editProfile(token, userId, profile) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
+    { method: "PUT", body: JSON.stringify({ token, ...profile }) }
+  );
+  return await response.json();
+}
