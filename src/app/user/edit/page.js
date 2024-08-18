@@ -10,10 +10,13 @@ import { Button, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import { editProfile } from "@/server/maplistRequests";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
+import { revalidateUser } from "@/server/revalidations";
+import { useRouter } from "next/navigation";
 
 export default function EditSelf() {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
   const { access_token } = useAppSelector(selectDiscordAccessToken);
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const validate = async (values) => {
@@ -41,6 +44,7 @@ export default function EditSelf() {
       return;
     }
 
+    revalidateUser(maplistProfile.id);
     if (values.oak.length && values.oak !== maplistProfile.oak) {
       const btd6Profile = await getBtd6User(values.oak);
       dispatch(setBtd6Profile({ btd6Profile }));
@@ -110,7 +114,14 @@ export default function EditSelf() {
             </div>
 
             <div className="d-flex flex-col-space justify-content-center">
-              <Button disabled={isSubmitting}>Back</Button>
+              <Button
+                disabled={isSubmitting}
+                onClick={(_e) =>
+                  router.push(`/user/${maplistProfile.id}`, { scroll: false })
+                }
+              >
+                Back
+              </Button>
               <Button disabled={isSubmitting} type="submit">
                 Save
               </Button>
