@@ -1,4 +1,5 @@
 "use client";
+import "./useredit.css";
 import {
   selectDiscordAccessToken,
   selectMaplistProfile,
@@ -6,18 +7,20 @@ import {
   setMinMaplistProfile,
 } from "@/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
-import { Button, Form } from "react-bootstrap";
+import { Button, Collapse, Form } from "react-bootstrap";
 import { Formik } from "formik";
 import { editProfile } from "@/server/maplistRequests.client";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
 import { revalidateUser } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function EditSelf() {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
   const { access_token } = useAppSelector(selectDiscordAccessToken);
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [showOakHelp, setShowOakHelp] = useState(false);
 
   const validate = async (values) => {
     const errors = {};
@@ -71,10 +74,10 @@ export default function EditSelf() {
           <Form noValidate onSubmit={handleSubmit}>
             <div className="panel my-3 py-3">
               <div className="row flex-row-space">
-                <div className="col-6">
+                <div className="col-5 col-sm-6">
                   <p>Username</p>
                 </div>
-                <div className="col-6">
+                <div className="col-7 col-sm-6">
                   <Form.Group>
                     <Form.Control
                       name="name"
@@ -91,10 +94,10 @@ export default function EditSelf() {
                   </Form.Group>
                 </div>
 
-                <div className="col-6">
+                <div className="col-5 col-sm-6">
                   <p>NinjaKiwi OAK</p>
                 </div>
-                <div className="col-6">
+                <div className="col-7 col-sm-6">
                   <Form.Group>
                     <Form.Control
                       type="text"
@@ -109,6 +112,72 @@ export default function EditSelf() {
                       {errors.oak}
                     </Form.Control.Feedback>
                   </Form.Group>
+                </div>
+                <div className="col-12">
+                  <p className="muted text-center mb-2">
+                    <a
+                      href="https://support.ninjakiwi.com/hc/en-us/articles/13438499873937-Open-Data-API"
+                      target="_blank"
+                    >
+                      NinjaKiwi OAKs &nbsp;
+                      <i className="bi bi-box-arrow-up-right" />
+                    </a>{" "}
+                    (OpenData API Keys) are used to give you your in-game
+                    profile picture and banner. You can generate one inside of
+                    BTD6 very easily.
+                  </p>
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      onClick={(_e) => setShowOakHelp(!showOakHelp)}
+                      className="fs-6 mb-3"
+                    >
+                      How do I get mine?
+                    </Button>
+                  </div>
+                  <Collapse in={showOakHelp}>
+                    <div>
+                      <p className="text-center">
+                        Open BTD6 and go into the settings, then click{" "}
+                        <b>
+                          <u>Account</u>
+                        </b>
+                      </p>
+                      <div className="d-flex justify-content-center">
+                        <img
+                          src="https://i.imgur.com/FurlzfB.png"
+                          className="mb-3 opendata-guide"
+                        />
+                      </div>
+
+                      <p className="text-center">
+                        Click{" "}
+                        <b>
+                          <u>Open Data API</u>
+                        </b>{" "}
+                        on the bottom right
+                      </p>
+                      <div className="d-flex justify-content-center">
+                        <img
+                          src="https://i.imgur.com/tCqlDYj.png"
+                          className="mb-3 opendata-guide"
+                        />
+                      </div>
+
+                      <p className="text-center">
+                        Click{" "}
+                        <b>
+                          <u>Generate New Key</u>
+                        </b>{" "}
+                        and then you can copy it and you're done!
+                      </p>
+                      <div className="d-flex justify-content-center">
+                        <img
+                          src="https://i.imgur.com/owhXl4U.png"
+                          className="mb-3 opendata-guide"
+                        />
+                      </div>
+                    </div>
+                  </Collapse>
                 </div>
               </div>
             </div>
