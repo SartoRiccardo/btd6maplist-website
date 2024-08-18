@@ -7,7 +7,7 @@ import { getMap } from "@/server/maplistRequests";
 import { listEquals, numberWithCommas } from "@/utils/functions";
 import { Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
-import SelectorButton from "@/components/maps/SelectorButton";
+import SelectorButton from "@/components/buttons/SelectorButton";
 import { listVersions } from "@/utils/maplistUtils";
 import { LoggedUserRun } from "./page.client";
 

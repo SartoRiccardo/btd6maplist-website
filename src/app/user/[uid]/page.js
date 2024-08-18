@@ -1,7 +1,7 @@
 import styles from "./userpage.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
 import Btd6MapRow from "@/components/maps/Btd6MapRow";
-import SelectorButton from "@/components/maps/SelectorButton";
+import SelectorButton from "@/components/buttons/SelectorButton";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";

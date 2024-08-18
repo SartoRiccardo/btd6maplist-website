@@ -1,6 +1,6 @@
 "use client";
 import "./difficultyselector.css";
-import SelectorButton from "./SelectorButton";
+import SelectorButton from "../buttons/SelectorButton";
 
 function DifficultySelector({ onChange, value, difficulties }) {
   return (

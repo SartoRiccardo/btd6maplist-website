@@ -1,4 +1,4 @@
-import "./difficultyselector.css";
+import "../maps/difficultyselector.css";
 import { btd6Font } from "@/lib/fonts";
 
 export default function SelectorButton({ text, children, active, className }) {

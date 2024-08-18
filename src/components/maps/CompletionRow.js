@@ -1,6 +1,6 @@
 import "./maplistcompletions.css";
 import MaplistPoints from "./MaplistPoints";
-import SelectorButton from "./SelectorButton";
+import SelectorButton from "../buttons/SelectorButton";
 
 export default function CompletionRow({
   completion,
