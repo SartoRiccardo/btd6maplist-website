@@ -9,6 +9,7 @@ import { Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/maps/SelectorButton";
 import { listVersions } from "@/utils/maplistUtils";
+import { LoggedUserRun } from "./page.client";
 
 export default async function MapOverview({ params }) {
   const { code } = params;
@@ -145,6 +146,8 @@ export default async function MapOverview({ params }) {
       </div>
 
       <h2 className="text-center">Completions</h2>
+
+      <LoggedUserRun mapData={mapData} />
 
       {lccs.length ? (
         <>

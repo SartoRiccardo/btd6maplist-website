@@ -1,10 +1,13 @@
 "use client";
 import "./btd6map.css";
+import "./maplistcompletions.css";
 import Link from "next/link";
 import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";
 import { useAppSelector } from "@/lib/store";
 import { selectMaplistConfig } from "@/features/maplistSlice";
+
+const MEDAL_SIZE = 60;
 
 export default function Btd6Map({
   name,
@@ -15,6 +18,8 @@ export default function Btd6Map({
   otherCodes,
   verified,
   className,
+  completion,
+  showMedals,
 }) {
   const maplistCfg = useAppSelector(selectMaplistConfig);
 
@@ -28,6 +33,7 @@ export default function Btd6Map({
         )}{" "}
         {name}
       </p>
+
       {placement !== undefined && Object.keys(maplistCfg).length && (
         <div className={`points shadow`}>
           <p className={`my-0 text-center ${btd6Font.className} font-border`}>
@@ -36,7 +42,41 @@ export default function Btd6Map({
         </div>
       )}
 
-      <img src={`https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`} />
+      <img
+        className="btd6mapImage"
+        src={`https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`}
+      />
+
+      {showMedals && (
+        <div className="btd6map-medals d-flex">
+          <img
+            src={
+              completion && completion.black_border
+                ? "/medal_bb.webp"
+                : "/medal_win.webp"
+            }
+            width={MEDAL_SIZE}
+            height={MEDAL_SIZE}
+            className={`${!completion ? "comp-blocked" : ""}`}
+          />
+          <img
+            src="/medal_nogerry.png"
+            width={MEDAL_SIZE}
+            height={MEDAL_SIZE}
+            className={`${
+              !(completion && completion.no_geraldo) ? "comp-blocked" : ""
+            } mx-2`}
+          />
+          <img
+            src="/medal_lcc.webp"
+            width={MEDAL_SIZE}
+            height={MEDAL_SIZE}
+            className={
+              !(completion && completion.current_lcc) ? "comp-blocked" : ""
+            }
+          />
+        </div>
+      )}
 
       {verified && (!name || name.length === 0) && (
         <i className={`verifiedCheck bi bi-check-square-fill`} />
