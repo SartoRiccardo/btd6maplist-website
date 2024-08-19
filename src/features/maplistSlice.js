@@ -7,7 +7,10 @@ export const maplistSlice = createSlice({
   },
   reducers: {
     setConfig: (state, { payload }) => {
-      state.config = payload.config;
+      state.config = {
+        ...state.config,
+        ...payload.config,
+      };
     },
   },
 });

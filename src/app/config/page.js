@@ -1,8 +1,9 @@
 "use client";
 import { selectDiscordAccessToken } from "@/features/authSlice";
-import { selectMaplistConfig } from "@/features/maplistSlice";
+import { selectMaplistConfig, setConfig } from "@/features/maplistSlice";
 import { useAppSelector } from "@/lib/store";
 import { editConfig } from "@/server/maplistRequests.client";
+import { revalidateLeaderboard } from "@/server/revalidations";
 import { isFloat, isInt } from "@/utils/functions";
 import { Formik } from "formik";
 import { Fragment } from "react";
@@ -65,6 +66,8 @@ export default function ConfigVarPage() {
       setErrors(errors);
       return;
     }
+    revalidateLeaderboard();
+    dispatch(setConfig({ config: data }));
   };
 
   return (
@@ -80,30 +83,34 @@ export default function ConfigVarPage() {
           <Form onSubmit={handleSubmit}>
             <div className="panel panel-container">
               <div className="row flex-row-space">
-                {Object.keys(config).map((key) => (
-                  <Fragment key={key}>
-                    <div className="col-5 col-sm-6">
-                      <p>{configNames[key]}</p>
-                    </div>
-                    <div className="col-7 col-sm-6">
-                      <Form.Group>
-                        <Form.Control
-                          name={key}
-                          type="text"
-                          placeholder={defaultVals[key]}
-                          value={values[key]}
-                          onChange={handleChange}
-                          isInvalid={values[key].length === 0 || key in errors}
-                          disabled={isSubmitting}
-                          autoComplete="off"
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors[key]}
-                        </Form.Control.Feedback>
-                      </Form.Group>
-                    </div>
-                  </Fragment>
-                ))}
+                {Object.keys(config)
+                  .sort()
+                  .map((key) => (
+                    <Fragment key={key}>
+                      <div className="col-5 col-sm-6">
+                        <p>{configNames[key]}</p>
+                      </div>
+                      <div className="col-7 col-sm-6">
+                        <Form.Group>
+                          <Form.Control
+                            name={key}
+                            type="text"
+                            placeholder={defaultVals[key]}
+                            value={values[key]}
+                            onChange={handleChange}
+                            isInvalid={
+                              values[key].length === 0 || key in errors
+                            }
+                            disabled={isSubmitting}
+                            autoComplete="off"
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {errors[key]}
+                          </Form.Control.Feedback>
+                        </Form.Group>
+                      </div>
+                    </Fragment>
+                  ))}
               </div>
             </div>
 
