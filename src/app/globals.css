@@ -94,6 +94,11 @@ h6 {
   justify-content: center;
 }
 
+.flex-hcenter {
+  display: flex;
+  justify-content: center;
+}
+
 .flex-row-space {
   row-gap: 0.5rem;
 }

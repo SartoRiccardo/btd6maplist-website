@@ -1,0 +1,18 @@
+.mapcode-input {
+  width: 15rem;
+  margin: 0 auto 0.5rem auto;
+}
+
+.map-preview {
+  position: relative;
+}
+
+.map-preview .map-name-container {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: -1rem;
+
+  display: flex;
+  justify-content: center;
+}
