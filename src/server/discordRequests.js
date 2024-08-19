@@ -75,6 +75,7 @@ export async function isInMaplist(accessToken) {
 
   const response = await fetch(`${API_BASE_URL}/users/@me/guilds`, {
     headers,
+    next: { revalidate: 60, tags: ["discord"] },
   });
 
   if (response.status !== 200) return false;
@@ -92,6 +93,7 @@ export async function getDiscordUser(accessToken) {
 
   const response = await fetch(`${API_BASE_URL}/users/@me`, {
     headers,
+    next: { revalidate: 60, tags: ["discord"] },
   });
 
   if (response.status !== 200) return null;
@@ -107,10 +109,11 @@ export async function getMaplistRoles(accessToken) {
     `${API_BASE_URL}/users/@me/guilds/${process.env.NEXT_PUBLIC_MLIST_GUILD}/member`,
     {
       headers,
+      next: { revalidate: 60, tags: ["discord"] },
     }
   );
 
   // Returns 404 if not in the server. Code 10004
-  if (!response.status.ok) return [];
+  if (!response.ok) return [];
   return (await response.json()).roles;
 }

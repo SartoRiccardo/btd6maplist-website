@@ -1,4 +1,3 @@
-import { getMaplistRoles } from "@/server/discordRequests";
 import { NextResponse } from "next/server";
 
 const matcher = ["/config.*"];
@@ -11,7 +10,10 @@ export default async function protectRoutesMiddleware(request, response) {
       if (!request.cookies.has("accessToken")) return resp404;
 
       const accessToken = JSON.parse(request.cookies.get("accessToken").value);
-      const roles = await getMaplistRoles(accessToken.access_token);
+      const rolesResp = await fetch(
+        `${process.env.HOST}/api/mwcache/uroles?token=${accessToken.access_token}`
+      );
+      const roles = await rolesResp.json();
       if (
         !(
           roles.includes(process.env.NEXT_PUBLIC_LISTMOD_ROLE) ||
