@@ -1,18 +1,14 @@
 import styles from "./leaderboard.module.css";
 import UserEntry from "@/components/users/UserEntry";
 import { getListLeaderboard } from "@/server/maplistRequests";
-import ListLeaderboardDifficulty from "./page.client";
 import Link from "next/link";
 import { getPositionColor } from "@/utils/functions";
+import { listVersions } from "@/utils/maplistUtils";
+import DifficultySelector from "@/components/maps/DifficultySelector";
+import { Button } from "react-bootstrap";
 
 export const metadata = {
-  title: "BTD6 Maplist Leaderboard",
-  description: "A community curated list of the best Bloons TD 6 custom maps",
-};
-
-const verToValue = {
-  current: 0,
-  all: 1,
+  title: "Leaderboard | BTD6 Maplist",
 };
 
 const leaderboards = [
@@ -21,7 +17,7 @@ const leaderboards = [
 ];
 
 export default async function ListLeaderboard({ searchParams }) {
-  let version = searchParams?.version || "current";
+  let version = searchParams?.format || "current";
   if (!["current", "all"].includes(version.toLowerCase())) {
     version = "current";
   }
@@ -31,29 +27,54 @@ export default async function ListLeaderboard({ searchParams }) {
   }
   const leaderboard = await getListLeaderboard(version, value);
 
+  let curFormat =
+    listVersions.find(({ query }) => version === query) || listVersions[0];
+
   return (
     <>
+      <title>
+        {`${value === "points" ? "Point" : "LCC"} Leaderboard${
+          version === "all" ? " (all versions)" : ""
+        } | BTD6 Maplist`}
+      </title>
+
       <h1 className="text-center">Leaderboard</h1>
 
-      <ListLeaderboardDifficulty value={verToValue[version]} />
+      <DifficultySelector
+        value={curFormat.value}
+        difficulties={listVersions}
+        href={
+          `/list/leaderboard?` +
+          new URLSearchParams({
+            ...searchParams,
+            format: "{queryval}",
+          }).toString()
+        }
+      />
 
       <div className={`d-flex justify-content-center ${styles.lbValueChooser}`}>
-        {leaderboards.map(({ key, title }) => (
-          <Link
-            scroll={false}
-            key={key}
-            href={`/list/leaderboard?version=${version}&value=${key}`}
-            className={`${
-              key === value ? styles.lbValueActive : ""
-            } font-border`}
-          >
-            <div className="fs-3 panel">
-              <p className="mb-0">
-                <b>{title}</b>
-              </p>
-            </div>
-          </Link>
-        ))}
+        {leaderboards.map(({ key, title }) => {
+          const isActive = key === value;
+          return isActive ? (
+            <Button className={isActive ? "active" : ""} key={key}>
+              {title}
+            </Button>
+          ) : (
+            <Link
+              key={key}
+              scroll={false}
+              href={
+                `/list/leaderboard?` +
+                new URLSearchParams({ ...searchParams, value: key }).toString()
+              }
+              className={`${
+                key === value ? styles.lbValueActive : ""
+              } font-border`}
+            >
+              <Button className={isActive ? "active" : ""}>{title}</Button>
+            </Link>
+          );
+        })}
       </div>
 
       <div className="my-4">

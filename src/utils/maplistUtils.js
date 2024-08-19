@@ -22,6 +22,7 @@ export const calcMapPoints = (
 export const difficulties = [
   {
     name: "Casual",
+    query: "casual",
     value: 0,
     image: "/icon_casual.png",
     description:
@@ -29,6 +30,7 @@ export const difficulties = [
   },
   {
     name: "Medium",
+    query: "medium",
     value: 1,
     image: "/icon_medium.png",
     description:
@@ -36,6 +38,7 @@ export const difficulties = [
   },
   {
     name: "Hard",
+    query: "hard",
     value: 2,
     image: "/icon_hard.png",
     description:
@@ -43,6 +46,7 @@ export const difficulties = [
   },
   {
     name: "True",
+    query: "true",
     value: 3,
     image: "/icon_true.png",
     description:
@@ -54,14 +58,16 @@ export const listVersions = [
   {
     name: "Current",
     short: "Cur",
-    value: 0,
+    query: "current",
+    value: 1,
     image: "/icon_curver.png",
     description: "",
   },
   {
     name: "All Versions",
     short: "All",
-    value: 1,
+    query: "all",
+    value: 2,
     image: "/icon_allver.png",
     description: "",
   },
