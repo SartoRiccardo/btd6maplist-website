@@ -68,11 +68,10 @@ export default function EditSelf() {
           name: maplistProfile.name,
           oak: maplistProfile.oak || "",
         }}
-        validateOnBlur
       >
         {({ handleSubmit, handleChange, values, errors, isSubmitting }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <div className="panel my-3 py-3">
+            <div className="panel panel-container">
               <div className="row flex-row-space">
                 <div className="col-5 col-sm-6">
                   <p>Username</p>

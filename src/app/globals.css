@@ -73,6 +73,13 @@ h6 {
   border-radius: 0.5rem;
 }
 
+.panel-container {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .p-relative {
   position: relative;
 }

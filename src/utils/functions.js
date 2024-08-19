@@ -15,3 +15,11 @@ export function listEquals(l1, l2) {
   for (let i = 0; i < l1.length; i++) if (l1[i] !== l2[i]) return false;
   return true;
 }
+
+export function isInt(str) {
+  return /^[0-9]+$/.test(str);
+}
+
+export function isFloat(str) {
+  return /^[0-9]+(?:\.[0-9]+)?$/.test(str);
+}
