@@ -1,5 +1,3 @@
-import { maplistGuild } from "@/utils/maplistDiscord";
-
 const API_BASE_URL = "https://discord.com/api/v10";
 
 export async function getAccessToken(code) {
@@ -82,7 +80,7 @@ export async function isInMaplist(accessToken) {
   if (response.status !== 200) return false;
   const data = await response.json();
   for (const guild of data) {
-    if (guild.id === maplistGuild) return true;
+    if (guild.id === process.env.NEXT_PUBLIC_MLIST_GUILD) return true;
   }
   return false;
 }
@@ -106,7 +104,7 @@ export async function getMaplistRoles(accessToken) {
   };
 
   const response = await fetch(
-    `${API_BASE_URL}/users/@me/guilds/${maplistGuild}/member`,
+    `${API_BASE_URL}/users/@me/guilds/${process.env.NEXT_PUBLIC_MLIST_GUILD}/member`,
     {
       headers,
     }
