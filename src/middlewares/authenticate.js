@@ -3,7 +3,7 @@ import { refreshAccessToken } from "../server/discordRequests";
 
 const REFRESH_BEFORE = 3600 * 24 * 2;
 
-export default async function authenticateMiddleware(request) {
+export default async function authenticateMiddleware(request, response) {
   if (!request.cookies.has("accessToken")) return;
 
   let accessToken = null;
@@ -27,7 +27,6 @@ export default async function authenticateMiddleware(request) {
       return;
     }
 
-    let response = NextResponse.next();
     response.cookies.set(
       "accessToken",
       JSON.stringify({

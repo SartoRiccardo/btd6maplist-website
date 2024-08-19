@@ -4,6 +4,7 @@ import stylesNav from "./header/navbar.module.css";
 import Link from "next/link";
 import { NavbarMobile } from "./header/NavbarMobile";
 import NavLogin from "./header/NavLogin";
+import ProtectedLinks from "./header/ProtectedLinks";
 
 export default function Header() {
   return (
@@ -22,6 +23,8 @@ export default function Header() {
           <nav>
             <div className="d-none d-md-block">
               <ul className={`${stylesNav.navbar}`}>
+                <ProtectedLinks />
+
                 <li>
                   <a href="#">
                     Maps <i className="bi bi-caret-down-fill" />

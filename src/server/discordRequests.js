@@ -111,6 +111,6 @@ export async function getMaplistRoles(accessToken) {
   );
 
   // Returns 404 if not in the server. Code 10004
-  if (response.status !== 200) return [];
+  if (!response.status.ok) return [];
   return (await response.json()).roles;
 }
