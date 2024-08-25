@@ -15,6 +15,8 @@ import { revalidateUser } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const MAX_NAME_LEN = 100;
+
 export default function EditSelf_C() {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
   const { access_token } = useAppSelector(selectDiscordAccessToken);
@@ -25,6 +27,11 @@ export default function EditSelf_C() {
   const validate = async (values) => {
     const errors = {};
     if (!values.name.length) errors.name = "Name cannot be blank";
+    else if (values.name.length > MAX_NAME_LEN)
+      errors.name = "Name is too long";
+    else if (!/$[a-zA-Z0-9\._-]+^/.test(values.name))
+      errors.name = 'Name can only have alphanumeric characters or "_-."';
+
     if (values.oak.length) {
       if (!values.oak.startsWith("oak_"))
         errors.oak = (
