@@ -67,6 +67,14 @@ h6 {
   margin-bottom: 1.5rem;
 }
 
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: center;
+}
+
 .panel {
   background-color: var(--color-secondary);
   padding: 0.3rem 0.7rem;
