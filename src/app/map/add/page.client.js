@@ -13,6 +13,9 @@ import { isFloat } from "@/utils/functions";
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
 const MAX_TEXT_LEN = 100;
+const MAX_ALIAS_LENGTH = 20;
+
+const randomAliases = ["ouch", "bluddles", "muddles", "ws", "wshop"];
 
 const placementFields = ["placement_curver", "placement_allver"];
 const urlFields = ["r6_start", "map_data"];
@@ -59,6 +62,13 @@ export default function MapForm_C({ initialValues, code }) {
     if (!values.name.length) errors.name = "Name cannot be blank";
     else if (values.name.length > MAX_NAME_LEN)
       errors.name = "Name is too long";
+
+    for (let i = 0; i < values.aliases.length; i++)
+      if (values.aliases[i].alias.length > MAX_ALIAS_LENGTH)
+        errors[`aliases[${i}].alias`] = "Alias is too long";
+      else if (!/^[a-zA-Z0-9_-]*$/.test(values.aliases[i].alias))
+        errors[`aliases[${i}].alias`] =
+          'Alias can only have alphanumeric characters or "_-"';
 
     for (const urlField of urlFields)
       if (values[urlField].length > MAX_URL_LEN)
@@ -127,6 +137,7 @@ export default function MapForm_C({ initialValues, code }) {
           verifiers: [{ id: 0, version: "" }],
           additional_codes: [],
           version_compatibilities: [{ version: "", status: 0 }],
+          aliases: [],
         }
       }
       onSubmit={handleSubmit}
@@ -298,6 +309,44 @@ export default function MapForm_C({ initialValues, code }) {
                         </div>
                       </div>
                     </div>
+
+                    <h2 className="mt-3">Aliases</h2>
+                    <AddableField name="aliases" defaultValue={{ alias: "" }}>
+                      {values.aliases.length > 0 && (
+                        <p className="muted text-center">
+                          Leave an alias field blank to delete it.
+                        </p>
+                      )}
+
+                      {values.aliases.map(({ alias, count }, i) => (
+                        <div
+                          key={count || -1}
+                          className="col-4 col-md-3 col-xl-2"
+                        >
+                          <Form.Group>
+                            <Form.Control
+                              name={`aliases[${i}].alias`}
+                              type="text"
+                              placeholder={
+                                randomAliases[i % randomAliases.length]
+                              }
+                              value={alias}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              isInvalid={
+                                touched.aliases &&
+                                `aliases[${i}].alias` in errors
+                              }
+                              disabled={isSubmitting}
+                              autoComplete="off"
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              {errors[`aliases[${i}].alias`]}
+                            </Form.Control.Feedback>
+                          </Form.Group>
+                        </div>
+                      ))}
+                    </AddableField>
 
                     <h2 className="mt-3">Creators</h2>
                     <AddableField
