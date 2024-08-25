@@ -152,3 +152,19 @@ a.white-text {
   background-color: var(--color-less-highlight);
   transition: background-color 0.2s linear;
 }
+
+/* Misc */
+
+/* xs */
+@media only screen and (max-width: 575.98px) {
+  .lb-position {
+    margin-left: -1rem;
+  }
+}
+
+/* <=sm */
+@media only screen and (max-width: 767.98px) {
+  .lb-position {
+    margin-left: -0.5rem;
+  }
+}

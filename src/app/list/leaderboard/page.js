@@ -90,7 +90,7 @@ export default async function ListLeaderboard({ searchParams }) {
               style={style}
             >
               <div className="col-1 d-flex flex-column justify-content-center">
-                <p className="fs-4 text-center mb-0">#{position}</p>
+                <p className="fs-4 lb-position text-center mb-0">#{position}</p>
               </div>
               <div className="col-8">
                 <UserEntry id={user_id} centered lead="sm" />
