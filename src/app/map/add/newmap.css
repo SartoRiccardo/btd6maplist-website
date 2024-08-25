@@ -20,3 +20,22 @@
 .btn.map-form-rm-field {
   margin-top: 31px;
 }
+
+.vcompat {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.vcompat > * {
+  display: inline-block;
+}
+
+.vcompat .vcompat-input {
+  width: 4rem;
+}
+
+.vcompat .vcompat-select {
+  flex: 1;
+  max-width: 15rem;
+}

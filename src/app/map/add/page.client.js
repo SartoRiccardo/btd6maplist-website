@@ -18,7 +18,7 @@ const placementFields = ["placement_curver", "placement_allver"];
 const urlFields = ["r6_start", "map_data"];
 const versionFields = [
   { field: "verifiers", inner: "version", req: false },
-  //   { field: "version_compatibilities", inner: "version", req: true },
+  { field: "version_compatibilities", inner: "version", req: true },
 ];
 const textFields = [
   { field: "creators", inner: "role" },
@@ -137,11 +137,11 @@ export default function MapForm_C({ initialValues, code }) {
           handleChange,
           handleBlur,
           values,
+          setValues,
           touched,
           errors,
           isSubmitting,
         } = formikProps;
-        console.log(errors);
 
         return (
           <FormikContext.Provider value={formikProps}>
@@ -350,7 +350,92 @@ export default function MapForm_C({ initialValues, code }) {
                     </AddableField>
 
                     <h2 className="mt-3">Version Compatibility</h2>
-                    <div className="col-12"></div>
+                    <p className="muted text-center">
+                      By default, it assumes the map is unplayable since v39.0
+                      onwards.
+                    </p>
+                    <AddableField
+                      name="version_compatibilities"
+                      defaultValue={{ version: "", status: "0" }}
+                    >
+                      <div className="flex-hcenter">
+                        <div>
+                          {values.version_compatibilities.map(
+                            ({ version, status, count }, i) => (
+                              <div key={count || -1} className="vcompat">
+                                <p>Since v&nbsp;</p>
+                                <Form.Group className="vcompat-input">
+                                  <Form.Control
+                                    name={`version_compatibilities[${i}].version`}
+                                    type="text"
+                                    value={version}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    isInvalid={
+                                      touched.version_compatibilities &&
+                                      `version_compatibilities[${i}].version` in
+                                        errors
+                                    }
+                                    isValid={
+                                      values[
+                                        `version_compatibilities[${i}].version`
+                                      ]
+                                    }
+                                    disabled={isSubmitting}
+                                    autoComplete="off"
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {
+                                      errors[
+                                        `version_compatibilities[${i}].version`
+                                      ]
+                                    }
+                                  </Form.Control.Feedback>
+                                </Form.Group>
+                                <p>&nbsp;the map&nbsp;</p>
+                                <div className="vcompat-select">
+                                  <Form.Select
+                                    name={`version_compatibilities[${i}].status`}
+                                    value={status}
+                                    onChange={handleChange}
+                                    disabled={isSubmitting}
+                                  >
+                                    <option value="0">is playable</option>
+                                    <option value="1">crashes</option>
+                                    <option value="2">
+                                      has only visal diffs
+                                    </option>
+                                    <option value="3">
+                                      runs, but isn't recommended
+                                    </option>
+                                  </Form.Select>
+                                </div>
+                                {i > 0 && (
+                                  <div>
+                                    <div className="d-flex flex-column w-100">
+                                      <Button
+                                        variant="danger"
+                                        onClick={(_e) =>
+                                          setValues({
+                                            ...values,
+                                            version_compatibilities:
+                                              values.version_compatibilities.filter(
+                                                (_v, idx) => idx !== i
+                                              ),
+                                          })
+                                        }
+                                      >
+                                        <i className="bi bi-dash" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    </AddableField>
                   </div>
 
                   <div className="flex-hcenter mt-5">
