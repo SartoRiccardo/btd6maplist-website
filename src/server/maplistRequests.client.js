@@ -4,7 +4,7 @@ export async function editProfile(token, userId, profile) {
     {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ ...profile }),
+      body: JSON.stringify(profile),
     }
   );
   return await response.json();
