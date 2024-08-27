@@ -31,6 +31,11 @@
   display: inline-block;
 }
 
+.vcompat > p {
+  margin-top: 0.4rem;
+  margin-bottom: 0;
+}
+
 .vcompat .vcompat-input {
   width: 4rem;
 }

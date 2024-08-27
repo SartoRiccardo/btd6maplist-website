@@ -55,6 +55,7 @@ export default function MapForm_C({ initialValues, code }) {
   const [currentMap, setCurrentMap] = useState(
     code ? { code, valid: true } : null
   );
+  const [showErrorCount, setShowErrorCount] = useState(false);
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
   const maplistCfg = useAppSelector(selectMaplistConfig);
   const accessToken = useAppSelector(selectDiscordAccessToken);
@@ -138,6 +139,9 @@ export default function MapForm_C({ initialValues, code }) {
       errors.difficulty = "At least one of these is required";
     }
 
+    if (values.creators[0].id.length === 0)
+      errors["creators[0].id"] = "Must have at least 1 creator";
+
     return errors;
   };
 
@@ -220,8 +224,8 @@ export default function MapForm_C({ initialValues, code }) {
           r6_start: "",
           map_data: "",
           map_data_req_permission: false,
-          creators: [{ id: 0, role: "" }],
-          verifiers: [{ id: 0, version: "" }],
+          creators: [{ id: "", role: "" }],
+          verifiers: [{ id: "", version: "" }],
           additional_codes: [],
           version_compatibilities: [],
           aliases: [],
@@ -242,9 +246,36 @@ export default function MapForm_C({ initialValues, code }) {
           isSubmitting,
         } = formikProps;
 
+        let errorCount = Object.keys(errors).length;
+        if (
+          !maplistProfile.roles.includes(
+            process.env.NEXT_PUBLIC_LISTMOD_ROLE
+          ) &&
+          "placement_allver" in errors
+        )
+          errorCount--;
+        if (
+          !maplistProfile.roles.includes(
+            process.env.NEXT_PUBLIC_LISTMOD_ROLE
+          ) &&
+          "placement_curver" in errors
+        )
+          errorCount--;
+        if (
+          !maplistProfile.roles.includes(process.env.NEXT_PUBLIC_EXPMOD_ROLE) &&
+          "difficulty" in errors
+        )
+          errorCount--;
+
         return (
           <FormikContext.Provider value={formikProps}>
-            <Form onSubmit={handleSubmit} key={0}>
+            <Form
+              onSubmit={(evt) => {
+                setShowErrorCount(true);
+                handleSubmit(evt);
+              }}
+              key={0}
+            >
               <Form.Group className="mapcode-input">
                 <Form.Label>Map Code</Form.Label>
                 <Form.Control
@@ -580,6 +611,11 @@ export default function MapForm_C({ initialValues, code }) {
                       Submit
                     </Button>
                   </div>
+                  {showErrorCount && (
+                    <p className="text-center text-danger mt-3">
+                      There are {errorCount} fields to compile correctly
+                    </p>
+                  )}
                 </>
               )}
             </Form>
@@ -671,6 +707,10 @@ function TwoFieldEntry({
     const topLevelField1 = fields[0].split("[")[0].split("(")[0];
     const topLevelField2 = fields[1].split("[")[0].split("(")[0];
 
+    // Not flexible, should split by "." walk through the list
+    const value1 = values[name][i][fields[0].split(".")[1]];
+    const value2 = values[name][i][fields[1].split(".")[1]];
+
     return (
       <Fragment key={count || -1}>
         <div className="col-12 col-md-5 col-lg-6">
@@ -681,7 +721,7 @@ function TwoFieldEntry({
             <Form.Control
               name={realField1}
               type="text"
-              value={values[realField1]}
+              value={value1}
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={touched[topLevelField1] && realField1 in errors}
@@ -704,11 +744,11 @@ function TwoFieldEntry({
               <Form.Control
                 name={realField2}
                 type="text"
-                value={values[realField2]}
+                value={value2}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 isInvalid={touched[topLevelField2] && realField2 in errors}
-                isValid={values[realField2]}
+                isValid={value2}
                 disabled={isSubmitting}
                 autoComplete="off"
                 {...secondProps}
