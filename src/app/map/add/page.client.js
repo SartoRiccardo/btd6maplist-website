@@ -5,10 +5,14 @@ import { Formik } from "formik";
 import { createContext, Fragment, useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useAppSelector } from "@/lib/store";
-import { selectMaplistProfile } from "@/features/authSlice";
+import {
+  selectDiscordAccessToken,
+  selectMaplistProfile,
+} from "@/features/authSlice";
 import { selectMaplistConfig } from "@/features/maplistSlice";
 import { difficulties } from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
+import { addMap } from "@/server/maplistRequests.client";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -18,15 +22,32 @@ const MAX_ALIAS_LENGTH = 20;
 const randomAliases = ["ouch", "bluddles", "muddles", "ws", "wshop"];
 
 const placementFields = ["placement_curver", "placement_allver"];
+const distinctFields = {
+  aliases: "alias",
+  additional_codes: "code",
+  creators: "id",
+  version_compatibilities: "version",
+};
 const urlFields = ["r6_start", "map_data"];
 const versionFields = [
   { field: "verifiers", inner: "version", req: false },
-  { field: "version_compatibilities", inner: "version", req: true },
+  { field: "version_compatibilities", inner: "version", req: false },
 ];
 const textFields = [
   { field: "creators", inner: "role" },
   { field: "additional_codes", inner: "description" },
 ];
+
+const getRepeatedIndexes = (list) => {
+  const sortedList = list
+    .map((val, i) => ({ val, i }))
+    .toSorted((a, b) => (a.val > b.val ? 1 : -1));
+  const repeated = [];
+  for (let i = 1; i < sortedList.length; i++)
+    if (sortedList[i].val === sortedList[i - 1].val)
+      repeated.push(sortedList[i].i);
+  return repeated;
+};
 
 const FormikContext = createContext({});
 
@@ -36,6 +57,7 @@ export default function MapForm_C({ initialValues, code }) {
   );
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
   const maplistCfg = useAppSelector(selectMaplistConfig);
+  const accessToken = useAppSelector(selectDiscordAccessToken);
 
   if (!maplistProfile) return null;
 
@@ -69,6 +91,16 @@ export default function MapForm_C({ initialValues, code }) {
       else if (!/^[a-zA-Z0-9_-]*$/.test(values.aliases[i].alias))
         errors[`aliases[${i}].alias`] =
           'Alias can only have alphanumeric characters or "_-"';
+
+    for (const field of Object.keys(distinctFields)) {
+      const repeatedIdx = getRepeatedIndexes(
+        values[field].map((x) => x[distinctFields[field]])
+      );
+      for (const idx of repeatedIdx)
+        if (values[field][idx][distinctFields[field]].toString().length)
+          errors[`${field}[${idx}].${distinctFields[field]}`] =
+            "Field is repeated";
+    }
 
     for (const urlField of urlFields)
       if (values[urlField].length > MAX_URL_LEN)
@@ -115,9 +147,64 @@ export default function MapForm_C({ initialValues, code }) {
         ? values.code.toUpperCase()
         : values.code.match(/^https:\/\/join\.btd6\.com\/Map\/([A-Z]{7})$/)[1];
 
-    console.log({ ...values, code });
+    const removeFieldCode = (array) =>
+      array.map((obj) => {
+        const ret = { ...obj };
+        delete ret.count;
+        return ret;
+      });
 
-    /* Submit request and use setErrors from the returned payload */
+    const payload = {
+      ...values,
+      placement_curver:
+        values.placement_curver === "" ? -1 : parseInt(values.placement_curver),
+      placement_allver:
+        values.placement_allver === "" ? -1 : parseInt(values.placement_allver),
+      difficulty: parseInt(values.difficulty),
+      map_data: values.map_data_req_permission
+        ? "a"
+        : values.map_data.length
+        ? values.map_data
+        : null,
+      r6_start: values.r6_start.length ? values.r6_start : null,
+      aliases: values.aliases
+        .map(({ alias }) => alias)
+        .filter((a) => a.length > 0),
+      additional_codes: removeFieldCode(values.additional_codes)
+        .filter(({ code }) => code.length > 0)
+        .map(({ code, description }) => ({
+          code,
+          description: description.length ? description : null,
+        })),
+      version_compatibilities: removeFieldCode(values.version_compatibilities)
+        .filter(({ version }) => version.length > 0)
+        .map(({ version, status }) => ({
+          version: parseFloat(version) * 10,
+          status: parseInt(status),
+        })),
+      creators: removeFieldCode(values.creators)
+        .filter(({ id }) => id.length > 0)
+        .map(({ id, role }) => ({
+          id,
+          role: role.length ? role : null,
+        })),
+      verifiers: removeFieldCode(values.verifiers)
+        .filter(({ id }) => id.length > 0)
+        .map(({ id, version }) => ({
+          id,
+          version: version.length ? parseFloat(version) * 10 : null,
+        })),
+    };
+    delete payload.map_data_req_permission;
+
+    const result = await addMap(accessToken.access_token, payload);
+    if (result && Object.keys(result.errors).length) {
+      setErrors(result.errors);
+      return;
+    }
+
+    // revalidate maps;
+    // navigate to new map;
   };
 
   return (
@@ -136,8 +223,9 @@ export default function MapForm_C({ initialValues, code }) {
           creators: [{ id: 0, role: "" }],
           verifiers: [{ id: 0, version: "" }],
           additional_codes: [],
-          version_compatibilities: [{ version: "", status: 0 }],
+          version_compatibilities: [],
           aliases: [],
+          // optimal_heros: [],
         }
       }
       onSubmit={handleSubmit}

@@ -29,4 +29,5 @@ export async function addMap(token, map) {
   });
   if (response.status === 401)
     return { errors: { "": "Unauthorized", data: {} } };
+  else if (!response.ok) return await response.json();
 }
