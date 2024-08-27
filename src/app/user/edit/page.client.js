@@ -29,7 +29,7 @@ export default function EditSelf_C() {
     if (!values.name.length) errors.name = "Name cannot be blank";
     else if (values.name.length > MAX_NAME_LEN)
       errors.name = "Name is too long";
-    else if (!/$[a-zA-Z0-9\._-]+^/.test(values.name))
+    else if (!/^[a-zA-Z0-9\._-]+$/.test(values.name))
       errors.name = 'Name can only have alphanumeric characters or "_-."';
 
     if (values.oak.length) {
@@ -91,6 +91,7 @@ export default function EditSelf_C() {
                       onChange={handleChange}
                       isInvalid={"name" in errors}
                       disabled={isSubmitting}
+                      autocomplete="off"
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.name}
@@ -111,6 +112,7 @@ export default function EditSelf_C() {
                       onChange={handleChange}
                       isInvalid={"oak" in errors}
                       disabled={isSubmitting}
+                      autocomplete="off"
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.oak}
