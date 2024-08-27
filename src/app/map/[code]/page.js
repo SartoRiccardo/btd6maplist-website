@@ -80,13 +80,17 @@ export default async function MapOverview({ params }) {
         <div className="col-12 col-md-6 col-lg-7">
           <div className={`${styles.mapInfo} h-100 row shadow`}>
             <div className="col-6 col-md-12 col-lg-6 mb-3">
-              <h3>Creator{mapData.creators.length > 1 && "s"}</h3>
+              <h3 className="text-start">
+                Creator{mapData.creators.length > 1 && "s"}
+              </h3>
               {mapData.creators.map(({ id, role }) => (
                 <UserEntry key={id} id={id} label={role} />
               ))}
             </div>
             <div className="col-6 col-md-12 col-lg-6 mb-3">
-              <h3>Verifier{mapData.verifications.length > 1 && "s"}</h3>
+              <h3 className="text-start">
+                Verifier{mapData.verifications.length > 1 && "s"}
+              </h3>
               {mapData.verifications.map(({ verifier, version }) => (
                 <UserEntry
                   key={{ verifier, version }}
@@ -98,9 +102,9 @@ export default async function MapOverview({ params }) {
             {(mapData.map_data ||
               mapData.map_data_compatibility.length > 0) && (
               <div className="col-12 mb-3">
-                {mapData.map_data ? (
+                {mapData.map_data && mapData.map_data !== "a" ? (
                   <a href={mapData.map_data} target="_blank">
-                    <h3>
+                    <h3 className="text-start">
                       Map Data{" "}
                       {mapData.map_data_compatibility.length > 0 &&
                         "& Compatibility"}
@@ -109,7 +113,7 @@ export default async function MapOverview({ params }) {
                     </h3>
                   </a>
                 ) : (
-                  <h3>
+                  <h3 className="text-start">
                     Map Data{" "}
                     {mapData.map_data_compatibility.length > 0 &&
                       "& Compatibility"}

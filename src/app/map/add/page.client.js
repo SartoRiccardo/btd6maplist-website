@@ -13,6 +13,8 @@ import { selectMaplistConfig } from "@/features/maplistSlice";
 import { difficulties } from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
 import { addMap } from "@/server/maplistRequests.client";
+import { revalidateAddMap } from "@/server/revalidations";
+import { useRouter } from "next/navigation";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -55,10 +57,12 @@ export default function MapForm_C({ initialValues, code }) {
   const [currentMap, setCurrentMap] = useState(
     code ? { code, valid: true } : null
   );
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [showErrorCount, setShowErrorCount] = useState(false);
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
   const maplistCfg = useAppSelector(selectMaplistConfig);
   const accessToken = useAppSelector(selectDiscordAccessToken);
+  const router = useRouter();
 
   if (!maplistProfile) return null;
 
@@ -183,7 +187,7 @@ export default function MapForm_C({ initialValues, code }) {
       version_compatibilities: removeFieldCode(values.version_compatibilities)
         .filter(({ version }) => version.length > 0)
         .map(({ version, status }) => ({
-          version: parseFloat(version) * 10,
+          version: parseFloat(version),
           status: parseInt(status),
         })),
       creators: removeFieldCode(values.creators)
@@ -207,8 +211,8 @@ export default function MapForm_C({ initialValues, code }) {
       return;
     }
 
-    // revalidate maps;
-    // navigate to new map;
+    setIsRedirecting(true);
+    revalidateAddMap(code).then(() => router.push(`/map/${code}`));
   };
 
   return (
@@ -268,7 +272,7 @@ export default function MapForm_C({ initialValues, code }) {
           errorCount--;
 
         return (
-          <FormikContext.Provider value={formikProps}>
+          <FormikContext.Provider value={{ ...formikProps, isRedirecting }}>
             <Form
               onSubmit={(evt) => {
                 setShowErrorCount(true);
@@ -290,7 +294,7 @@ export default function MapForm_C({ initialValues, code }) {
                     (values.code.length === 0 || "code" in errors)
                   }
                   isValid={!("code" in errors)}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isRedirecting}
                   autoComplete="off"
                 />
                 <Form.Control.Feedback type="invalid">
@@ -322,7 +326,7 @@ export default function MapForm_C({ initialValues, code }) {
                                 (values.name.length === 0 || "name" in errors)
                               }
                               isValid={!("name" in errors)}
-                              disabled={isSubmitting}
+                              disabled={isSubmitting || isRedirecting}
                               autoComplete="off"
                             />
                           </Form.Group>
@@ -368,7 +372,7 @@ export default function MapForm_C({ initialValues, code }) {
                                 name="difficulty"
                                 value={values.difficulty}
                                 onChange={handleChange}
-                                disabled={isSubmitting}
+                                disabled={isSubmitting || isRedirecting}
                               >
                                 <option value="-1">N/A</option>
                                 {difficulties.map(({ name, value }) => (
@@ -406,7 +410,7 @@ export default function MapForm_C({ initialValues, code }) {
                                 checked={values.map_data_req_permission}
                                 onChange={handleChange}
                                 label="Should ask permission to the creator"
-                                disabled={isSubmitting}
+                                disabled={isSubmitting || isRedirecting}
                               />
                             </Form.Group>
                           </SidebarField>
@@ -456,7 +460,7 @@ export default function MapForm_C({ initialValues, code }) {
                                 touched.aliases &&
                                 `aliases[${i}].alias` in errors
                               }
-                              disabled={isSubmitting}
+                              disabled={isSubmitting || isRedirecting}
                               autoComplete="off"
                             />
                             <Form.Control.Feedback type="invalid">
@@ -549,7 +553,7 @@ export default function MapForm_C({ initialValues, code }) {
                                         `version_compatibilities[${i}].version`
                                       ]
                                     }
-                                    disabled={isSubmitting}
+                                    disabled={isSubmitting || isRedirecting}
                                     autoComplete="off"
                                   />
                                   <Form.Control.Feedback type="invalid">
@@ -566,7 +570,7 @@ export default function MapForm_C({ initialValues, code }) {
                                     name={`version_compatibilities[${i}].status`}
                                     value={status}
                                     onChange={handleChange}
-                                    disabled={isSubmitting}
+                                    disabled={isSubmitting || isRedirecting}
                                   >
                                     <option value="0">is playable</option>
                                     <option value="1">crashes</option>
@@ -607,11 +611,14 @@ export default function MapForm_C({ initialValues, code }) {
                   </div>
 
                   <div className="flex-hcenter mt-5">
-                    <Button type="submit" disabled={isSubmitting}>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting || isRedirecting}
+                    >
                       Submit
                     </Button>
                   </div>
-                  {showErrorCount && (
+                  {showErrorCount && errorCount > 0 && (
                     <p className="text-center text-danger mt-3">
                       There are {errorCount} fields to compile correctly
                     </p>
@@ -639,8 +646,15 @@ function SidebarField({
   disabled,
 }) {
   const formikProps = useContext(FormikContext);
-  const { handleChange, handleBlur, values, touched, errors, isSubmitting } =
-    formikProps;
+  const {
+    handleChange,
+    handleBlur,
+    values,
+    touched,
+    errors,
+    isSubmitting,
+    isRedirecting,
+  } = formikProps;
 
   return (
     <>
@@ -665,7 +679,9 @@ function SidebarField({
                   ? isValid(formikProps)
                   : !(name in errors) && values[name]
               }
-              disabled={disabled ? disabled(formikProps) : isSubmitting}
+              disabled={
+                disabled ? disabled(formikProps) : isSubmitting || isRedirecting
+              }
               autoComplete="off"
             />
             {invalidFeedback && (
@@ -699,6 +715,7 @@ function TwoFieldEntry({
     touched,
     errors,
     isSubmitting,
+    isRedirecting,
   } = formikProps;
 
   return values[name].map(({ count }, i) => {
@@ -726,7 +743,7 @@ function TwoFieldEntry({
               onBlur={handleBlur}
               isInvalid={touched[topLevelField1] && realField1 in errors}
               isValid={values[realField1]}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isRedirecting}
               autoComplete="off"
               {...firstProps}
             />
@@ -749,7 +766,7 @@ function TwoFieldEntry({
                 onBlur={handleBlur}
                 isInvalid={touched[topLevelField2] && realField2 in errors}
                 isValid={value2}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isRedirecting}
                 autoComplete="off"
                 {...secondProps}
               />

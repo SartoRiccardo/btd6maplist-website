@@ -10,14 +10,17 @@ export async function maplistAuthenticate(token) {
 }
 
 export async function getExpertMaplist() {
-  const response = await fetch(`${process.env.API_URL}/exmaps`);
+  const response = await fetch(`${process.env.API_URL}/exmaps`, {
+    next: { tags: ["experts"] },
+  });
   if (response.status !== 200) return [];
   return await response.json();
 }
 
 export async function getTheList(version) {
   const response = await fetch(
-    `${process.env.API_URL}/maps?version=${version}`
+    `${process.env.API_URL}/maps?version=${version}`,
+    { next: { tags: ["list"] } }
   );
   if (response.status !== 200) return [];
   return await response.json();
@@ -51,7 +54,8 @@ export async function getUser(id) {
 
 export async function getListLeaderboard(version, value) {
   const response = await fetch(
-    `${process.env.API_URL}/maps/leaderboard?version=${version}&value=${value}`
+    `${process.env.API_URL}/maps/leaderboard?version=${version}&value=${value}`,
+    { next: { tags: ["leaderboard", "list"] } }
   );
   if (response.status !== 200) return [];
   return await response.json();
