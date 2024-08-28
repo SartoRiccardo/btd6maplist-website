@@ -212,7 +212,7 @@ function LCC({ lcc }) {
 
         <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
           {formats.map(({ short, image, value }) => (
-            <div className="pe-3">
+            <div className="pe-3" key={value}>
               <SelectorButton key={value} text={short} active>
                 <img src={image} width={40} height={40} />
               </SelectorButton>
