@@ -1,5 +1,5 @@
-import MapForm from "@/components/forms/MapForm";
 import { getMap } from "@/server/maplistRequests";
+import { MapForm_C } from "./page.client";
 
 export const metadata = {
   title: "Edit Map | BTD6 Maplist",
@@ -61,7 +61,7 @@ export default async function AddMap({ params }) {
     <>
       <h1 className="text-center">Edit Map - {code}</h1>
 
-      <MapForm code={code} initialValues={initialValues} />
+      <MapForm_C code={code} initialValues={initialValues} />
     </>
   );
 }

@@ -51,7 +51,13 @@ const getRepeatedIndexes = (list) => {
 
 const FormikContext = createContext({});
 
-export default function MapForm({ initialValues, code, onSubmit }) {
+export default function MapForm({
+  initialValues,
+  code,
+  onSubmit,
+  buttons,
+  submitText,
+}) {
   const [currentMap, setCurrentMap] = useState(
     code ? { code, valid: true } : null
   );
@@ -61,6 +67,9 @@ export default function MapForm({ initialValues, code, onSubmit }) {
   const maplistCfg = useMaplistConfig();
   const accessToken = useDiscordToken();
   const router = useRouter();
+
+  submitText = submitText || "Submit";
+  buttons = buttons || [];
 
   if (!authLevels.loaded) return null;
 
@@ -245,6 +254,7 @@ export default function MapForm({ initialValues, code, onSubmit }) {
           setValues,
           touched,
           errors,
+          setSubmitting,
           isSubmitting,
         } = formikProps;
 
@@ -597,12 +607,27 @@ export default function MapForm({ initialValues, code, onSubmit }) {
                     </AddableField>
                   </div>
 
-                  <div className="flex-hcenter mt-5">
+                  <div className="flex-hcenter flex-col-space mt-5">
+                    {buttons.map(({ text, onClick, variant }, i) => (
+                      <Button
+                        key={i}
+                        disabled={isSubmitting || isRedirecting}
+                        onClick={async (e) => {
+                          setSubmitting(true);
+                          await onClick(e);
+                          setSubmitting(false);
+                        }}
+                        variant={variant ? variant : null}
+                        className="big"
+                      >
+                        {text}
+                      </Button>
+                    ))}
                     <Button
                       type="submit"
                       disabled={isSubmitting || isRedirecting}
                     >
-                      Submit
+                      {submitText}
                     </Button>
                   </div>
                   {showErrorCount && errorCount > 0 && (
