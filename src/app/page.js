@@ -17,21 +17,22 @@ export default async function Home() {
         </span>
         in order to categorize and rank the hardest maps in the game because of
         the advent of the map editor.
-        <br />
-        <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
-          Discord
-        </a>{" "}
-        |{" "}
-        <a href="https://www.youtube.com/@btd6maplist" target="_blank">
-          YouTube
-        </a>{" "}
-        |{" "}
-        <a
-          href="https://github.com/stars/SartoRiccardo/lists/btd6-maplist"
-          target="blank"
-        >
-          GitHub
-        </a>
+        <div className="mt-3">
+          <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
+            Discord
+          </a>
+          {" | "}
+          <a href="https://www.youtube.com/@btd6maplist" target="_blank">
+            YouTube
+          </a>
+          {" | "}
+          <a
+            href="https://github.com/stars/SartoRiccardo/lists/btd6-maplist"
+            target="blank"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
 
       <h2>Formats</h2>
