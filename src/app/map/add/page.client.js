@@ -272,20 +272,23 @@ export default function MapForm_C({ initialValues, code }) {
           errorCount--;
 
         return (
-          <FormikContext.Provider value={{ ...formikProps, isRedirecting }}>
+          <FormikContext.Provider
+            value={{ ...formikProps, isRedirecting }}
+            key={0}
+          >
             <Form
               onSubmit={(evt) => {
                 setShowErrorCount(true);
                 handleSubmit(evt);
               }}
-              key={0}
+              className="addmap"
             >
               <Form.Group className="mapcode-input">
                 <Form.Label>Map Code</Form.Label>
                 <Form.Control
                   name="code"
                   type="text"
-                  placeholder={"CHIMENE"}
+                  placeholder={"ZFMOOKU"}
                   value={values.code}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -318,7 +321,7 @@ export default function MapForm_C({ initialValues, code }) {
                             <Form.Control
                               name="name"
                               type="text"
-                              placeholder={"chimene.mo's map"}
+                              placeholder={"Super Hard Map's name"}
                               value={values.name}
                               onChange={handleChange}
                               isInvalid={
@@ -487,6 +490,10 @@ export default function MapForm_C({ initialValues, code }) {
                     </AddableField>
 
                     <h2 className="mt-3">Verifications</h2>
+                    <p className="muted text-center">
+                      Verifications that aren't in the current update don't get
+                      shown in the map's info page.
+                    </p>
                     <AddableField
                       name="verifiers"
                       defaultValue={{ id: "", version: "" }}
@@ -582,26 +589,24 @@ export default function MapForm_C({ initialValues, code }) {
                                     </option>
                                   </Form.Select>
                                 </div>
-                                {i > 0 && (
-                                  <div>
-                                    <div className="d-flex flex-column w-100">
-                                      <Button
-                                        variant="danger"
-                                        onClick={(_e) =>
-                                          setValues({
-                                            ...values,
-                                            version_compatibilities:
-                                              values.version_compatibilities.filter(
-                                                (_v, idx) => idx !== i
-                                              ),
-                                          })
-                                        }
-                                      >
-                                        <i className="bi bi-dash" />
-                                      </Button>
-                                    </div>
+                                <div>
+                                  <div className="d-flex flex-column w-100">
+                                    <Button
+                                      variant="danger"
+                                      onClick={(_e) =>
+                                        setValues({
+                                          ...values,
+                                          version_compatibilities:
+                                            values.version_compatibilities.filter(
+                                              (_v, idx) => idx !== i
+                                            ),
+                                        })
+                                      }
+                                    >
+                                      <i className="bi bi-dash" />
+                                    </Button>
                                   </div>
-                                )}
+                                </div>
                               </div>
                             )
                           )}
