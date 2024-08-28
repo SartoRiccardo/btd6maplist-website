@@ -29,7 +29,10 @@ export default function NavLogin({ onNavigate }) {
         discOAuth2Params
       ).toString()}`}
     >
-      <li>Login</li>
+      <li>
+        <i className="bi bi-discord me-2" />
+        Login
+      </li>
     </a>
   );
   const cmpLoggedIn = (
