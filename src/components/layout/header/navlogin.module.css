@@ -19,6 +19,7 @@
 
 .profileContainer > span {
   padding-left: 0.15rem;
+  padding-right: 0.1rem;
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
