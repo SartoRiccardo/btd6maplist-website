@@ -6,15 +6,15 @@ export default async function Home() {
   return (
     <div className="text-center">
       <h1> Bloons TD 6 Maplist</h1>
-      <p className="text-center lead">
+      <div className="text-center lead mb-3">
         The BTD6 Maplist is a project started by
-        <div className="d-inline-block mx-2">
+        <span className="d-inline-block mx-2">
           <UserEntry id="513869624157405186" centered={true} inline />
-        </div>
+        </span>
         and
-        <div className="d-inline-block mx-2">
+        <span className="d-inline-block mx-2">
           <UserEntry id="300761010569216001" centered={true} inline />
-        </div>
+        </span>
         in order to categorize and rank the hardest maps in the game because of
         the advent of the map editor.
         <br />
@@ -32,7 +32,7 @@ export default async function Home() {
         >
           GitHub
         </a>
-      </p>
+      </div>
 
       <h2>Formats</h2>
       <p>
@@ -104,16 +104,16 @@ export default async function Home() {
             List and Insane Demon List.
           </li>
           <li className="my-2">
-            <div className="d-inline-block me-2">
+            <span className="d-inline-block me-2">
               <UserEntry id="508409944736006154" centered={true} inline />
-            </div>
+            </span>
             for helping to set up the Discord server and designing its profile
             picture
           </li>
           <li>
-            <div className="d-inline-block me-2">
+            <span className="d-inline-block me-2">
               <UserEntry id="1077309729942024302" centered={true} inline />
-            </div>
+            </span>
             for making and hosting both the website and the Discord bot
           </li>
         </ul>
