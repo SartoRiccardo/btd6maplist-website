@@ -9,7 +9,7 @@ import { Fragment, Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { listVersions } from "@/utils/maplistUtils";
-import { LoggedUserRun } from "./page.client";
+import { EditPencilAdmin, LoggedUserRun } from "./page.client";
 
 export default async function MapOverview({ params }) {
   const { code } = params;
@@ -18,6 +18,10 @@ export default async function MapOverview({ params }) {
   if (!mapData) return <ResourceNotFound label="map" />;
 
   let lccs = [];
+  mapData.lccs = mapData.lccs.map((obj) => ({
+    ...obj,
+    players: obj.players.map(({ id }) => id),
+  }));
   if (mapData.lccs.length) {
     let curRun = [
       mapData.lccs[0].leftover,
@@ -58,7 +62,10 @@ export default async function MapOverview({ params }) {
     <>
       <title>{`${mapData.name} | BTD6 Maplist`}</title>
 
-      <h1 className="text-center mb-2">{mapData.name}</h1>
+      <h1 className="text-center mb-2">
+        {mapData.name}
+        <EditPencilAdmin href={`/map/${code}/edit`} />
+      </h1>
       {mapData.aliases.length > 0 && (
         <p className="text-center muted">
           {mapData.aliases.map((al, i) => (
@@ -198,7 +205,7 @@ function MapCompatibility({ status, startVer, endVer }) {
 
 function LCC({ lcc }) {
   let formats = listVersions.filter(
-    ({ value }) => lcc.formats.includes(value + 1) || lcc.formats.includes(0)
+    ({ value }) => lcc.formats.includes(value) || lcc.formats.includes(0)
   );
 
   return (

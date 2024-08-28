@@ -52,7 +52,7 @@ const getRepeatedIndexes = (list) => {
 
 const FormikContext = createContext({});
 
-export default function MapForm_C({ initialValues, code }) {
+export default function MapForm({ initialValues, code }) {
   const [currentMap, setCurrentMap] = useState(
     code ? { code, valid: true } : null
   );
@@ -266,35 +266,39 @@ export default function MapForm_C({ initialValues, code }) {
               }}
               className="addmap"
             >
-              <Form.Group className="mapcode-input">
-                <Form.Label>Map Code</Form.Label>
-                <Form.Control
-                  name="code"
-                  type="text"
-                  placeholder={"ZFMOOKU"}
-                  value={values.code}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  isInvalid={
-                    touched.code &&
-                    (values.code.length === 0 || "code" in errors)
-                  }
-                  isValid={!("code" in errors)}
-                  disabled={isSubmitting || isRedirecting}
-                  autoComplete="off"
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.code}
-                </Form.Control.Feedback>
-              </Form.Group>
+              {!code && (
+                <>
+                  <Form.Group className="mapcode-input">
+                    <Form.Label>Map Code</Form.Label>
+                    <Form.Control
+                      name="code"
+                      type="text"
+                      placeholder={"ZFMOOKU"}
+                      value={values.code}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isInvalid={
+                        touched.code &&
+                        (values.code.length === 0 || "code" in errors)
+                      }
+                      isValid={!("code" in errors)}
+                      disabled={isSubmitting || isRedirecting}
+                      autoComplete="off"
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.code}
+                    </Form.Control.Feedback>
+                  </Form.Group>
 
-              <p className="muted text-center">
-                You can also paste the whole map share URL
-              </p>
+                  <p className="muted text-center">
+                    You can also paste the whole map share URL
+                  </p>
+                </>
+              )}
 
               {currentMap && currentMap.valid && (
                 <>
-                  <hr className="mb-5" />
+                  {!code && <hr className="mb-5" />}
 
                   <div className="row flex-row-space mt-5">
                     <div className="col-12 col-lg-6">
@@ -559,11 +563,11 @@ export default function MapForm_C({ initialValues, code }) {
                                     disabled={isSubmitting || isRedirecting}
                                   >
                                     <option value="0">is playable</option>
-                                    <option value="1">crashes</option>
-                                    <option value="2">
+                                    <option value="3">crashes</option>
+                                    <option value="1">
                                       has only visal diffs
                                     </option>
-                                    <option value="3">
+                                    <option value="2">
                                       runs, but isn't recommended
                                     </option>
                                   </Form.Select>

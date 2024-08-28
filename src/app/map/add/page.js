@@ -1,4 +1,4 @@
-import AddMap_C from "./page.client";
+import MapForm from "@/components/forms/MapForm";
 
 export const metadata = {
   title: "Add Map | BTD6 Maplist",
@@ -9,7 +9,7 @@ export default async function AddMap() {
     <>
       <h1 className="text-center">Add Map</h1>
 
-      <AddMap_C />
+      <MapForm />
     </>
   );
 }

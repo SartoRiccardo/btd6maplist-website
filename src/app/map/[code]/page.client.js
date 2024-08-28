@@ -3,6 +3,8 @@ import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry from "@/components/users/UserEntry.client";
 import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
+import { useAuthLevels } from "@/utils/hooks";
+import Link from "next/link";
 
 export function LoggedUserRun({ mapData }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
@@ -34,4 +36,16 @@ export function LoggedUserRun({ mapData }) {
       )}
     </>
   ) : null;
+}
+
+export function EditPencilAdmin({ href }) {
+  const authLevels = useAuthLevels();
+  if (!authLevels.loaded || !(authLevels.isExplistMod || authLevels.isListMod))
+    return null;
+
+  return (
+    <Link href={href} scroll={false}>
+      <i className="bi bi-pencil-square ms-3" />
+    </Link>
+  );
 }
