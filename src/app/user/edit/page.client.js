@@ -1,7 +1,6 @@
 "use client";
 import "./useredit.css";
 import {
-  selectDiscordAccessToken,
   selectMaplistProfile,
   setBtd6Profile,
   setMinMaplistProfile,
@@ -14,12 +13,13 @@ import { getBtd6User } from "@/server/ninjakiwiRequests";
 import { revalidateUser } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDiscordToken } from "@/utils/hooks";
 
 const MAX_NAME_LEN = 100;
 
 export default function EditSelf_C() {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
-  const { access_token } = useAppSelector(selectDiscordAccessToken);
+  const { access_token } = useDiscordToken();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [showOakHelp, setShowOakHelp] = useState(false);

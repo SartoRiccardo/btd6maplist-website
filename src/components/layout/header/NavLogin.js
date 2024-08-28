@@ -2,13 +2,11 @@
 import styles from "./navlogin.module.css";
 import stylesNav from "./navbar.module.css";
 import Link from "next/link";
-import {
-  selectDiscordAccessToken,
-  selectMaplistProfile,
-} from "@/features/authSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/store";
+import { selectMaplistProfile } from "@/features/authSlice";
+import { useAppSelector } from "@/lib/store";
 import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
+import { useDiscordToken } from "@/utils/hooks";
 
 const discOAuth2Params = {
   client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
@@ -21,7 +19,7 @@ const discOAuth2Params = {
 };
 
 export default function NavLogin({ onNavigate }) {
-  const accessToken = useAppSelector(selectDiscordAccessToken);
+  const accessToken = useDiscordToken();
   const { maplistProfile, btd6Profile } = useAppSelector(selectMaplistProfile);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(false);
 

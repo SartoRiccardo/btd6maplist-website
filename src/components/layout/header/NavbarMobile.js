@@ -6,6 +6,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Link from "next/link";
 import Collapse from "react-bootstrap/Collapse";
 import NavLogin from "../header/NavLogin";
+import ProtectedLinks from "./ProtectedLinks";
 
 export function NavbarMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,6 +47,8 @@ export function NavbarMobile() {
         <Offcanvas.Body>
           <ul className={`${styles.navbar} ${styles.mobile}`}>
             <NavLogin onNavigate={(_e) => setIsMenuOpen(false)} />
+
+            <ProtectedLinks onNavigate={(_e) => setIsMenuOpen(false)} />
 
             <li>
               <a href="#" onClick={toggleSubmenu(0, openSubmenus.includes(0))}>

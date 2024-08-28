@@ -4,8 +4,7 @@ import "./maplistcompletions.css";
 import Link from "next/link";
 import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";
-import { useAppSelector } from "@/lib/store";
-import { selectMaplistConfig } from "@/features/maplistSlice";
+import { useMaplistConfig } from "@/utils/hooks";
 
 const MEDAL_SIZE = 60;
 
@@ -21,7 +20,7 @@ export default function Btd6Map({
   completion,
   showMedals,
 }) {
-  const maplistCfg = useAppSelector(selectMaplistConfig);
+  const maplistCfg = useMaplistConfig();
 
   const cmpMap = (
     <div className={`shadow btd6map pb-3 ${className ? className : ""}`}>

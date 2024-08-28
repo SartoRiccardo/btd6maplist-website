@@ -1,13 +1,12 @@
 "use client";
 import "./mapplacements.css";
-import { selectMaplistConfig } from "@/features/maplistSlice";
-import { useAppSelector } from "@/lib/store";
 import { calcMapPoints, difficulties } from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import { titleFont } from "@/lib/fonts";
+import { useMaplistConfig } from "@/utils/hooks";
 
 export default function MapPlacements({ mapData }) {
-  const maplistCfg = useAppSelector(selectMaplistConfig);
+  const maplistCfg = useMaplistConfig();
 
   const expertDiff =
     mapData.difficulty > -1

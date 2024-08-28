@@ -67,6 +67,19 @@ export const selectMaplistProfile = createSelector(
   })
 );
 
+export const selectAuthLevels = createSelector(
+  ({ auth }) => auth.maplistProfile,
+  (maplistProfile) => ({
+    loaded: maplistProfile !== null,
+    isExplistMod:
+      maplistProfile &&
+      maplistProfile.roles.includes(process.env.NEXT_PUBLIC_EXPMOD_ROLE),
+    isListMod:
+      maplistProfile &&
+      maplistProfile.roles.includes(process.env.NEXT_PUBLIC_LISTMOD_ROLE),
+  })
+);
+
 export const {
   initializeAuthSlice,
   setDiscordAccessToken,

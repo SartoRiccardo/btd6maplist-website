@@ -1,23 +1,19 @@
 "use client";
-import { selectMaplistProfile } from "@/features/authSlice";
-import { useAppSelector } from "@/lib/store";
+import { useAuthLevels } from "@/utils/hooks";
 import Link from "next/link";
 
-export default function ProtectedLinks() {
-  const { maplistProfile } = useAppSelector(selectMaplistProfile);
-  if (
-    !maplistProfile ||
-    !(
-      maplistProfile.roles.includes(process.env.NEXT_PUBLIC_LISTMOD_ROLE) ||
-      maplistProfile.roles.includes(process.env.NEXT_PUBLIC_EXPMOD_ROLE)
-    )
-  )
-    return null;
+export default function ProtectedLinks({ onNavigate }) {
+  const { loaded, isExplistMod, isListMod } = useAuthLevels();
+  if (!loaded || !(isExplistMod || isListMod)) return null;
 
   return (
     <>
       <li>
-        <Link scroll={false} href="/config">
+        <Link
+          scroll={false}
+          href="/config"
+          onClick={(e) => onNavigate && onNavigate(e)}
+        >
           Admin
         </Link>
       </li>

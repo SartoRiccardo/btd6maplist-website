@@ -1,10 +1,9 @@
 "use client";
-import { selectDiscordAccessToken } from "@/features/authSlice";
-import { selectMaplistConfig, setConfig } from "@/features/maplistSlice";
-import { useAppSelector } from "@/lib/store";
+import { setConfig } from "@/features/maplistSlice";
 import { editConfig } from "@/server/maplistRequests.client";
 import { revalidateLeaderboard } from "@/server/revalidations";
 import { isFloat, isInt } from "@/utils/functions";
+import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
 import { Formik } from "formik";
 import { Fragment } from "react";
 import { Button, Form } from "react-bootstrap";
@@ -34,8 +33,8 @@ const floatFields = [
 ];
 
 export default function ConfigVarPage_C() {
-  const config = useAppSelector(selectMaplistConfig);
-  const accessToken = useAppSelector(selectDiscordAccessToken);
+  const config = useMaplistConfig();
+  const accessToken = useDiscordToken();
   const dispatch = useDispatch();
 
   const defaultVals = {

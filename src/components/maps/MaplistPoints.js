@@ -1,10 +1,9 @@
 "use client";
-import { selectMaplistConfig } from "@/features/maplistSlice";
-import { useAppSelector } from "@/lib/store";
+import { useMaplistConfig } from "@/utils/hooks";
 import { calcMapPoints } from "@/utils/maplistUtils";
 
 export default function MaplistPoints({ completion, idx }) {
-  const maplistCfg = useAppSelector(selectMaplistConfig);
+  const maplistCfg = useMaplistConfig();
 
   return (
     <>

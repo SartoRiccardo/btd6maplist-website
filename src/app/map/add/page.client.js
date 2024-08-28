@@ -4,17 +4,16 @@ import { getCustomMap } from "@/server/ninjakiwiRequests";
 import { Formik } from "formik";
 import { createContext, Fragment, useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useAppSelector } from "@/lib/store";
-import {
-  selectDiscordAccessToken,
-  selectMaplistProfile,
-} from "@/features/authSlice";
-import { selectMaplistConfig } from "@/features/maplistSlice";
 import { difficulties } from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
 import { addMap } from "@/server/maplistRequests.client";
 import { revalidateAddMap } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
+import {
+  useAuthLevels,
+  useDiscordToken,
+  useMaplistConfig,
+} from "@/utils/hooks";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -59,12 +58,12 @@ export default function MapForm_C({ initialValues, code }) {
   );
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [showErrorCount, setShowErrorCount] = useState(false);
-  const { maplistProfile } = useAppSelector(selectMaplistProfile);
-  const maplistCfg = useAppSelector(selectMaplistConfig);
-  const accessToken = useAppSelector(selectDiscordAccessToken);
+  const authLevels = useAuthLevels();
+  const maplistCfg = useMaplistConfig();
+  const accessToken = useDiscordToken();
   const router = useRouter();
 
-  if (!maplistProfile) return null;
+  if (!authLevels.loaded) return null;
 
   const validate = async (values) => {
     const errors = {};
@@ -251,25 +250,9 @@ export default function MapForm_C({ initialValues, code }) {
         } = formikProps;
 
         let errorCount = Object.keys(errors).length;
-        if (
-          !maplistProfile.roles.includes(
-            process.env.NEXT_PUBLIC_LISTMOD_ROLE
-          ) &&
-          "placement_allver" in errors
-        )
-          errorCount--;
-        if (
-          !maplistProfile.roles.includes(
-            process.env.NEXT_PUBLIC_LISTMOD_ROLE
-          ) &&
-          "placement_curver" in errors
-        )
-          errorCount--;
-        if (
-          !maplistProfile.roles.includes(process.env.NEXT_PUBLIC_EXPMOD_ROLE) &&
-          "difficulty" in errors
-        )
-          errorCount--;
+        if (!authLevels.isListMod && "placement_allver" in errors) errorCount--;
+        if (!authLevels.isListMod && "placement_curver" in errors) errorCount--;
+        if (!authLevels.isExplistMod && "difficulty" in errors) errorCount--;
 
         return (
           <FormikContext.Provider
@@ -345,9 +328,7 @@ export default function MapForm_C({ initialValues, code }) {
                     <div className="col-12 col-lg-6">
                       <div className="panel h-100">
                         <div className="row flex-row-space my-3">
-                          {maplistProfile.roles.includes(
-                            process.env.NEXT_PUBLIC_LISTMOD_ROLE
-                          ) && (
+                          {authLevels.isListMod && (
                             <>
                               <SidebarField
                                 title="List Placement"
@@ -367,9 +348,7 @@ export default function MapForm_C({ initialValues, code }) {
                             </>
                           )}
 
-                          {maplistProfile.roles.includes(
-                            process.env.NEXT_PUBLIC_EXPMOD_ROLE
-                          ) && (
+                          {authLevels.isExplistMod && (
                             <SidebarField title="Expert Difficulty">
                               <Form.Select
                                 name="difficulty"
