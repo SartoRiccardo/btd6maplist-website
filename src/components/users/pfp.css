@@ -1,15 +1,21 @@
+.userEntry {
+  display: flex;
+  margin: 0;
+  align-items: stretch;
+  color: var(--color-text);
+  position: relative;
+  --inline-pfp-size: 1.8em;
+}
+
 .pfp-link:link {
   text-decoration: none;
 }
 
-.userEntry {
-  display: flex;
+.userEntry:not(.inline) {
   margin: 0.4rem 0;
-  align-items: stretch;
-  color: var(--color-text);
 }
 
-.userEntry div:nth-child(2) {
+.userEntry .name-container {
   flex: 1;
   padding-left: 0.5rem;
 }
@@ -19,6 +25,22 @@
   height: 45px;
   border: 2px solid white;
   border-radius: 0.2rem;
+}
+
+.pfp-padding-inline {
+  margin-left: var(--inline-pfp-size);
+}
+
+.pfp.inline {
+  width: var(--inline-pfp-size);
+}
+
+.pfp.inline {
+  height: var(--inline-pfp-size);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .pfp-name {

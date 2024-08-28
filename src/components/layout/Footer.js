@@ -6,7 +6,7 @@ export default function Footer() {
       <hr className={styles.hr} />
       <p>
         Join the{" "}
-        <a href="https://discord.gg/ZgMtM7X2TS" target="_blank">
+        <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
           BTD6 Maplist Discord!
         </a>
       </p>
