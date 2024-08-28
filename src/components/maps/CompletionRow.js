@@ -50,47 +50,29 @@ export default function CompletionRow({
           <div
             className={`pointsGainedContanier d-flex justify-content-center`}
           >
-            {mapIdxCurver > -1 &&
-              (completion.formats.includes(1) ||
-                completion.formats.includes(0)) && (
-                <div className="d-flex">
-                  <SelectorButton text="cur" active>
-                    <img src="/icon_curver.png" width={40} height={40} />
-                  </SelectorButton>
+            <MaplistPoints
+              completion={completion}
+              idx={mapIdxCurver}
+              formats={[1]}
+              icon={
+                <SelectorButton text="cur" active>
+                  <img src="/icon_curver.png" width={40} height={40} />
+                </SelectorButton>
+              }
+              className={"ms-3"}
+            />
 
-                  <div className={"pointsLabelContainer"}>
-                    <p className="fs-5">
-                      +
-                      <MaplistPoints
-                        completion={completion}
-                        idx={mapIdxCurver}
-                      />
-                      pt
-                    </p>
-                  </div>
-                </div>
-              )}
-
-            {mapIdxAllver > -1 &&
-              (completion.formats.includes(2) ||
-                completion.formats.includes(0)) && (
-                <div className={`ms-3 d-flex`}>
-                  <SelectorButton text="all" active>
-                    <img src="/icon_allver.png" width={40} height={40} />
-                  </SelectorButton>
-
-                  <div className={"pointsLabelContainer"}>
-                    <p className="fs-5">
-                      +
-                      <MaplistPoints
-                        completion={completion}
-                        idx={mapIdxAllver}
-                      />
-                      pt
-                    </p>
-                  </div>
-                </div>
-              )}
+            <MaplistPoints
+              completion={completion}
+              idx={mapIdxAllver}
+              formats={[2]}
+              icon={
+                <SelectorButton text="all" active>
+                  <img src="/icon_allver.png" width={40} height={40} />
+                </SelectorButton>
+              }
+              className={"ms-3"}
+            />
           </div>
         </div>
       </div>

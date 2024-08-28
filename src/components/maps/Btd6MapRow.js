@@ -66,7 +66,18 @@ export default function Btd6MapRow({
               <div
                 className={`pointsGainedContanier d-flex justify-content-center`}
               >
-                {mapIdxCurver &&
+                <MaplistPoints
+                  completion={completion}
+                  idx={mapIdxCurver}
+                  formats={[1]}
+                  icon={
+                    <SelectorButton text="cur" active>
+                      <img src="/icon_curver.png" width={40} height={40} />
+                    </SelectorButton>
+                  }
+                />
+
+                {/* {mapIdxCurver &&
                   mapIdxCurver > -1 &&
                   (completion.formats.includes(1) ||
                     completion.formats.includes(0)) && (
@@ -86,9 +97,20 @@ export default function Btd6MapRow({
                         </p>
                       </div>
                     </div>
-                  )}
+                  )} */}
 
-                {mapIdxAllver &&
+                <MaplistPoints
+                  completion={completion}
+                  idx={mapIdxAllver}
+                  formats={[2]}
+                  icon={
+                    <SelectorButton text="all" active>
+                      <img src="/icon_allver.png" width={40} height={40} />
+                    </SelectorButton>
+                  }
+                />
+
+                {/* {mapIdxAllver &&
                   mapIdxAllver > -1 &&
                   (completion.formats.includes(2) ||
                     completion.formats.includes(0)) && (
@@ -108,7 +130,7 @@ export default function Btd6MapRow({
                         </p>
                       </div>
                     </div>
-                  )}
+                  )} */}
               </div>
             </div>
           </>
