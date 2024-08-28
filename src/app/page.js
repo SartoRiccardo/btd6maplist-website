@@ -24,6 +24,13 @@ export default async function Home() {
         |{" "}
         <a href="https://www.youtube.com/@btd6maplist" target="_blank">
           YouTube
+        </a>{" "}
+        |{" "}
+        <a
+          href="https://github.com/stars/SartoRiccardo/lists/btd6-maplist"
+          target="blank"
+        >
+          GitHub
         </a>
       </p>
 
