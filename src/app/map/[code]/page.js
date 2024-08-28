@@ -5,7 +5,7 @@ import MapPlacements from "@/components/maps/MapPlacements";
 import UserEntry from "@/components/users/UserEntry";
 import { getMap } from "@/server/maplistRequests";
 import { listEquals, numberWithCommas } from "@/utils/functions";
-import { Suspense } from "react";
+import { Fragment, Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { listVersions } from "@/utils/maplistUtils";
@@ -59,6 +59,16 @@ export default async function MapOverview({ params }) {
       <title>{`${mapData.name} | BTD6 Maplist`}</title>
 
       <h1 className="text-center mb-2">{mapData.name}</h1>
+      {mapData.aliases.length > 0 && (
+        <p className="text-center muted">
+          {mapData.aliases.map((al, i) => (
+            <Fragment key={al}>
+              {i !== 0 && ", "}
+              <span className="mono">{al}</span>
+            </Fragment>
+          ))}
+        </p>
+      )}
       <p className="text-center lead">
         Code: <u>{mapData.code}</u>
       </p>
