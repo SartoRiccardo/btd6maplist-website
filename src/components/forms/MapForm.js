@@ -6,7 +6,6 @@ import { createContext, Fragment, useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { difficulties } from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
-import { addMap } from "@/server/maplistRequests.client";
 import { revalidateAddMap } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
 import {
@@ -52,7 +51,7 @@ const getRepeatedIndexes = (list) => {
 
 const FormikContext = createContext({});
 
-export default function MapForm({ initialValues, code }) {
+export default function MapForm({ initialValues, code, onSubmit }) {
   const [currentMap, setCurrentMap] = useState(
     code ? { code, valid: true } : null
   );
@@ -204,7 +203,7 @@ export default function MapForm({ initialValues, code }) {
     };
     delete payload.map_data_req_permission;
 
-    const result = await addMap(accessToken.access_token, payload);
+    const result = await onSubmit(accessToken.access_token, payload);
     if (result && Object.keys(result.errors).length) {
       setErrors(result.errors);
       return;
