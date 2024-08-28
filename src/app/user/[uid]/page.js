@@ -42,10 +42,10 @@ export default async function PageUser({ params }) {
           </h1>
           {grantedRoles.length > 0 && (
             <div className={styles.rolesContainer}>
-              {grantedRoles.map(({ name, color, description }) => (
+              {grantedRoles.map(({ name, color, borderColor, description }) => (
                 <div
                   key={name}
-                  style={{ backgroundColor: color }}
+                  style={{ backgroundColor: color, borderColor }}
                   className="font-border"
                 >
                   {name}

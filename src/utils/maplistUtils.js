@@ -77,6 +77,7 @@ export const userRoles = [
   {
     name: "List Map Creator",
     color: "#ffb74d",
+    borderColor: "#fff9c4",
     description: "Have a map on the list",
     requirement: ({ user }) => {
       for (const map of user.created_maps) {
@@ -89,6 +90,7 @@ export const userRoles = [
   {
     name: "Beginner",
     color: "#00695c",
+    borderColor: "#00bfa5",
     description: "1+ points on the leaderboard",
     requirement: ({ user }) =>
       (user.maplist.current.points > 0 && user.maplist.current.points < 100) ||
@@ -97,6 +99,7 @@ export const userRoles = [
   {
     name: "Intermediate",
     color: "#00897b",
+    borderColor: "#00bfa5",
     description: "100+ points on the leaderboard",
     requirement: ({ user }) =>
       (user.maplist.current.points >= 100 &&
@@ -106,6 +109,7 @@ export const userRoles = [
   {
     name: "Advanced",
     color: "#26a69a",
+    borderColor: "#00bfa5",
     description: "350+ points on the leaderboard",
     requirement: ({ user }) =>
       (user.maplist.current.points >= 350 &&
@@ -115,6 +119,7 @@ export const userRoles = [
   {
     name: "Expert",
     color: "#80cbc4",
+    borderColor: "#00bfa5",
     description: "100+ points on the leaderboard",
     requirement: ({ user }) =>
       (user.maplist.current.points >= 1000 &&
@@ -123,7 +128,8 @@ export const userRoles = [
   },
   {
     name: "The GOAT",
-    color: "#e0f2f1",
+    color: "#b2dfdb",
+    borderColor: "#00bfa5",
     description: "#1 on the points leaderboard",
     requirement: ({ user }) =>
       user.maplist.current.pts_placement === 1 ||
