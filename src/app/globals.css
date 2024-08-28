@@ -6,6 +6,8 @@
   --color-misc: #b8b08d;
   --color-text: white;
   --color-text-muted: #b0bec5;
+
+  --bs-btn-success: #198754;
 }
 
 body {

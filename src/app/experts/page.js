@@ -3,6 +3,7 @@ import Btd6Map from "@/components/maps/Btd6Map";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { difficulties } from "@/utils/maplistUtils";
 import { getExpertMaplist } from "@/server/maplistRequests";
+import AddMapListEntry from "@/components/layout/maplists/AddMapListEntry";
 
 export const metadata = {
   title: "Expert Maplist | BTD6 Expert Maplist",
@@ -32,6 +33,8 @@ export default async function Experts({ searchParams }) {
         />
         <p className={`${styles.diffDesc}`}>{curDifficulty.description}</p>
         <div className="row">
+          <AddMapListEntry on="experts" />
+
           {maplist
             .filter((map) => map.difficulty === curDifficulty.value)
             .map(({ code, name }) => (

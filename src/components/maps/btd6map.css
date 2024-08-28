@@ -33,6 +33,10 @@
   aspect-ratio: 3/2;
 }
 
+.btd6mapImage.empty {
+  background-color: var(--color-primary);
+}
+
 .btd6mapRow .btd6mapImage {
   width: 6rem;
 }
@@ -115,6 +119,13 @@
   width: 100%;
   left: 0;
   bottom: -1rem;
+}
+
+.btd6map-add {
+  font-size: 3rem;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--bs-btn-success);
 }
 
 /* <lg */

@@ -2,12 +2,15 @@
 import Btd6Map from "@/components/maps/Btd6Map";
 import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
+import AddMapListEntry from "./AddMapListEntry";
 
 export default function TheList({ maps, format }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
 
   return (
     <div className="row">
+      <AddMapListEntry on="list" />
+
       {maps.map(({ code, placement, name, verified }) => {
         let completion = null;
         if (maplistProfile) {
