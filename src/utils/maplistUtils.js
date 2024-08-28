@@ -69,7 +69,20 @@ export const listVersions = [
     query: "all",
     value: 2,
     image: "/icon_allver.png",
-    description: "",
+    description: (
+      <>
+        Unlike the Current Version format, you can play these maps in any past
+        versions. Check out the{" "}
+        <a
+          href="https://docs.google.com/document/d/1AcjTgWI2-mfj3-vJpY7YgKoAM5SYAGSIbonWI5urQQI"
+          target="_blank"
+        >
+          Old Versions Guide
+        </a>{" "}
+        to check how you can play (and optionally mod) past versions of BTD6.{" "}
+        <span className="muted">It's easier than it looks.</span>
+      </>
+    ),
   },
 ];
 

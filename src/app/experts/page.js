@@ -4,6 +4,7 @@ import DifficultySelector from "@/components/maps/DifficultySelector";
 import { difficulties } from "@/utils/maplistUtils";
 import { getExpertMaplist } from "@/server/maplistRequests";
 import AddMapListEntry from "@/components/layout/maplists/AddMapListEntry";
+import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 
 export const metadata = {
   title: "Expert Maplist | BTD6 Expert Maplist",
@@ -32,6 +33,9 @@ export default async function Experts({ searchParams }) {
           href="/experts?difficulty={queryval}"
         />
         <p className={`${styles.diffDesc}`}>{curDifficulty.description}</p>
+
+        <SubmissionRules on="experts" />
+
         <div className="row">
           <AddMapListEntry on="experts" />
 
