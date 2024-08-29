@@ -2,13 +2,7 @@
 /* One thousand billion line code component please refactor immediately */
 import { getCustomMap } from "@/server/ninjakiwiRequests";
 import { Formik } from "formik";
-import {
-  createContext,
-  Fragment,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
@@ -20,6 +14,10 @@ import {
   useMaplistConfig,
 } from "@/utils/hooks";
 import { getMap } from "@/server/maplistRequests.client";
+import { FormikContext } from "@/contexts";
+import AddableField from "./AddableField";
+import TwoFieldEntry from "./TwoFieldEntry";
+import SidebarField from "./MapSidebarField";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -74,8 +72,6 @@ const defaultValues = {
   aliases: [],
   // optimal_heros: [],
 };
-
-const FormikContext = createContext({});
 
 export default function MapForm({
   initialValues,
@@ -659,199 +655,5 @@ export default function MapForm({
         );
       }}
     </Formik>
-  );
-}
-
-function SidebarField({
-  title,
-  name,
-  type,
-  placeholder,
-  invalidFeedback,
-  children,
-  appendChildren,
-  value,
-  isValid,
-  disabled,
-}) {
-  const formikProps = useContext(FormikContext);
-  const {
-    handleChange,
-    handleBlur,
-    values,
-    touched,
-    errors,
-    isSubmitting,
-    disableInputs,
-  } = formikProps;
-
-  return (
-    <>
-      <div className="col-6 col-lg-7">
-        <p>{title}</p>
-      </div>
-      <div className="col-6 col-lg-5">
-        {children && !appendChildren ? (
-          children
-        ) : (
-          <Form.Group>
-            <Form.Control
-              name={name}
-              type={type || "text"}
-              placeholder={placeholder || ""}
-              value={value ? value(formikProps) : values[name]}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={touched[name] && name in errors}
-              isValid={
-                isValid
-                  ? isValid(formikProps)
-                  : !(name in errors) && values[name]
-              }
-              disabled={
-                disabled ? disabled(formikProps) : isSubmitting || disableInputs
-              }
-              autoComplete="off"
-            />
-            {invalidFeedback && (
-              <Form.Control.Feedback type="invalid">
-                {errors[name]}
-              </Form.Control.Feedback>
-            )}
-            {appendChildren && children}
-          </Form.Group>
-        )}
-      </div>
-    </>
-  );
-}
-
-function TwoFieldEntry({
-  name,
-  fields,
-  labels,
-  firstProps,
-  secondProps,
-  omitFirstOptional,
-  optional,
-}) {
-  const formikProps = useContext(FormikContext);
-  const {
-    handleChange,
-    handleBlur,
-    values,
-    setValues,
-    touched,
-    errors,
-    isSubmitting,
-    disableInputs,
-  } = formikProps;
-
-  return values[name].map(({ count }, i) => {
-    const realField1 = fields[0].replace("[i]", `[${i}]`);
-    const realField2 = fields[1].replace("[i]", `[${i}]`);
-    const topLevelField1 = fields[0].split("[")[0].split("(")[0];
-    const topLevelField2 = fields[1].split("[")[0].split("(")[0];
-
-    // Not flexible, should split by "." walk through the list
-    const value1 = values[name][i][fields[0].split(".")[1]];
-    const value2 = values[name][i][fields[1].split(".")[1]];
-
-    return (
-      <Fragment key={count || -1}>
-        <div className="col-12 col-md-5 col-lg-6">
-          <Form.Group>
-            {labels && labels.length > 0 && (
-              <Form.Label>{labels[0]}</Form.Label>
-            )}
-            <Form.Control
-              name={realField1}
-              type="text"
-              value={value1}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={touched[topLevelField1] && realField1 in errors}
-              isValid={values[realField1]}
-              disabled={isSubmitting || disableInputs}
-              autoComplete="off"
-              {...firstProps}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors[realField1]}
-            </Form.Control.Feedback>
-          </Form.Group>
-        </div>
-        <div className="col-9 col-md-5 col-lg-5">
-          {!(omitFirstOptional && i === 0) && (
-            <Form.Group>
-              {labels && labels.length > 1 && (
-                <Form.Label>{labels[1]}</Form.Label>
-              )}
-              <Form.Control
-                name={realField2}
-                type="text"
-                value={value2}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                isInvalid={touched[topLevelField2] && realField2 in errors}
-                isValid={value2}
-                disabled={isSubmitting || disableInputs}
-                autoComplete="off"
-                {...secondProps}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors[realField2]}
-              </Form.Control.Feedback>
-            </Form.Group>
-          )}
-        </div>
-
-        <div className="col-3 col-md-2 col-lg-1 flex-hcenter">
-          {(optional || i > 0) && (
-            <div className="d-flex flex-column w-100">
-              <Button
-                className="map-form-rm-field"
-                variant="danger"
-                onClick={(_e) =>
-                  setValues({
-                    ...values,
-                    [name]: values[name].filter((_v, idx) => idx !== i),
-                  })
-                }
-              >
-                <i className="bi bi-dash" />
-              </Button>
-            </div>
-          )}
-        </div>
-      </Fragment>
-    );
-  });
-}
-
-function AddableField({ name, defaultValue, children }) {
-  const [count, setCount] = useState(1);
-  const formikProps = useContext(FormikContext);
-  const { setValues, values } = formikProps;
-
-  return (
-    <>
-      {children}
-
-      <div className="flex-hcenter mt-3">
-        <Button
-          variant="success"
-          onClick={(_e) => {
-            setValues({
-              ...values,
-              [name]: [...values[name], { ...defaultValue, count }],
-            });
-            setCount(count + 1);
-          }}
-        >
-          <i className="bi bi-plus-lg" />
-        </Button>
-      </div>
-    </>
   );
 }
