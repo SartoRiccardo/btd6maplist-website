@@ -1,5 +1,4 @@
 "use client";
-import "./difficultyselector.css";
 import SelectorButton from "../buttons/SelectorButton";
 import Link from "next/link";
 

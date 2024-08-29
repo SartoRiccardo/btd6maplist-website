@@ -1,4 +1,3 @@
-import "./pfp.css";
 import { initialBtd6Profile } from "@/features/authSlice";
 import { getUser } from "@/server/maplistRequests";
 import { Suspense } from "react";

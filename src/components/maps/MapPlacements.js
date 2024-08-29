@@ -1,5 +1,4 @@
 "use client";
-import "./mapplacements.css";
 import { calcMapPoints, difficulties } from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import { titleFont } from "@/lib/fonts";

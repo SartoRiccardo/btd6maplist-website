@@ -1,6 +1,5 @@
 "use client";
 /* One thousand billion line code component please refactor immediately */
-import "./newmap.css";
 import { getCustomMap } from "@/server/ninjakiwiRequests";
 import { Formik } from "formik";
 import {

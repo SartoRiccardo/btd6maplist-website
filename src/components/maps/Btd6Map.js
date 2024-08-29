@@ -1,6 +1,4 @@
 "use client";
-import "./btd6map.css";
-import "./maplistcompletions.css";
 import Link from "next/link";
 import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";

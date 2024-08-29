@@ -1,5 +1,4 @@
 import Link from "next/link";
-import "../maps/btd6map.css";
 import { btd6Font } from "@/lib/fonts";
 
 export default function AddMapButton({ onClick, href, className }) {

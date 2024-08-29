@@ -1,6 +1,4 @@
 import { btd6Font } from "@/lib/fonts";
-import "./maplistcompletions.css";
-import "./btd6map.css";
 import Link from "next/link";
 import SelectorButton from "../buttons/SelectorButton";
 import MaplistPoints from "./MaplistPoints";

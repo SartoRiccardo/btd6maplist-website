@@ -1,5 +1,4 @@
 "use client";
-import "./useredit.css";
 import {
   selectMaplistProfile,
   setBtd6Profile,

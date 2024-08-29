@@ -1,4 +1,3 @@
-import "./maplistcompletions.css";
 import MaplistPoints from "./MaplistPoints";
 import SelectorButton from "../buttons/SelectorButton";
 
