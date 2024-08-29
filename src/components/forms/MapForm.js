@@ -175,7 +175,7 @@ export default function MapForm({
       errors.difficulty = "At least one of these is required";
     }
 
-    if (values.creators[0].id.length === 0)
+    if (!values.creators.some(({ id }) => id.length))
       errors["creators[0].id"] = "Must have at least 1 creator";
 
     return errors;
