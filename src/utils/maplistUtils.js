@@ -151,6 +151,18 @@ export const userRoles = [
       return false;
     },
   },
+  {
+    name: "Expert Map Creator",
+    color: "#ffb74d",
+    borderColor: "#fff9c4",
+    description: "Have a map on the experts list",
+    requirement: ({ user }) => {
+      for (const map of user.created_maps) {
+        if (map.difficulty !== -1) return true;
+      }
+      return false;
+    },
+  },
 
   {
     name: "Beginner",
