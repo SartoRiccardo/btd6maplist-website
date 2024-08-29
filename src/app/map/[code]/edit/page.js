@@ -1,6 +1,6 @@
 import { getMap } from "@/server/maplistRequests";
-import { MapFormEdit_C } from "./page.client";
 import { mapDataToFormik } from "@/utils/maplistUtils";
+import MapForm from "@/components/forms/MapForm";
 
 export const metadata = {
   title: "Edit Map | BTD6 Maplist",
@@ -18,7 +18,7 @@ export default async function AddMap({ params }) {
     <>
       <h1 className="text-center">Edit Map - {code}</h1>
 
-      <MapFormEdit_C code={code} initialValues={initialValues} />
+      <MapForm code={code} initialValues={initialValues} />
     </>
   );
 }

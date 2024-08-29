@@ -33,11 +33,14 @@ export async function addMap(token, map) {
 }
 
 export async function editMap(token, map) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/maps`, {
-    method: "PUT",
-    headers: { Authorization: `Bearer ${token}` },
-    body: JSON.stringify(map),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/maps/${map.code}`,
+    {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(map),
+    }
+  );
   if (response.status === 401)
     return { errors: { "": "Unauthorized", data: {} } };
   else if (!response.ok) return await response.json();
@@ -53,7 +56,6 @@ export async function deleteMap(token, code) {
   );
   if (response.status === 401)
     return { errors: { "": "Unauthorized", data: {} } };
-  else if (!response.ok) return await response.json();
 }
 
 export async function getMap(code) {

@@ -104,8 +104,8 @@ export default function MapForm({
   onEdit = onEdit || editMap;
   onDelete =
     onDelete ||
-    (async () => {
-      await deleteMap(code);
+    (async (access_token, code) => {
+      await deleteMap(access_token, code);
       revalidateMap(code).then(() => router.push("/list"));
     });
 
@@ -234,6 +234,7 @@ export default function MapForm({
     };
     delete payload.map_data_req_permission;
 
+    const onSubmit = isEditing ? onEdit : onAdd;
     const result = await onSubmit(accessToken.access_token, payload);
     if (result && Object.keys(result.errors).length) {
       setErrors(result.errors);
