@@ -13,7 +13,12 @@ import {
   useDiscordToken,
   useMaplistConfig,
 } from "@/utils/hooks";
-import { getMap } from "@/server/maplistRequests.client";
+import {
+  addMap,
+  deleteMap,
+  editMap,
+  getMap,
+} from "@/server/maplistRequests.client";
 import { FormikContext } from "@/contexts";
 import AddableField from "./AddableField";
 import TwoFieldEntry from "./TwoFieldEntry";
@@ -76,12 +81,14 @@ const defaultValues = {
 export default function MapForm({
   initialValues,
   code,
-  onSubmit,
+  onAdd,
+  onEdit,
+  onDelete,
   buttons,
   submitText,
 }) {
   const [currentMap, setCurrentMap] = useState(
-    code ? { code, valid: true } : null
+    code ? { code, valid: true, editing: true } : null
   );
   const [isFetching, setIsFetching] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -93,6 +100,16 @@ export default function MapForm({
 
   submitText = submitText || "Submit";
   buttons = buttons || [];
+  onAdd = onAdd || addMap;
+  onEdit = onEdit || editMap;
+  onDelete =
+    onDelete ||
+    (async () => {
+      await deleteMap(code);
+      revalidateMap(code).then(() => router.push("/list"));
+    });
+
+  const isEditing = !!code || (currentMap && currentMap.editing);
 
   if (!authLevels.loaded) return null;
 
@@ -263,7 +280,7 @@ export default function MapForm({
             else if (customMap)
               setValues({ ...defaultValues, code, name: customMap.name });
             else setErrors({ ...errors, code: "No map with that code found" });
-            setCurrentMap({ code, valid: !!customMap });
+            setCurrentMap({ code, valid: !!customMap, editing: !!maplistMap });
             setIsFetching(false);
           };
 
@@ -323,6 +340,7 @@ export default function MapForm({
                   {!code && <hr className="mb-5" />}
 
                   <div className="row flex-row-space mt-5">
+                    {/* Map preview */}
                     <div className="col-12 col-lg-6">
                       <div className="panel pt-3 px-3 pb-4 map-preview">
                         <div className="map-name-container">
@@ -351,6 +369,7 @@ export default function MapForm({
                       </div>
                     </div>
 
+                    {/* Sidebar */}
                     <div className="col-12 col-lg-6">
                       <div className="panel h-100">
                         <div className="row flex-row-space my-3">
@@ -621,28 +640,28 @@ export default function MapForm({
                   </div>
 
                   <div className="flex-hcenter flex-col-space mt-5">
-                    {buttons.map(({ text, onClick, variant }, i) => (
+                    {isEditing && (
                       <Button
-                        key={i}
                         disabled={isSubmitting || disableInputs}
-                        onClick={async (e) => {
+                        onClick={async (_e) => {
                           setSubmitting(true);
-                          await onClick(e);
+                          await onDelete(accessToken.access_token, code);
                           setSubmitting(false);
                         }}
-                        variant={variant ? variant : null}
+                        variant="danger"
                         className="big"
                       >
-                        {text}
+                        Delete
                       </Button>
-                    ))}
+                    )}
                     <Button
                       type="submit"
                       disabled={isSubmitting || disableInputs}
                     >
-                      {submitText}
+                      {isEditing ? "Save" : "Submit"}
                     </Button>
                   </div>
+
                   {showErrorCount && errorCount > 0 && (
                     <p className="text-center text-danger mt-3">
                       There are {errorCount} fields to compile correctly

@@ -1,4 +1,4 @@
-import { MapFormAdd_C } from "../[code]/edit/page.client";
+import { MapFormAdd_C } from "./page.client";
 
 export const metadata = {
   title: "Add Map | BTD6 Maplist",
