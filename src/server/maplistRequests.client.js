@@ -31,3 +31,27 @@ export async function addMap(token, map) {
     return { errors: { "": "Unauthorized", data: {} } };
   else if (!response.ok) return await response.json();
 }
+
+export async function editMap(token, map) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/maps`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(map),
+  });
+  if (response.status === 401)
+    return { errors: { "": "Unauthorized", data: {} } };
+  else if (!response.ok) return await response.json();
+}
+
+export async function deleteMap(token, code) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/maps/${code}`,
+    {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (response.status === 401)
+    return { errors: { "": "Unauthorized", data: {} } };
+  else if (!response.ok) return await response.json();
+}

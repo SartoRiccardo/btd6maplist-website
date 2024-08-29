@@ -6,7 +6,7 @@ import { createContext, Fragment, useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { difficulties } from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
-import { revalidateAddMap } from "@/server/revalidations";
+import { revalidateMap } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
 import {
   useAuthLevels,
@@ -219,7 +219,7 @@ export default function MapForm({
     }
 
     setIsRedirecting(true);
-    revalidateAddMap(code).then(() => router.push(`/map/${code}`));
+    revalidateMap(code).then(() => router.push(`/map/${code}`));
   };
 
   return (

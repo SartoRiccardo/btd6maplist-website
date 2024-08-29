@@ -9,7 +9,7 @@ export async function revalidateLeaderboard() {
   revalidatePath("/list/leaderboard");
 }
 
-export async function revalidateAddMap(code) {
+export async function revalidateMap(code) {
   revalidatePath(`/map/${code}`);
   revalidateTag("leaderboard");
   revalidateTag("experts");
