@@ -55,3 +55,11 @@ export async function deleteMap(token, code) {
     return { errors: { "": "Unauthorized", data: {} } };
   else if (!response.ok) return await response.json();
 }
+
+export async function getMap(code) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/maps/${code}`
+  );
+  if (!response.ok) return null;
+  return await response.json();
+}

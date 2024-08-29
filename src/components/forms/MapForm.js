@@ -1,10 +1,17 @@
 "use client";
+/* One thousand billion line code component please refactor immediately */
 import "./newmap.css";
 import { getCustomMap } from "@/server/ninjakiwiRequests";
 import { Formik } from "formik";
-import { createContext, Fragment, useContext, useState } from "react";
+import {
+  createContext,
+  Fragment,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Button, Form } from "react-bootstrap";
-import { difficulties } from "@/utils/maplistUtils";
+import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
 import { revalidateMap } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
@@ -13,11 +20,14 @@ import {
   useDiscordToken,
   useMaplistConfig,
 } from "@/utils/hooks";
+import { getMap } from "@/server/maplistRequests.client";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
 const MAX_TEXT_LEN = 100;
 const MAX_ALIAS_LENGTH = 20;
+
+const codeRegex = /^(?:https:\/\/join\.btd6\.com\/Map\/)?([(A-Za-z]{7})$/;
 
 const randomAliases = ["ouch", "bluddles", "muddles", "ws", "wshop"];
 
@@ -49,6 +59,23 @@ const getRepeatedIndexes = (list) => {
   return repeated;
 };
 
+const defaultValues = {
+  code: "",
+  name: "",
+  placement_curver: "",
+  placement_allver: "",
+  difficulty: "-1",
+  r6_start: "",
+  map_data: "",
+  map_data_req_permission: false,
+  creators: [{ id: "", role: "" }],
+  verifiers: [{ id: "", version: "" }],
+  additional_codes: [],
+  version_compatibilities: [],
+  aliases: [],
+  // optimal_heros: [],
+};
+
 const FormikContext = createContext({});
 
 export default function MapForm({
@@ -61,6 +88,7 @@ export default function MapForm({
   const [currentMap, setCurrentMap] = useState(
     code ? { code, valid: true } : null
   );
+  const [isFetching, setIsFetching] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [showErrorCount, setShowErrorCount] = useState(false);
   const authLevels = useAuthLevels();
@@ -75,23 +103,8 @@ export default function MapForm({
 
   const validate = async (values) => {
     const errors = {};
-    if (
-      values.code.length !== 7 &&
-      !/^https:\/\/join\.btd6\.com\/Map\/[A-Z]{7}$/.test(values.code)
-    ) {
-      errors.code = "Codes must be 7 characters long";
-    } else {
-      const code = (
-        values.code.length === 7
-          ? values.code
-          : values.code.match(
-              /^https:\/\/join\.btd6\.com\/Map\/([A-Za-z]{7})$/
-            )[1]
-      ).toUpperCase();
-
-      if (!currentMap || currentMap.code !== code)
-        setCurrentMap({ code, valid: !!(await getCustomMap(code)) });
-    }
+    if (!codeRegex.test(values.code))
+      errors.code = "Codes must be exactly 7 letters";
 
     if (!values.name.length) errors.name = "Name cannot be blank";
     else if (values.name.length > MAX_NAME_LEN)
@@ -157,10 +170,7 @@ export default function MapForm({
   };
 
   const handleSubmit = async (values, { setErrors }) => {
-    const code =
-      values.code.length === 7
-        ? values.code.toUpperCase()
-        : values.code.match(/^https:\/\/join\.btd6\.com\/Map\/([A-Z]{7})$/)[1];
+    const code = values.code.match(codeRegex)[1].toUpperCase();
 
     const removeFieldCode = (array) =>
       array.map((obj) => {
@@ -225,24 +235,7 @@ export default function MapForm({
   return (
     <Formik
       validate={validate}
-      initialValues={
-        initialValues || {
-          code: "",
-          name: "",
-          placement_curver: "",
-          placement_allver: "",
-          difficulty: "-1",
-          r6_start: "",
-          map_data: "",
-          map_data_req_permission: false,
-          creators: [{ id: "", role: "" }],
-          verifiers: [{ id: "", version: "" }],
-          additional_codes: [],
-          version_compatibilities: [],
-          aliases: [],
-          // optimal_heros: [],
-        }
-      }
+      initialValues={initialValues || defaultValues}
       onSubmit={handleSubmit}
     >
       {(formikProps) => {
@@ -254,18 +247,43 @@ export default function MapForm({
           setValues,
           touched,
           errors,
-          setSubmitting,
+          setErrors,
           isSubmitting,
+          setSubmitting,
         } = formikProps;
+
+        useEffect(() => {
+          const codeMatch = values.code.match(codeRegex);
+          if (!codeMatch || errors.code || isFetching) return;
+          const code = codeMatch[1].toUpperCase();
+
+          const fetchMap = async () => {
+            // TODO handle race conditions
+            setIsFetching(true);
+            const [customMap, maplistMap] = await Promise.all([
+              getCustomMap(code),
+              getMap(code),
+            ]);
+            if (maplistMap) setValues(mapDataToFormik(maplistMap));
+            else if (customMap)
+              setValues({ ...defaultValues, code, name: customMap.name });
+            else setErrors({ ...errors, code: "No map with that code found" });
+            setCurrentMap({ code, valid: !!customMap });
+            setIsFetching(false);
+          };
+
+          if (!currentMap || currentMap.code !== code) fetchMap();
+        }, [errors.code, values.code]);
 
         let errorCount = Object.keys(errors).length;
         if (!authLevels.isListMod && "placement_allver" in errors) errorCount--;
         if (!authLevels.isListMod && "placement_curver" in errors) errorCount--;
         if (!authLevels.isExplistMod && "difficulty" in errors) errorCount--;
+        const disableInputs = isRedirecting || isFetching;
 
         return (
           <FormikContext.Provider
-            value={{ ...formikProps, isRedirecting }}
+            value={{ ...formikProps, disableInputs }}
             key={0}
           >
             <Form
@@ -291,7 +309,7 @@ export default function MapForm({
                         (values.code.length === 0 || "code" in errors)
                       }
                       isValid={!("code" in errors)}
-                      disabled={isSubmitting || isRedirecting}
+                      disabled={isSubmitting || disableInputs}
                       autoComplete="off"
                     />
                     <Form.Control.Feedback type="invalid">
@@ -325,7 +343,7 @@ export default function MapForm({
                                 (values.name.length === 0 || "name" in errors)
                               }
                               isValid={!("name" in errors)}
-                              disabled={isSubmitting || isRedirecting}
+                              disabled={isSubmitting || disableInputs}
                               autoComplete="off"
                             />
                           </Form.Group>
@@ -367,7 +385,7 @@ export default function MapForm({
                                 name="difficulty"
                                 value={values.difficulty}
                                 onChange={handleChange}
-                                disabled={isSubmitting || isRedirecting}
+                                disabled={isSubmitting || disableInputs}
                               >
                                 <option value="-1">N/A</option>
                                 {difficulties.map(({ name, value }) => (
@@ -405,7 +423,7 @@ export default function MapForm({
                                 checked={values.map_data_req_permission}
                                 onChange={handleChange}
                                 label="Should ask permission to the creator"
-                                disabled={isSubmitting || isRedirecting}
+                                disabled={isSubmitting || disableInputs}
                               />
                             </Form.Group>
                           </SidebarField>
@@ -455,7 +473,7 @@ export default function MapForm({
                                 touched.aliases &&
                                 `aliases[${i}].alias` in errors
                               }
-                              disabled={isSubmitting || isRedirecting}
+                              disabled={isSubmitting || disableInputs}
                               autoComplete="off"
                             />
                             <Form.Control.Feedback type="invalid">
@@ -552,7 +570,7 @@ export default function MapForm({
                                         `version_compatibilities[${i}].version`
                                       ]
                                     }
-                                    disabled={isSubmitting || isRedirecting}
+                                    disabled={isSubmitting || disableInputs}
                                     autoComplete="off"
                                   />
                                   <Form.Control.Feedback type="invalid">
@@ -569,7 +587,7 @@ export default function MapForm({
                                     name={`version_compatibilities[${i}].status`}
                                     value={status}
                                     onChange={handleChange}
-                                    disabled={isSubmitting || isRedirecting}
+                                    disabled={isSubmitting || disableInputs}
                                   >
                                     <option value="0">is playable</option>
                                     <option value="3">crashes</option>
@@ -611,7 +629,7 @@ export default function MapForm({
                     {buttons.map(({ text, onClick, variant }, i) => (
                       <Button
                         key={i}
-                        disabled={isSubmitting || isRedirecting}
+                        disabled={isSubmitting || disableInputs}
                         onClick={async (e) => {
                           setSubmitting(true);
                           await onClick(e);
@@ -625,7 +643,7 @@ export default function MapForm({
                     ))}
                     <Button
                       type="submit"
-                      disabled={isSubmitting || isRedirecting}
+                      disabled={isSubmitting || disableInputs}
                     >
                       {submitText}
                     </Button>
@@ -665,7 +683,7 @@ function SidebarField({
     touched,
     errors,
     isSubmitting,
-    isRedirecting,
+    disableInputs,
   } = formikProps;
 
   return (
@@ -692,7 +710,7 @@ function SidebarField({
                   : !(name in errors) && values[name]
               }
               disabled={
-                disabled ? disabled(formikProps) : isSubmitting || isRedirecting
+                disabled ? disabled(formikProps) : isSubmitting || disableInputs
               }
               autoComplete="off"
             />
@@ -727,7 +745,7 @@ function TwoFieldEntry({
     touched,
     errors,
     isSubmitting,
-    isRedirecting,
+    disableInputs,
   } = formikProps;
 
   return values[name].map(({ count }, i) => {
@@ -755,7 +773,7 @@ function TwoFieldEntry({
               onBlur={handleBlur}
               isInvalid={touched[topLevelField1] && realField1 in errors}
               isValid={values[realField1]}
-              disabled={isSubmitting || isRedirecting}
+              disabled={isSubmitting || disableInputs}
               autoComplete="off"
               {...firstProps}
             />
@@ -778,7 +796,7 @@ function TwoFieldEntry({
                 onBlur={handleBlur}
                 isInvalid={touched[topLevelField2] && realField2 in errors}
                 isValid={value2}
-                disabled={isSubmitting || isRedirecting}
+                disabled={isSubmitting || disableInputs}
                 autoComplete="off"
                 {...secondProps}
               />
