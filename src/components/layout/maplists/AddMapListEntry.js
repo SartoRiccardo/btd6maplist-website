@@ -1,15 +1,28 @@
 "use client";
 import AddMapButton from "@/components/buttons/AddMapButton";
-import { useAuthLevels } from "@/utils/hooks";
+import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 
 export default function AddMapListEntry({ on }) {
   const { loaded, isExplistMod, isListMod } = useAuthLevels();
+  const accessToken = useDiscordToken();
 
-  return loaded &&
-    ((on.includes("experts") && isExplistMod) ||
-      (on.includes("list") && isListMod)) ? (
-    <div className="col-12 col-sm-6 col-lg-4">
-      <AddMapButton href="/map/add" />
-    </div>
-  ) : null;
+  return (
+    <>
+      {loaded &&
+      ((on.includes("experts") && isExplistMod) ||
+        (on.includes("list") && isListMod)) ? (
+        <div className="col-12 col-sm-6 col-lg-4">
+          <AddMapButton href="/map/add" />
+        </div>
+      ) : null}
+
+      <div className="col-12 col-sm-6 col-lg-4">
+        <AddMapButton
+          href="/map/submit"
+          title="Submit a map"
+          icon={<i className="warn bi bi-pencil-fill" />}
+        />
+      </div>
+    </>
+  );
 }

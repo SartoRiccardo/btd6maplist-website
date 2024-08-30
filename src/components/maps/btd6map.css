@@ -121,11 +121,18 @@
   bottom: -1rem;
 }
 
-.btd6map-add {
+.btd6map-btn i {
   font-size: 3rem;
   padding: 0 1rem;
   border-radius: 0.5rem;
+}
+
+.btd6map-btn i.success {
   background-color: var(--bs-btn-success);
+}
+
+.btd6map-btn i.warn {
+  background-color: #fbc02d;
 }
 
 /* <lg */
