@@ -1,14 +1,20 @@
 import { NextResponse } from "next/server";
 import authenticateMiddleware from "./middlewares/authenticate";
 import protectRoutesMiddleware from "./middlewares/protectRoutes";
+import requireLoginMiddleware from "./middlewares/requireLogin";
 
-const middlewares = [authenticateMiddleware, protectRoutesMiddleware];
+const middlewares = [
+  requireLoginMiddleware,
+  authenticateMiddleware,
+  protectRoutesMiddleware,
+];
 
 export async function middleware(request) {
   let response = NextResponse.next();
   for (const mw of middlewares) {
     let curResp = await mw(request, response);
-    response = curResp || response;
+    response = curResp?.response || response;
+    if (curResp?.stop) return response;
   }
   return response;
 }

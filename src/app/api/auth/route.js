@@ -3,6 +3,15 @@ import { cookies } from "next/headers";
 import { getAccessToken } from "@/server/discordRequests";
 
 export async function GET(request) {
+  let redirectUrl = `${process.env.HOST}`;
+  const state = request.nextUrl.searchParams.get("state");
+  if (state && state.includes("-")) {
+    redirectUrl += state.split("-")[1];
+  } else redirectUrl += "/";
+
+  const error = request.nextUrl.searchParams.get("error");
+  if (error) return NextResponse.redirect(redirectUrl);
+
   const code = request.nextUrl.searchParams.get("code");
 
   if (!code) {
@@ -17,5 +26,5 @@ export async function GET(request) {
       JSON.stringify({ ...accessToken, expires_at })
     );
 
-  return NextResponse.redirect(`${process.env.HOST}/`);
+  return NextResponse.redirect(redirectUrl);
 }

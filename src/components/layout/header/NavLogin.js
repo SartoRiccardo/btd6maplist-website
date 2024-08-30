@@ -7,6 +7,7 @@ import { useAppSelector } from "@/lib/store";
 import { useState } from "react";
 import Collapse from "react-bootstrap/Collapse";
 import { useDiscordToken } from "@/utils/hooks";
+import { usePathname } from "next/navigation";
 
 const discOAuth2Params = {
   client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
@@ -20,14 +21,16 @@ const discOAuth2Params = {
 
 export default function NavLogin({ onNavigate }) {
   const accessToken = useDiscordToken();
+  const pathname = usePathname();
   const { maplistProfile, btd6Profile } = useAppSelector(selectMaplistProfile);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(false);
 
   const cmpLoggedOut = (
     <a
-      href={`https://discord.com/oauth2/authorize?${new URLSearchParams(
-        discOAuth2Params
-      ).toString()}`}
+      href={`https://discord.com/oauth2/authorize?${new URLSearchParams({
+        state: `-${pathname}`,
+        ...discOAuth2Params,
+      }).toString()}`}
     >
       <li>
         <i className="bi bi-discord me-2" />

@@ -8,8 +8,15 @@ const matcher = [
   "/lcc/add.*",
 ];
 
-export default async function protectRoutesMiddleware(request, response) {
-  const resp404 = NextResponse.rewrite(new URL("/not-found", request.url));
+/**
+ * Return 404 if attempting to access one of the routes in matcher
+ * without being a Maplist moderator.
+ */
+export default async function protectRoutesMiddleware(request, _rsp) {
+  const resp404 = {
+    response: NextResponse.rewrite(new URL("/not-found", request.url)),
+    stop: true,
+  };
 
   for (const match of matcher) {
     if (RegExp("^" + match).test(request.nextUrl.pathname)) {

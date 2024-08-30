@@ -1,8 +1,11 @@
-import { NextResponse } from "next/server";
 import { refreshAccessToken } from "../server/discordRequests";
 
 const REFRESH_BEFORE = 3600 * 24 * 2;
 
+/**
+ * Check validity and expiration date of the access token.
+ * Refresh and/or delete its cookie if necessary.
+ */
 export default async function authenticateMiddleware(request, response) {
   if (!request.cookies.has("accessToken")) return;
 
@@ -34,6 +37,6 @@ export default async function authenticateMiddleware(request, response) {
         expires_at: Math.floor(Date.now() / 1000 + newAccessToken.expires_in),
       })
     );
-    return response;
+    return { response, stop: false };
   }
 }
