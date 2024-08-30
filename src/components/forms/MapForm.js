@@ -23,13 +23,12 @@ import { FormikContext } from "@/contexts";
 import AddableField from "./AddableField";
 import TwoFieldEntry from "./TwoFieldEntry";
 import SidebarField from "./MapSidebarField";
+import MapCodeController, { codeRegex } from "./MapCodeController";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
 const MAX_TEXT_LEN = 100;
 const MAX_ALIAS_LENGTH = 20;
-
-const codeRegex = /^(?:https:\/\/join\.btd6\.com\/Map\/)?([(A-Za-z]{7})$/;
 
 const randomAliases = ["ouch", "bluddles", "muddles", "ws", "wshop"];
 
@@ -265,29 +264,6 @@ export default function MapForm({
           setSubmitting,
         } = formikProps;
 
-        useEffect(() => {
-          const codeMatch = values.code.match(codeRegex);
-          if (!codeMatch || errors.code || isFetching) return;
-          const code = codeMatch[1].toUpperCase();
-
-          const fetchMap = async () => {
-            // TODO handle race conditions
-            setIsFetching(true);
-            const [customMap, maplistMap] = await Promise.all([
-              getCustomMap(code),
-              getMap(code),
-            ]);
-            if (maplistMap) setValues(mapDataToFormik(maplistMap));
-            else if (customMap)
-              setValues({ ...defaultValues, code, name: customMap.name });
-            else setErrors({ ...errors, code: "No map with that code found" });
-            setCurrentMap({ code, valid: !!customMap, editing: !!maplistMap });
-            setIsFetching(false);
-          };
-
-          if (!currentMap || currentMap.code !== code) fetchMap();
-        }, [errors.code, values.code]);
-
         let errorCount = Object.keys(errors).length;
         if (!authLevels.isListMod && "placement_allver" in errors) errorCount--;
         if (!authLevels.isListMod && "placement_curver" in errors) errorCount--;
@@ -307,33 +283,29 @@ export default function MapForm({
               className="addmap"
             >
               {!code && (
-                <>
-                  <Form.Group className="mapcode-input">
-                    <Form.Label>Map Code</Form.Label>
-                    <Form.Control
-                      name="code"
-                      type="text"
-                      placeholder={"ZFMOOKU"}
-                      value={values.code}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      isInvalid={
-                        touched.code &&
-                        (values.code.length === 0 || "code" in errors)
-                      }
-                      isValid={!("code" in errors)}
-                      disabled={isSubmitting || disableInputs}
-                      autoComplete="off"
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.code}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-
-                  <p className="muted text-center">
-                    You can also paste the whole map share URL
-                  </p>
-                </>
+                <MapCodeController
+                  name="code"
+                  isFetching={isFetching}
+                  setIsFetching={setIsFetching}
+                  currentMap={currentMap?.code}
+                  onMapSuccess={({ mapData, isMaplist }) => {
+                    const code = isMaplist ? mapData.code : mapData.id;
+                    isMaplist
+                      ? setValues(mapDataToFormik(mapData))
+                      : setValues({
+                          ...defaultValues,
+                          code,
+                          name: mapData.name,
+                        });
+                    setCurrentMap({ code, valid: true, editing: isMaplist });
+                  }}
+                  onMapFail={() =>
+                    setErrors({
+                      ...errors,
+                      code: "No map with that code found",
+                    })
+                  }
+                />
               )}
 
               {currentMap && currentMap.valid && (
