@@ -43,7 +43,7 @@ export default function DragImage({
     processFiles(evt, Array.from(droppedFiles));
   };
 
-  const handleClick = (evt) => {
+  const handleClick = (_e) => {
     inputRef.current.click();
   };
 
@@ -54,7 +54,7 @@ export default function DragImage({
 
   return (
     <div
-      className={`dragfiles ${className}`}
+      className={`dragfiles ${disabled ? "disabled" : ""} ${className}`}
       style={style}
       name={name}
       onDrop={handleDrop}

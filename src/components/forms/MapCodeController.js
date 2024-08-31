@@ -6,7 +6,7 @@ import { useContext, useEffect } from "react";
 import { Form } from "react-bootstrap";
 
 export const codeRegex =
-  /^(?:https:\/\/join\.btd6\.com\/Map\/)?([(A-Za-z]{7})$/;
+  /^(?:https:\/\/join\.btd6\.com\/Map\/|https:\/\/data\.ninjakiwi\.com\/btd6\/maps\/map\/)?([(A-Za-z]{7})$/;
 
 export default function MapCodeController({
   name,

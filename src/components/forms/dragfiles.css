@@ -10,7 +10,6 @@
 .dragfiles:hover {
   cursor: pointer;
   border-color: var(--color-less-highlight);
-  color: var(--color-less-highlight);
 }
 
 .dragfiles > div > i.dragfile-icon {
@@ -21,4 +20,18 @@
 
 .dragfiles:hover > div > i.dragfile-icon {
   color: var(--color-less-highlight);
+}
+
+.dragfiles.disabled {
+  filter: brightness(80%);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dragfiles.disabled:hover {
+  cursor: default;
+  border-color: var(--color-primary);
+}
+
+.dragfiles.disabled:hover > div > i.dragfile-icon {
+  color: var(--color-primary);
 }
