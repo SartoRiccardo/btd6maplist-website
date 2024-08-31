@@ -1,8 +1,7 @@
 "use client";
 /* One thousand billion line code component please refactor immediately */
-import { getCustomMap } from "@/server/ninjakiwiRequests";
 import { Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
@@ -13,12 +12,7 @@ import {
   useDiscordToken,
   useMaplistConfig,
 } from "@/utils/hooks";
-import {
-  addMap,
-  deleteMap,
-  editMap,
-  getMap,
-} from "@/server/maplistRequests.client";
+import { addMap, deleteMap, editMap } from "@/server/maplistRequests.client";
 import { FormikContext } from "@/contexts";
 import AddableField from "./AddableField";
 import TwoFieldEntry from "./TwoFieldEntry";
