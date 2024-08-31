@@ -44,12 +44,6 @@ export default function MapCodeController({
       else if (customMap && onMapSuccess)
         onMapSuccess({ mapData: customMap, isMaplist: false });
       else if (onMapFail) onMapFail();
-      //   else setErrors({ ...errors, [key]: "No map with that code found" });
-      //   if (maplistMap) setValues(mapDataToFormik(maplistMap));
-      //   else if (customMap)
-      //     setValues({ ...defaultValues, code, name: customMap.name });
-      //   else setErrors({ ...errors, code: "No map with that code found" });
-      //   setCurrentMap({ code, valid: !!customMap, editing: !!maplistMap });
       if (setIsFetching) setIsFetching(false);
     };
 

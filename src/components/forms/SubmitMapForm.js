@@ -6,7 +6,7 @@ import { useDiscordToken } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import MapCodeController, { codeRegex } from "./MapCodeController";
 import Btd6Map from "../maps/Btd6Map";
-import SelectorButton from "../buttons/SelectorButton";
+import DragFiles from "./DragFiles";
 
 const MAX_TEXT_LEN = 500;
 
@@ -55,7 +55,7 @@ export default function SubmitMapForm({ onSubmit }) {
         code: "",
         notes: "",
         proposed: "0",
-        beat_proof: "",
+        proof_completion: [],
       }}
       onSubmit={handleSubmit}
     >
@@ -167,29 +167,32 @@ export default function SubmitMapForm({ onSubmit }) {
                             </div>
                           </div>
 
-                          <div className="d-flex w-100 justify-content-between mt-3">
-                            <p className="my-0 align-self-center">
+                          <div className="w-100 justify-content-between mt-3">
+                            <p className="text-center mb-0">
                               Proof of completion
                             </p>
-                            <div className="align-self-end">
-                              <Form.Control
-                                type="url"
-                                name="beat_proof"
-                                value={values.beat_proof}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                isInvalid={
-                                  touched.beat_proof &&
-                                  (values.beat_proof.length === 0 ||
-                                    "beat_proof" in errors)
-                                }
-                              />
-                            </div>
+                            <p className="muted text-center">
+                              Upload an image of you beating Round 100 on your
+                              own map
+                            </p>
+                            <DragFiles
+                              name="proof_completion"
+                              formats={["jpg", "png", "webp"]}
+                              limit={1}
+                              onChange={handleChange}
+                              value={values.proof_completion}
+                              className="w-100"
+                            >
+                              {values.proof_completion.length > 0 && (
+                                <div className="d-flex justify-content-center">
+                                  <img
+                                    style={{ maxWidth: "100%" }}
+                                    src={values.proof_completion[0].objectUrl}
+                                  />
+                                </div>
+                              )}
+                            </DragFiles>
                           </div>
-                          <p className="muted text-center">
-                            URL to an image of you beating Round 100 CHIMPs on
-                            your own map
-                          </p>
                         </div>
                       </div>
                     </div>

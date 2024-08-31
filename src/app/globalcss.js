@@ -5,11 +5,11 @@ import "./globals.css";
 
 import "@/app/user/edit/useredit.css";
 
+import "@/components/forms/dragfiles.css";
 import "@/components/forms/newmap.css";
 
 import "@/components/maps/maplistcompletions.css";
 import "@/components/maps/btd6map.css";
-// import "@/components/maps/completionrow.css";
 import "@/components/maps/difficultyselector.css";
 import "@/components/maps/mapplacements.css";
 

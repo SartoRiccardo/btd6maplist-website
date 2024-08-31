@@ -1,0 +1,24 @@
+.dragfiles {
+  padding: 0.5rem;
+  border-style: dashed;
+  border-width: 5px;
+  border-color: var(--color-primary);
+  border-radius: 1rem;
+  transition: border-color 0.2s linear;
+}
+
+.dragfiles:hover {
+  cursor: pointer;
+  border-color: var(--color-less-highlight);
+  color: var(--color-less-highlight);
+}
+
+.dragfiles > div > i.dragfile-icon {
+  color: var(--color-primary);
+  transition: color 0.2s linear;
+  font-size: 4rem;
+}
+
+.dragfiles:hover > div > i.dragfile-icon {
+  color: var(--color-less-highlight);
+}
