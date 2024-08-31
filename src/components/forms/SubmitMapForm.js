@@ -39,7 +39,12 @@ export default function SubmitMapForm({ onSubmit, type }) {
 
   const handleSubmit = async (values, { setErrors }) => {
     const code = values.code.match(codeRegex)[1].toUpperCase();
-    const payload = { ...values, code, proposed: parseInt(values.proposed) };
+    const payload = {
+      ...values,
+      code,
+      type,
+      proposed: parseInt(values.proposed),
+    };
     console.log(payload);
 
     const result = await onSubmit(accessToken.access_token, payload);
@@ -242,7 +247,7 @@ function SidebarForm({ type }) {
             </div>
           )}
         </DragFiles>
-        {errors.proof_completion && (
+        {touched.proof_completion && errors.proof_completion && (
           <p className="text-danger text-center">{errors.proof_completion}</p>
         )}
       </div>

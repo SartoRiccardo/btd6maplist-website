@@ -18,7 +18,7 @@ export default function AddMapListEntry({ on }) {
 
       <div className="col-12 col-sm-6 col-lg-4">
         <AddMapButton
-          href="/map/submit"
+          href={`/map/submit?on=${on}`}
           title="Submit a map"
           icon={<i className="warn bi bi-pencil-fill" />}
         />
