@@ -32,7 +32,7 @@ export default function NavLogin({ onNavigate }) {
         ...discOAuth2Params,
       }).toString()}`}
     >
-      <li>
+      <li style={{ color: "#9fa8da" }}>
         <i className="bi bi-discord me-2" />
         Login
       </li>
