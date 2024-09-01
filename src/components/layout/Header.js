@@ -15,7 +15,14 @@ export default function Header() {
         <div className="col-auto">
           <div className="d-flex flex-column justify-content-center h-100">
             <Link scroll={false} href="/" className={btd6Font.className}>
-              <p>BTD6 Maplist</p>
+              <p>
+                <img
+                  src="/maplist.webp"
+                  className="me-1"
+                  style={{ width: "1.5em", height: "1.5em" }}
+                />{" "}
+                BTD6 Maplist
+              </p>
             </Link>
           </div>
         </div>
