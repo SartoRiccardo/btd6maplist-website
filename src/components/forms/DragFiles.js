@@ -31,7 +31,7 @@ export default function DragImage({
       });
     if (limit > 0) filesArray = filesArray.slice(0, limit);
     filesArray = filesArray.map((file) => ({
-      ...file,
+      file,
       objectUrl: URL.createObjectURL(file),
     }));
     onChange({ ...evt, target: { ...evt.target, name, value: filesArray } });

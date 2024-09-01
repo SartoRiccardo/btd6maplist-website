@@ -8,11 +8,12 @@ import MapCodeController, { codeRegex } from "./MapCodeController";
 import Btd6Map from "../maps/Btd6Map";
 import DragFiles from "./DragFiles";
 import Link from "next/link";
+import { submitMap } from "@/server/maplistRequests.client";
 
 const MAX_TEXT_LEN = 500;
 
 export default function SubmitMapForm({ onSubmit, type }) {
-  onSubmit = onSubmit || (async (_at, _pl) => {});
+  onSubmit = onSubmit || submitMap;
   type = type || "list";
 
   const [currentMap, setCurrentMap] = useState(null);
@@ -40,12 +41,12 @@ export default function SubmitMapForm({ onSubmit, type }) {
   const handleSubmit = async (values, { setErrors }) => {
     const code = values.code.match(codeRegex)[1].toUpperCase();
     const payload = {
-      ...values,
       code,
       type,
+      notes: notes.length ? notes : null,
       proposed: parseInt(values.proposed),
+      proof_completion: values.proof_completion[0].file,
     };
-    console.log(payload);
 
     const result = await onSubmit(accessToken.access_token, payload);
     if (result && Object.keys(result.errors).length) {

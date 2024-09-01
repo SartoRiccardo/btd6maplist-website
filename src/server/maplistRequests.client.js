@@ -65,3 +65,23 @@ export async function getMap(code) {
   if (!response.ok) return null;
   return await response.json();
 }
+
+export async function submitMap(token, payload) {
+  const body = new FormData();
+  const data = { ...payload };
+  delete data.proof_completion;
+  body.append("data", JSON.stringify(data));
+  body.append("proof_completion", payload.proof_completion);
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/maps/submit`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body,
+    }
+  );
+  if (response.status === 413)
+    return { errors: { proof_completion: "File is too large!" } };
+  if (!response.ok) return await response.json();
+}
