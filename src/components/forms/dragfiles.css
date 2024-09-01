@@ -5,9 +5,19 @@
   border-color: var(--color-primary);
   border-radius: 1rem;
   transition: border-color 0.2s linear;
+  position: relative;
+
+  & .dragdetector {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
 }
 
-.dragfiles:hover {
+.dragfiles:hover,
+.dragfiles.dragging {
   cursor: pointer;
   border-color: var(--color-less-highlight);
 }
@@ -18,7 +28,8 @@
   font-size: 4rem;
 }
 
-.dragfiles:hover > div > i.dragfile-icon {
+.dragfiles:hover > div > i.dragfile-icon,
+.dragfiles.dragging > div > i.dragfile-icon {
   color: var(--color-less-highlight);
 }
 

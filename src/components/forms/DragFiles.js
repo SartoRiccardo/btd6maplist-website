@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // https://medium.com/@dprincecoder/creating-a-drag-and-drop-file-upload-component-in-react-a-step-by-step-guide-4d93b6cc21e0
 export default function DragImage({
@@ -19,6 +19,7 @@ export default function DragImage({
   style = style || {};
   formats = formats ? formats.map((f) => f.toLowerCase()) : [];
 
+  const [dragging, setDragging] = useState(false);
   const inputRef = useRef();
 
   const processFiles = (evt, filesArray) => {
@@ -54,7 +55,9 @@ export default function DragImage({
 
   return (
     <div
-      className={`dragfiles ${disabled ? "disabled" : ""} ${className}`}
+      className={`dragfiles ${disabled ? "disabled" : ""} ${
+        dragging ? "dragging" : ""
+      } ${className}`}
       style={style}
       name={name}
       onDrop={handleDrop}
@@ -75,6 +78,13 @@ export default function DragImage({
           <i className="bi bi-file-earmark-arrow-up-fill align-self-center dragfile-icon" />
         </div>
       )}
+      <div
+        className="dragdetector"
+        onDragEnter={(_e) => setDragging(true)}
+        onDragLeave={(_e) => setDragging(false)}
+        onDragEnd={(_e) => setDragging(false)}
+        onDrop={(_e) => setDragging(false)}
+      />
     </div>
   );
 }
