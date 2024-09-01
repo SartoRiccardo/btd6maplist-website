@@ -7,9 +7,18 @@ import { listVersions } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { Button } from "react-bootstrap";
 
-export const metadata = {
-  title: "Leaderboard | BTD6 Maplist",
-};
+export async function generateMetadata({ searchParams }) {
+  let version = searchParams?.format || "current";
+  if (!["current", "all"].includes(version.toLowerCase())) version = "current";
+  let value = searchParams?.value || "points";
+  if (!["points", "lccs"].includes(value.toLowerCase())) value = "points";
+
+  return {
+    title: `${value === "points" ? "Point" : "LCC"} Leaderboard${
+      version === "all" ? " (all versions)" : ""
+    } | BTD6 Maplist`,
+  };
+}
 
 const leaderboards = [
   { key: "points", title: "Points" },
@@ -18,13 +27,10 @@ const leaderboards = [
 
 export default async function ListLeaderboard({ searchParams }) {
   let version = searchParams?.format || "current";
-  if (!["current", "all"].includes(version.toLowerCase())) {
-    version = "current";
-  }
+  if (!["current", "all"].includes(version.toLowerCase())) version = "current";
   let value = searchParams?.value || "points";
-  if (!["points", "lccs"].includes(value.toLowerCase())) {
-    value = "points";
-  }
+  if (!["points", "lccs"].includes(value.toLowerCase())) value = "points";
+
   const leaderboard = await getListLeaderboard(version, value);
 
   let curFormat =
@@ -32,12 +38,6 @@ export default async function ListLeaderboard({ searchParams }) {
 
   return (
     <>
-      <title>
-        {`${value === "points" ? "Point" : "LCC"} Leaderboard${
-          version === "all" ? " (all versions)" : ""
-        } | BTD6 Maplist`}
-      </title>
-
       <h1 className="text-center">Leaderboard</h1>
 
       <DifficultySelector

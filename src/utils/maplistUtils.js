@@ -79,6 +79,8 @@ export const difficulties = [
     image: "/icon_casual.png",
     description:
       "Easy and enjoyable, yet not brainless maps. Expect a game where many towers are viable. Comparable difficulty to maps like Workshop and Muddy Puddles.",
+    meta_desc:
+      "Easy and enjoyable, yet not brainless maps. Expect a game where many towers are viable.",
   },
   {
     name: "Medium",
@@ -87,6 +89,8 @@ export const difficulties = [
     image: "/icon_medium.png",
     description:
       "Challenging, but not frustrating or intense difficulty. May have complications at any point. Comparable difficulty to maps like Sanctuary and Flooded Valley.",
+    meta_desc:
+      "Challenging, but not frustrating or intense difficulty. May have complications at any point.",
   },
   {
     name: "Hard",
@@ -95,6 +99,8 @@ export const difficulties = [
     image: "/icon_hard.png",
     description:
       "Has at least one phase of the game that is very tough, usually a hard lategame at minimum. Comparable difficulty to maps like Dark Dungeons and Quad.",
+    meta_desc:
+      "Has at least one phase of the game that is very tough, usually a hard lategame at minimum.",
   },
   {
     name: "True",
@@ -103,6 +109,8 @@ export const difficulties = [
     image: "/icon_true.png",
     description:
       "If you're asking for one of the best, you'd better be one of the best. Many strategies will not work. Comparable to, or even greater difficulty than maps like Bloody Puddles and Ouch.",
+    meta_desc:
+      "Many strategies will not work. If you're asking for one of the best, you'd better be one of the best.",
   },
 ];
 

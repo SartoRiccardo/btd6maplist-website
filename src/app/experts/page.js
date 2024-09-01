@@ -6,9 +6,19 @@ import { getExpertMaplist } from "@/server/maplistRequests";
 import AddMapListEntry from "@/components/layout/maplists/AddMapListEntry";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 
-export const metadata = {
-  title: "Expert Maplist | BTD6 Expert Maplist",
-};
+export async function generateMetadata({ searchParams }) {
+  let difficulty = searchParams.difficulty || "casual";
+  if (!difficulties.map(({ query }) => query).includes(difficulty))
+    difficulty = "casual";
+
+  let curDifficulty =
+    difficulties.find(({ query }) => difficulty === query) || difficulties[0];
+
+  return {
+    title: `${curDifficulty.name} Experts | BTD6 Maplist`,
+    description: `A list of difficult community-made Bloons TD 6 maps. ${curDifficulty.meta_desc}`,
+  };
+}
 
 export default async function Experts({ searchParams }) {
   const maplist = await getExpertMaplist();
@@ -22,7 +32,7 @@ export default async function Experts({ searchParams }) {
 
   return (
     <>
-      <title>{`${curDifficulty.name} Experts | BTD6 Expert Maplist`}</title>
+      <title>{}</title>
 
       <h1 className="text-center">Expert Maplist</h1>
 

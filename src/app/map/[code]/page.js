@@ -11,6 +11,14 @@ import SelectorButton from "@/components/buttons/SelectorButton";
 import { listVersions } from "@/utils/maplistUtils";
 import { EditPencilAdmin, LoggedUserRun } from "./page.client";
 
+export async function generateMetadata({ params }) {
+  const mapData = await getMap(params.code);
+  return {
+    title: `${mapData?.name || "Custom Map"} | BTD6 Maplist`,
+    description: "Custom map in the Bloons TD 6 Maplist",
+  };
+}
+
 export default async function MapOverview({ params }) {
   const { code } = params;
   const mapData = await getMap(code);
@@ -60,8 +68,6 @@ export default async function MapOverview({ params }) {
 
   return (
     <>
-      <title>{`${mapData.name} | BTD6 Maplist`}</title>
-
       <h1 className="text-center mb-2">
         {mapData.name}
         <EditPencilAdmin href={`/map/${code}/edit`} />

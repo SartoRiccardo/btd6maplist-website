@@ -5,15 +5,24 @@ import DifficultySelector from "@/components/maps/DifficultySelector";
 import { getTheList } from "@/server/maplistRequests";
 import { listVersions } from "@/utils/maplistUtils";
 
-export const metadata = {
-  title: "The List | BTD6 Maplist",
-};
+export async function generateMetatdata({ searchParams }) {
+  let version = searchParams?.format || "current";
+  if (!listVersions.map(({ query }) => query).includes(version))
+    version = "current";
+
+  return {
+    title: `The List ${
+      version === "all" ? "(all versions)" : ""
+    } | BTD6 Maplist`,
+    description:
+      "50 of the hardest community-made Bloons TD 6 maps, ranked by difficulty. Each one awards points on completion",
+  };
+}
 
 export default async function TheListPage({ searchParams }) {
   let version = searchParams?.format || "current";
-  if (!listVersions.map(({ query }) => query).includes(version)) {
+  if (!listVersions.map(({ query }) => query).includes(version))
     version = "current";
-  }
 
   let curFormat =
     listVersions.find(({ query }) => version === query) || listVersions[0];
@@ -21,10 +30,6 @@ export default async function TheListPage({ searchParams }) {
 
   return (
     <>
-      <title>
-        {`The List ${version === "all" ? "(all versions)" : ""} | BTD6 Maplist`}
-      </title>
-
       <h1 className="text-center">The List</h1>
 
       <DifficultySelector

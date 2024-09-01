@@ -11,6 +11,13 @@ import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 
 const btnSize = 50;
 
+export async function generateMetadata({ params }) {
+  const userData = await getUser(params.uid);
+  return {
+    title: `${userData?.name || "User Page"} | BTD6 Maplist`,
+  };
+}
+
 export default async function PageUser({ params }) {
   const { uid } = params;
   const userData = await getUser(uid);
@@ -20,10 +27,9 @@ export default async function PageUser({ params }) {
   const grantedRoles = userRoles.filter(({ requirement }) =>
     requirement({ user: userData })
   );
+
   return (
     <>
-      <title>{`${userData.name} | BTD6 Maplist`}</title>
-
       <div
         className={`panel d-flex mb-3 py-3 ${styles.profileViewContainer}`}
         style={{
