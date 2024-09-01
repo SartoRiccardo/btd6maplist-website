@@ -3,13 +3,20 @@ export function RunSubmissionRules({ on }) {
 
   return (
     <div className="panel pt-3 px-3">
-      <h2 className="text-center">Burden of Proof</h2>
+      <h2 className="text-center">How to Submit</h2>
       <p>
-        In order for a run to be accepted, it must be submitted with a valid
-        screenshot after round 100 is completed. You must show either the tower
-        screen after pressing the review map button, or that the current round
-        is 101 or higher. Be prepared to list your build order, hardest rounds,
-        early game setup, etc. if your run is deemed suspicious.
+        To submit a run, you must submit a valid screenshot after Round 100 is
+        completed by showing either the tower screen after pressing the{" "}
+        <i>Review Map</i> button, or that the current round is 101 or higher.
+        You can submit runs either through the Maplist Discord server or by
+        clicking the <b>Submit Run</b> button on the website on a map's page.
+        <br />
+        <br />
+        Be prepared to list your build order, hardest rounds, early game setup,
+        etc. if your run is deemed suspicious.{" "}
+        <span className="muted">
+          Doesn't happen often, but it <i>can</i> happen.
+        </span>
       </p>
 
       <h2 className="text-center">

@@ -167,7 +167,9 @@ export default async function MapOverview({ params }) {
             {mapData.optimal_heros.length > 0 && (
               <>
                 <div className="col-12 col-lg-4">
-                  <h3 className="mt-0 mt-lg-2">Optimal Heros</h3>
+                  <h3 className="mt-0 mt-lg-2">
+                    Optimal Hero{mapData.optimal_heros.length > 0 && "s"}
+                  </h3>
                 </div>
                 <div
                   className={`col-12 col-lg-8 d-flex flex-col-space justify-content-lg-end ${styles.optimalHeroContainer}`}
