@@ -27,7 +27,7 @@ export const mapDataToFormik = (mapData) => {
     placement_curver:
       mapData.placement_cur === -1 ? "" : mapData.placement_cur.toString(),
     placement_allver:
-      mapData.placement_cur === -1 ? "" : mapData.placement_all.toString(),
+      mapData.placement_all === -1 ? "" : mapData.placement_all.toString(),
     difficulty: mapData.difficulty.toString(),
     map_data: ["a", null].includes(mapData.map_data) ? "" : mapData.map_data,
     map_data_req_permission: mapData.map_data === "a",
