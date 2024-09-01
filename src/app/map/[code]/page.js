@@ -158,6 +158,20 @@ export default async function MapOverview({ params }) {
                 </ul>
               </div>
             )}
+            {mapData.optimal_heros.length > 0 && (
+              <>
+                <div className="col-12 col-lg-4">
+                  <h3 className="mt-0 mt-lg-2">Optimal Heros</h3>
+                </div>
+                <div
+                  className={`col-12 col-lg-8 d-flex flex-col-space justify-content-lg-end ${styles.optimalHeroContainer}`}
+                >
+                  {mapData.optimal_heros.map((hero) => (
+                    <img key={hero} src={`/heros/hero_${hero}.webp`} />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

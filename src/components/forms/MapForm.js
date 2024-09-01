@@ -54,6 +54,25 @@ const getRepeatedIndexes = (list) => {
   return repeated;
 };
 
+const heros = [
+  "quincy",
+  "gwen",
+  "obyn",
+  "striker",
+  "churchill",
+  "ben",
+  "ezili",
+  "pat",
+  "adora",
+  "brickell",
+  "etienne",
+  "sauda",
+  "psi",
+  "geraldo",
+  "corvus",
+  "rosalia",
+];
+
 const defaultValues = {
   code: "",
   name: "",
@@ -68,7 +87,7 @@ const defaultValues = {
   additional_codes: [],
   version_compatibilities: [],
   aliases: [],
-  // optimal_heros: [],
+  optimal_heros: ["geraldo"],
 };
 
 export default function MapForm({
@@ -171,6 +190,15 @@ export default function MapForm({
     if (!values.creators.some(({ id }) => id.length))
       errors["creators[0].id"] = "Must have at least 1 creator";
 
+    if (!values.optimal_heros.length) {
+      errors.optimal_heros = (
+        <>
+          Select at least one hero!{" "}
+          <span className="muted">(If in doubt, pick Geraldo)</span>
+        </>
+      );
+    }
+
     return errors;
   };
 
@@ -250,6 +278,7 @@ export default function MapForm({
           handleChange,
           handleBlur,
           values,
+          setFieldValue,
           setValues,
           touched,
           errors,
@@ -426,6 +455,37 @@ export default function MapForm({
                         </div>
                       </div>
                     </div>
+
+                    <h2 className="mt-3">Optimal Heros</h2>
+                    <div className="herobtn-container">
+                      {heros.map((h) => (
+                        <Button
+                          key={h}
+                          className={`herobtn ${
+                            values.optimal_heros.includes(h) ? "active" : ""
+                          }`}
+                          onClick={(_e) => {
+                            if (values.optimal_heros.includes(h))
+                              setFieldValue(
+                                "optimal_heros",
+                                values.optimal_heros.filter((h1) => h1 !== h)
+                              );
+                            else
+                              setFieldValue("optimal_heros", [
+                                ...values.optimal_heros,
+                                h,
+                              ]);
+                          }}
+                        >
+                          <img src={`/heros/hero_${h}.webp`} alt={h} />
+                        </Button>
+                      ))}
+                    </div>
+                    {errors.optimal_heros && (
+                      <p className="text-center mb-0 text-danger">
+                        {errors.optimal_heros}
+                      </p>
+                    )}
 
                     <h2 className="mt-3">Aliases</h2>
                     <AddableField name="aliases" defaultValue={{ alias: "" }}>
