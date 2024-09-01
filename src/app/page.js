@@ -43,7 +43,7 @@ export default async function Home() {
       <div className="row justify-content-center mb-3 font-border">
         <div className="col-6 col-md-4 col-lg-3">
           <Link className="no-underline" href="/list" scroll={false}>
-            <div className="panel shadow pt-3 h-100">
+            <div className="panel bg-list shadow pt-3 h-100">
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
                   <SelectorButton active>
@@ -56,14 +56,14 @@ export default async function Home() {
               </div>
               <p>
                 Community-curated list of 50 maps, ranked from hardest to
-                easiest.
+                easiest. Beat them to gain points and climb the leaderboard!
               </p>
             </div>
           </Link>
         </div>
         <div className="col-6 col-md-4 col-lg-3">
           <Link className="no-underline" href="/experts" scroll={false}>
-            <div className="panel shadow pt-3 h-100">
+            <div className="panel bg-experts shadow pt-3 h-100">
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
                   <SelectorButton active>
@@ -75,8 +75,8 @@ export default async function Home() {
                 </div>
               </div>
               <p>
-                Maps of varying difficulty, but none brainless, where more
-                challenges and strategies are viable
+                Maps of varying difficulty, but none too easy, where more of the
+                classic challenges and strategies are viable.
               </p>
             </div>
           </Link>
@@ -108,8 +108,8 @@ export default async function Home() {
             <span className="d-inline-block me-2">
               <UserEntry id="508409944736006154" centered={true} inline />
             </span>
-            for helping to set up the Discord server and designing its profile
-            picture
+            for helping to set up the Discord server and designing the project's
+            icon
           </li>
           <li>
             <span className="d-inline-block me-2">

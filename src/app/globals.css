@@ -7,6 +7,9 @@
   --color-text: white;
   --color-text-muted: #b0bec5;
 
+  --color-maplist: #2e7d32;
+  --color-experts: #7b1fa2;
+
   --bs-btn-success: #198754;
 }
 
@@ -128,6 +131,14 @@ a > .panel:hover {
 
 a.white-text {
   color: var(--color-text);
+}
+
+.bg-list {
+  background-color: var(--color-maplist);
+}
+
+.bg-experts {
+  background-color: var(--color-experts);
 }
 
 /* Buttons */

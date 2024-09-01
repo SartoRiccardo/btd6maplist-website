@@ -126,7 +126,6 @@ export function MapSubmissionRules({ on }) {
         maps verified and accepted in older updates will remain on the list
         unless proven impossible.
       </p>
-
       <h2 className="text-center">List Changes</h2>
       <h3>Impossible maps will be removed</h3>
       <p>
@@ -138,7 +137,6 @@ export function MapSubmissionRules({ on }) {
         You may not replace a current list map with an updated version unless
         that map falls of the list or if the map has identical gameplay.
       </p>
-
       <h2 className="text-center">List Map Quality Standards</h2>
       {on === "list" ? (
         <p>
@@ -158,6 +156,10 @@ export function MapSubmissionRules({ on }) {
           You can use recently accepted maps as a point of reference.
         </p>
       )}
+      <p>
+        In general, if a map is rejected, it falls in one or more of these
+        categories:
+      </p>
 
       <ol>
         <li>Map is too similar to an existing map.</li>
