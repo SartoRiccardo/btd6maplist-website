@@ -90,15 +90,14 @@ export default async function MapOverview({ params }) {
               mapData.map_data_compatibility.length > 0) && (
               <div className="col-12 mb-3">
                 {mapData.map_data && mapData.map_data !== "a" ? (
-                  <a href={mapData.map_data} target="_blank">
-                    <h3>
-                      Map Data{" "}
-                      {mapData.map_data_compatibility.length > 0 &&
-                        "& Compatibility"}
-                      &nbsp;
-                      <i className="bi bi-box-arrow-up-right ml-2" />
-                    </h3>
-                  </a>
+                  <h3>
+                    <a href={mapData.map_data} target="_blank">
+                      Map Data&nbsp;
+                      <i className="bi bi-box-arrow-up-right ml-1" />
+                    </a>{" "}
+                    {mapData.map_data_compatibility.length > 0 &&
+                      "& Compatibility"}
+                  </h3>
                 ) : (
                   <h3>
                     Map Data{" "}
