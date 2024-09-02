@@ -52,6 +52,14 @@ export async function getUser(id) {
   return await response.json();
 }
 
+export async function getUserCompletions(id) {
+  const response = await fetch(
+    `${process.env.API_URL}/users/${id}/completions`
+  );
+  if (!response.ok) return [];
+  return await response.json();
+}
+
 export async function getListLeaderboard(version, value) {
   const response = await fetch(
     `${process.env.API_URL}/maps/leaderboard?version=${version}&value=${value}`,

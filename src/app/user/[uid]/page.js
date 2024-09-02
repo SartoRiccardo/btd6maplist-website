@@ -1,6 +1,5 @@
 import styles from "./userpage.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
-import Btd6MapRow from "@/components/maps/Btd6MapRow";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import { getUser } from "@/server/maplistRequests";
@@ -8,6 +7,8 @@ import { getPositionColor } from "@/utils/functions";
 import { difficulties, userRoles } from "@/utils/maplistUtils";
 import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
+import UserCompletions from "@/components/users/UserCompletions";
+import { Suspense } from "react";
 
 const btnSize = 50;
 
@@ -73,21 +74,9 @@ export default async function PageUser({ params }) {
       </div>
 
       <h2 className="text-center">Completions</h2>
-      {userData.completions.length ? (
-        userData.completions.map((completion) => (
-          <Btd6MapRow
-            key={completion.map.code}
-            code={completion.map.code}
-            name={completion.map.name}
-            hrefBase="/map"
-            completion={completion}
-            mapIdxCurver={completion.map.placement_cur}
-            mapIdxAllver={completion.map.placement_all}
-          />
-        ))
-      ) : (
-        <p className="fs-5 muted text-center">Nothing here yet!</p>
-      )}
+      <Suspense fallback={null}>
+        <UserCompletions userId={uid} />
+      </Suspense>
 
       <h2 className="text-center mt-4">Created Maps</h2>
       <div className="row">
