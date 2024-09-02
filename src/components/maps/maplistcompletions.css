@@ -28,6 +28,11 @@
   padding-bottom: 0.5rem;
 }
 
+.completion-placeholder {
+  filter: opacity(80%);
+  min-height: 67px;
+}
+
 /* >=lg */
 @media only screen and (min-width: 991.98px) {
   .pointsGainedContanier > div {

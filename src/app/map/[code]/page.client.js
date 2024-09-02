@@ -1,30 +1,59 @@
 "use client";
 import CompletionRow from "@/components/maps/CompletionRow";
-import UserEntry from "@/components/users/UserEntry.client";
+import UserEntry_C from "@/components/users/UserEntry.client";
 import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
-import { useAuthLevels } from "@/utils/hooks";
+import { getOwnMapCompletions } from "@/server/maplistRequests.client";
+import { hashCode } from "@/utils/functions";
+import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function LoggedUserRun({ mapData }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
-  let completions = maplistProfile
-    ? maplistProfile.completions.filter(({ map }) => map.code === mapData.code)
-    : [];
+  const token = useDiscordToken();
+  const [completions, setCompletions] = useState(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      const completions = await getOwnMapCompletions(
+        token.access_token,
+        mapData.code
+      );
+      setCompletions(completions);
+    };
+    getData();
+  }, [mapData.code]);
+
+  const equalRuns = {};
+  const keyOrder = [];
+  if (completions !== null)
+    for (const run of completions) {
+      const key = hashCode(run.user_ids.reduce((agg, uid) => agg + uid, ""));
+      if (!keyOrder.includes(key)) {
+        keyOrder.push(key);
+        equalRuns[key] = [];
+      }
+      equalRuns[key].push(run);
+    }
 
   return maplistProfile ? (
     <>
       <h3 className="text-center">Your Runs</h3>
-      {completions.length ? (
+      {completions === null ? (
+        <div className="flex-hcenter">
+          <div className="loader mb-4" />
+        </div>
+      ) : completions.length ? (
         <div className="mb-4">
-          {completions.map((completion, i) => (
+          {keyOrder.map((key) => (
             <CompletionRow
-              key={i}
-              completion={completion}
+              key={key}
+              completion={equalRuns[key]}
               mapIdxCurver={mapData.placement_cur}
               mapIdxAllver={mapData.placement_all}
               userEntry={
-                <UserEntry profile={maplistProfile} centered lead="sm" />
+                <UserEntry_C profile={maplistProfile} centered lead="sm" />
               }
             />
           ))}
