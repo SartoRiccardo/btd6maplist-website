@@ -2,19 +2,9 @@
 import { useMaplistConfig } from "@/utils/hooks";
 import { calcMapPoints } from "@/utils/maplistUtils";
 
-export default function MaplistPoints({
-  completion,
-  idx,
-  formats,
-  icon,
-  className,
-}) {
+export default function MaplistPoints({ completion, idx, icon, className }) {
   const maplistCfg = useMaplistConfig();
-  let isInFormats = completion.formats.includes(0);
-  for (let i = 0; i < formats.length && !isInFormats; i++)
-    isInFormats = isInFormats || completion.formats.includes(formats[i]);
-
-  return !isInFormats || idx < 0 || idx > maplistCfg.map_count ? null : (
+  return idx < 0 || idx > maplistCfg.map_count ? null : (
     <div className={`d-flex ${className ? className : ""}`}>
       {icon}
 

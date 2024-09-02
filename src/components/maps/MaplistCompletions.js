@@ -1,6 +1,7 @@
 import { getMapCompletions } from "@/server/maplistRequests";
 import CompletionRow from "./CompletionRow";
 import UserEntry from "../users/UserEntry";
+import { hashCode } from "@/utils/functions";
 
 export default async function MaplistCompletions({
   code,
@@ -9,15 +10,28 @@ export default async function MaplistCompletions({
 }) {
   const completions = await getMapCompletions(code);
 
+  let equalRuns = {};
+  let keyOrder = [];
+  for (const run of completions.completions) {
+    const key = hashCode(run.user_ids.reduce((agg, uid) => agg + uid, ""));
+    if (!keyOrder.includes(key)) {
+      keyOrder.push(key);
+      equalRuns[key] = [];
+    }
+    equalRuns[key].push(run);
+  }
+
   return (
     <div>
-      {completions.map((completion) => (
+      {keyOrder.map((key) => (
         <CompletionRow
-          key={`${completion.user_id}+${completion.formats.join(",")}`}
-          completion={completion}
+          key={key}
+          completion={equalRuns[key]}
           mapIdxCurver={mapIdxCurver}
           mapIdxAllver={mapIdxAllver}
-          userEntry={<UserEntry id={completion.user_id} centered lead="sm" />}
+          userEntry={equalRuns[key][0].user_ids.map((uid) => (
+            <UserEntry key={uid} id={uid} centered lead="sm" />
+          ))}
         />
       ))}
     </div>

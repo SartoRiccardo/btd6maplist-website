@@ -172,13 +172,13 @@ export default async function MapOverview({ params }) {
         <>
           <h3 className="text-center mt-3">List Completions</h3>
 
-          {/* <Suspense fallback={null}>
+          <Suspense fallback={null}>
             <MaplistCompletions
               code={code}
               mapIdxCurver={mapData.placement_cur}
               mapIdxAllver={mapData.placement_all}
             />
-          </Suspense> */}
+          </Suspense>
         </>
       )}
     </>
