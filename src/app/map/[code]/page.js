@@ -4,7 +4,7 @@ import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
 import UserEntry from "@/components/users/UserEntry";
 import { getMap } from "@/server/maplistRequests";
-import { listEquals, numberWithCommas } from "@/utils/functions";
+import { hashCode, listEquals, numberWithCommas } from "@/utils/functions";
 import { Fragment, Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/buttons/SelectorButton";
@@ -25,45 +25,13 @@ export default async function MapOverview({ params }) {
 
   if (!mapData) return <ResourceNotFound label="map" />;
 
-  let lccs = [];
-  mapData.lccs = mapData.lccs.map((obj) => ({
-    ...obj,
-    players: obj.players.map(({ id }) => id),
-  }));
-  if (mapData.lccs.length) {
-    let curRun = [
-      mapData.lccs[0].leftover,
-      mapData.lccs[0].proof,
-      mapData.lccs[0].players,
-      mapData.lccs[0].id,
-    ];
-    let formats = [];
-    for (const run of mapData.lccs) {
-      if (
-        curRun[0] === run.leftover &&
-        curRun[1] === run.proof &&
-        listEquals(curRun[2], run.players)
-      ) {
-        formats.push(run.format);
-      } else {
-        lccs.push({
-          id: curRun[3], // Dummy ID for compressed run
-          formats,
-          leftover: curRun[0],
-          proof: curRun[1],
-          players: curRun[2],
-        });
-        curRun = [run.leftover, run.proof, run.players, run.id];
-        formats = [run.format];
-      }
+  let equalLccs = {};
+  for (const run of mapData.lccs) {
+    const key = hashCode(run.lcc.proof + run.lcc.leftover.toString());
+    if (!(key in equalLccs)) {
+      equalLccs[key] = [];
     }
-    lccs.push({
-      id: curRun[3], // Dummy ID for compressed run
-      formats,
-      leftover: curRun[0],
-      proof: curRun[1],
-      players: curRun[2],
-    });
+    equalLccs[key].push(run);
   }
 
   return (
@@ -188,12 +156,14 @@ export default async function MapOverview({ params }) {
 
       <LoggedUserRun mapData={mapData} />
 
-      {lccs.length ? (
+      {mapData.lccs.length ? (
         <>
-          <h3 className="text-center">Current LCC{lccs.length !== 1 && "s"}</h3>
+          <h3 className="text-center">
+            Current LCC{mapData.lccs.length !== 1 && "s"}
+          </h3>
 
-          {lccs.map((lcc) => (
-            <LCC lcc={lcc} key={lcc.id} />
+          {Object.keys(equalLccs).map((key) => (
+            <LCC run={equalLccs[key]} key={key} />
           ))}
         </>
       ) : null}
@@ -202,13 +172,13 @@ export default async function MapOverview({ params }) {
         <>
           <h3 className="text-center mt-3">List Completions</h3>
 
-          <Suspense fallback={null}>
+          {/* <Suspense fallback={null}>
             <MaplistCompletions
               code={code}
               mapIdxCurver={mapData.placement_cur}
               mapIdxAllver={mapData.placement_all}
             />
-          </Suspense>
+          </Suspense> */}
         </>
       )}
     </>
@@ -225,16 +195,21 @@ function MapCompatibility({ status, startVer, endVer }) {
   );
 }
 
-function LCC({ lcc }) {
+// Assume `run` is an array of identical LCCs, even with different runs.
+// Assume `run.user_ids` is identical among all elements.
+function LCC({ run }) {
+  run = run instanceof Array ? run : [run];
+  const lccFormats = run.map(({ format }) => format);
   let formats = listVersions.filter(
-    ({ value }) => lcc.formats.includes(value) || lcc.formats.includes(0)
+    ({ value }) => lccFormats.includes(value) || lccFormats.includes(0)
   );
+  const lcc = run[0].lcc;
 
   return (
     <div className="panel my-2">
       <div className="row">
         <div className="col-12 col-md-6">
-          {lcc.players.map((id) => (
+          {run[0].user_ids.map((id) => (
             <UserEntry key={id} id={id} centered lead="sm" />
           ))}
         </div>
