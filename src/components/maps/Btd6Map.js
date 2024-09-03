@@ -68,9 +68,7 @@ export default function Btd6Map({
             src="/medal_lcc.webp"
             width={MEDAL_SIZE}
             height={MEDAL_SIZE}
-            className={
-              !(completion && completion.current_lcc) ? "comp-blocked" : ""
-            }
+            className={!(completion && completion.current_lcc) ? "d-none" : ""}
           />
         </div>
       )}

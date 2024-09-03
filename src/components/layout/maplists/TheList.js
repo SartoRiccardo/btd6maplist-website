@@ -6,6 +6,7 @@ import AddMapListEntry from "./AddMapListEntry";
 
 export default function TheList({ maps, format }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
+  console.log(format);
 
   return (
     <div className="row">
@@ -15,9 +16,7 @@ export default function TheList({ maps, format }) {
         let completion = null;
         if (maplistProfile) {
           let compIdx = maplistProfile.completions.findIndex(
-            ({ formats, map }) =>
-              map.code === code &&
-              (formats.includes(0) || formats.includes(format))
+            (comp) => comp.map === code && comp.format === format
           );
           if (compIdx > -1) completion = maplistProfile.completions[compIdx];
         }
