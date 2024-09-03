@@ -6,11 +6,13 @@ import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import DragFiles from "./DragFiles";
 import { listVersions } from "@/utils/maplistUtils";
+import { submitRun } from "@/server/maplistRequests.client";
+import Link from "next/link";
 
 const MAX_TEXT_LEN = 500;
 
 export default function SubmitRunForm({ onSubmit, mapData }) {
-  //   onSubmit = onSubmit || submitMap;
+  onSubmit = onSubmit || submitRun;
 
   const maplistCfg = useMaplistConfig();
   const [showErrorCount, setShowErrorCount] = useState(false);
@@ -60,22 +62,21 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   };
 
   const handleSubmit = async (values, { setErrors }) => {
-    const payload = { ...values, format: parseInt(values.format) };
+    const payload = {
+      ...values,
+      format: parseInt(values.format),
+      code: mapData.code,
+      proof_completion: values.proof_completion[0].file,
+    };
     if (!requiresVideoProof(values)) delete payload.video_proof_url;
 
-    // const payload = {
-    //   code,
-    //   type,
-    //   notes: notes.length ? notes : null,
-    //   proposed: parseInt(values.proposed),
-    //   proof_completion: values.proof_completion[0].file,
-    // };
-    // const result = await onSubmit(accessToken.access_token, payload);
-    // if (result && Object.keys(result.errors).length) {
-    //   setErrors(result.errors);
-    //   return;
-    // }
-    // setSuccess(true);
+    const result = await onSubmit(accessToken.access_token, payload);
+    if (result && Object.keys(result.errors).length) {
+      setErrors(result.errors);
+      console.log(result.errors);
+      return;
+    }
+    setSuccess(true);
   };
 
   return (
@@ -118,31 +119,37 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
             >
               <div className="row flex-row-space mt-5">
                 <div className="col-12 col-lg-6">
-                  <div className="panel py-3">
-                    <h2 className="text-center">Proof of Completion</h2>
-                    <DragFiles
-                      name="proof_completion"
-                      formats={["jpg", "png", "webp"]}
-                      limit={1}
-                      onChange={handleChange}
-                      value={values.proof_completion}
-                      className="w-100"
-                    >
-                      {values.proof_completion.length > 0 && (
-                        <div className="d-flex justify-content-center">
-                          <img
-                            style={{ maxWidth: "100%" }}
-                            src={values.proof_completion[0].objectUrl}
-                          />
-                        </div>
+                  {success ? (
+                    <div className="panel pt-3 pb-0 flex-hcenter">
+                      <img src="/misc/victory.webp" width={200} />
+                    </div>
+                  ) : (
+                    <div className="panel py-3">
+                      <h2 className="text-center">Proof of Completion</h2>
+                      <DragFiles
+                        name="proof_completion"
+                        formats={["jpg", "png", "webp"]}
+                        limit={1}
+                        onChange={handleChange}
+                        value={values.proof_completion}
+                        className="w-100"
+                      >
+                        {values.proof_completion.length > 0 && (
+                          <div className="d-flex justify-content-center">
+                            <img
+                              style={{ maxWidth: "100%" }}
+                              src={values.proof_completion[0].objectUrl}
+                            />
+                          </div>
+                        )}
+                      </DragFiles>
+                      {touched.proof_completion && errors.proof_completion && (
+                        <p className="text-danger text-center">
+                          {errors.proof_completion}
+                        </p>
                       )}
-                    </DragFiles>
-                    {touched.proof_completion && errors.proof_completion && (
-                      <p className="text-danger text-center">
-                        {errors.proof_completion}
-                      </p>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="col-12 col-lg-6">
@@ -283,9 +290,13 @@ function SidebarForm({ formats }) {
             type="text"
             name="video_proof_url"
             value={values.video_proof_url}
+            isInvalid={touched.video_proof_url && "video_proof_url" in errors}
             onChange={handleChange}
             onBlur={handleBlur}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.video_proof_url}
+          </Form.Control.Feedback>
         </Form.Group>
       )}
     </div>
@@ -294,7 +305,7 @@ function SidebarForm({ formats }) {
 
 function SidebarSuccess() {
   return (
-    <div className="h-100 flex-vcenter">
+    <div className="h-100 flex-vcenter py-4">
       <p className="text-center mb-0">
         <span className="lead">Your run has been submitted!</span>
         <br />
