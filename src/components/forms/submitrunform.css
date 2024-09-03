@@ -1,0 +1,13 @@
+.medal-check {
+  display: flex;
+  column-gap: 0.7rem;
+}
+
+.medal-check input {
+  align-self: center;
+}
+
+.inline-medal {
+  width: 2rem;
+  height: 2rem;
+}

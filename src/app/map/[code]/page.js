@@ -10,6 +10,8 @@ import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { listVersions } from "@/utils/maplistUtils";
 import { EditPencilAdmin, LoggedUserRun } from "./page.client";
+import { Button } from "react-bootstrap";
+import Link from "next/link";
 
 export async function generateMetadata({ params }) {
   const mapData = await getMap(params.code);
@@ -153,7 +155,15 @@ export default async function MapOverview({ params }) {
 
       <h2 className="text-center">Completions</h2>
 
-      <LoggedUserRun mapData={mapData} />
+      <div className="mb-4">
+        <h3 className="text-center">Your Runs</h3>
+        <LoggedUserRun mapData={mapData} />
+        <div className="flex-hcenter">
+          <Link href={`/map/${code}/submit`}>
+            <Button>Submit a Run</Button>
+          </Link>
+        </div>
+      </div>
 
       {mapData.lccs.length ? (
         <>

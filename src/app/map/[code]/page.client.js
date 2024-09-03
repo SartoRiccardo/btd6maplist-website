@@ -22,7 +22,7 @@ export function LoggedUserRun({ mapData }) {
       );
       setCompletions(completions);
     };
-    getData();
+    if (token) getData();
   }, [mapData.code]);
 
   const equalRuns = {};
@@ -38,32 +38,25 @@ export function LoggedUserRun({ mapData }) {
     }
 
   return maplistProfile ? (
-    <>
-      <h3 className="text-center">Your Runs</h3>
-      {completions === null ? (
-        <div className="flex-hcenter">
-          <div className="loader mb-4" />
-        </div>
-      ) : completions.length ? (
-        <div className="mb-4">
-          {keyOrder.map((key) => (
-            <CompletionRow
-              key={key}
-              completion={equalRuns[key]}
-              mapIdxCurver={mapData.placement_cur}
-              mapIdxAllver={mapData.placement_all}
-              userEntry={
-                <UserEntry_C profile={maplistProfile} centered lead="sm" />
-              }
-            />
-          ))}
-        </div>
-      ) : (
-        <p className="fs-5 muted text-center">
-          You haven't beaten this map yet!
-        </p>
-      )}
-    </>
+    completions === null ? (
+      <div className="flex-hcenter mb-4">
+        <div className="loader" />
+      </div>
+    ) : completions.length ? (
+      keyOrder.map((key) => (
+        <CompletionRow
+          key={key}
+          completion={equalRuns[key]}
+          mapIdxCurver={mapData.placement_cur}
+          mapIdxAllver={mapData.placement_all}
+          userEntry={
+            <UserEntry_C profile={maplistProfile} centered lead="sm" />
+          }
+        />
+      ))
+    ) : (
+      <p className="fs-5 muted text-center">You haven't beaten this map yet!</p>
+    )
   ) : null;
 }
 

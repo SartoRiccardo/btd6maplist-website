@@ -7,6 +7,7 @@ import "@/app/user/edit/useredit.css";
 
 import "@/components/forms/dragfiles.css";
 import "@/components/forms/newmap.css";
+import "@/components/forms/submitrunform.css";
 
 import "@/components/maps/maplistcompletions.css";
 import "@/components/maps/btd6map.css";
