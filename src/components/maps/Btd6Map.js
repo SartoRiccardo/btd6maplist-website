@@ -22,14 +22,7 @@ export default function Btd6Map({
 
   const cmpMap = (
     <div className={`shadow btd6map pb-3 ${className ? className : ""}`}>
-      <p className={`mapTitle ${btd6Font.className} font-border`}>
-        {name && verified && (
-          <i
-            className={`verifiedCheck btd6map-small bi bi-check-square-fill`}
-          />
-        )}{" "}
-        {name}
-      </p>
+      <p className={`mapTitle ${btd6Font.className} font-border`}>{name}</p>
 
       {placement !== undefined && Object.keys(maplistCfg).length && (
         <div className={`points shadow`}>
@@ -73,8 +66,12 @@ export default function Btd6Map({
         </div>
       )}
 
-      {verified && (!name || name.length === 0) && (
-        <i className={`verifiedCheck bi bi-check-square-fill`} />
+      {verified && (
+        <div
+          className={`verifiedCheck ${!name || name.length === 0 ? "up" : ""}`}
+        >
+          <i className="bi bi-check" />v{maplistCfg.current_btd6_ver / 10}
+        </div>
       )}
 
       {playBtn && (
