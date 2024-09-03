@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button, Collapse, Fade } from "react-bootstrap";
+import { Button, Fade } from "react-bootstrap";
 import { MapSubmissionRules, RunSubmissionRules } from "./MaplistRules";
 
 export default function SubmissionRules({ on }) {
