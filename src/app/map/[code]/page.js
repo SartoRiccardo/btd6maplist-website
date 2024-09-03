@@ -208,11 +208,13 @@ function MapCompatibility({ status, startVer, endVer }) {
 // Assume `run.user_ids` is identical among all elements.
 function LCC({ run }) {
   run = run instanceof Array ? run : [run];
+  const lcc = run[0].lcc;
+
   const lccFormats = run.map(({ format }) => format);
   let formats = listVersions.filter(
     ({ value }) => lccFormats.includes(value) || lccFormats.includes(0)
   );
-  const lcc = run[0].lcc;
+  if (!formats.length) return null;
 
   return (
     <div className="panel my-2">

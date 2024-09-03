@@ -1,3 +1,4 @@
+import { listVersions } from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import MaplistPoints from "./MaplistPoints";
 import RowMedals from "./RowMedals";
@@ -11,6 +12,9 @@ export default function CompletionColumn({
     .sort((c1, c2) => c1.format - c2.format)
     .map((compl) => {
       const { id, black_border, no_geraldo, current_lcc, format } = compl;
+      const runFormat = listVersions.find(({ value }) => value === format);
+      if (!runFormat) return null;
+
       return (
         <div key={id} className="row single-completion">
           <div className="col-6">
@@ -31,14 +35,8 @@ export default function CompletionColumn({
                   completion={compl}
                   idx={format === 1 ? mapIdxCurver : mapIdxAllver}
                   icon={
-                    <SelectorButton text={format === 1 ? "cur" : "all"} active>
-                      <img
-                        src={
-                          format === 1 ? "/icon_curver.png" : "/icon_allver.png"
-                        }
-                        width={35}
-                        height={35}
-                      />
+                    <SelectorButton text={runFormat.short} active>
+                      <img src={runFormat.image} width={35} height={35} />
                     </SelectorButton>
                   }
                   className={"ms-3"}

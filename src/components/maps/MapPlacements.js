@@ -1,5 +1,9 @@
 "use client";
-import { calcMapPoints, difficulties } from "@/utils/maplistUtils";
+import {
+  calcMapPoints,
+  difficulties,
+  listVersions,
+} from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import { titleFont } from "@/lib/fonts";
 import { useMaplistConfig } from "@/utils/hooks";
@@ -11,30 +15,26 @@ export default function MapPlacements({ mapData }) {
     mapData.difficulty > -1
       ? difficulties.filter((diff) => diff.value === mapData.difficulty)[0]
       : null;
+  listVersions;
   return (
     <>
-      {mapData.placement_cur > -1 && (
-        <DifficultyPanel
-          image="/icon_curver.png"
-          shortLabel="Maplist"
-          label={`#${mapData.placement_cur} ~ ${
-            Object.keys(maplistCfg).length
-              ? calcMapPoints(mapData.placement_cur, maplistCfg)
-              : "&nbsp&nbsp"
-          }pt`}
-        />
+      {listVersions.map(
+        ({ plcKey, image, diffPanelName }) =>
+          mapData[plcKey] > -1 &&
+          mapData[plcKey] <= maplistCfg.map_count && (
+            <DifficultyPanel
+              key={plcKey}
+              image={image}
+              shortLabel={diffPanelName}
+              label={`#${mapData[plcKey]} ~ ${
+                Object.keys(maplistCfg).length
+                  ? calcMapPoints(mapData[plcKey], maplistCfg)
+                  : "&nbsp&nbsp"
+              }pt`}
+            />
+          )
       )}
-      {mapData.placement_all > -1 && (
-        <DifficultyPanel
-          image="/icon_allver.png"
-          shortLabel="All Vers"
-          label={`#${mapData.placement_all} ~ ${
-            Object.keys(maplistCfg).length
-              ? calcMapPoints(mapData.placement_all, maplistCfg)
-              : "&nbsp&nbsp"
-          }pt`}
-        />
-      )}
+
       {expertDiff && (
         <DifficultyPanel
           image={expertDiff.image}

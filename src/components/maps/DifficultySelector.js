@@ -3,6 +3,8 @@ import SelectorButton from "../buttons/SelectorButton";
 import Link from "next/link";
 
 function DifficultySelector({ onChange, value, difficulties, href }) {
+  if (difficulties.length < 2) return null;
+
   return (
     <div className={`difficultySelector row`}>
       {difficulties.map((diff) => (

@@ -117,33 +117,37 @@ export const difficulties = [
 export const listVersions = [
   {
     name: "Current",
+    diffPanelName: "Current",
     short: "Cur",
     query: "current",
     value: 1,
     image: "/icon_curver.png",
+    plcKey: "placement_cur",
     description: "",
   },
-  {
-    name: "All Versions",
-    short: "All",
-    query: "all",
-    value: 2,
-    image: "/icon_allver.png",
-    description: (
-      <>
-        Unlike the Current Version format, you can play these maps in any past
-        versions. Check out the{" "}
-        <a
-          href="https://docs.google.com/document/d/1AcjTgWI2-mfj3-vJpY7YgKoAM5SYAGSIbonWI5urQQI"
-          target="_blank"
-        >
-          Old Versions Guide
-        </a>{" "}
-        to check how you can play (and optionally mod) past versions of BTD6.{" "}
-        <span className="muted">It's easier than it looks.</span>
-      </>
-    ),
-  },
+  // {
+  //   name: "All Versions",
+  //   diffPanelName: "All Vers",
+  //   short: "All",
+  //   query: "all",
+  //   value: 2,
+  //   image: "/icon_allver.png",
+  //   plcKey: "placement_all",
+  //   description: (
+  //     <>
+  //       Unlike the Current Version format, you can play these maps in any past
+  //       versions. Check out the{" "}
+  //       <a
+  //         href="https://docs.google.com/document/d/1AcjTgWI2-mfj3-vJpY7YgKoAM5SYAGSIbonWI5urQQI"
+  //         target="_blank"
+  //       >
+  //         Old Versions Guide
+  //       </a>{" "}
+  //       to check how you can play (and optionally mod) past versions of BTD6.{" "}
+  //       <span className="muted">It's easier than it looks.</span>
+  //     </>
+  //   ),
+  // },
 ];
 
 export const userRoles = [
