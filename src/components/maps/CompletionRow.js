@@ -10,7 +10,7 @@ export default function CompletionRow({
   completion = completion instanceof Array ? completion : [completion];
 
   return (
-    <div className={`panel my-2 ${className || ""}`}>
+    <div className={`panel my-2 overflow-hidden ${className || ""}`}>
       <div className="row">
         <div className="col-12 col-md-5 col-lg-7 align-self-center">
           {userEntry}

@@ -71,3 +71,15 @@ export function EditPencilAdmin({ href }) {
     </Link>
   );
 }
+
+export function CheckRunText() {
+  const authLevels = useAuthLevels();
+  if (!authLevels.loaded || !(authLevels.isExplistMod || authLevels.isListMod))
+    return null;
+
+  return (
+    <p className="muted text-center">
+      To edit/delete a completion, click its medals
+    </p>
+  );
+}

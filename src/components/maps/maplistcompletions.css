@@ -7,6 +7,7 @@
 .pointsLabelContainer p {
   margin-bottom: 0;
   margin-left: 0.5rem;
+  min-width: 4rem;
 }
 
 .comp-blocked {
@@ -31,6 +32,26 @@
 .completion-placeholder {
   filter: opacity(80%);
   min-height: 67px;
+}
+
+a.single-completion {
+  text-decoration: none;
+  color: var(--color-text);
+  transition: background-color 0.2s linear;
+
+  &:first-child {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+  &:last-child {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
+
+  &:hover {
+    background-color: var(--color-less-highlight);
+    cursor: pointer;
+  }
 }
 
 /* >=lg */

@@ -1,12 +1,6 @@
 import { NextResponse } from "next/server";
 
-const matcher = [
-  "/config.*",
-  "/map/add.*",
-  "/map/.+?/edit",
-  "/run/add.*",
-  "/lcc/add.*",
-];
+const matcher = ["/config.*", "/map/add.*", "/map/.+?/edit", "/completions/.*"];
 
 /**
  * Return 404 if attempting to access one of the routes in matcher

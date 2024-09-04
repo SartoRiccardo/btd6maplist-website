@@ -1,13 +1,18 @@
+"use client";
 import { listVersions } from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import MaplistPoints from "./MaplistPoints";
 import RowMedals from "./RowMedals";
+import { useAuthLevels } from "@/utils/hooks";
+import Link from "next/link";
 
 export default function CompletionColumn({
   completion,
   mapIdxCurver,
   mapIdxAllver,
 }) {
+  const authLevels = useAuthLevels();
+
   return completion
     .sort((c1, c2) => c1.format - c2.format)
     .map((compl) => {
@@ -15,8 +20,8 @@ export default function CompletionColumn({
       const runFormat = listVersions.find(({ value }) => value === format);
       if (!runFormat) return null;
 
-      return (
-        <div key={id} className="row single-completion">
+      const cmpCol = (
+        <div key={id} className="row">
           <div className="col-6">
             <div className="d-flex justify-content-start h-100">
               <div className="align-self-center">
@@ -45,6 +50,19 @@ export default function CompletionColumn({
             </div>
           </div>
         </div>
+      );
+
+      return authLevels.loaded &&
+        (authLevels.isExplistMod || authLevels.isListMod) ? (
+        <Link
+          className="single-completion d-block no-underline"
+          key={id}
+          href={`/completions/${id}`}
+        >
+          {cmpCol}
+        </Link>
+      ) : (
+        <div className="single-completion">{cmpCol}</div>
       );
     });
 }
