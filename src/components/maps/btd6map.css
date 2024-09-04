@@ -18,8 +18,14 @@
   overflow-y: hidden;
 }
 
-.btd6map-clickable {
+.btd6map-clickable,
+.btd6map-clickable:visited {
   text-decoration: none;
+  color: var(--color-text);
+}
+
+.btd6map-clickable:hover {
+  color: var(--color-less-highlight);
 }
 
 .btd6map-clickable:hover .btd6map,
