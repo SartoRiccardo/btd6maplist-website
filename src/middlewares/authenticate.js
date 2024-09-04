@@ -17,26 +17,26 @@ export default async function authenticateMiddleware(request, response) {
     return;
   }
 
+  const cookies = {};
   if (
     !("expires_at" in accessToken) ||
     accessToken.expires_at < Date.now() / 1000
   ) {
     request.cookies.delete("accessToken");
-    return;
+    cookies.accessToken = null;
+    return { cookies };
   } else if (accessToken.expires_at - REFRESH_BEFORE < Date.now() / 1000) {
     const newAccessToken = await refreshAccessToken(accessToken.refresh_token);
     if (!newAccessToken) {
       request.cookies.delete("accessToken");
-      return;
+      cookies.accessToken = null;
+      return { cookies };
     }
 
-    response.cookies.set(
-      "accessToken",
-      JSON.stringify({
-        ...newAccessToken,
-        expires_at: Math.floor(Date.now() / 1000 + newAccessToken.expires_in),
-      })
-    );
-    return { response, stop: false };
+    cookies.accessToken = JSON.stringify({
+      ...newAccessToken,
+      expires_at: Math.floor(Date.now() / 1000 + newAccessToken.expires_in),
+    });
+    return { cookies };
   }
 }

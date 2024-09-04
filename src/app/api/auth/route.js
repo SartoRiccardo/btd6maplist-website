@@ -23,7 +23,8 @@ export async function GET(request) {
   if (accessToken)
     cookies().set(
       "accessToken",
-      JSON.stringify({ ...accessToken, expires_at })
+      JSON.stringify({ ...accessToken, expires_at }),
+      { path: "/" }
     );
 
   return NextResponse.redirect(redirectUrl);

@@ -4,7 +4,6 @@ const matcher = [
   "/config.*",
   "/map/add.*",
   "/map/.+?/edit",
-  "/map/.+?/submit",
   "/run/add.*",
   "/lcc/add.*",
 ];
