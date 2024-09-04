@@ -4,7 +4,7 @@ import SelectorButton from "@/components/buttons/SelectorButton";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
-import { difficulties, userRoles } from "@/utils/maplistUtils";
+import { difficulties, listVersions, userRoles } from "@/utils/maplistUtils";
 import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
@@ -65,12 +65,16 @@ export default async function PageUser({ params }) {
 
       <h2 className="text-center">Overview</h2>
       <div className="row justify-content-center">
-        <div className="col-6 col-md-5 col-lg-4 col-xl-3">
-          <MaplistOverview stats={userData.maplist.current} />
-        </div>
-        <div className="col-6 col-md-5 col-lg-4 col-xl-3">
-          <MaplistOverview stats={userData.maplist.all} all />
-        </div>
+        {!!listVersions.find(({ value }) => value === 1) && (
+          <div className="col-6 col-md-5 col-lg-4 col-xl-3">
+            <MaplistOverview stats={userData.maplist.current} />
+          </div>
+        )}
+        {!!listVersions.find(({ value }) => value === 2) && (
+          <div className="col-6 col-md-5 col-lg-4 col-xl-3">
+            <MaplistOverview stats={userData.maplist.all} all />
+          </div>
+        )}
       </div>
 
       <h2 className="text-center">Completions</h2>

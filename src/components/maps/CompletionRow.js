@@ -1,3 +1,4 @@
+import { filterCompletionFormats, listVersions } from "@/utils/maplistUtils";
 import CompletionColumn from "./CompletionColumn";
 
 export default function CompletionRow({
@@ -8,6 +9,8 @@ export default function CompletionRow({
   userEntry,
 }) {
   completion = completion instanceof Array ? completion : [completion];
+  completion = filterCompletionFormats(completion, listVersions);
+  if (!completion.length) return null;
 
   return (
     <div className={`panel my-2 overflow-hidden ${className || ""}`}>

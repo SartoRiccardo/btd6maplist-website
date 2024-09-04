@@ -1,9 +1,12 @@
 import { btd6Font } from "@/lib/fonts";
 import Link from "next/link";
 import CompletionColumn from "./CompletionColumn";
+import { filterCompletionFormats, listVersions } from "@/utils/maplistUtils";
 
 export default function Btd6MapRow({ map, hrefBase, completion }) {
   completion = completion instanceof Array ? completion : [completion];
+  completion = filterCompletionFormats(completion, listVersions);
+  if (!completion.length) return null;
 
   const cmpMap = (
     <div className="d-flex align-self-center">

@@ -114,6 +114,12 @@ export const difficulties = [
   },
 ];
 
+export const filterCompletionFormats = (completions, formats) => {
+  return completions
+    .sort((c1, c2) => c1.format - c2.format)
+    .filter(({ format }) => !!formats.find(({ value }) => format === value));
+};
+
 export const listVersions = [
   {
     name: "Current",
