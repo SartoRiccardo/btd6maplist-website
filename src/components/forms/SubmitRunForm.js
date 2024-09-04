@@ -55,8 +55,11 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     if (!values.proof_completion.length)
       errors.proof_completion = "Upload proof of completion";
 
-    if (requiresVideoProof(values) && !values.video_proof_url.length)
+    if (requiresVideoProof(values) && !values.video_proof_url?.length)
       errors.video_proof_url = "Submit a valid video proof of your run!";
+
+    if (values.current_lcc && (values.leftover === "" || values.leftover < 0))
+      errors.leftover = "Must be a positive number";
 
     return errors;
   };
@@ -73,7 +76,6 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     const result = await onSubmit(accessToken.access_token, payload);
     if (result && Object.keys(result.errors).length) {
       setErrors(result.errors);
-      console.log(result.errors);
       return;
     }
     setSuccess(true);
@@ -90,6 +92,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         no_geraldo: false,
         current_lcc: false,
         video_proof_url: "",
+        leftover: "",
       }}
       onSubmit={handleSubmit}
     >
@@ -200,10 +203,13 @@ function SidebarForm({ formats }) {
     disableInputs,
     requiresVideoProof,
   } = formikProps;
+  const validFormats = formats
+    .map((frm) => listVersions.find(({ value }) => value === frm))
+    .filter((x) => !!x);
 
   return (
     <div className="my-2">
-      {formats.length > 1 && (
+      {validFormats.length > 1 && (
         <div className="d-flex w-100 justify-content-between mt-3">
           <p className=" align-self-center">Format</p>
           <div className="align-self-end">
@@ -213,9 +219,9 @@ function SidebarForm({ formats }) {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              {formats.map((frm) => (
-                <option value={frm} key={frm}>
-                  {listVersions.find(({ value }) => value === frm).name}
+              {validFormats.map(({ name, value }) => (
+                <option value={value} key={value}>
+                  {name}
                 </option>
               ))}
             </Form.Select>
@@ -296,6 +302,23 @@ function SidebarForm({ formats }) {
           />
           <Form.Control.Feedback type="invalid">
             {errors.video_proof_url}
+          </Form.Control.Feedback>
+        </Form.Group>
+      )}
+
+      {values.current_lcc && (
+        <Form.Group className="mt-2">
+          <Form.Label>LCC Saveup</Form.Label>
+          <Form.Control
+            type="number"
+            name="leftover"
+            value={values.leftover}
+            isInvalid={touched.leftover && "leftover" in errors}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.leftover}
           </Form.Control.Feedback>
         </Form.Group>
       )}
