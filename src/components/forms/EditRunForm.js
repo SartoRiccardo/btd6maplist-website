@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import AddableField from "./AddableField";
+import DragFiles from "./DragFiles";
 
 export default function EditRunForm({ completion, onSubmit }) {
   onSubmit = onSubmit || (async () => {});
@@ -47,6 +48,14 @@ export default function EditRunForm({ completion, onSubmit }) {
           uid: name,
           count: -(i + 1),
         })),
+        is_lcc: !!completion.lcc,
+        lcc: {
+          leftover: completion.lcc?.leftover
+            ? completion.lcc.leftover.toString()
+            : "",
+          proof_url: completion.lcc?.proof || "",
+          proof_file: [],
+        },
       }}
     >
       {(formikProps) => {
@@ -66,9 +75,12 @@ export default function EditRunForm({ completion, onSubmit }) {
             >
               <div className="row">
                 <RunProperties />
+                <LCCProperties />
               </div>
 
-              <Button type="submit">Submit</Button>
+              <div className="flex-hcenter">
+                <Button type="submit">Submit</Button>
+              </div>
             </Form>
           </FormikContext.Provider>
         );
@@ -171,4 +183,96 @@ function RunProperties() {
   );
 }
 
-function LCCProperites() {}
+function LCCProperties() {
+  const formikProps = useContext(FormikContext);
+  const {
+    handleChange,
+    handleBlur,
+    values,
+    setValues,
+    setFieldValue,
+    touched,
+    errors,
+    disableInputs,
+  } = formikProps;
+  const disableLccInputs = disableInputs || !values.is_lcc;
+
+  return (
+    <div className="col-12 col-lg-6 mb-3">
+      <div className={`panel py-3 ${!values.is_lcc && "disabled"}`}>
+        <div className="flex-hcenter no-disable">
+          <Button
+            onClick={() => setFieldValue("is_lcc", !values.is_lcc)}
+            className={` ${values.is_lcc ? "active" : ""}`}
+          >
+            LCC Properties
+          </Button>
+        </div>
+
+        <div className="d-flex justify-content-between mt-4 mb-3 w-100">
+          <p className="align-self-center mb-1">Saveup</p>
+          <Form.Group>
+            <Form.Control
+              name="lcc.leftover"
+              type="text"
+              placeholder="40870"
+              value={values.lcc.leftover}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={touched.leftover && "leftover" in errors}
+              disabled={disableLccInputs}
+              autoComplete="off"
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.leftover}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div>
+
+        <h3 className="text-center mb-1">Proof</h3>
+        <p className="text-center muted">
+          Insert either an image URL or upload an image
+        </p>
+
+        <div className="d-flex justify-content-between my-3 w-100">
+          <p className="align-self-center mb-1">Proof URL</p>
+          <Form.Group>
+            <Form.Control
+              name="lcc.proof_url"
+              type="url"
+              placeholder="https://drive.com/..."
+              value={values.lcc.proof_url}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={touched.lcc && "lcc.proof_url" in errors}
+              disabled={disableLccInputs}
+              autoComplete="off"
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors["lcc.proof_url"]}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div>
+
+        <DragFiles
+          name="lcc.proof_file"
+          formats={["jpg", "png", "webp"]}
+          limit={1}
+          onChange={handleChange}
+          value={values.lcc.proof_file}
+          disabled={disableLccInputs}
+          className="w-100"
+        >
+          {values.lcc.proof_file.length > 0 && (
+            <div className="d-flex justify-content-center">
+              <img
+                style={{ maxWidth: "100%" }}
+                src={values.lcc.proof_file[0].objectUrl}
+              />
+            </div>
+          )}
+        </DragFiles>
+      </div>
+    </div>
+  );
+}

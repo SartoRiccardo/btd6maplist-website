@@ -13,11 +13,13 @@ export default function DragImage({
   children,
   className,
   style,
+  icon,
 }) {
   limit = limit || 0; // 0 - No limit
   className = className || "";
   style = style || {};
   formats = formats ? formats.map((f) => f.toLowerCase()) : [];
+  icon = icon || "image";
 
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef();
@@ -75,7 +77,7 @@ export default function DragImage({
         children
       ) : (
         <div className="d-flex justify-content-center">
-          <i className="bi bi-file-earmark-arrow-up-fill align-self-center dragfile-icon" />
+          <i className={`bi bi-${icon} align-self-center dragfile-icon`} />
         </div>
       )}
       <div
