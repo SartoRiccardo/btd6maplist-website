@@ -68,3 +68,9 @@ export async function getListLeaderboard(version, value) {
   if (response.status !== 200) return [];
   return await response.json();
 }
+
+export async function getCompletion(id) {
+  const response = await fetch(`${process.env.API_URL}/completions/${id}`);
+  if (!response.ok) return null;
+  return await response.json();
+}
