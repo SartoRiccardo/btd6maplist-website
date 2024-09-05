@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
+import { isInt } from "@/utils/functions";
 
 export default function EditRunForm({ completion, onSubmit }) {
   onSubmit = onSubmit || (async () => {});
@@ -18,6 +19,14 @@ export default function EditRunForm({ completion, onSubmit }) {
     for (let i = 0; i < values.user_ids.length; i++) {
       if (!values.user_ids[i].uid.length)
         errors[`user_ids[${i}]`] = "This cannot be blank";
+    }
+    if (values.is_lcc) {
+      if (!isInt(values.lcc.leftover) || parseInt(values.lcc.leftover) < 0)
+        errors["lcc.leftover"] = "Must be a positive number";
+      if (!values.lcc.proof_file.length && !values.lcc.proof_url.length) {
+        errors["lcc.proof_file"] = "Must either upload image or URL";
+        errors["lcc.proof_url"] = "Must either upload image or URL";
+      }
     }
 
     return errors;
@@ -189,7 +198,6 @@ function LCCProperties() {
     handleChange,
     handleBlur,
     values,
-    setValues,
     setFieldValue,
     touched,
     errors,
@@ -210,7 +218,7 @@ function LCCProperties() {
         </div>
 
         <div className="d-flex justify-content-between mt-4 mb-3 w-100">
-          <p className="align-self-center mb-1">Saveup</p>
+          <p className="mb-0 mt-1">Saveup</p>
           <Form.Group>
             <Form.Control
               name="lcc.leftover"
@@ -219,12 +227,12 @@ function LCCProperties() {
               value={values.lcc.leftover}
               onChange={handleChange}
               onBlur={handleBlur}
-              isInvalid={touched.leftover && "leftover" in errors}
+              isInvalid={touched.lcc && "lcc.leftover" in errors}
               disabled={disableLccInputs}
               autoComplete="off"
             />
             <Form.Control.Feedback type="invalid">
-              {errors.leftover}
+              {errors["lcc.leftover"]}
             </Form.Control.Feedback>
           </Form.Group>
         </div>
@@ -235,7 +243,7 @@ function LCCProperties() {
         </p>
 
         <div className="d-flex justify-content-between my-3 w-100">
-          <p className="align-self-center mb-1">Proof URL</p>
+          <p className="mb-0 mt-1">Proof URL</p>
           <Form.Group>
             <Form.Control
               name="lcc.proof_url"
@@ -272,6 +280,11 @@ function LCCProperties() {
             </div>
           )}
         </DragFiles>
+        {"lcc.proof_file" in errors && (
+          <p className="text-danger text-center my-1">
+            {errors["lcc.proof_file"]}
+          </p>
+        )}
       </div>
     </div>
   );
