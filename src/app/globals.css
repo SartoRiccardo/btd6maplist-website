@@ -149,7 +149,7 @@ a.white-text {
   font-family: var(--font-p);
   text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
     -1px -1px #000, 1px -1px #000, -1px 1px #000;
-  font-size: calc(1.3rem + 0.6vw);
+  font-size: calc(1rem + 0.5vw);
   border: 0;
 }
 

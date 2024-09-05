@@ -8,7 +8,6 @@ export const metadata = {
 export default async function EditCompletion({ params }) {
   const { id } = params;
   const completion = await getCompletion(id);
-  console.log(completion);
 
   return (
     <>
