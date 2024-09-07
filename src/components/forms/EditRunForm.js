@@ -6,12 +6,45 @@ import { Button, Form } from "react-bootstrap";
 import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
 import { isInt } from "@/utils/functions";
+import { useDiscordToken } from "@/utils/hooks";
+
+const defaultValues = {
+  black_border: false,
+  no_geraldo: false,
+  user_ids: [],
+  is_lcc: false,
+  lcc: {
+    leftover: "",
+    proof_url: "",
+    proof_file: [],
+  },
+};
 
 export default function EditRunForm({ completion, onSubmit }) {
   onSubmit = onSubmit || (async () => {});
 
   const [showErrorCount, setShowErrorCount] = useState(false);
   const [success, setSuccess] = useState(false);
+  const accessToken = useDiscordToken();
+
+  const initialValues = completion
+    ? {
+        black_border: completion.black_border,
+        no_geraldo: completion.no_geraldo,
+        user_ids: completion.user_ids.map(({ name }, i) => ({
+          uid: name,
+          count: -(i + 1),
+        })),
+        is_lcc: !!completion.lcc,
+        lcc: {
+          leftover: completion.lcc?.leftover
+            ? completion.lcc.leftover.toString()
+            : "",
+          proof_url: completion.lcc?.proof || "",
+          proof_file: [],
+        },
+      }
+    : { ...defaultValues };
 
   const validate = (values) => {
     const errors = {};
@@ -38,34 +71,19 @@ export default function EditRunForm({ completion, onSubmit }) {
     };
     console.log(payload);
 
-    // const result = await onSubmit(accessToken.access_token, payload);
-    // if (result && Object.keys(result.errors).length) {
-    //   setErrors(result.errors);
-    //   return;
-    // }
-    // setSuccess(true);
+    const result = await onSubmit(accessToken.access_token, payload);
+    if (result && Object.keys(result.errors).length) {
+      setErrors(result.errors);
+      return;
+    }
+    setSuccess(true);
   };
 
   return (
     <Formik
       validate={validate}
       onSubmit={handleSubmit}
-      initialValues={{
-        black_border: completion.black_border,
-        no_geraldo: completion.no_geraldo,
-        user_ids: completion.user_ids.map(({ name }, i) => ({
-          uid: name,
-          count: -(i + 1),
-        })),
-        is_lcc: !!completion.lcc,
-        lcc: {
-          leftover: completion.lcc?.leftover
-            ? completion.lcc.leftover.toString()
-            : "",
-          proof_url: completion.lcc?.proof || "",
-          proof_file: [],
-        },
-      }}
+      initialValues={initialValues}
     >
       {(formikProps) => {
         const { handleSubmit, isSubmitting } = formikProps;
@@ -87,8 +105,26 @@ export default function EditRunForm({ completion, onSubmit }) {
                 <LCCProperties />
               </div>
 
-              <div className="flex-hcenter">
-                <Button type="submit">Submit</Button>
+              <div className="flex-hcenter flex-col-space">
+                {completion ? (
+                  completion.approved ? (
+                    <>
+                      <Button variant="danger" className="big">
+                        Delete
+                      </Button>
+                      <Button type="submit">Save</Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button variant="danger" className="big">
+                        Delete
+                      </Button>
+                      <Button type="submit">Approve</Button>
+                    </>
+                  )
+                ) : (
+                  <Button type="submit">Submit</Button>
+                )}
               </div>
             </Form>
           </FormikContext.Provider>
