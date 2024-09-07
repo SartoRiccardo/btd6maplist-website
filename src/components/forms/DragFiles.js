@@ -13,6 +13,7 @@ export default function DragImage({
   children,
   className,
   style,
+  isValid,
   icon,
 }) {
   limit = limit || 0; // 0 - No limit
@@ -78,6 +79,11 @@ export default function DragImage({
       ) : (
         <div className="d-flex justify-content-center">
           <i className={`bi bi-${icon} align-self-center dragfile-icon`} />
+        </div>
+      )}
+      {isValid && (
+        <div className="dragfiles-validity">
+          <i className="bi bi-check-circle-fill valid" />
         </div>
       )}
       <div

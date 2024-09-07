@@ -46,3 +46,19 @@
 .dragfiles.disabled:hover > div > i.dragfile-icon {
   color: var(--color-primary);
 }
+
+.dragfiles .dragfiles-validity {
+  position: absolute;
+  bottom: 0;
+  right: 0.5rem;
+
+  font-size: 1.5rem;
+
+  & .valid {
+    color: green;
+  }
+
+  & .invalid {
+    color: red;
+  }
+}

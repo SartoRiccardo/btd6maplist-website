@@ -253,6 +253,7 @@ function LCCProperties() {
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={touched.lcc && "lcc.proof_url" in errors}
+              isValid={!("lcc.proof_url" in errors)}
               disabled={disableLccInputs}
               autoComplete="off"
             />
@@ -268,6 +269,7 @@ function LCCProperties() {
           limit={1}
           onChange={handleChange}
           value={values.lcc.proof_file}
+          isValid={!("lcc.proof_file" in errors)}
           disabled={disableLccInputs}
           className="w-100"
         >
