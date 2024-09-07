@@ -20,8 +20,9 @@ const defaultValues = {
   },
 };
 
-export default function EditRunForm({ completion, onSubmit }) {
+export default function EditRunForm({ completion, onSubmit, onDelete }) {
   onSubmit = onSubmit || (async () => {});
+  onDelete = onDelete || (async () => {});
 
   const [showErrorCount, setShowErrorCount] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -86,8 +87,16 @@ export default function EditRunForm({ completion, onSubmit }) {
       initialValues={initialValues}
     >
       {(formikProps) => {
-        const { handleSubmit, isSubmitting } = formikProps;
+        const { handleSubmit, setSubmitting, isSubmitting, errors } =
+          formikProps;
         const disableInputs = isSubmitting;
+        const errorCount = Object.keys(errors).length;
+
+        const handleDelete = async (_e) => {
+          setSubmitting(true);
+          await onDelete();
+          setSubmitting(false);
+        };
 
         return (
           <FormikContext.Provider
@@ -109,14 +118,22 @@ export default function EditRunForm({ completion, onSubmit }) {
                 {completion ? (
                   completion.approved ? (
                     <>
-                      <Button variant="danger" className="big">
+                      <Button
+                        variant="danger"
+                        className="big"
+                        onClick={handleDelete}
+                      >
                         Delete
                       </Button>
                       <Button type="submit">Save</Button>
                     </>
                   ) : (
                     <>
-                      <Button variant="danger" className="big">
+                      <Button
+                        variant="danger"
+                        className="big"
+                        onClick={handleDelete}
+                      >
                         Delete
                       </Button>
                       <Button type="submit">Approve</Button>
@@ -126,6 +143,12 @@ export default function EditRunForm({ completion, onSubmit }) {
                   <Button type="submit">Submit</Button>
                 )}
               </div>
+
+              {showErrorCount && errorCount > 0 && (
+                <p className="text-center text-danger mt-3">
+                  There are {errorCount} fields to compile correctly
+                </p>
+              )}
             </Form>
           </FormikContext.Provider>
         );
@@ -289,7 +312,7 @@ function LCCProperties() {
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={touched.lcc && "lcc.proof_url" in errors}
-              isValid={!("lcc.proof_url" in errors)}
+              isValid={values.is_lcc && !("lcc.proof_url" in errors)}
               disabled={disableLccInputs}
               autoComplete="off"
             />
@@ -305,7 +328,7 @@ function LCCProperties() {
           limit={1}
           onChange={handleChange}
           value={values.lcc.proof_file}
-          isValid={!("lcc.proof_file" in errors)}
+          isValid={values.is_lcc && !("lcc.proof_file" in errors)}
           disabled={disableLccInputs}
           className="w-100"
         >
