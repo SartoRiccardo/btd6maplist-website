@@ -20,9 +20,9 @@ export default function EditCompletion_C({ completion }) {
       accept: !completion.accepted,
       ...payload,
     });
+    if (resp) return resp;
     revalidateCompletion(completion.id, completion.map, completion.user_ids);
     setAccepted(true);
-    return resp;
   };
 
   return (

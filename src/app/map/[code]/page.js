@@ -9,7 +9,7 @@ import { Fragment, Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { listVersions } from "@/utils/maplistUtils";
-import { CheckRunText, EditPencilAdmin, LoggedUserRun } from "./page.client";
+import { AdminRunOptions, EditPencilAdmin, LoggedUserRun } from "./page.client";
 import { Button } from "react-bootstrap";
 import Link from "next/link";
 
@@ -180,7 +180,7 @@ export default async function MapOverview({ params }) {
       {(mapData.placement_cur > -1 || mapData.placement_all > -1) && (
         <>
           <h3 className="text-center mt-3">List Completions</h3>
-          <CheckRunText />
+          <AdminRunOptions />
 
           <Suspense fallback={null}>
             <MaplistCompletions

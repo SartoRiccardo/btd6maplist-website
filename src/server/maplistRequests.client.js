@@ -122,6 +122,7 @@ export async function editCompletion(token, payload) {
   const body = new FormData();
   const data = { ...payload };
   delete data.id;
+  delete data.code;
   delete data.accepted;
   if (payload.lcc?.proof_completion instanceof File) {
     body.append("proof_completion", payload.lcc.proof_completion);
@@ -129,10 +130,12 @@ export async function editCompletion(token, payload) {
   }
   body.append("data", JSON.stringify(data));
 
-  const endpoint = payload.accept
+  const endpoint = payload.code
+    ? `/maps/${payload.code}/completions`
+    : payload.accept
     ? `/completions/${payload.id}/accept`
     : `/completions/${payload.id}`;
-  const method = payload.accept ? "POST" : "PUT";
+  const method = payload.code ? "POST" : payload.accept ? "POST" : "PUT";
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`,
     {
@@ -143,7 +146,7 @@ export async function editCompletion(token, payload) {
   );
   if (response.status === 413)
     return { errors: { "lcc.proof_file": "File is too large!" } };
-  if (!response.ok) return await response.json();
+  if (!response.ok || response.status === 200) return await response.json();
 }
 
 export async function deleteCompletion(token, id) {

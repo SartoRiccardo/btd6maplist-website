@@ -17,7 +17,7 @@ export async function revalidateMap(code) {
 }
 
 export async function revalidateCompletion(cid, mapCode, userIds) {
-  revalidatePath(`/completions/${cid}`);
+  if (cid) revalidatePath(`/completions/${cid}`);
   for (const { id } of userIds) revalidatePath(`/user/${id}`);
   revalidatePath(`/map/${mapCode}`);
   revalidateTag("leaderboard");

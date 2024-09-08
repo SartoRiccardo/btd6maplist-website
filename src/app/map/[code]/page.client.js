@@ -8,6 +8,7 @@ import { hashCode } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 
 export function LoggedUserRun({ mapData }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
@@ -72,14 +73,22 @@ export function EditPencilAdmin({ href }) {
   );
 }
 
-export function CheckRunText() {
+export function AdminRunOptions({ code }) {
   const authLevels = useAuthLevels();
   if (!authLevels.loaded || !(authLevels.isExplistMod || authLevels.isListMod))
     return null;
 
   return (
-    <p className="muted text-center">
-      To edit/delete a completion, click its medals
-    </p>
+    <>
+      <div className="flex-hcenter">
+        <Link href={`/map/${code}/submit`}>
+          <Button>Insert a Run</Button>
+        </Link>
+      </div>
+
+      <p className="muted text-center mt-3">
+        To edit/delete a completion, click its medals
+      </p>
+    </>
   );
 }
