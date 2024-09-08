@@ -270,7 +270,7 @@ function SidebarForm({ formats }) {
         value={values.no_geraldo}
         label={
           <span>
-            <img src="/medal_nogerry.png" className="inline-medal" />
+            <img src="/medal_nogerry.webp" className="inline-medal" />
             &nbsp; No Optimal Hero
           </span>
         }

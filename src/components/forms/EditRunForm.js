@@ -231,7 +231,7 @@ function RunProperties() {
           disabled={disableInputs}
           label={
             <span>
-              <img src="/medal_nogerry.png" className="inline-medal" />
+              <img src="/medal_nogerry.webp" className="inline-medal" />
               &nbsp; No Optimal Hero
             </span>
           }

@@ -8,7 +8,7 @@ export default function RowMedals({ black_border, no_geraldo, current_lcc }) {
         height={medal_size}
       />
       <img
-        src="/medal_nogerry.png"
+        src="/medal_nogerry.webp"
         width={medal_size}
         height={medal_size}
         className={`${!no_geraldo ? "comp-blocked" : ""} mx-2`}

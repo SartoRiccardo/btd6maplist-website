@@ -50,7 +50,7 @@ export default function Btd6Map({
             className={`${!completion ? "comp-blocked" : ""}`}
           />
           <img
-            src="/medal_nogerry.png"
+            src="/medal_nogerry.webp"
             width={MEDAL_SIZE}
             height={MEDAL_SIZE}
             className={`${
