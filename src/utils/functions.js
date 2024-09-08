@@ -40,3 +40,10 @@ export function hashCode(str) {
   }
   return hash;
 }
+
+export const removeFieldCode = (array) =>
+  array.map((obj) => {
+    const ret = { ...obj };
+    delete ret.count;
+    return ret;
+  });

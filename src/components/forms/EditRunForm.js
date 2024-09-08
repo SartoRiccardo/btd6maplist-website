@@ -5,14 +5,16 @@ import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
-import { isInt } from "@/utils/functions";
+import { isInt, removeFieldCode } from "@/utils/functions";
 import { useDiscordToken } from "@/utils/hooks";
+import { allFormats } from "@/utils/maplistUtils";
 
 const defaultValues = {
   black_border: false,
   no_geraldo: false,
   user_ids: [],
   is_lcc: false,
+  format: "1",
   lcc: {
     leftover: "",
     proof_url: "",
@@ -37,6 +39,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
           count: -(i + 1),
         })),
         is_lcc: !!completion.lcc,
+        format: completion.format.toString(),
         lcc: {
           leftover: completion.lcc?.leftover
             ? completion.lcc.leftover.toString()
@@ -69,8 +72,17 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
   const handleSubmit = async (values, { setErrors }) => {
     const payload = {
       ...values,
+      user_ids: removeFieldCode(values.user_ids).map(({ uid }) => uid),
+      format: parseInt(values.format),
+      lcc: values.is_lcc
+        ? {
+            leftover: parseInt(values.lcc.leftover),
+            proof_completion:
+              values.lcc.proof_url || values.lcc.proof_file[0].file,
+          }
+        : null,
     };
-    console.log(payload);
+    delete payload.is_lcc;
 
     const result = await onSubmit(accessToken.access_token, payload);
     if (result && Object.keys(result.errors).length) {
@@ -116,7 +128,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
 
               <div className="flex-hcenter flex-col-space">
                 {completion ? (
-                  completion.approved ? (
+                  completion.accepted ? (
                     <>
                       <Button
                         variant="danger"
@@ -173,6 +185,28 @@ function RunProperties() {
     <div className="col-12 col-lg-6 mb-3">
       <div className="panel pt-2 pb-3">
         <h2 className="text-center">Run Properties</h2>
+
+        <div className="d-flex justify-content-between mt-4 mb-3 w-100">
+          <p className="mb-0 mt-1">Format</p>
+          <Form.Group>
+            <Form.Select
+              name="format"
+              value={values.format}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={!!errors.format}
+            >
+              {allFormats.map(({ value, name }) => (
+                <option key={value} value={value}>
+                  {name}
+                </option>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              {errors.format}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div>
 
         <Form.Check
           type="checkbox"
@@ -312,7 +346,11 @@ function LCCProperties() {
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={touched.lcc && "lcc.proof_url" in errors}
-              isValid={values.is_lcc && !("lcc.proof_url" in errors)}
+              isValid={
+                values.is_lcc &&
+                !("lcc.proof_url" in errors) &&
+                values.lcc.proof_url.length > 0
+              }
               disabled={disableLccInputs}
               autoComplete="off"
             />
@@ -326,9 +364,16 @@ function LCCProperties() {
           name="lcc.proof_file"
           formats={["jpg", "png", "webp"]}
           limit={1}
-          onChange={handleChange}
+          onChange={(evt) => {
+            setFieldValue("lcc.proof_url", "");
+            handleChange(evt);
+          }}
           value={values.lcc.proof_file}
-          isValid={values.is_lcc && !("lcc.proof_file" in errors)}
+          isValid={
+            values.is_lcc &&
+            !("lcc.proof_file" in errors) &&
+            !values.lcc.proof_url.length
+          }
           disabled={disableLccInputs}
           className="w-100"
         >

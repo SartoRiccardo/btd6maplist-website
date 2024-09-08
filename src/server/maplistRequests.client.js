@@ -117,3 +117,26 @@ export async function submitRun(token, payload) {
     return { errors: { proof_completion: "File is too large!" } };
   if (!response.ok) return await response.json();
 }
+
+export async function editCompletion(token, payload) {
+  const body = new FormData();
+  const data = { ...payload };
+  delete data.id;
+  if (payload.lcc?.proof_completion instanceof File) {
+    body.append("proof_completion", payload.lcc.proof_completion);
+    delete data.lcc.proof_completion;
+  }
+  body.append("data", JSON.stringify(data));
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/completions/${payload.id}`,
+    {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}` },
+      body,
+    }
+  );
+  if (response.status === 413)
+    return { errors: { "lcc.proof_file": "File is too large!" } };
+  if (!response.ok) return await response.json();
+}

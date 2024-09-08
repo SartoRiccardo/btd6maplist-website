@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
-import { isFloat } from "@/utils/functions";
+import { isFloat, removeFieldCode } from "@/utils/functions";
 import { revalidateMap } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
 import {
@@ -204,13 +204,6 @@ export default function MapForm({
 
   const handleSubmit = async (values, { setErrors }) => {
     const code = values.code.match(codeRegex)[1].toUpperCase();
-
-    const removeFieldCode = (array) =>
-      array.map((obj) => {
-        const ret = { ...obj };
-        delete ret.count;
-        return ret;
-      });
 
     const payload = {
       ...values,

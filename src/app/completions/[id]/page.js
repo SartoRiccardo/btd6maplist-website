@@ -1,5 +1,5 @@
-import EditRunForm from "@/components/forms/EditRunForm";
 import { getCompletion } from "@/server/maplistRequests";
+import EditCompletion_C from "./page.client";
 
 export const metadata = {
   title: "Edit Completion | BTD6 Maplist",
@@ -13,7 +13,7 @@ export default async function EditCompletion({ params }) {
     <>
       <h1 className="text-center">Edit Completion</h1>
 
-      <EditRunForm completion={completion} />
+      <EditCompletion_C completion={completion} />
     </>
   );
 }

@@ -156,6 +156,21 @@ export const listVersions = [
   // },
 ];
 
+const explistVersions = [
+  {
+    name: "Expert List",
+    // diffPanelName: "Current",
+    // short: "Cur",
+    // query: "current",
+    value: 51,
+    // image: "/icon_curver.png",
+    // plcKey: "placement_cur",
+    // description: "",
+  },
+];
+
+export const allFormats = [...listVersions, ...explistVersions];
+
 export const userRoles = [
   {
     name: "List Map Creator",
