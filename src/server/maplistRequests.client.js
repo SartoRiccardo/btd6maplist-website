@@ -122,16 +122,21 @@ export async function editCompletion(token, payload) {
   const body = new FormData();
   const data = { ...payload };
   delete data.id;
+  delete data.accepted;
   if (payload.lcc?.proof_completion instanceof File) {
     body.append("proof_completion", payload.lcc.proof_completion);
     delete data.lcc.proof_completion;
   }
   body.append("data", JSON.stringify(data));
 
+  const endpoint = payload.accept
+    ? `/completions/${payload.id}/accept`
+    : `/completions/${payload.id}`;
+  const method = payload.accept ? "POST" : "PUT";
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/completions/${payload.id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`,
     {
-      method: "PUT",
+      method,
       headers: { Authorization: `Bearer ${token}` },
       body,
     }
