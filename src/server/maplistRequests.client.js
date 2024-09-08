@@ -145,3 +145,15 @@ export async function editCompletion(token, payload) {
     return { errors: { "lcc.proof_file": "File is too large!" } };
   if (!response.ok) return await response.json();
 }
+
+export async function deleteCompletion(token, id) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/completions/${id}`,
+    {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (response.ok) return null;
+  return await response.json();
+}

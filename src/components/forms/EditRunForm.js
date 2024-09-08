@@ -6,7 +6,6 @@ import { Button, Form } from "react-bootstrap";
 import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
 import { isInt, removeFieldCode } from "@/utils/functions";
-import { useDiscordToken } from "@/utils/hooks";
 import { allFormats } from "@/utils/maplistUtils";
 
 const defaultValues = {
@@ -28,7 +27,6 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
 
   const [showErrorCount, setShowErrorCount] = useState(false);
   const [success, setSuccess] = useState(false);
-  const accessToken = useDiscordToken();
 
   const initialValues = completion
     ? {
@@ -84,7 +82,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
     };
     delete payload.is_lcc;
 
-    const result = await onSubmit(accessToken.access_token, payload);
+    const result = await onSubmit(payload);
     if (result && Object.keys(result.errors).length) {
       setErrors(result.errors);
       return;
@@ -214,6 +212,7 @@ function RunProperties() {
           name="black_border"
           onChange={handleChange}
           value={values.black_border}
+          checked={values.black_border}
           disabled={disableInputs}
           label={
             <span>
@@ -228,6 +227,7 @@ function RunProperties() {
           name="no_geraldo"
           onChange={handleChange}
           value={values.no_geraldo}
+          checked={values.no_geraldo}
           disabled={disableInputs}
           label={
             <span>
