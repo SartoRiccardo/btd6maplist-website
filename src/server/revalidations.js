@@ -15,3 +15,9 @@ export async function revalidateMap(code) {
   revalidateTag("experts");
   revalidateTag("list");
 }
+
+export async function revalidateCompletion(cid, mapCode) {
+  revalidatePath(`/completions/${cid}`);
+  revalidatePath(`/map/${mapCode}`);
+  revalidateTag("leaderboard");
+}
