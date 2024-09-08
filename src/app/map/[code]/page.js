@@ -180,7 +180,7 @@ export default async function MapOverview({ params }) {
       {(mapData.placement_cur > -1 || mapData.placement_all > -1) && (
         <>
           <h3 className="text-center mt-3">List Completions</h3>
-          <AdminRunOptions />
+          <AdminRunOptions code={code} />
 
           <Suspense fallback={null}>
             <MaplistCompletions

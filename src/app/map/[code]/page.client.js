@@ -81,7 +81,7 @@ export function AdminRunOptions({ code }) {
   return (
     <>
       <div className="flex-hcenter">
-        <Link href={`/map/${code}/submit`}>
+        <Link href={`/map/${code}/completions/new`}>
           <Button>Insert a Run</Button>
         </Link>
       </div>
