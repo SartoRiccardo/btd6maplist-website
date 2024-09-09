@@ -1,3 +1,4 @@
+import { sha256 } from "js-sha256";
 import { NextResponse } from "next/server";
 
 const matcher = ["/config.*", "/map/add.*", "/map/.+?/edit", "/completions/.*"];
@@ -17,8 +18,10 @@ export default async function protectRoutesMiddleware(request, _rsp) {
       if (!request.cookies.has("accessToken")) return resp404;
 
       const accessToken = JSON.parse(request.cookies.get("accessToken").value);
+      const token = accessToken.access_token;
+      const signature = sha256(token + process.env.MW_SALT + "ee");
       const rolesResp = await fetch(
-        `${process.env.HOST}/api/mwcache/uroles?token=${accessToken.access_token}`
+        `${process.env.HOST}/api/mwcache/uroles?token=${token}&signature=${signature}`
       );
       const roles = await rolesResp.json();
       if (
