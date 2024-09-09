@@ -12,6 +12,7 @@ import { listVersions } from "@/utils/maplistUtils";
 import { AdminRunOptions, EditPencilAdmin, LoggedUserRun } from "./page.client";
 import { Button } from "react-bootstrap";
 import Link from "next/link";
+import CopyButton from "@/components/forms/CopyButton";
 
 export async function generateMetadata({ params }) {
   const mapData = await getMap(params.code);
@@ -53,7 +54,7 @@ export default async function MapOverview({ params }) {
         </p>
       )}
       <p className="text-center lead">
-        Code: <u>{mapData.code}</u>
+        Code: <u>{mapData.code}</u> <CopyButton content={mapData.code} />
       </p>
       <div className="row justify-content-center">
         <MapPlacements mapData={mapData} />
