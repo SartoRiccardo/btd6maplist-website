@@ -37,11 +37,11 @@ export default function Header() {
                 <ProtectedLinks />
 
                 <li>
-                  <a href="#">
+                  <a href="#" tabIndex={0}>
                     Maps <i className="bi bi-caret-down-fill" />
                   </a>
 
-                  <ul className={`${stylesNav.submenu} shadow`}>
+                  <ul className={`${stylesNav.submenu} shadow`} tabIndex={0}>
                     <li>
                       <Link scroll={false} href="/experts">
                         Experts
