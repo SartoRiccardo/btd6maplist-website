@@ -1,6 +1,7 @@
 import { getMap } from "@/server/maplistRequests";
 import { mapDataToFormik } from "@/utils/maplistUtils";
 import MapForm from "@/components/forms/MapForm";
+import ResourceNotFound from "@/components/layout/ResourceNotFound";
 
 export const metadata = {
   title: "Edit Map | BTD6 Maplist",

@@ -6,13 +6,13 @@ import AddMapListEntry from "./AddMapListEntry";
 
 export default function TheList({ maps, format }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
-  console.log(format);
 
   return (
     <div className="row">
       <AddMapListEntry on="list" />
 
-      {maps.map(({ code, placement, name, verified }) => {
+      {maps.map((mapData) => {
+        const { code, placement, name, verified } = mapData;
         let completion = null;
         if (maplistProfile) {
           let compIdx = maplistProfile.completions.findIndex(
@@ -24,7 +24,7 @@ export default function TheList({ maps, format }) {
         return (
           <div key={code} className="col-12 col-sm-6 col-lg-4">
             <Btd6Map
-              code={code}
+              mapData={mapData}
               name={name}
               hrefBase="/map"
               verified={verified}

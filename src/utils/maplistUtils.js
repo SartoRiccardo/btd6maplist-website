@@ -57,6 +57,8 @@ export const mapDataToFormik = (mapData) => {
         version: version.toString(),
       }))
     ),
+    map_preview_file: [],
+    r6_start_file: [],
   };
   const toDelete = [
     "lccs",

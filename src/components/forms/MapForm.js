@@ -18,6 +18,7 @@ import AddableField from "./AddableField";
 import TwoFieldEntry from "./TwoFieldEntry";
 import SidebarField from "./MapSidebarField";
 import MapCodeController, { codeRegex } from "./MapCodeController";
+import DragFiles from "./DragFiles";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -80,6 +81,7 @@ const defaultValues = {
   placement_allver: "",
   difficulty: "-1",
   r6_start: "",
+  r6_start_file: [],
   map_data: "",
   map_data_req_permission: false,
   creators: [{ id: "", role: "" }],
@@ -88,6 +90,8 @@ const defaultValues = {
   version_compatibilities: [],
   aliases: [],
   optimal_heros: ["geraldo"],
+  map_preview_url: "",
+  map_preview_file: [],
 };
 
 export default function MapForm({
@@ -245,8 +249,16 @@ export default function MapForm({
           id,
           version: version.length ? parseFloat(version) * 10 : null,
         })),
+      r6_start: values.r6_start_file.length
+        ? values.r6_start_file[0].file
+        : values.r6_start || null,
+      map_preview_url: values.map_preview_file.length
+        ? values.map_preview_file[0].file
+        : values.map_preview_url || null,
     };
     delete payload.map_data_req_permission;
+    delete payload.r6_start_file;
+    delete payload.map_preview_file;
 
     const onSubmit = isEditing ? onEdit : onAdd;
     const result = await onSubmit(accessToken.access_token, payload);
@@ -351,10 +363,29 @@ export default function MapForm({
                           </Form.Group>
                         </div>
 
-                        <img
-                          className="w-100"
-                          src={`https://data.ninjakiwi.com/btd6/maps/map/${currentMap.code}/preview`}
-                        />
+                        <DragFiles
+                          name="map_preview_file"
+                          formats={["jpg", "png", "webp"]}
+                          limit={1}
+                          onChange={handleChange}
+                          value={values.map_preview_file}
+                          className="w-100 mt-4"
+                          showChildren
+                        >
+                          <div className="d-flex justify-content-center">
+                            {values.map_preview_file.length > 0 ? (
+                              <img
+                                style={{ maxWidth: "100%" }}
+                                src={values.map_preview_file[0].objectUrl}
+                              />
+                            ) : (
+                              <img
+                                style={{ maxWidth: "100%" }}
+                                src={values.map_preview_url}
+                              />
+                            )}
+                          </div>
+                        </DragFiles>
                       </div>
                     </div>
 
@@ -431,20 +462,32 @@ export default function MapForm({
                             </Form.Group>
                           </SidebarField>
 
-                          <SidebarField
-                            title="Round 6 start image/video"
-                            name="r6_start"
-                            placeholder="https://imgur.com/..."
-                            invalidFeedback
-                          />
-                          <p className="muted text-center">
-                            Please don't upload Discord URLs. Upload the image
-                            to{" "}
-                            <a href="https://imgur.com/" target="_blank">
-                              Imgur
-                            </a>{" "}
-                            first or another site like that.
-                          </p>
+                          <div className="px-3">
+                            <p className="text-center">Round 6 start image</p>
+                            <DragFiles
+                              name="r6_start_file"
+                              formats={["jpg", "png", "webp"]}
+                              limit={1}
+                              onChange={handleChange}
+                              value={values.r6_start_file}
+                              className="w-100"
+                              showChildren={!!values.r6_start}
+                            >
+                              <div className="d-flex justify-content-center">
+                                {values.r6_start_file.length > 0 ? (
+                                  <img
+                                    style={{ maxWidth: "100%" }}
+                                    src={values.r6_start_file[0].objectUrl}
+                                  />
+                                ) : (
+                                  <img
+                                    style={{ maxWidth: "100%" }}
+                                    src={values.r6_start}
+                                  />
+                                )}
+                              </div>
+                            </DragFiles>
+                          </div>
                         </div>
                       </div>
                     </div>

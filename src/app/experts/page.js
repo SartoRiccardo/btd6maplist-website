@@ -51,9 +51,9 @@ export default async function Experts({ searchParams }) {
 
           {maplist
             .filter((map) => map.difficulty === curDifficulty.value)
-            .map(({ code, name }) => (
-              <div key={code} className="col-12 col-sm-6 col-lg-4">
-                <Btd6Map code={code} name={name} hrefBase="/map" />
+            .map((map) => (
+              <div key={map.code} className="col-12 col-sm-6 col-lg-4">
+                <Btd6Map mapData={map} name={map.name} hrefBase="/map" />
               </div>
             ))}
         </div>

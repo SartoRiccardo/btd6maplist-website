@@ -85,49 +85,50 @@ export default async function PageUser({ params }) {
       <h2 className="text-center mt-4">Created Maps</h2>
       <div className="row">
         {userData.created_maps.length ? (
-          userData.created_maps.map(
-            ({ code, name, placement_all, placement_cur, difficulty }) => (
-              <div key={code} className="col-12 col-sm-6 col-lg-4 p-relative">
-                <Btd6Map code={code} name={name} hrefBase="/map" />
-                <div
-                  className={`${styles.difficulties} d-flex justify-content-center`}
-                >
-                  {placement_cur > -1 && (
-                    <SelectorButton text={`#${placement_cur}`} active>
-                      <img
-                        src={"/icon_curver.png"}
-                        alt="Cur"
-                        width={btnSize}
-                        height={btnSize}
-                      />
-                    </SelectorButton>
-                  )}
+          userData.created_maps.map((mapData) => (
+            <div
+              key={mapData.code}
+              className="col-12 col-sm-6 col-lg-4 p-relative"
+            >
+              <Btd6Map mapData={mapData} name={mapData.name} hrefBase="/map" />
+              <div
+                className={`${styles.difficulties} d-flex justify-content-center`}
+              >
+                {mapData.placement_cur > -1 && (
+                  <SelectorButton text={`#${mapData.placement_cur}`} active>
+                    <img
+                      src={"/icon_curver.png"}
+                      alt="Cur"
+                      width={btnSize}
+                      height={btnSize}
+                    />
+                  </SelectorButton>
+                )}
 
-                  {placement_all > -1 && (
-                    <SelectorButton text={`#${placement_all}`} active>
-                      <img
-                        src={"/icon_allver.png"}
-                        alt="All"
-                        width={btnSize}
-                        height={btnSize}
-                      />
-                    </SelectorButton>
-                  )}
+                {mapData.placement_all > -1 && (
+                  <SelectorButton text={`#${mapData.placement_all}`} active>
+                    <img
+                      src={"/icon_allver.png"}
+                      alt="All"
+                      width={btnSize}
+                      height={btnSize}
+                    />
+                  </SelectorButton>
+                )}
 
-                  {difficulty > -1 && (
-                    <SelectorButton active>
-                      <img
-                        src={difficulties[difficulty].image}
-                        alt="Diff"
-                        width={btnSize}
-                        height={btnSize}
-                      />
-                    </SelectorButton>
-                  )}
-                </div>
+                {mapData.difficulty > -1 && (
+                  <SelectorButton active>
+                    <img
+                      src={difficulties[mapData.difficulty].image}
+                      alt="Diff"
+                      width={btnSize}
+                      height={btnSize}
+                    />
+                  </SelectorButton>
+                )}
               </div>
-            )
-          )
+            </div>
+          ))
         ) : (
           <div className="col">
             <p className="fs-5 muted text-center">Nothing here yet!</p>

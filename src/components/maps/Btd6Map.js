@@ -9,6 +9,7 @@ const MEDAL_SIZE = 60;
 export default function Btd6Map({
   name,
   code,
+  mapData,
   placement,
   hrefBase,
   playBtn,
@@ -18,7 +19,12 @@ export default function Btd6Map({
   completion,
   showMedals,
 }) {
+  code = code || mapData.code;
+
   const maplistCfg = useMaplistConfig();
+  const previewUrl =
+    mapData?.map_preview_url ||
+    `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
 
   const cmpMap = (
     <div className={`shadow btd6map pb-3 ${className ? className : ""}`}>
@@ -32,10 +38,7 @@ export default function Btd6Map({
         </div>
       )}
 
-      <img
-        className="btd6mapImage"
-        src={`https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`}
-      />
+      <img className="btd6mapImage" src={previewUrl} />
 
       {showMedals && (
         <div className="btd6map-medals d-flex">

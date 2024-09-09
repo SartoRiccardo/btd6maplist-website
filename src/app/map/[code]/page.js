@@ -62,7 +62,7 @@ export default async function MapOverview({ params }) {
       <div className="row my-4">
         <div className="col-12 col-md-6 col-lg-5">
           <Btd6Map
-            code={code}
+            mapData={mapData}
             playBtn
             otherCodes={mapData.additional_codes}
             verified={mapData.verified}

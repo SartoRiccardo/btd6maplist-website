@@ -33,12 +33,23 @@ export async function addMap(token, map) {
 }
 
 export async function editMap(token, map) {
+  const body = new FormData();
+  if (map.r6_start instanceof File) {
+    body.append("r6_start", map.r6_start);
+    map.r6_start = null;
+  }
+  if (map.map_preview_url instanceof File) {
+    body.append("map_preview_url", map.map_preview_url);
+    map.map_preview_url = null;
+  }
+  body.append("data", JSON.stringify(map));
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/maps/${map.code}`,
     {
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify(map),
+      body,
     }
   );
   if (response.status === 401)

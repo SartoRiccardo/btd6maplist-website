@@ -15,6 +15,7 @@ export default function DragImage({
   style,
   isValid,
   icon,
+  showChildren,
 }) {
   limit = limit || 0; // 0 - No limit
   className = className || "";
@@ -74,7 +75,7 @@ export default function DragImage({
         onChange={handleChangeFromFS}
         accept={formats.map((f) => `.${f}`).join(",")}
       />
-      {value.length ? (
+      {value.length || showChildren ? (
         children
       ) : (
         <div className="d-flex justify-content-center">
