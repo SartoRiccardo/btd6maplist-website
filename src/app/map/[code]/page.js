@@ -171,7 +171,7 @@ export default async function MapOverview({ params }) {
         <LoggedUserRun mapData={mapData} />
         <div className="flex-hcenter">
           <Link href={`/map/${code}/submit`}>
-            <Button>Submit a Run</Button>
+            <Button className="active">Submit a Run</Button>
           </Link>
         </div>
       </div>
