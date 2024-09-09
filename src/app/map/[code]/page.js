@@ -133,6 +133,7 @@ export default async function MapOverview({ params }) {
                 </ul>
               </div>
             )}
+
             {mapData.optimal_heros.length > 0 && (
               <>
                 <div className="col-12 col-sm-4 col-md-6 col-lg-4">
@@ -148,6 +149,15 @@ export default async function MapOverview({ params }) {
                   ))}
                 </div>
               </>
+            )}
+
+            {mapData.r6_start && (
+              <a href={mapData.r6_start} target="_blank">
+                <h3>
+                  Round 6 Start&nbsp;
+                  <i className="bi bi-box-arrow-up-right ms-1" />
+                </h3>
+              </a>
             )}
           </div>
         </div>
