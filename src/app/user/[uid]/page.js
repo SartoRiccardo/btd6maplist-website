@@ -9,6 +9,8 @@ import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
 import { Suspense } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { UserRole } from "./page.client";
 
 const btnSize = 50;
 
@@ -50,13 +52,12 @@ export default async function PageUser({ params }) {
           {grantedRoles.length > 0 && (
             <div className={styles.rolesContainer}>
               {grantedRoles.map(({ name, color, borderColor, description }) => (
-                <div
-                  key={name}
-                  style={{ backgroundColor: color, borderColor }}
-                  className="font-border"
-                >
-                  {name}
-                </div>
+                <UserRole
+                  name={name}
+                  color={color}
+                  borderColor={borderColor}
+                  description={description}
+                />
               ))}
             </div>
           )}
