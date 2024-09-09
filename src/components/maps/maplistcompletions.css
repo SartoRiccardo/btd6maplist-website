@@ -38,20 +38,21 @@ a.single-completion {
   text-decoration: none;
   color: var(--color-text);
   transition: background-color 0.2s linear;
+}
 
-  &:first-child {
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-  }
-  &:last-child {
-    border-bottom-left-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-  }
+a.single-completion:first-child {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
 
-  &:hover {
-    background-color: var(--color-less-highlight);
-    cursor: pointer;
-  }
+a.single-completion:last-child {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+a.single-completion:hover {
+  background-color: var(--color-less-highlight);
+  cursor: pointer;
 }
 
 /* >=lg */

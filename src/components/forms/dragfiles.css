@@ -6,16 +6,15 @@
   border-radius: 1rem;
   transition: border-color 0.2s linear;
   position: relative;
-
-  & .dragdetector {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-  }
 }
 
+.dragfiles .dragdetector {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
 .dragfiles:hover,
 .dragfiles.dragging {
   cursor: pointer;
@@ -53,12 +52,12 @@
   right: 0.5rem;
 
   font-size: 1.5rem;
+}
 
-  & .valid {
-    color: green;
-  }
+.dragfiles .dragfiles-validity .valid {
+  color: green;
+}
 
-  & .invalid {
-    color: red;
-  }
+.dragfiles .dragfiles-validity .invalid {
+  color: red;
 }

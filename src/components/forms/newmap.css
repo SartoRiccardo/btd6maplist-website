@@ -65,13 +65,13 @@ form.addmap h2 {
 
 .herobtn {
   padding: 0.3rem;
+}
 
-  & > img {
-    filter: saturate(0%);
-    transition: filter 0.2s linear;
-  }
+.herobtn > img {
+  filter: saturate(0%);
+  transition: filter 0.2s linear;
+}
 
-  &.active > img {
-    filter: inherit;
-  }
+.herobtn.active > img {
+  filter: inherit;
 }

@@ -69,7 +69,6 @@
 
   width: 3.5rem;
   height: 3.5rem;
-  padding-top: 0.5rem;
   background-color: var(--color-highlight);
   display: flex;
   flex-direction: column;
@@ -77,6 +76,10 @@
   font-size: 1.5rem;
   border-radius: 50%;
   border: 1px solid var(--color-less-highlight);
+}
+
+.points p {
+  padding-top: 0.5rem;
 }
 
 .playBtn {
@@ -115,12 +118,14 @@
 
   position: absolute;
   left: -0.7rem;
-  &:not(.up) {
-    bottom: -0.5rem;
-  }
-  &.up {
-    top: -0.7rem;
-  }
+}
+
+.verifiedCheck:not(.up) {
+  bottom: -0.5rem;
+}
+
+.verifiedCheck.up {
+  top: -0.7rem;
 }
 
 .btd6map-medals {

@@ -91,14 +91,14 @@ a > .panel:hover {
   padding: 0.3rem 0.7rem;
   border-radius: 0.5rem;
   transition: background-color 0.2s linear;
+}
 
-  &.disabled {
-    background-color: #0000;
+.panel.disabled {
+  background-color: #0000;
+}
 
-    & > :not(.no-disable) {
-      opacity: 0.3;
-    }
-  }
+.panel.disabled > :not(.no-disable) {
+  opacity: 0.3;
 }
 
 .panel-container {
