@@ -5,8 +5,8 @@ import { revalidateLeaderboard } from "@/server/revalidations";
 import { isFloat, isInt } from "@/utils/functions";
 import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
 import { Formik } from "formik";
-import { Fragment } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Fragment, useState } from "react";
+import { Button, Form, Toast } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 const configNames = {
@@ -33,6 +33,7 @@ const floatFields = [
 ];
 
 export default function ConfigVarPage_C() {
+  const [success, setSuccess] = useState(false);
   const config = useMaplistConfig();
   const accessToken = useDiscordToken();
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ export default function ConfigVarPage_C() {
     }
     revalidateLeaderboard();
     dispatch(setConfig({ config: data }));
+    setSuccess(true);
   };
 
   return (
@@ -121,6 +123,17 @@ export default function ConfigVarPage_C() {
           </Form>
         )}
       </Formik>
+
+      <Toast
+        bg="success"
+        className="notification"
+        show={success}
+        onClose={() => setSuccess(false)}
+        delay={4000}
+        autohide
+      >
+        <Toast.Body>Config variables modified successfully!</Toast.Body>
+      </Toast>
     </>
   );
 }

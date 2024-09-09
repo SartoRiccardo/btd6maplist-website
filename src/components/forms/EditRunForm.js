@@ -2,7 +2,7 @@
 import { FormikContext } from "@/contexts";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Toast } from "react-bootstrap";
 import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
 import { isInt, removeFieldCode } from "@/utils/functions";
@@ -93,7 +93,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
     setSuccess(true);
   };
 
-  return (
+  const form = (
     <Formik
       validate={validate}
       onSubmit={handleSubmit}
@@ -167,6 +167,23 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
         );
       }}
     </Formik>
+  );
+
+  return (
+    <>
+      {form}
+
+      <Toast
+        bg="success"
+        className="notification"
+        show={success}
+        onClose={() => setSuccess(false)}
+        delay={4000}
+        autohide
+      >
+        <Toast.Body>Completion modified successfully!</Toast.Body>
+      </Toast>
+    </>
   );
 }
 

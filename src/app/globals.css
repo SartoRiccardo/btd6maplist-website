@@ -151,6 +151,12 @@ a.white-text {
   background-color: var(--color-experts);
 }
 
+.notification {
+  position: fixed;
+  bottom: 1rem;
+  left: 0.5rem;
+}
+
 /* Buttons */
 
 .btn.big,
