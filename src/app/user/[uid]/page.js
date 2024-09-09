@@ -54,6 +54,7 @@ export default async function PageUser({ params, searchParams }) {
             <div className={styles.rolesContainer}>
               {grantedRoles.map(({ name, color, borderColor, description }) => (
                 <UserRole
+                  key={name}
                   name={name}
                   color={color}
                   borderColor={borderColor}
