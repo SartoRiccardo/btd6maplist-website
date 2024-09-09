@@ -5,7 +5,7 @@ import {
   setMinMaplistProfile,
 } from "@/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
-import { Button, Collapse, Form } from "react-bootstrap";
+import { Button, Collapse, Form, Toast } from "react-bootstrap";
 import { Formik } from "formik";
 import { editProfile } from "@/server/maplistRequests.client";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
@@ -22,6 +22,7 @@ export default function EditSelf_C() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [showOakHelp, setShowOakHelp] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const validate = async (values) => {
     const errors = {};
@@ -53,6 +54,7 @@ export default function EditSelf_C() {
       return;
     }
 
+    setSuccess(true);
     revalidateUser(maplistProfile.id);
     if (values.oak.length && values.oak !== maplistProfile.oak) {
       const btd6Profile = await getBtd6User(values.oak);
@@ -203,6 +205,17 @@ export default function EditSelf_C() {
           </Form>
         )}
       </Formik>
+
+      <Toast
+        bg="success"
+        className="notification"
+        show={success}
+        onClose={() => setSuccess(false)}
+        delay={4000}
+        autohide
+      >
+        <Toast.Body>Profile changed successfully!</Toast.Body>
+      </Toast>
     </>
   );
 }
