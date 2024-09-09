@@ -5,6 +5,7 @@ import Link from "next/link";
 import { NavbarMobile } from "./header/NavbarMobile";
 import NavLogin from "./header/NavLogin";
 import ProtectedLinks from "./header/ProtectedLinks";
+import { SiteTitle } from "./Header.client";
 
 export default function Header() {
   return (
@@ -23,9 +24,7 @@ export default function Header() {
                   &nbsp;
                 </span>
                 &nbsp;
-                <span className={stylesHeader.btd6MaplistTitle}>
-                  BTD6 Maplist
-                </span>
+                <SiteTitle />
               </p>
             </Link>
           </div>

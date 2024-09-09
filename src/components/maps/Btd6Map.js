@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";
-import { useMaplistConfig } from "@/utils/hooks";
+import { useIsWindows, useMaplistConfig } from "@/utils/hooks";
 
 const MEDAL_SIZE = 60;
 
@@ -21,18 +21,24 @@ export default function Btd6Map({
 }) {
   code = code || mapData.code;
 
+  const isWindows = useIsWindows();
   const maplistCfg = useMaplistConfig();
   const previewUrl =
     mapData?.map_preview_url ||
     `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
 
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   const cmpMap = (
     <div className={`shadow btd6map pb-3 ${className ? className : ""}`}>
       <p className={`mapTitle ${btd6Font.className} font-border`}>{name}</p>
 
       {placement !== undefined && Object.keys(maplistCfg).length && (
         <div className={`points shadow`}>
-          <p className={`my-0 text-center ${btd6Font.className} font-border`}>
+          <p
+            className={`my-0 text-center ${btd6Font.className} font-border`}
+            // Luckiest Guy for some reason is perfectly centered on Windows but not anywhere else?
+            style={{ paddingTop: isWindows ? "0" : "0.5rem" }}
+          >
             {calcMapPoints(placement, maplistCfg)}
           </p>
         </div>

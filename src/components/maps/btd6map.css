@@ -78,10 +78,6 @@
   border: 1px solid var(--color-less-highlight);
 }
 
-.points p {
-  padding-top: 0.5rem;
-}
-
 /* Edge only, for some reason Luckiest Guy is already aligned */
 @supports (-ms-ime-align: auto) {
   .points p {
