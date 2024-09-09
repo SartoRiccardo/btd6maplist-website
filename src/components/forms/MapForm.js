@@ -203,6 +203,12 @@ export default function MapForm({
       );
     }
 
+    const fileFields = ["r6_start_file", "map_preview_file"];
+    for (const ff of fileFields) {
+      const fsize = values[ff]?.[0]?.file?.size || 0;
+      if (fsize > 2_000_000) errors[ff] = "Can upload maximum 2MB";
+    }
+
     return errors;
   };
 
@@ -386,6 +392,11 @@ export default function MapForm({
                             )}
                           </div>
                         </DragFiles>
+                        {"map_preview_file" in errors && (
+                          <p className="text-danger text-center my-1">
+                            {errors.map_preview_file}
+                          </p>
+                        )}
                       </div>
                     </div>
 

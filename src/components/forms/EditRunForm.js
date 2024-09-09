@@ -64,6 +64,9 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
       }
     }
 
+    const fsize = values.lcc.proof_file?.[0]?.file?.size || 0;
+    if (fsize > 2_000_000) errors["lcc.proof_file"] = "Can upload maximum 2MB";
+
     return errors;
   };
 
