@@ -32,9 +32,10 @@ export async function getMap(code) {
   return await response.json();
 }
 
-export async function getMapCompletions(code) {
+export async function getMapCompletions(code, qparams) {
   const response = await fetch(
-    `${process.env.API_URL}/maps/${code}/completions`
+    `${process.env.API_URL}/maps/${code}/completions?` +
+      new URLSearchParams(qparams).toString()
   );
   if (response.status !== 200) return [];
   return await response.json();
@@ -52,9 +53,10 @@ export async function getUser(id) {
   return await response.json();
 }
 
-export async function getUserCompletions(id) {
+export async function getUserCompletions(id, qparams) {
   const response = await fetch(
-    `${process.env.API_URL}/users/${id}/completions`
+    `${process.env.API_URL}/users/${id}/completions?` +
+      new URLSearchParams(qparams).toString()
   );
   if (!response.ok) return [];
   return await response.json();

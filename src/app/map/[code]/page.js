@@ -22,9 +22,10 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function MapOverview({ params }) {
+export default async function MapOverview({ params, searchParams }) {
   const { code } = params;
   const mapData = await getMap(code);
+  const page = parseInt(searchParams?.comp_page || "1");
 
   if (!mapData) return <ResourceNotFound label="map" />;
 
@@ -195,6 +196,7 @@ export default async function MapOverview({ params }) {
 
           <Suspense fallback={null}>
             <MaplistCompletions
+              page={page}
               code={code}
               mapIdxCurver={mapData.placement_cur}
               mapIdxAllver={mapData.placement_all}

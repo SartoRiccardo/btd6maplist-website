@@ -2,13 +2,15 @@ import { getMapCompletions } from "@/server/maplistRequests";
 import CompletionRow from "./CompletionRow";
 import UserEntry from "../users/UserEntry";
 import { hashCode } from "@/utils/functions";
+import PaginateElement from "../buttons/PaginateElement";
 
 export default async function MaplistCompletions({
+  page,
   code,
   mapIdxCurver,
   mapIdxAllver,
 }) {
-  const completions = await getMapCompletions(code);
+  const completions = await getMapCompletions(code, { page });
 
   let equalRuns = {};
   let keyOrder = [];
@@ -22,7 +24,7 @@ export default async function MaplistCompletions({
   }
 
   return (
-    <div>
+    <PaginateElement qname="comp_page" page={page} total={completions.pages}>
       {keyOrder.map((key) => (
         <CompletionRow
           key={key}
@@ -34,6 +36,6 @@ export default async function MaplistCompletions({
           ))}
         />
       ))}
-    </div>
+    </PaginateElement>
   );
 }

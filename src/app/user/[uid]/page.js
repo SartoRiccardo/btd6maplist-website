@@ -21,9 +21,10 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function PageUser({ params }) {
+export default async function PageUser({ params, searchParams }) {
   const { uid } = params;
   const userData = await getUser(uid);
+  const page = parseInt(searchParams?.comp_page || "1");
 
   if (!userData) return <ResourceNotFound label="user" />;
 
@@ -80,7 +81,7 @@ export default async function PageUser({ params }) {
 
       <h2 className="text-center">Completions</h2>
       <Suspense fallback={null}>
-        <UserCompletions userId={uid} />
+        <UserCompletions userId={uid} page={page} />
       </Suspense>
 
       <h2 className="text-center mt-4">Created Maps</h2>
