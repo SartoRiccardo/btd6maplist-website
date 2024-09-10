@@ -171,3 +171,13 @@ export async function deleteCompletion(token, id) {
   if (response.ok) return null;
   return await response.json();
 }
+
+export async function insertUser(token, payload) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) return null;
+  return await response.json();
+}

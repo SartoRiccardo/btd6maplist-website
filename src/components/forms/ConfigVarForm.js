@@ -32,7 +32,7 @@ const floatFields = [
   "current_btd6_ver",
 ];
 
-export default function ConfigVarPage_C() {
+export default function ConfigVarForm() {
   const [success, setSuccess] = useState(false);
   const config = useMaplistConfig();
   const accessToken = useDiscordToken();
@@ -73,8 +73,6 @@ export default function ConfigVarPage_C() {
 
   return (
     <>
-      <h1 className="text-center">Config Variables</h1>
-
       <Formik
         onSubmit={handleSubmit}
         validate={validate}

@@ -157,6 +157,10 @@ a.white-text {
   left: 0.5rem;
 }
 
+.text-justify {
+  text-align: justify;
+}
+
 /* Buttons */
 
 .btn.big,
