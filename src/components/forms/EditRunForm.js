@@ -11,7 +11,7 @@ import { allFormats } from "@/utils/maplistUtils";
 const defaultValues = {
   black_border: false,
   no_geraldo: false,
-  user_ids: [],
+  user_ids: [{ uid: "", count: -1 }],
   is_lcc: false,
   format: "1",
   lcc: {

@@ -194,15 +194,6 @@ export default function MapForm({
     if (!values.creators.some(({ id }) => id.length))
       errors["creators[0].id"] = "Must have at least 1 creator";
 
-    if (!values.optimal_heros.length) {
-      errors.optimal_heros = (
-        <>
-          Select at least one hero!{" "}
-          <span className="muted">(If in doubt, pick Geraldo)</span>
-        </>
-      );
-    }
-
     const fileFields = ["r6_start_file", "map_preview_file"];
     for (const ff of fileFields) {
       const fsize = values[ff]?.[0]?.file?.size || 0;
@@ -447,37 +438,6 @@ export default function MapForm({
                               </Form.Select>
                             </SidebarField>
                           )}
-
-                          <SidebarField
-                            title="Map Data"
-                            name="map_data"
-                            placeholder="https://drive.google.com/..."
-                            invalidFeedback
-                            appendChildren
-                            value={({ values }) =>
-                              values.map_data_req_permission
-                                ? ""
-                                : values.map_data
-                            }
-                            isValid={({ values }) =>
-                              !("map_data" in errors) &&
-                              values.map_data &&
-                              !values.map_data_req_permission
-                            }
-                            disabled={({ isSubmitting, values }) =>
-                              isSubmitting || values.map_data_req_permission
-                            }
-                          >
-                            <Form.Group className="mb-3">
-                              <Form.Check
-                                name="map_data_req_permission"
-                                checked={values.map_data_req_permission}
-                                onChange={handleChange}
-                                label="Should ask permission to the creator"
-                                disabled={isSubmitting || disableInputs}
-                              />
-                            </Form.Group>
-                          </SidebarField>
 
                           <div className="px-3">
                             <p className="text-center">Round 6 start image</p>

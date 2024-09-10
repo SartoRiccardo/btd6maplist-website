@@ -14,7 +14,7 @@ const configNames = {
   points_bottom_map: "Points for the last map",
   formula_slope: "Formula slope",
   points_extra_lcc: "Extra points for LCCs",
-  points_multi_gerry: "No Geraldo point multiplier",
+  points_multi_gerry: "No Optimal Hero point multiplier",
   points_multi_bb: "Black Border point multiplier",
   decimal_digits: "Decimal digits to round to",
   map_count: "Number of maps on the list",

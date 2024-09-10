@@ -90,32 +90,10 @@ export default async function MapOverview({ params, searchParams }) {
                 />
               ))}
             </div>
-            {(mapData.map_data ||
-              mapData.map_data_compatibility.length > 0) && (
-              <div className="col-12 mb-3">
-                {mapData.map_data && mapData.map_data !== "a" ? (
-                  <h3>
-                    <a href={mapData.map_data} target="_blank">
-                      Map Data&nbsp;
-                      <i className="bi bi-box-arrow-up-right ml-1" />
-                    </a>{" "}
-                    {mapData.map_data_compatibility.length > 0 &&
-                      "& Compatibility"}
-                  </h3>
-                ) : (
-                  <h3>
-                    Map Data{" "}
-                    {mapData.map_data_compatibility.length > 0 &&
-                      "& Compatibility"}
-                  </h3>
-                )}
 
-                {mapData.map_data === "a" && (
-                  <p>
-                    You must ask permission to the creator to use the map data
-                    for this map.
-                  </p>
-                )}
+            {/* {mapData.map_data_compatibility.length > 0 && (
+              <div className="col-12 mb-3">
+                <h3>Map Version Compatibility</h3>
 
                 <ul className={styles.compatibility}>
                   {mapData.map_data_compatibility.map(
@@ -134,7 +112,7 @@ export default async function MapOverview({ params, searchParams }) {
                   )}
                 </ul>
               </div>
-            )}
+            )} */}
 
             {mapData.optimal_heros.length > 0 && (
               <>
