@@ -102,7 +102,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
       {(formikProps) => {
         const { handleSubmit, setSubmitting, isSubmitting, errors } =
           formikProps;
-        const disableInputs = isSubmitting;
+        const disableInputs = isSubmitting || (!completion && success);
         const errorCount = Object.keys(errors).length;
 
         const handleDelete = async (_e) => {
@@ -132,28 +132,36 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
                   completion.accepted ? (
                     <>
                       <Button
+                        disabled={disableInputs}
                         variant="danger"
                         className="big"
                         onClick={handleDelete}
                       >
                         Delete
                       </Button>
-                      <Button type="submit">Save</Button>
+                      <Button disabled={disableInputs} type="submit">
+                        Save
+                      </Button>
                     </>
                   ) : (
                     <>
                       <Button
+                        disabled={disableInputs}
                         variant="danger"
                         className="big"
                         onClick={handleDelete}
                       >
                         Delete
                       </Button>
-                      <Button type="submit">Approve</Button>
+                      <Button disabled={disableInputs} type="submit">
+                        Approve
+                      </Button>
                     </>
                   )
                 ) : (
-                  <Button type="submit">Submit</Button>
+                  <Button disabled={disableInputs} type="submit">
+                    Submit
+                  </Button>
                 )}
               </div>
 
@@ -181,7 +189,9 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
         delay={4000}
         autohide
       >
-        <Toast.Body>Completion modified successfully!</Toast.Body>
+        <Toast.Body>
+          Completion {completion ? "modified" : "submitted"} successfully!
+        </Toast.Body>
       </Toast>
     </>
   );

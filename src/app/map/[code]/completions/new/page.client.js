@@ -15,10 +15,13 @@ export default function EditCompletion_C({ code }) {
       ...payload,
     });
     if ("errors" in resp) return resp;
-    console.log(resp);
-    revalidateCompletion(null, code, resp).then(() =>
-      router.push(`/map/${code}`)
-    );
+
+    return new Promise((resolve) => {
+      revalidateCompletion(null, code, resp).then(() => {
+        router.push(`/map/${code}`);
+        resolve();
+      });
+    });
   };
 
   return <EditRunForm onSubmit={handleSubmit} />;
