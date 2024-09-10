@@ -3,8 +3,8 @@ import { useAuthLevels } from "@/utils/hooks";
 import Link from "next/link";
 
 export default function ProtectedLinks({ onNavigate }) {
-  const { loaded, isExplistMod, isListMod } = useAuthLevels();
-  if (!loaded || !(isExplistMod || isListMod)) return null;
+  const { loaded, hasPerms } = useAuthLevels();
+  if (!loaded || !hasPerms) return null;
 
   return (
     <>

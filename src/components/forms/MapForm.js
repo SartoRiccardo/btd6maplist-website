@@ -299,9 +299,15 @@ export default function MapForm({
         } = formikProps;
 
         let errorCount = Object.keys(errors).length;
-        if (!authLevels.isListMod && "placement_allver" in errors) errorCount--;
-        if (!authLevels.isListMod && "placement_curver" in errors) errorCount--;
-        if (!authLevels.isExplistMod && "difficulty" in errors) errorCount--;
+        if (!(authLevels.isListMod || authLevels.isAdmin)) {
+          if ("placement_allver" in errors) errorCount--;
+          if ("placement_curver" in errors) errorCount--;
+        }
+        if (
+          !(authLevels.isExplistMod || authLevels.isAdmin) &&
+          "difficulty" in errors
+        )
+          errorCount--;
         const disableInputs = isRedirecting || isFetching;
 
         return (
@@ -404,7 +410,7 @@ export default function MapForm({
                     <div className="col-12 col-lg-6">
                       <div className="panel h-100">
                         <div className="row flex-row-space my-3">
-                          {authLevels.isListMod && (
+                          {(authLevels.isListMod || authLevels.isAdmin) && (
                             <>
                               <SidebarField
                                 title="List Placement"
@@ -424,7 +430,7 @@ export default function MapForm({
                             </>
                           )}
 
-                          {authLevels.isExplistMod && (
+                          {(authLevels.isExplistMod || authLevels.isAdmin) && (
                             <SidebarField title="Expert Difficulty">
                               <Form.Select
                                 name="difficulty"

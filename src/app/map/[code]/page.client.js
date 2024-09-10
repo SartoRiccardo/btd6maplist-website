@@ -63,8 +63,7 @@ export function LoggedUserRun({ mapData }) {
 
 export function EditPencilAdmin({ href }) {
   const authLevels = useAuthLevels();
-  if (!authLevels.loaded || !(authLevels.isExplistMod || authLevels.isListMod))
-    return null;
+  if (!authLevels.loaded || !authLevels.hasPerms) return null;
 
   return (
     <Link href={href} scroll={false}>
@@ -75,8 +74,7 @@ export function EditPencilAdmin({ href }) {
 
 export function AdminRunOptions({ code }) {
   const authLevels = useAuthLevels();
-  if (!authLevels.loaded || !(authLevels.isExplistMod || authLevels.isListMod))
-    return null;
+  if (!authLevels.loaded || !authLevels.hasPerms) return null;
 
   return (
     <>

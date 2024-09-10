@@ -67,6 +67,12 @@ export const selectMaplistProfile = createSelector(
   })
 );
 
+const adminRoles = process.env.NEXT_PUBLIC_ADMIN_ROLES.split(",");
+const permsRoles = [
+  ...adminRoles,
+  process.env.NEXT_PUBLIC_EXPMOD_ROLE,
+  process.env.NEXT_PUBLIC_LISTMOD_ROLE,
+];
 export const selectAuthLevels = createSelector(
   ({ auth }) => auth.maplistProfile,
   (maplistProfile) => ({
@@ -77,6 +83,12 @@ export const selectAuthLevels = createSelector(
     isListMod:
       maplistProfile &&
       maplistProfile.roles.includes(process.env.NEXT_PUBLIC_LISTMOD_ROLE),
+    hasPerms:
+      maplistProfile &&
+      maplistProfile.roles.some((roleId) => permsRoles.includes(roleId)),
+    isAdmin:
+      maplistProfile &&
+      maplistProfile.roles.some((roleId) => adminRoles.includes(roleId)),
   })
 );
 

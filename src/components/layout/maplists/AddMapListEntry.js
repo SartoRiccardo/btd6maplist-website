@@ -3,14 +3,13 @@ import AddMapButton from "@/components/buttons/AddMapButton";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 
 export default function AddMapListEntry({ on }) {
-  const { loaded, isExplistMod, isListMod } = useAuthLevels();
-  const accessToken = useDiscordToken();
+  const { loaded, isExplistMod, isListMod, isAdmin } = useAuthLevels();
 
   return (
     <>
       {loaded &&
-      ((on.includes("experts") && isExplistMod) ||
-        (on.includes("list") && isListMod)) ? (
+      ((on.includes("experts") && (isExplistMod || isAdmin)) ||
+        (on.includes("list") && (isListMod || isAdmin))) ? (
         <div className="col-12 col-sm-6 col-lg-4">
           <AddMapButton href="/map/add" />
         </div>

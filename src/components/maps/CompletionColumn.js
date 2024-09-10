@@ -54,8 +54,7 @@ export default function CompletionColumn({
           </div>
         );
 
-        return authLevels.loaded &&
-          (authLevels.isExplistMod || authLevels.isListMod) ? (
+        return authLevels.loaded && authLevels.hasPerms ? (
           <Link
             className="single-completion d-block no-underline"
             key={id}
