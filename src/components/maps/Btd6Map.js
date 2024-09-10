@@ -27,7 +27,6 @@ export default function Btd6Map({
     mapData?.map_preview_url ||
     `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
 
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   const cmpMap = (
     <div className={`shadow btd6map pb-3 ${className ? className : ""}`}>
       <p className={`mapTitle ${btd6Font.className} font-border`}>{name}</p>
