@@ -11,6 +11,7 @@ import { getConfig, maplistAuthenticate } from "@/server/maplistRequests";
 export const metadata = {
   title: "Bloons TD 6 Maplist",
   description: "A community curated list of the best Bloons TD 6 custom maps",
+  manifest: "/manifest.json",
 };
 
 const getUserInfo = async (accessToken) => {
