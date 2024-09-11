@@ -7,6 +7,7 @@ import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
 import { isInt, removeFieldCode } from "@/utils/functions";
 import { allFormats } from "@/utils/maplistUtils";
+import ZoomedImage from "../utils/ZoomedImage";
 
 const defaultValues = {
   black_border: false,
@@ -123,6 +124,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
               }}
             >
               <div className="row">
+                <SubmissionData completion={completion} />
                 <RunProperties />
                 <LCCProperties />
               </div>
@@ -420,6 +422,57 @@ function LCCProperties() {
           <p className="text-danger text-center my-1">
             {errors["lcc.proof_file"]}
           </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SubmissionData({ completion }) {
+  const [isProofZoomed, setProofZoomed] = useState(false);
+
+  if (
+    !(
+      completion.subm_notes ||
+      completion.subm_proof_img ||
+      completion.subm_proof_vid
+    )
+  )
+    return null;
+
+  return (
+    <div className="col-12 col-lg-6 mb-3">
+      <div className="panel pt-2 pb-3">
+        <h2 className="text-center">Submission Info</h2>
+        {completion.subm_notes && (
+          <p className="text-justify">{completion.subm_notes}</p>
+        )}
+        {(completion.subm_proof_img || completion.subm_proof_vid) && (
+          <>
+            <h3 className="text-center">Submitted Proof</h3>
+            {completion.subm_proof_vid && (
+              <p>
+                Video Proof URL:{" "}
+                <a href={completion.subm_proof_vid} target="_blank">
+                  {completion.subm_proof_vid}
+                </a>
+              </p>
+            )}
+            {completion.subm_proof_img && (
+              <>
+                <img
+                  src={completion.subm_proof_img}
+                  className="w-100 zoomable"
+                  onClick={() => setProofZoomed(true)}
+                />
+                <ZoomedImage
+                  src={completion.subm_proof_img}
+                  show={isProofZoomed}
+                  onHide={() => setProofZoomed(false)}
+                />
+              </>
+            )}
+          </>
         )}
       </div>
     </div>

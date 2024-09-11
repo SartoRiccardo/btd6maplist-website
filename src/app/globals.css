@@ -195,6 +195,10 @@ a.white-text {
   transition: background-color 0.2s linear;
 }
 
+img.zoomable:hover {
+  cursor: zoom-in;
+}
+
 /* Misc */
 
 /* HTML: <div class="loader"></div> */
