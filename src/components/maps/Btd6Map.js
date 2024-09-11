@@ -50,15 +50,15 @@ export default function Btd6Map({
           <img
             src={
               completion && completion.black_border
-                ? "/medal_bb.webp"
-                : "/medal_win.webp"
+                ? "/medals/medal_bb.webp"
+                : "/medals/medal_win.webp"
             }
             width={MEDAL_SIZE}
             height={MEDAL_SIZE}
             className={`${!completion ? "comp-blocked" : ""}`}
           />
           <img
-            src="/medal_nogerry.webp"
+            src="/medals/medal_nogerry.webp"
             width={MEDAL_SIZE}
             height={MEDAL_SIZE}
             className={`${
@@ -66,7 +66,7 @@ export default function Btd6Map({
             } mx-2`}
           />
           <img
-            src="/medal_lcc.webp"
+            src="/medals/medal_lcc.webp"
             width={MEDAL_SIZE}
             height={MEDAL_SIZE}
             className={!(completion && completion.current_lcc) ? "d-none" : ""}

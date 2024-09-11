@@ -47,7 +47,11 @@ export default async function Home() {
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
                   <SelectorButton active>
-                    <img src="/icon_allver.png" width={40} height={40} />
+                    <img
+                      src="/format_icons/icon_allver.webp"
+                      width={40}
+                      height={40}
+                    />
                   </SelectorButton>
                 </div>
                 <div className="flex-vcenter">
@@ -67,7 +71,11 @@ export default async function Home() {
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
                   <SelectorButton active>
-                    <img src="/icon_hard.png" width={40} height={40} />
+                    <img
+                      src="/format_icons/icon_hard.webp"
+                      width={40}
+                      height={40}
+                    />
                   </SelectorButton>
                 </div>
                 <div className="flex-vcenter">

@@ -257,7 +257,7 @@ function SidebarForm({ formats }) {
         value={values.black_border}
         label={
           <span>
-            <img src="/medal_bb.webp" className="inline-medal" />
+            <img src="/medals/medal_bb.webp" className="inline-medal" />
             &nbsp; Black Border
           </span>
         }
@@ -270,7 +270,7 @@ function SidebarForm({ formats }) {
         value={values.no_geraldo}
         label={
           <span>
-            <img src="/medal_nogerry.webp" className="inline-medal" />
+            <img src="/medals/medal_nogerry.webp" className="inline-medal" />
             &nbsp; No Optimal Hero
           </span>
         }
@@ -283,7 +283,7 @@ function SidebarForm({ formats }) {
         value={values.current_lcc}
         label={
           <span>
-            <img src="/medal_lcc.webp" className="inline-medal" />
+            <img src="/medals/medal_lcc.webp" className="inline-medal" />
             &nbsp; Least Cash CHIMPS
           </span>
         }

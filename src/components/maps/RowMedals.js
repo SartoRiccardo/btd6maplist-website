@@ -3,18 +3,18 @@ export default function RowMedals({ black_border, no_geraldo, current_lcc }) {
   return (
     <div>
       <img
-        src={black_border ? "/medal_bb.webp" : "/medal_win.webp"}
+        src={black_border ? "/medals/medal_bb.webp" : "/medals/medal_win.webp"}
         width={medal_size}
         height={medal_size}
       />
       <img
-        src="/medal_nogerry.webp"
+        src="/medals/medal_nogerry.webp"
         width={medal_size}
         height={medal_size}
         className={`${!no_geraldo ? "comp-blocked" : ""} mx-2`}
       />
       <img
-        src="/medal_lcc.webp"
+        src="/medals/medal_lcc.webp"
         width={medal_size}
         height={medal_size}
         className={!current_lcc ? "transparent" : ""}

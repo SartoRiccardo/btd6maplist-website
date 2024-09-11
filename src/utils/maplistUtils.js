@@ -78,7 +78,7 @@ export const difficulties = [
     name: "Casual",
     query: "casual",
     value: 0,
-    image: "/icon_casual.png",
+    image: "/format_icons/icon_casual.webp",
     description:
       "Easy and enjoyable, yet not brainless maps. Expect a game where many towers are viable. Comparable difficulty to maps like Workshop and Muddy Puddles.",
     meta_desc:
@@ -88,7 +88,7 @@ export const difficulties = [
     name: "Medium",
     query: "medium",
     value: 1,
-    image: "/icon_medium.png",
+    image: "/format_icons/icon_medium.webp",
     description:
       "Challenging, but not frustrating or intense difficulty. May have complications at any point. Comparable difficulty to maps like Sanctuary and Flooded Valley.",
     meta_desc:
@@ -98,7 +98,7 @@ export const difficulties = [
     name: "Hard",
     query: "hard",
     value: 2,
-    image: "/icon_hard.png",
+    image: "/format_icons/icon_hard.webp",
     description:
       "Has at least one phase of the game that is very tough, usually a hard lategame at minimum. Comparable difficulty to maps like Dark Dungeons and Quad.",
     meta_desc:
@@ -108,7 +108,7 @@ export const difficulties = [
     name: "True",
     query: "true",
     value: 3,
-    image: "/icon_true.png",
+    image: "/format_icons/icon_true.webp",
     description:
       "If you're asking for one of the best, you'd better be one of the best. Many strategies will not work. Comparable to, or even greater difficulty than maps like Bloody Puddles and Ouch.",
     meta_desc:
@@ -129,7 +129,7 @@ export const listVersions = [
     short: "Cur",
     query: "current",
     value: 1,
-    image: "/icon_curver.png",
+    image: "/format_icons/icon_curver.webp",
     plcKey: "placement_cur",
     description: "",
   },
@@ -139,7 +139,7 @@ export const listVersions = [
   //   short: "All",
   //   query: "all",
   //   value: 2,
-  //   image: "/icon_allver.png",
+  //   image: "/format_icons/icon_allver.webp",
   //   plcKey: "placement_all",
   //   description: (
   //     <>
@@ -165,7 +165,7 @@ const explistVersions = [
     // short: "Cur",
     // query: "current",
     value: 51,
-    // image: "/icon_curver.png",
+    // image: "/format_icons/icon_curver.webp",
     // plcKey: "placement_cur",
     // description: "",
   },

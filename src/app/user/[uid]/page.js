@@ -101,7 +101,7 @@ export default async function PageUser({ params, searchParams }) {
                 {mapData.placement_cur > -1 && (
                   <SelectorButton text={`#${mapData.placement_cur}`} active>
                     <img
-                      src={"/icon_curver.png"}
+                      src="/format_icons/icon_curver.webp"
                       alt="Cur"
                       width={btnSize}
                       height={btnSize}
@@ -112,7 +112,7 @@ export default async function PageUser({ params, searchParams }) {
                 {mapData.placement_all > -1 && (
                   <SelectorButton text={`#${mapData.placement_all}`} active>
                     <img
-                      src={"/icon_allver.png"}
+                      src="/format_icons/icon_allver.webp"
                       alt="All"
                       width={btnSize}
                       height={btnSize}
@@ -154,7 +154,11 @@ function MaplistOverview({ stats, all }) {
       <div className="d-flex justify-content-center my-2">
         <SelectorButton active>
           <img
-            src={all ? "/icon_allver.png" : "/icon_curver.png"}
+            src={
+              all
+                ? "/format_icons/icon_allver.webp"
+                : "/format_icons/icon_curver.webp"
+            }
             alt="Cur"
             width={50}
             height={50}
