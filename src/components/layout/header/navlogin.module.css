@@ -31,6 +31,6 @@
 /* <=md */
 @media only screen and (max-width: 991.98px) {
   .profileContainer:not(.mobile) > span {
-    max-width: 6.5rem;
+    max-width: 6rem;
   }
 }

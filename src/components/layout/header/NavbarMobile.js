@@ -48,7 +48,12 @@ export function NavbarMobile() {
           <ul className={`${styles.navbar} ${styles.mobile}`}>
             <NavLogin onNavigate={(_e) => setIsMenuOpen(false)} />
 
-            <ProtectedLinks onNavigate={(_e) => setIsMenuOpen(false)} />
+            <ProtectedLinks
+              openSubmenus={openSubmenus}
+              toggleSubmenu={toggleSubmenu}
+              onNavigate={(_e) => setIsMenuOpen(false)}
+              mobile
+            />
 
             <li>
               <a href="#" onClick={toggleSubmenu(0, openSubmenus.includes(0))}>
