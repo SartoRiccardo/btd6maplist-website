@@ -9,8 +9,7 @@ import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
 import { Suspense } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { UserRole } from "./page.client";
+import { UserRole, WebsiteCreatorRole } from "./page.client";
 
 const btnSize = 50;
 
@@ -50,8 +49,10 @@ export default async function PageUser({ params, searchParams }) {
           <h1 className={`${styles.title} font-border`}>
             {userData.name} <EditProfilePencil userId={userData.id} />
           </h1>
-          {grantedRoles.length > 0 && (
+
+          {(grantedRoles.length > 0 || uid === "1077309729942024302") && (
             <div className={styles.rolesContainer}>
+              {uid === "1077309729942024302" && <WebsiteCreatorRole />}
               {grantedRoles.map(({ name, color, borderColor, description }) => (
                 <UserRole
                   key={name}
