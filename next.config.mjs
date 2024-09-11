@@ -177,7 +177,7 @@ const defaultSwCache = [
       cacheName: "others",
       expiration: {
         maxEntries: 32,
-        maxAgeSeconds: 24 * 60 * 60, // 24 hours
+        maxAgeSeconds: 24 * 60 * 60,
       },
       networkTimeoutSeconds: 10,
     },
@@ -193,12 +193,12 @@ const defaultSwCache = [
         !pathname.startsWith("/api/")
       );
     },
-    handler: "StaleWhileRevalidate",
+    handler: "CacheOnly",
     options: {
       cacheName: "others-prefetch",
       expiration: {
         maxEntries: 128,
-        maxAgeSeconds: 24 * 60 * 60, // 24 hours
+        maxAgeSeconds: 24 * 60 * 60,
       },
     },
   },
@@ -231,7 +231,7 @@ const withPWA = withPWAInit({
       {
         urlPattern:
           /^https:\/\/data\.ninjakiwi\.com\/btd6\/maps\/map\/[A-Z]{7}\/preview$/i,
-        handler: "CacheFirst",
+        handler: "CacheOnly",
         options: {
           cacheName: "btd6-map-previews",
           expiration: {
@@ -243,7 +243,7 @@ const withPWA = withPWAInit({
 
       {
         urlPattern: /^https:\/\/static-api\.nkstatic\.com\/.*/i,
-        handler: "CacheFirst",
+        handler: "CacheOnly",
         options: {
           cacheName: "btd6-static-assets",
           expiration: {
@@ -255,7 +255,7 @@ const withPWA = withPWAInit({
 
       {
         urlPattern: /^https:\/\/mediabtd6maplist\.sarto\.dev\/.*/i,
-        handler: "CacheFirst",
+        handler: "CacheOnly",
         options: {
           cacheName: "maplist-static-images",
           expiration: {
