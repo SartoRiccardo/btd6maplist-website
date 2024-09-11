@@ -162,24 +162,24 @@ const defaultSwCache = [
   //     },
   //   },
 
-  //   {
-  //     urlPattern: ({ url }) => {
-  //       const isSameOrigin = self.origin === url.origin;
-  //       if (!isSameOrigin) return false;
-  //       const pathname = url.pathname;
-  //       if (pathname.startsWith("/api/")) return false;
-  //       return true;
-  //     },
-  //     handler: "NetworkFirst",
-  //     options: {
-  //       cacheName: "others",
-  //       expiration: {
-  //         maxEntries: 32,
-  //         maxAgeSeconds: 24 * 60 * 60, // 24 hours
-  //       },
-  //       networkTimeoutSeconds: 10,
-  //     },
-  //   },
+  {
+    urlPattern: ({ url }) => {
+      const isSameOrigin = self.origin === url.origin;
+      if (!isSameOrigin) return false;
+      const pathname = url.pathname;
+      if (pathname.startsWith("/api/")) return false;
+      return true;
+    },
+    handler: "NetworkFirst",
+    options: {
+      cacheName: "others",
+      expiration: {
+        maxEntries: 32,
+        maxAgeSeconds: 24 * 60 * 60, // 24 hours
+      },
+      networkTimeoutSeconds: 10,
+    },
+  },
 
   //   {
   //     urlPattern: ({ url }) => {
@@ -212,33 +212,36 @@ const withPWA = withPWAInit({
         options: {
           cacheName: "btd6-map-previews",
           expiration: {
-            maxEntries: 50,
+            maxEntries: 64,
             maxAgeSeconds: 365 * 24 * 60 * 60,
           },
         },
       },
+
       {
         urlPattern: /^https:\/\/static-api\.nkstatic\.com\/.*/i,
         handler: "CacheFirst",
         options: {
           cacheName: "btd6-static-assets",
           expiration: {
-            maxEntries: 50,
+            maxEntries: 64,
             maxAgeSeconds: 365 * 24 * 60 * 60,
           },
         },
       },
+
       {
         urlPattern: /^https:\/\/mediabtd6maplist\.sarto\.dev\/.*/i,
         handler: "CacheFirst",
         options: {
           cacheName: "maplist-static-images",
           expiration: {
-            maxEntries: 20,
+            maxEntries: 32,
             maxAgeSeconds: 365 * 24 * 60 * 60,
           },
         },
       },
+
       {
         urlPattern: ({ url }) =>
           process.env.NEXT_PUBLIC_API_URL.startsWith(url.origin),
