@@ -59,8 +59,9 @@ export default async function Home() {
                 </div>
               </div>
               <p>
-                Community-curated list of 50 maps, ranked from hardest to
-                easiest. Beat them to gain points and climb the leaderboard!
+                Community-curated list of the 50 hardest maps, ranked from
+                hardest to easiest. Beat them to gain points and climb the
+                leaderboard!
               </p>
             </div>
           </Link>
