@@ -108,6 +108,10 @@ a > .panel:hover {
   padding-bottom: 1rem;
 }
 
+.modal-panel .modal-content {
+  background-color: var(--color-secondary);
+}
+
 .p-relative {
   position: relative;
 }

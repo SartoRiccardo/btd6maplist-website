@@ -1,7 +1,7 @@
 "use client";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Fade, Form } from "react-bootstrap";
 import { useDiscordToken } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import MapCodeController, { codeRegex } from "./MapCodeController";
@@ -9,6 +9,8 @@ import Btd6Map from "../maps/Btd6Map";
 import DragFiles from "./DragFiles";
 import Link from "next/link";
 import { submitMap } from "@/server/maplistRequests.client";
+import MustBeInDiscord from "../utils/MustBeInDiscord";
+import { MapSubmissionRules } from "../layout/maplists/MaplistRules";
 
 const MAX_TEXT_LEN = 500;
 
@@ -20,6 +22,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
   const [isFetching, setIsFetching] = useState(false);
   const [showErrorCount, setShowErrorCount] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [openRules, setOpenRules] = useState(false);
   const accessToken = useDiscordToken();
 
   if (!accessToken) return null;
@@ -112,6 +115,24 @@ export default function SubmitMapForm({ onSubmit, type }) {
                   })
                 }
               />
+
+              <MustBeInDiscord />
+
+              <div className="flex-hcenter">
+                <Button
+                  onClick={() => setOpenRules(!openRules)}
+                  className="fs-6"
+                >
+                  Map Submission Rules
+                </Button>
+              </div>
+
+              <Fade in={openRules} mountOnEnter={true} unmountOnExit={true}>
+                <div>
+                  <br />
+                  <MapSubmissionRules on={type} />
+                </div>
+              </Fade>
 
               {currentMap && currentMap.valid && (
                 <>

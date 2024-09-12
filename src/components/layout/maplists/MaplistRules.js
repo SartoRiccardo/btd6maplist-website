@@ -98,12 +98,12 @@ export function RunSubmissionRules({ on }) {
       <p>
         Your run may not make use of hacking or game breaking bugs in any way.
         Exceptions are listed below:
-        <ul>
-          <li>Faster Forward Mod</li>
-          <li>Auto Nudge Mod</li>
-          <li>Time Machine Mod</li>
-        </ul>
       </p>
+      <ul>
+        <li>Faster Forward Mod</li>
+        <li>Auto Nudge Mod</li>
+        <li>Time Machine Mod</li>
+      </ul>
 
       <h2 className="text-center">Game Cosmetics and Secret Modifiers</h2>
       <p>

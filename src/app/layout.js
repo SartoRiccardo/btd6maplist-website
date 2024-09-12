@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import { getMaplistRoles } from "@/server/discordRequests";
 import Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader";
 import { getConfig, maplistAuthenticate } from "@/server/maplistRequests";
+import RulesFirstTimePopup from "@/components/appcontrol/RulesFirstTimePopup";
 
 export const metadata = {
   title: "Bloons TD 6 Maplist",
@@ -45,7 +46,8 @@ const authenticate = async (cookieStore) => {
       discordAccessToken: accessToken,
       discordProfile: userInfo.discordProfile,
       maplistProfile: {
-        roles: maplistRoles,
+        roles: maplistRoles || [],
+        isInServer: maplistRoles !== null,
         ...userInfo.maplistProfile,
       },
     };
@@ -74,8 +76,10 @@ export default async function RootLayout({ children }) {
           {initReduxState.auth && (
             <Btd6ProfileLoader oak={initReduxState.auth.maplistProfile.oak} />
           )}
+
           <div className={`content`}>
             <Header />
+            <RulesFirstTimePopup />
             <div className="container mb-5 mt-3">{children}</div>
             <Footer />
           </div>

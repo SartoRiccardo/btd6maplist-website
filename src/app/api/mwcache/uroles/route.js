@@ -17,5 +17,5 @@ export async function GET(request) {
       { error: "Signature doesn't match token" },
       { status: 400 }
     );
-  return NextResponse.json(await getMaplistRoles(token));
+  return NextResponse.json((await getMaplistRoles(token)) || []);
 }

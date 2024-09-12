@@ -1,13 +1,14 @@
 "use client";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Fade, Form } from "react-bootstrap";
 import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import DragFiles from "./DragFiles";
 import { listVersions } from "@/utils/maplistUtils";
 import { submitRun } from "@/server/maplistRequests.client";
 import Link from "next/link";
+import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
 
 const MAX_TEXT_LEN = 500;
 
@@ -17,6 +18,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   const maplistCfg = useMaplistConfig();
   const [showErrorCount, setShowErrorCount] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [openRules, setOpenRules] = useState(false);
   const accessToken = useDiscordToken();
 
   const formats = [];
@@ -81,7 +83,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     setSuccess(true);
   };
 
-  return (
+  const form = (
     <Formik
       validate={validate}
       initialValues={{
@@ -189,6 +191,25 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         );
       }}
     </Formik>
+  );
+
+  return (
+    <>
+      <div className="flex-hcenter">
+        <Button onClick={() => setOpenRules(!openRules)} className="fs-6">
+          Run Submission Rules
+        </Button>
+      </div>
+
+      <Fade in={openRules} mountOnEnter={true} unmountOnExit={true}>
+        <div>
+          <br />
+          <RunSubmissionRules on={formats.includes(3) ? "experts" : "list"} />
+        </div>
+      </Fade>
+
+      {form}
+    </>
   );
 }
 
