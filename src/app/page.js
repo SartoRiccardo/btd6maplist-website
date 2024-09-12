@@ -6,7 +6,7 @@ export default async function Home() {
   return (
     <div className="text-center">
       <h1> Bloons TD 6 Maplist</h1>
-      <div className="text-center lead mb-3">
+      <div className="text-center fs-5 mb-3">
         The BTD6 Maplist is a project started by
         <span className="d-inline-block mx-2">
           <UserEntry id="513869624157405186" centered={true} inline />
@@ -17,7 +17,7 @@ export default async function Home() {
         </span>
         in order to categorize and rank the hardest maps in the game because of
         the advent of the map editor.
-        <div className="mt-3">
+        <div className="mt-3 fs-6">
           <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
             Discord
           </a>
@@ -35,15 +35,15 @@ export default async function Home() {
         </div>
       </div>
 
-      <h2>Formats</h2>
-      <p>
+      <h2 className="mt-5">Formats</h2>
+      <p className="fs-5">
         There are 2 different lists, each divided into separate subcategories
         and leaderboards.
       </p>
       <div className="row justify-content-center mb-3 font-border">
         <div className="col-6 col-md-4 col-lg-3">
           <Link className="no-underline" href="/list" scroll={false}>
-            <div className="panel bg-list shadow pt-3 h-100">
+            <div className="panel bg-list shadow pt-3 h-100 no-border">
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
                   <SelectorButton active>
@@ -67,7 +67,7 @@ export default async function Home() {
         </div>
         <div className="col-6 col-md-4 col-lg-3">
           <Link className="no-underline" href="/experts" scroll={false}>
-            <div className="panel bg-experts shadow pt-3 h-100">
+            <div className="panel bg-experts shadow pt-3 h-100 no-border">
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
                   <SelectorButton active>
@@ -91,8 +91,8 @@ export default async function Home() {
         </div>
       </div>
 
-      <h2>Join, Play and Create</h2>
-      <p className="text-start">
+      <h2 className="mt-5">Join, Play and Create</h2>
+      <p className="text-start fs-5">
         Whether you're a map maker, someone who likes a challenge, or both, you
         can submit your own custom maps and run completions either through the
         Discord server's bot or this website (you don't need to make an account,
@@ -102,7 +102,7 @@ export default async function Home() {
         </a>
       </p>
 
-      <hr />
+      <hr className="my-5" />
 
       <div className="text-start">
         <p>Special thanks to:</p>

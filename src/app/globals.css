@@ -7,8 +7,8 @@
   --color-text: white;
   --color-text-muted: #b0bec5;
 
-  --color-maplist: #2e7d32;
-  --color-experts: #7b1fa2;
+  --color-maplist: #00897b;
+  --color-experts: #5e35b1;
 
   --bs-btn-success: #198754;
 }
@@ -159,6 +159,10 @@ a.white-text {
 
 .text-justify {
   text-align: justify;
+}
+
+.no-border {
+  border: none !important;
 }
 
 /* Buttons */

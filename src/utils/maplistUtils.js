@@ -188,8 +188,8 @@ export const userRoles = [
   },
   {
     name: "Expert Map Creator",
-    color: "#ffb74d",
-    borderColor: "#fff9c4",
+    color: "var(--color-experts)",
+    borderColor: "lightpink",
     description: "Have a map on the experts list",
     requirement: ({ user }) => {
       for (const map of user.created_maps) {
