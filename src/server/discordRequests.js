@@ -42,7 +42,6 @@ export async function refreshAccessToken(refresh_token) {
   });
 
   if (response.status === 200) return await response.json();
-  console.log(await response.json());
   return null;
 }
 

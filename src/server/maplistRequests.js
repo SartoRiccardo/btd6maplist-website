@@ -1,7 +1,9 @@
+import { revalidate, cache } from "./cacheOptions";
+
 export async function maplistAuthenticate(token) {
   const response = await fetch(
     `${process.env.API_URL}/auth?discord_token=${token}`,
-    { method: "POST" }
+    { method: "POST", cache, next: { revalidate } }
   );
   if (response.status === 400) return null;
   else if (response.status !== 200)
@@ -11,7 +13,8 @@ export async function maplistAuthenticate(token) {
 
 export async function getExpertMaplist() {
   const response = await fetch(`${process.env.API_URL}/exmaps`, {
-    next: { tags: ["experts"] },
+    next: { tags: ["experts"], revalidate },
+    cache,
   });
   if (response.status !== 200) return [];
   return await response.json();
@@ -20,14 +23,17 @@ export async function getExpertMaplist() {
 export async function getTheList(version) {
   const response = await fetch(
     `${process.env.API_URL}/maps?version=${version}`,
-    { next: { tags: ["list"] } }
+    { next: { tags: ["list"], revalidate }, cache }
   );
   if (response.status !== 200) return [];
   return await response.json();
 }
 
 export async function getMap(code) {
-  const response = await fetch(`${process.env.API_URL}/maps/${code}`);
+  const response = await fetch(`${process.env.API_URL}/maps/${code}`, {
+    cache,
+    next: { revalidate },
+  });
   if (response.status !== 200) return null;
   return await response.json();
 }
@@ -35,20 +41,27 @@ export async function getMap(code) {
 export async function getMapCompletions(code, qparams) {
   const response = await fetch(
     `${process.env.API_URL}/maps/${code}/completions?` +
-      new URLSearchParams(qparams).toString()
+      new URLSearchParams(qparams).toString(),
+    { cache, next: { revalidate } }
   );
   if (response.status !== 200) return [];
   return await response.json();
 }
 
 export async function getConfig() {
-  const response = await fetch(`${process.env.API_URL}/config`);
+  const response = await fetch(`${process.env.API_URL}/config`, {
+    cache,
+    next: { revalidate },
+  });
   if (response.status !== 200) return {};
   return await response.json();
 }
 
 export async function getUser(id) {
-  const response = await fetch(`${process.env.API_URL}/users/${id}`);
+  const response = await fetch(`${process.env.API_URL}/users/${id}`, {
+    cache,
+    next: { revalidate },
+  });
   if (response.status !== 200) return null;
   return await response.json();
 }
@@ -56,7 +69,8 @@ export async function getUser(id) {
 export async function getUserCompletions(id, qparams) {
   const response = await fetch(
     `${process.env.API_URL}/users/${id}/completions?` +
-      new URLSearchParams(qparams).toString()
+      new URLSearchParams(qparams).toString(),
+    { cache, next: { revalidate } }
   );
   if (!response.ok) return [];
   return await response.json();
@@ -65,14 +79,17 @@ export async function getUserCompletions(id, qparams) {
 export async function getListLeaderboard(version, value) {
   const response = await fetch(
     `${process.env.API_URL}/maps/leaderboard?version=${version}&value=${value}`,
-    { next: { tags: ["leaderboard", "list"] } }
+    { next: { tags: ["leaderboard", "list"], revalidate }, cache }
   );
   if (response.status !== 200) return [];
   return await response.json();
 }
 
 export async function getCompletion(id) {
-  const response = await fetch(`${process.env.API_URL}/completions/${id}`);
+  const response = await fetch(`${process.env.API_URL}/completions/${id}`, {
+    cache,
+    next: { revalidate },
+  });
   if (!response.ok) return null;
   return await response.json();
 }
@@ -81,7 +98,7 @@ export async function getUnapprovedRuns(qparams) {
   const response = await fetch(
     `${process.env.API_URL}/completions/unapproved?` +
       new URLSearchParams(qparams).toString(),
-    { next: { tags: ["unapproved"] } }
+    { next: { tags: ["unapproved"], revalidate }, cache }
   );
   if (response.status !== 200) return null;
   return await response.json();
