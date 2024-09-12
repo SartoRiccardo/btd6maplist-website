@@ -1,5 +1,7 @@
+"use client";
 import Link from "next/link";
 import { btd6Font } from "@/lib/fonts";
+import { useDiscordToken } from "@/utils/hooks";
 
 export default function AddMapButton({
   onClick,
@@ -10,6 +12,8 @@ export default function AddMapButton({
 }) {
   icon = icon || <i className="success bi bi-plus" />;
   title = title || "Add New Map";
+
+  const token = useDiscordToken();
 
   const component = (
     <div
@@ -26,7 +30,12 @@ export default function AddMapButton({
   );
 
   return href ? (
-    <Link className="btd6map-clickable" href={href} scroll={false}>
+    <Link
+      className="btd6map-clickable"
+      href={href}
+      scroll={false}
+      prefetch={!!token.access_token}
+    >
       {component}
     </Link>
   ) : (

@@ -90,3 +90,13 @@ export function AdminRunOptions({ code }) {
     </>
   );
 }
+
+export function SubmitRunButton({ code }) {
+  const token = useDiscordToken();
+
+  return (
+    <Link href={`/map/${code}/submit`} prefetch={!!token.access_token}>
+      <Button className="active">Submit a Run</Button>
+    </Link>
+  );
+}
