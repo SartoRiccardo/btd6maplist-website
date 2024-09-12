@@ -19,26 +19,30 @@ export default async function UnconfirmedList({ searchParams }) {
       <h1 className="text-center">Unapproved Completions</h1>
 
       <PaginateElement qname="comp_page" page={page} total={completions.pages}>
-        {keyOrder.map((keyMap) => {
-          const runs = runsOnSameMap[keyMap];
-          const mapName = runs.runsBySameUsr[runs.keyOrder[0]][0].map.name;
-          return (
-            <div className="mb-3" key={keyMap}>
-              <h2 className="text-center">{mapName}</h2>
-              {runs.keyOrder.map((keyUsr) => (
-                <CompletionRow
-                  key={keyUsr}
-                  completion={runs.runsBySameUsr[keyUsr]}
-                  userEntry={runs.runsBySameUsr[keyUsr][0].user_ids.map(
-                    (uid) => (
-                      <UserEntry key={uid} id={uid} centered lead="sm" />
-                    )
-                  )}
-                />
-              ))}
-            </div>
-          );
-        })}
+        {keyOrder.length ? (
+          keyOrder.map((keyMap) => {
+            const runs = runsOnSameMap[keyMap];
+            const mapName = runs.runsBySameUsr[runs.keyOrder[0]][0].map.name;
+            return (
+              <div className="mb-3" key={keyMap}>
+                <h2 className="text-center">{mapName}</h2>
+                {runs.keyOrder.map((keyUsr) => (
+                  <CompletionRow
+                    key={keyUsr}
+                    completion={runs.runsBySameUsr[keyUsr]}
+                    userEntry={runs.runsBySameUsr[keyUsr][0].user_ids.map(
+                      (uid) => (
+                        <UserEntry key={uid} id={uid} centered lead="sm" />
+                      )
+                    )}
+                  />
+                ))}
+              </div>
+            );
+          })
+        ) : (
+          <p className="lead text-center muted">No pending completions!</p>
+        )}
       </PaginateElement>
     </>
   );
