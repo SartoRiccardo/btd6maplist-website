@@ -134,7 +134,7 @@ export async function editCompletion(token, payload) {
   const data = { ...payload };
   delete data.id;
   delete data.code;
-  delete data.accepted;
+  delete data.accepted_by;
   if (payload.lcc?.proof_completion instanceof File) {
     body.append("proof_completion", payload.lcc.proof_completion);
     delete data.lcc.proof_completion;

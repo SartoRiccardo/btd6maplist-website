@@ -131,7 +131,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
 
               <div className="flex-hcenter flex-col-space">
                 {completion ? (
-                  completion.accepted ? (
+                  completion.accepted_by ? (
                     <>
                       <Button
                         disabled={disableInputs}

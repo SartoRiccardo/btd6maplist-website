@@ -10,20 +10,20 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function EditCompletion_C({ completion }) {
-  const [accepted, setAccepted] = useState(completion.accepted);
+  const [accepted, setAccepted] = useState(!!completion.accepted_by);
   const router = useRouter();
   const accessToken = useDiscordToken();
 
   const handleSubmit = async (payload) => {
     const resp = await editCompletion(accessToken.access_token, {
       id: completion.id,
-      accept: !completion.accepted,
+      accept: !completion.accepted_by,
       ...payload,
     });
     if (resp) return resp;
     revalidateCompletion(completion.map, completion.user_ids, {
       cid: completion.id,
-      refreshUnapproved: !completion.accepted,
+      refreshUnapproved: !completion.accepted_by,
     });
     setAccepted(true);
   };
@@ -42,7 +42,7 @@ export default function EditCompletion_C({ completion }) {
         await new Promise((resolve) => {
           revalidateCompletion(completion.map, completion.user_ids, {
             cid: completion.id,
-            refreshUnapproved: !completion.accepted,
+            refreshUnapproved: !completion.accepted_by,
           })
             .then(() => router.back())
             .then(resolve);
