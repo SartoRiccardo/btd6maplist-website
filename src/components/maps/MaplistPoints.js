@@ -49,7 +49,7 @@ export default function MaplistPoints({
 
   const gainedPoints = calcMapPoints(idx, maplistCfg) * mul + add;
 
-  return idx < 0 || idx > maplistCfg.map_count || gainedPoints === 0 ? null : (
+  return idx && idx >= 0 && idx <= maplistCfg.count && gainedPoints > 0 ? (
     <div className={`d-flex ${className ? className : ""}`}>
       {icon}
 
@@ -57,5 +57,5 @@ export default function MaplistPoints({
         <p className="fs-5">+{gainedPoints}pt</p>
       </div>
     </div>
-  );
+  ) : null;
 }

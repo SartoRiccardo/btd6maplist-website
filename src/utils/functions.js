@@ -47,3 +47,33 @@ export const removeFieldCode = (array) =>
     delete ret.count;
     return ret;
   });
+
+export const groupCompsByUser = (completions) => {
+  let runsBySameUsr = {};
+  let keyOrder = [];
+  for (const run of completions) {
+    const key = hashCode(
+      run.user_ids.reduce((agg, uid) => agg + uid, "")
+    ).toString();
+    if (!keyOrder.includes(key)) {
+      keyOrder.push(key);
+      runsBySameUsr[key] = [];
+    }
+    runsBySameUsr[key].push(run);
+  }
+  return { runsBySameUsr, keyOrder };
+};
+
+export const groupCompsByMap = (completions) => {
+  const runsOnSameMap = {};
+  const keyOrder = [];
+  for (const run of completions) {
+    const key = run.map?.code || run.map;
+    if (!keyOrder.includes(key)) {
+      keyOrder.push(key);
+      runsOnSameMap[key] = [];
+    }
+    runsOnSameMap[key].push(run);
+  }
+  return { keyOrder, runsOnSameMap };
+};

@@ -16,11 +16,10 @@ export default function EditCompletion_C({ code }) {
     });
     if ("errors" in resp) return resp;
 
-    return new Promise((resolve) => {
-      revalidateCompletion(null, code, resp).then(() => {
-        router.push(`/map/${code}`);
-        resolve();
-      });
+    await new Promise((resolve) => {
+      revalidateCompletion(code, resp, {})
+        .then(() => router.push(`/map/${code}`))
+        .then(resolve);
     });
   };
 

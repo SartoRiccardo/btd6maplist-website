@@ -1,6 +1,7 @@
 import { getCompletion } from "@/server/maplistRequests";
 import EditCompletion_C from "./page.client";
 import Link from "next/link";
+import ResourceNotFound from "@/components/layout/ResourceNotFound";
 
 export const metadata = {
   title: "Edit Completion | BTD6 Maplist",
@@ -9,6 +10,8 @@ export const metadata = {
 export default async function EditCompletion({ params }) {
   const { id } = params;
   const completion = await getCompletion(id);
+
+  if (!completion) return <ResourceNotFound label="completion" />;
 
   return (
     <>

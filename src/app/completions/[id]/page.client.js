@@ -21,7 +21,10 @@ export default function EditCompletion_C({ completion }) {
       ...payload,
     });
     if (resp) return resp;
-    revalidateCompletion(completion.id, completion.map, completion.user_ids);
+    revalidateCompletion(completion.map, completion.user_ids, {
+      cid: completion.id,
+      refreshUnapproved: !completion.accepted,
+    });
     setAccepted(true);
   };
 
@@ -34,12 +37,16 @@ export default function EditCompletion_C({ completion }) {
           accessToken.access_token,
           completion.id
         );
-        if (!resp)
-          revalidateCompletion(
-            completion.id,
-            completion.map,
-            completion.user_ids
-          ).then(() => router.push(`/map/${completion.map}`));
+        if (resp) return;
+
+        await new Promise((resolve) => {
+          revalidateCompletion(completion.map, completion.user_ids, {
+            cid: completion.id,
+            refreshUnapproved: !completion.accepted,
+          })
+            .then(() => router.back())
+            .then(resolve);
+        });
       }}
     />
   );

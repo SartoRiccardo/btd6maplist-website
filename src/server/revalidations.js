@@ -16,9 +16,14 @@ export async function revalidateMap(code) {
   revalidateTag("list");
 }
 
-export async function revalidateCompletion(cid, mapCode, userIds) {
+export async function revalidateCompletion(
+  mapCode,
+  userIds,
+  { cid, refreshUnapproved }
+) {
   if (cid) revalidatePath(`/completions/${cid}`);
   for (const { id } of userIds) revalidatePath(`/user/${id}`);
   revalidatePath(`/map/${mapCode}`);
   revalidateTag("leaderboard");
+  if (refreshUnapproved) revalidateTag("unapproved");
 }

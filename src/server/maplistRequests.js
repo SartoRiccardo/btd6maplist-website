@@ -76,3 +76,13 @@ export async function getCompletion(id) {
   if (!response.ok) return null;
   return await response.json();
 }
+
+export async function getUnapprovedRuns(qparams) {
+  const response = await fetch(
+    `${process.env.API_URL}/completions/unapproved?` +
+      new URLSearchParams(qparams).toString(),
+    { next: { tags: ["unapproved"] } }
+  );
+  if (response.status !== 200) return null;
+  return await response.json();
+}

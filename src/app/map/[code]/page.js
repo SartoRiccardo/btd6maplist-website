@@ -28,7 +28,8 @@ export async function generateMetadata({ params }) {
 export default async function MapOverview({ params, searchParams }) {
   const { code } = params;
   const mapData = await getMap(code);
-  const page = parseInt(searchParams?.comp_page || "1");
+  let page = parseInt(searchParams?.comp_page || "1");
+  page = isNaN(page) ? 1 : page;
 
   if (!mapData) return <ResourceNotFound label="map" />;
 

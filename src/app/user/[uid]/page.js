@@ -23,7 +23,8 @@ export async function generateMetadata({ params }) {
 export default async function PageUser({ params, searchParams }) {
   const { uid } = params;
   const userData = await getUser(uid);
-  const page = parseInt(searchParams?.comp_page || "1");
+  let page = parseInt(searchParams?.comp_page || "1");
+  page = isNaN(page) ? 1 : page;
 
   if (!userData) return <ResourceNotFound label="user" />;
 

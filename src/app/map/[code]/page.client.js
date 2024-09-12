@@ -4,7 +4,7 @@ import UserEntry_C from "@/components/users/UserEntry.client";
 import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
 import { getOwnMapCompletions } from "@/server/maplistRequests.client";
-import { hashCode } from "@/utils/functions";
+import { groupCompsByUser } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -26,17 +26,13 @@ export function LoggedUserRun({ mapData }) {
     if (token) getData();
   }, [mapData.code]);
 
-  const equalRuns = {};
-  const keyOrder = [];
-  if (completions !== null)
-    for (const run of completions) {
-      const key = hashCode(run.user_ids.reduce((agg, uid) => agg + uid, ""));
-      if (!keyOrder.includes(key)) {
-        keyOrder.push(key);
-        equalRuns[key] = [];
-      }
-      equalRuns[key].push(run);
-    }
+  let runsBySameUsr = {};
+  let keyOrder = [];
+  if (completions !== null) {
+    const groupedComps = groupCompsByUser(completions);
+    runsBySameUsr = groupedComps.runsBySameUsr;
+    keyOrder = groupedComps.keyOrder;
+  }
 
   return maplistProfile ? (
     completions === null ? (
@@ -47,7 +43,7 @@ export function LoggedUserRun({ mapData }) {
       keyOrder.map((key) => (
         <CompletionRow
           key={key}
-          completion={equalRuns[key]}
+          completion={runsBySameUsr[key]}
           mapIdxCurver={mapData.placement_cur}
           mapIdxAllver={mapData.placement_all}
           userEntry={
