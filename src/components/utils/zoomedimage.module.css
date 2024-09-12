@@ -19,14 +19,8 @@
 /* <=sm */
 @media only screen and (max-width: 767.98px) {
   .zoomedImageContainer {
-    position: absolute;
     width: 80vh;
     height: 80vw;
-    background-color: var(--color-secondary);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    top: 0;
-    left: 50%;
     transform: translate(-50%, -50%) rotate(90deg);
   }
 }

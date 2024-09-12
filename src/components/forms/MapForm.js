@@ -439,8 +439,15 @@ export default function MapForm({
                             </SidebarField>
                           )}
 
+                          <h3 className="text-center">Round 6 Start</h3>
+                          <SidebarField
+                            title="R6 Start URL"
+                            name="r6_start"
+                            placeholder="https://youtube.com/watch?v=..."
+                            invalidFeedback
+                          />
+
                           <div className="px-3">
-                            <p className="text-center">Round 6 start image</p>
                             <DragFiles
                               name="r6_start_file"
                               formats={["jpg", "png", "webp"]}
@@ -448,7 +455,12 @@ export default function MapForm({
                               onChange={handleChange}
                               value={values.r6_start_file}
                               className="w-100"
-                              showChildren={!!values.r6_start}
+                              showChildren={
+                                !!initialValues?.r6_start &&
+                                ["jpg", "png", "webp"].some((ext) =>
+                                  initialValues.r6_start.endsWith(ext)
+                                )
+                              }
                             >
                               <div className="d-flex justify-content-center">
                                 {values.r6_start_file.length > 0 ? (
@@ -459,7 +471,7 @@ export default function MapForm({
                                 ) : (
                                   <img
                                     style={{ maxWidth: "100%" }}
-                                    src={values.r6_start}
+                                    src={initialValues.r6_start}
                                   />
                                 )}
                               </div>

@@ -37,6 +37,16 @@
   height: 4rem;
 }
 
+.mapInfoContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mapInfoContainer > div:first-child {
+  flex: 1;
+}
+
 /* <xs */
 @media only screen and (max-width: 575.98px) {
   .mapInfo {

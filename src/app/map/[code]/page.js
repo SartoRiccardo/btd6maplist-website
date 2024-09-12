@@ -4,7 +4,7 @@ import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
 import UserEntry from "@/components/users/UserEntry";
 import { getMap } from "@/server/maplistRequests";
-import { hashCode, listEquals, numberWithCommas } from "@/utils/functions";
+import { hashCode, numberWithCommas } from "@/utils/functions";
 import { Fragment, Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/buttons/SelectorButton";
@@ -13,6 +13,7 @@ import {
   AdminRunOptions,
   EditPencilAdmin,
   LoggedUserRun,
+  Round6Start,
   SubmitRunButton,
 } from "./page.client";
 import CopyButton from "@/components/forms/CopyButton";
@@ -77,25 +78,26 @@ export default async function MapOverview({ params, searchParams }) {
         </div>
 
         <div className="col-12 col-md-6 col-lg-7">
-          <div className={`${styles.mapInfo} h-100 row shadow`}>
-            <div className="col-6 col-md-12 col-lg-6 mb-3">
-              <h3>Creator{mapData.creators.length > 1 && "s"}</h3>
-              {mapData.creators.map(({ id, role }) => (
-                <UserEntry key={id} id={id} label={role} />
-              ))}
-            </div>
-            <div className="col-6 col-md-12 col-lg-6 mb-3">
-              <h3>Verifier{mapData.verifications.length > 1 && "s"}</h3>
-              {mapData.verifications.map(({ verifier, version }) => (
-                <UserEntry
-                  key={{ verifier, version }}
-                  id={verifier}
-                  label={version && "Current version"}
-                />
-              ))}
-            </div>
+          <div className={styles.mapInfoContainer}>
+            <div className={`${styles.mapInfo} row shadow`}>
+              <div className="col-6 col-md-12 col-lg-6 mb-3">
+                <h3>Creator{mapData.creators.length > 1 && "s"}</h3>
+                {mapData.creators.map(({ id, role }) => (
+                  <UserEntry key={id} id={id} label={role} />
+                ))}
+              </div>
+              <div className="col-6 col-md-12 col-lg-6 mb-3">
+                <h3>Verifier{mapData.verifications.length > 1 && "s"}</h3>
+                {mapData.verifications.map(({ verifier, version }) => (
+                  <UserEntry
+                    key={{ verifier, version }}
+                    id={verifier}
+                    label={version && "Current version"}
+                  />
+                ))}
+              </div>
 
-            {/* {mapData.map_data_compatibility.length > 0 && (
+              {/* {mapData.map_data_compatibility.length > 0 && (
               <div className="col-12 mb-3">
                 <h3>Map Version Compatibility</h3>
 
@@ -118,30 +120,27 @@ export default async function MapOverview({ params, searchParams }) {
               </div>
             )} */}
 
-            {mapData.optimal_heros.length > 0 && (
-              <>
-                <div className="col-12 col-sm-4 col-md-6 col-lg-4">
-                  <h3 className="mt-0 mt-sm-2">
-                    Optimal Hero{mapData.optimal_heros.length > 1 && "s"}
-                  </h3>
-                </div>
-                <div
-                  className={`col-12 col-sm-8 col-md-6 col-lg-8 d-flex flex-col-space ${styles.optimalHeroContainer}`}
-                >
-                  {mapData.optimal_heros.map((hero) => (
-                    <img key={hero} src={`/heros/hero_${hero}.webp`} />
-                  ))}
-                </div>
-              </>
-            )}
-
+              {mapData.optimal_heros.length > 0 && (
+                <>
+                  <div className="col-12 col-sm-4 col-md-6 col-lg-4">
+                    <h3 className="mt-0 mt-sm-2">
+                      Optimal Hero{mapData.optimal_heros.length > 1 && "s"}
+                    </h3>
+                  </div>
+                  <div
+                    className={`col-12 col-sm-8 col-md-6 col-lg-8 d-flex flex-col-space ${styles.optimalHeroContainer}`}
+                  >
+                    {mapData.optimal_heros.map((hero) => (
+                      <img key={hero} src={`/heros/hero_${hero}.webp`} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
             {mapData.r6_start && (
-              <a href={mapData.r6_start} target="_blank">
-                <h3>
-                  Round 6 Start&nbsp;
-                  <i className="bi bi-box-arrow-up-right ms-1" />
-                </h3>
-              </a>
+              <div className={`${styles.mapInfo} mt-3 row shadow`}>
+                <Round6Start r6Start={mapData.r6_start} />
+              </div>
             )}
           </div>
         </div>

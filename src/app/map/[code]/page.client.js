@@ -1,6 +1,7 @@
 "use client";
 import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry_C from "@/components/users/UserEntry.client";
+import ZoomedImage from "@/components/utils/ZoomedImage";
 import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
 import { getOwnMapCompletions } from "@/server/maplistRequests.client";
@@ -8,7 +9,11 @@ import { groupCompsByUser } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Fade } from "react-bootstrap";
+
+// https://stackoverflow.com/a/37704433/13033269
+const youtubeRe =
+  /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(?:-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/;
 
 export function LoggedUserRun({ mapData }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
@@ -94,5 +99,57 @@ export function SubmitRunButton({ code }) {
     <Link href={`/map/${code}/submit`} prefetch={!!token}>
       <Button className="active">Submit a Run</Button>
     </Link>
+  );
+}
+
+export function Round6Start({ r6Start }) {
+  const [open, setOpen] = useState(false);
+  const [zoomImage, setZoomImage] = useState(false);
+
+  let dropComponent = null;
+
+  const ytMatch = r6Start.match(youtubeRe);
+  if (ytMatch) {
+    dropComponent = (
+      <div className="px-3 mt-3">
+        <div className="yt-embed">
+          <iframe src={`https://www.youtube.com/embed/${ytMatch[5]}`} />
+        </div>
+      </div>
+    );
+  } else if (["jpg", "webp", "png"].some((ext) => r6Start.endsWith(ext))) {
+    dropComponent = (
+      <>
+        <img
+          className="zoomable w-100 mt-3"
+          onClick={() => setZoomImage(true)}
+          src={r6Start}
+        />
+        <ZoomedImage
+          src={r6Start}
+          show={zoomImage}
+          onHide={() => setZoomImage(false)}
+        />
+      </>
+    );
+  }
+
+  return dropComponent ? (
+    <>
+      <h3 className="c-pointer mb-1" onClick={() => setOpen(!open)}>
+        <i className={`bi bi-caret-${open ? "down" : "right"}-fill me-2`} />
+        Round 6 Start
+      </h3>
+      <Fade in={open} mountOnEnter={true} unmountOnExit={true}>
+        <div>{dropComponent}</div>
+      </Fade>
+    </>
+  ) : (
+    <a href={r6Start} target="_blank">
+      <h3 className="mb-1">
+        Round 6 Start&nbsp;
+        <i className="bi bi-box-arrow-up-right ms-1" />
+      </h3>
+    </a>
   );
 }
