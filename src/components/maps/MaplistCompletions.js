@@ -1,7 +1,7 @@
 import { getMapCompletions } from "@/server/maplistRequests";
 import CompletionRow from "./CompletionRow";
 import UserEntry from "../users/UserEntry";
-import { groupCompsByUser, hashCode } from "@/utils/functions";
+import { groupCompsByUser } from "@/utils/functions";
 import PaginateElement from "../buttons/PaginateElement";
 
 export default async function MaplistCompletions({
