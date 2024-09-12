@@ -34,7 +34,7 @@ export default function AddMapButton({
       className="btd6map-clickable"
       href={href}
       scroll={false}
-      prefetch={!!token.access_token}
+      prefetch={!!token}
     >
       {component}
     </Link>
