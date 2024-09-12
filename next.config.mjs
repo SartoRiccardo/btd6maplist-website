@@ -238,6 +238,9 @@ const withPWA = withPWAInit({
             maxEntries: 64,
             maxAgeSeconds: 365 * 24 * 60 * 60,
           },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
         },
       },
 
@@ -250,6 +253,9 @@ const withPWA = withPWAInit({
             maxEntries: 64,
             maxAgeSeconds: 365 * 24 * 60 * 60,
           },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
         },
       },
 
@@ -261,6 +267,9 @@ const withPWA = withPWAInit({
           expiration: {
             maxEntries: 32,
             maxAgeSeconds: 365 * 24 * 60 * 60,
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
           },
         },
       },
