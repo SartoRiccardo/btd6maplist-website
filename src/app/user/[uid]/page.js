@@ -110,7 +110,8 @@ export default async function PageUser({ params, searchParams }) {
                   </SelectorButton>
                 )}
 
-                {mapData.placement_all > -1 && (
+                {/* ALLVER UCOMMENT */}
+                {/* {mapData.placement_all > -1 && (
                   <SelectorButton text={`#${mapData.placement_all}`} active>
                     <img
                       src="/format_icons/icon_allver.webp"
@@ -119,7 +120,7 @@ export default async function PageUser({ params, searchParams }) {
                       height={btnSize}
                     />
                   </SelectorButton>
-                )}
+                )} */}
 
                 {mapData.difficulty > -1 && (
                   <SelectorButton active>
