@@ -76,12 +76,12 @@ export async function getUserCompletions(id, qparams) {
   return await response.json();
 }
 
-export async function getListLeaderboard(version, value) {
+export async function getListLeaderboard(version, value, page) {
   const response = await fetch(
-    `${process.env.API_URL}/maps/leaderboard?version=${version}&value=${value}`,
+    `${process.env.API_URL}/maps/leaderboard?version=${version}&value=${value}&page=${page}`,
     { next: { tags: ["leaderboard", "list"], revalidate }, cache }
   );
-  if (response.status !== 200) return [];
+  if (!response.ok) return { total: 0, pages: 0, entries: [] };
   return await response.json();
 }
 

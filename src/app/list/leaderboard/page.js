@@ -6,6 +6,7 @@ import { getPositionColor } from "@/utils/functions";
 import { listVersions } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { Button } from "react-bootstrap";
+import PaginateElement from "@/components/buttons/PaginateElement";
 
 export async function generateMetadata({ searchParams }) {
   let version = searchParams?.format || "current";
@@ -30,8 +31,11 @@ export default async function ListLeaderboard({ searchParams }) {
   if (!["current", "all"].includes(version.toLowerCase())) version = "current";
   let value = searchParams?.value || "points";
   if (!["points", "lccs"].includes(value.toLowerCase())) value = "points";
+  let page = searchParams?.page || "1";
+  if (!/^\d+$/.test(page)) page = "1";
+  page = parseInt(page);
 
-  const leaderboard = await getListLeaderboard(version, value);
+  const leaderboard = await getListLeaderboard(version, value, page);
 
   let curFormat =
     listVersions.find(({ query }) => version === query) || listVersions[0];
@@ -78,32 +82,38 @@ export default async function ListLeaderboard({ searchParams }) {
       </div>
 
       <div className="my-4">
-        {leaderboard.map(({ user, score, position }) => {
-          let style = {};
-          const posColor = getPositionColor(position);
-          if (posColor !== null) style.backgroundColor = posColor;
+        <PaginateElement qname="page" page={page} total={leaderboard.pages}>
+          {leaderboard.entries.map(({ user, score, position }) => {
+            let style = {};
+            const posColor = getPositionColor(position);
+            if (posColor !== null) style.backgroundColor = posColor;
 
-          return (
-            <div
-              key={user.id}
-              className={`panel my-2 row ${position <= 3 ? "font-border" : ""}`}
-              style={style}
-            >
-              <div className="col-1 d-flex flex-column justify-content-center">
-                <p className="fs-4 lb-position text-center mb-0">#{position}</p>
+            return (
+              <div
+                key={user.id}
+                className={`panel my-2 row ${
+                  position <= 3 ? "font-border" : ""
+                }`}
+                style={style}
+              >
+                <div className="col-1 d-flex flex-column justify-content-center">
+                  <p className="fs-4 lb-position text-center mb-0">
+                    #{position}
+                  </p>
+                </div>
+                <div className="col-8">
+                  <UserEntry id={user.id} centered lead="sm" />
+                </div>
+                <div className="col-3 d-flex flex-column justify-content-center">
+                  <p className="fs-4 text-end mb-0">
+                    {score}
+                    {value === "points" && "pt"}
+                  </p>
+                </div>
               </div>
-              <div className="col-8">
-                <UserEntry id={user.id} centered lead="sm" />
-              </div>
-              <div className="col-3 d-flex flex-column justify-content-center">
-                <p className="fs-4 text-end mb-0">
-                  {score}
-                  {value === "points" && "pt"}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </PaginateElement>
       </div>
     </>
   );
