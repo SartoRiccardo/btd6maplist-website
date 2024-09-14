@@ -21,7 +21,7 @@ export default async function MaplistCompletions({
           completion={runsBySameUsr[key]}
           mapIdxCurver={mapIdxCurver}
           mapIdxAllver={mapIdxAllver}
-          userEntry={runsBySameUsr[key][0].user_ids.map((uid) => (
+          userEntry={runsBySameUsr[key][0].users.map((uid) => (
             <UserEntry key={uid} id={uid} centered lead="sm" />
           ))}
         />

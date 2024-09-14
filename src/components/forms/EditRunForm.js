@@ -33,7 +33,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
     ? {
         black_border: completion.black_border,
         no_geraldo: completion.no_geraldo,
-        user_ids: completion.user_ids.map(({ name }, i) => ({
+        user_ids: completion.users.map(({ name }, i) => ({
           uid: name,
           count: -(i + 1),
         })),

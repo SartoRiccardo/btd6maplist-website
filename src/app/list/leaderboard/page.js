@@ -78,14 +78,14 @@ export default async function ListLeaderboard({ searchParams }) {
       </div>
 
       <div className="my-4">
-        {leaderboard.map(({ user_id, score, position }) => {
+        {leaderboard.map(({ user, score, position }) => {
           let style = {};
           const posColor = getPositionColor(position);
           if (posColor !== null) style.backgroundColor = posColor;
 
           return (
             <div
-              key={user_id}
+              key={user.id}
               className={`panel my-2 row ${position <= 3 ? "font-border" : ""}`}
               style={style}
             >
@@ -93,7 +93,7 @@ export default async function ListLeaderboard({ searchParams }) {
                 <p className="fs-4 lb-position text-center mb-0">#{position}</p>
               </div>
               <div className="col-8">
-                <UserEntry id={user_id} centered lead="sm" />
+                <UserEntry id={user.id} centered lead="sm" />
               </div>
               <div className="col-3 d-flex flex-column justify-content-center">
                 <p className="fs-4 text-end mb-0">

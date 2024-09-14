@@ -198,7 +198,7 @@ function MapCompatibility({ status, startVer, endVer }) {
 }
 
 // Assume `run` is an array of identical LCCs, even with different runs.
-// Assume `run.user_ids` is identical among all elements.
+// Assume `run.users` is identical among all elements.
 function LCC({ run }) {
   run = run instanceof Array ? run : [run];
   const lcc = run[0].lcc;
@@ -213,7 +213,7 @@ function LCC({ run }) {
     <div className="panel my-2">
       <div className="row">
         <div className="col-12 col-md-6">
-          {run[0].user_ids.map((id) => (
+          {run[0].users.map(({ id }) => (
             <UserEntry key={id} id={id} centered lead="sm" />
           ))}
         </div>

@@ -30,7 +30,7 @@ export default async function UnconfirmedList({ searchParams }) {
                   <CompletionRow
                     key={keyUsr}
                     completion={runs.runsBySameUsr[keyUsr]}
-                    userEntry={runs.runsBySameUsr[keyUsr][0].user_ids.map(
+                    userEntry={runs.runsBySameUsr[keyUsr][0].users.map(
                       (uid) => (
                         <UserEntry key={uid} id={uid} centered lead="sm" />
                       )

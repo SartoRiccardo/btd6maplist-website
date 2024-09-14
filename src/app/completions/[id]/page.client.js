@@ -21,7 +21,7 @@ export default function EditCompletion_C({ completion }) {
       ...payload,
     });
     if (resp) return resp;
-    revalidateCompletion(completion.map, completion.user_ids, {
+    revalidateCompletion(completion.map, completion.users, {
       cid: completion.id,
       refreshUnapproved: !completion.accepted_by,
     });
@@ -40,7 +40,7 @@ export default function EditCompletion_C({ completion }) {
         if (resp) return;
 
         await new Promise((resolve) => {
-          revalidateCompletion(completion.map, completion.user_ids, {
+          revalidateCompletion(completion.map, completion.users, {
             cid: completion.id,
             refreshUnapproved: !completion.accepted_by,
           })
