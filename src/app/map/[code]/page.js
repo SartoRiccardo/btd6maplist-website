@@ -8,7 +8,7 @@ import { hashCode, numberWithCommas } from "@/utils/functions";
 import { Fragment, Suspense } from "react";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/buttons/SelectorButton";
-import { listVersions } from "@/utils/maplistUtils";
+import { allFormats } from "@/utils/maplistUtils";
 import {
   AdminRunOptions,
   EditPencilAdmin,
@@ -168,21 +168,17 @@ export default async function MapOverview({ params, searchParams }) {
         </>
       ) : null}
 
-      {(mapData.placement_cur > -1 || mapData.placement_all > -1) && (
-        <>
-          <h3 className="text-center mt-3">List Completions</h3>
-          <AdminRunOptions code={code} />
+      <h3 className="text-center mt-3">List Completions</h3>
+      <AdminRunOptions code={code} />
 
-          <Suspense fallback={null}>
-            <MaplistCompletions
-              page={page}
-              code={code}
-              mapIdxCurver={mapData.placement_cur}
-              mapIdxAllver={mapData.placement_all}
-            />
-          </Suspense>
-        </>
-      )}
+      <Suspense fallback={null}>
+        <MaplistCompletions
+          page={page}
+          code={code}
+          mapIdxCurver={mapData.placement_cur}
+          mapIdxAllver={mapData.placement_all}
+        />
+      </Suspense>
     </>
   );
 }
@@ -204,7 +200,7 @@ function LCC({ run }) {
   const lcc = run[0].lcc;
 
   const lccFormats = run.map(({ format }) => format);
-  let formats = listVersions.filter(
+  let formats = allFormats.filter(
     ({ value }) => lccFormats.includes(value) || lccFormats.includes(0)
   );
   if (!formats.length) return null;

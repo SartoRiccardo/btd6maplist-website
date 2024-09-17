@@ -46,7 +46,8 @@ export default function CompletionColumn({
                 <div className="align-self-center">
                   {onlyIcon ? (
                     fmtIcon
-                  ) : format <= 50 ? (
+                  ) : format <= 50 &&
+                    (mapIdxCurver !== -1 || mapIdxAllver !== -1) ? (
                     <MaplistPoints
                       completion={compl}
                       prevCompletions={completion.slice(0, i)}
