@@ -35,6 +35,7 @@ export default async function UnconfirmedList({ searchParams }) {
                         <UserEntry key={uid} id={uid} centered lead="sm" />
                       )
                     )}
+                    onlyIcon
                   />
                 ))}
               </div>

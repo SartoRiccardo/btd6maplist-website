@@ -1,5 +1,5 @@
 "use client";
-import { listVersions } from "@/utils/maplistUtils";
+import { allFormats } from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import MaplistPoints from "./MaplistPoints";
 import RowMedals from "./RowMedals";
@@ -10,6 +10,7 @@ export default function CompletionColumn({
   completion,
   mapIdxCurver,
   mapIdxAllver,
+  onlyIcon,
 }) {
   const authLevels = useAuthLevels();
 
@@ -18,8 +19,14 @@ export default function CompletionColumn({
       // .sort((c1, c2) => c1.format - c2.format)
       .map((compl, i) => {
         const { id, black_border, no_geraldo, current_lcc, format } = compl;
-        const runFormat = listVersions.find(({ value }) => value === format);
+        const runFormat = allFormats.find(({ value }) => value === format);
         if (!runFormat) return null;
+
+        const fmtIcon = (
+          <SelectorButton text={runFormat.short} active>
+            <img src={runFormat.image} width={35} height={35} />
+          </SelectorButton>
+        );
 
         const cmpCol = (
           <div key={id} className="row">
@@ -37,17 +44,23 @@ export default function CompletionColumn({
             <div className="col-6">
               <div className="d-flex justify-content-end justify-content-lg-start h-100">
                 <div className="align-self-center">
-                  <MaplistPoints
-                    completion={compl}
-                    prevCompletions={completion.slice(0, i)}
-                    idx={format === 1 ? mapIdxCurver : mapIdxAllver}
-                    icon={
-                      <SelectorButton text={runFormat.short} active>
-                        <img src={runFormat.image} width={35} height={35} />
-                      </SelectorButton>
-                    }
-                    className={"ms-3"}
-                  />
+                  {onlyIcon ? (
+                    fmtIcon
+                  ) : format <= 50 ? (
+                    <MaplistPoints
+                      completion={compl}
+                      prevCompletions={completion.slice(0, i)}
+                      idx={format === 1 ? mapIdxCurver : mapIdxAllver}
+                      icon={
+                        <SelectorButton text={runFormat.short} active>
+                          <img src={runFormat.image} width={35} height={35} />
+                        </SelectorButton>
+                      }
+                      className={"ms-3"}
+                    />
+                  ) : (
+                    fmtIcon
+                  )}
                 </div>
               </div>
             </div>

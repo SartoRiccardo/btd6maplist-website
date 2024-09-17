@@ -1,4 +1,4 @@
-import { filterCompletionFormats, listVersions } from "@/utils/maplistUtils";
+import { allFormats, filterCompletionFormats } from "@/utils/maplistUtils";
 import CompletionColumn from "./CompletionColumn";
 
 export default function CompletionRow({
@@ -7,9 +7,10 @@ export default function CompletionRow({
   mapIdxAllver,
   className,
   userEntry,
+  onlyIcon,
 }) {
   completion = completion instanceof Array ? completion : [completion];
-  completion = filterCompletionFormats(completion, listVersions);
+  completion = filterCompletionFormats(completion, allFormats);
   if (!completion.length) return null;
 
   return (
@@ -24,6 +25,7 @@ export default function CompletionRow({
             completion={completion}
             mapIdxCurver={mapIdxCurver}
             mapIdxAllver={mapIdxAllver}
+            onlyIcon={onlyIcon}
           />
         </div>
       </div>

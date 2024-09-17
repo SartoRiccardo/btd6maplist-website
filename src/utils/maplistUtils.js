@@ -166,7 +166,7 @@ const explistVersions = [
     // short: "Cur",
     // query: "current",
     value: 51,
-    // image: "/format_icons/icon_curver.webp",
+    image: "/format_icons/icon_hard.webp",
     // plcKey: "placement_cur",
     // description: "",
   },
