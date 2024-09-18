@@ -19,6 +19,7 @@ import TwoFieldEntry from "./TwoFieldEntry";
 import SidebarField from "./MapSidebarField";
 import MapCodeController, { codeRegex } from "./MapCodeController";
 import DragFiles from "./DragFiles";
+import ErrorToast from "./ErrorToast";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -290,6 +291,7 @@ export default function MapForm({
         } = formikProps;
 
         let errorCount = Object.keys(errors).length;
+        if ("" in errors) errorCount--;
         if (!(authLevels.isListMod || authLevels.isAdmin)) {
           if ("placement_allver" in errors) errorCount--;
           if ("placement_curver" in errors) errorCount--;
@@ -722,6 +724,8 @@ export default function MapForm({
                 </>
               )}
             </Form>
+
+            <ErrorToast />
           </FormikContext.Provider>
         );
       }}

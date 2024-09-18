@@ -9,6 +9,7 @@ import { listVersions } from "@/utils/maplistUtils";
 import { submitRun } from "@/server/maplistRequests.client";
 import Link from "next/link";
 import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
+import ErrorToast from "./ErrorToast";
 
 const MAX_TEXT_LEN = 500;
 
@@ -109,6 +110,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         } = formikProps;
 
         let errorCount = Object.keys(errors).length;
+        if ("" in errors) errorCount--;
         const disableInputs = isSubmitting || success;
 
         return (
@@ -187,6 +189,8 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                 </>
               )}
             </Form>
+
+            <ErrorToast />
           </FormikContext.Provider>
         );
       }}

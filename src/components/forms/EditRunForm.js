@@ -8,6 +8,7 @@ import DragFiles from "./DragFiles";
 import { isInt, removeFieldCode } from "@/utils/functions";
 import { allFormats } from "@/utils/maplistUtils";
 import ZoomedImage from "../utils/ZoomedImage";
+import ErrorToast from "./ErrorToast";
 
 const defaultValues = {
   black_border: false,
@@ -104,7 +105,8 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
         const { handleSubmit, setSubmitting, isSubmitting, errors } =
           formikProps;
         const disableInputs = isSubmitting || (!completion && success);
-        const errorCount = Object.keys(errors).length;
+        let errorCount = Object.keys(errors).length;
+        if ("" in errors) errorCount--;
 
         const handleDelete = async (_e) => {
           setSubmitting(true);
@@ -173,6 +175,8 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
                 </p>
               )}
             </Form>
+
+            <ErrorToast />
           </FormikContext.Provider>
         );
       }}

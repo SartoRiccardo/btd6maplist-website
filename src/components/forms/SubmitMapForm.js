@@ -11,6 +11,7 @@ import Link from "next/link";
 import { submitMap } from "@/server/maplistRequests.client";
 import MustBeInDiscord from "../utils/MustBeInDiscord";
 import { MapSubmissionRules } from "../layout/maplists/MaplistRules";
+import ErrorToast from "./ErrorToast";
 
 const MAX_TEXT_LEN = 500;
 
@@ -76,6 +77,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
           formikProps;
 
         let errorCount = Object.keys(errors).length;
+        if ("" in errors) errorCount--;
         const disableInputs = isFetching || isSubmitting || success;
 
         return (
@@ -179,6 +181,8 @@ export default function SubmitMapForm({ onSubmit, type }) {
                 </>
               )}
             </Form>
+
+            <ErrorToast />
           </FormikContext.Provider>
         );
       }}
