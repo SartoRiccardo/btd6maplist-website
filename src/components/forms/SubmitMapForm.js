@@ -46,7 +46,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
     const payload = {
       code,
       type,
-      notes: notes.length ? notes : null,
+      notes: values.notes.length ? values.notes : null,
       proposed: parseInt(values.proposed),
       proof_completion: values.proof_completion[0].file,
     };
