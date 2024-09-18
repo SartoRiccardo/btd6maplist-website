@@ -43,12 +43,14 @@ export default function DragImage({
   };
 
   const handleDrop = (evt) => {
+    if (disabled) return;
     evt.preventDefault();
     const droppedFiles = evt.dataTransfer.files;
     processFiles(evt, Array.from(droppedFiles));
   };
 
   const handleClick = (_e) => {
+    if (disabled) return;
     inputRef.current.click();
   };
 
