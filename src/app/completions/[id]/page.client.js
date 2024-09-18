@@ -44,7 +44,7 @@ export default function EditCompletion_C({ completion }) {
             cid: completion.id,
             refreshUnapproved: !completion.accepted_by,
           })
-            .then(() => router.back())
+            .then(() => router.push(`/map/${completion.map}`))
             .then(resolve);
         });
       }}
