@@ -32,13 +32,17 @@ export default function Btd6Map({
       <p className={`mapTitle ${btd6Font.className} font-border`}>{name}</p>
 
       {placement !== undefined && Object.keys(maplistCfg).length && (
-        <div className={`points shadow`}>
+        <div className="points">
           <p
             className={`my-0 text-center ${btd6Font.className} font-border`}
             // Luckiest Guy for some reason is perfectly centered on Windows but not anywhere else?
             style={{ paddingTop: isWindows ? "0" : "0.5rem" }}
           >
-            {calcMapPoints(placement, maplistCfg)}
+            #{placement}
+            <span className="points-value">
+              {calcMapPoints(placement, maplistCfg)}
+              <span>pt</span>
+            </span>
           </p>
         </div>
       )}
