@@ -193,7 +193,7 @@ const defaultSwCache = [
         !pathname.startsWith("/api/")
       );
     },
-    handler: "CacheOnly",
+    handler: "CacheFirst",
     options: {
       cacheName: "others-prefetch",
       expiration: {
@@ -229,51 +229,51 @@ const withPWA = withPWAInit({
     runtimeCaching: [
       ...defaultSwCache,
 
-      // {
-      //   urlPattern:
-      //     /^https:\/\/data\.ninjakiwi\.com\/btd6\/maps\/map\/[A-Z]{7}\/preview$/i,
-      //   handler: "CacheOnly",
-      //   options: {
-      //     cacheName: "btd6-map-previews",
-      //     expiration: {
-      //       maxEntries: 64,
-      //       maxAgeSeconds: 365 * 24 * 60 * 60,
-      //     },
-      //     cacheableResponse: {
-      //       statuses: [0, 200],
-      //     },
-      //   },
-      // },
+      {
+        urlPattern:
+          /^https:\/\/data\.ninjakiwi\.com\/btd6\/maps\/map\/[A-Z]{7}\/preview$/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "btd6-map-previews",
+          expiration: {
+            maxEntries: 64,
+            maxAgeSeconds: 365 * 24 * 60 * 60,
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
 
-      // {
-      //   urlPattern: /^https:\/\/static-api\.nkstatic\.com\/.*/i,
-      //   handler: "CacheOnly",
-      //   options: {
-      //     cacheName: "btd6-static-assets",
-      //     expiration: {
-      //       maxEntries: 64,
-      //       maxAgeSeconds: 365 * 24 * 60 * 60,
-      //     },
-      //     cacheableResponse: {
-      //       statuses: [0, 200],
-      //     },
-      //   },
-      // },
+      {
+        urlPattern: /^https:\/\/static-api\.nkstatic\.com\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "btd6-static-assets",
+          expiration: {
+            maxEntries: 64,
+            maxAgeSeconds: 365 * 24 * 60 * 60,
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
 
-      // {
-      //   urlPattern: /^https:\/\/mediabtd6maplist\.sarto\.dev\/.*/i,
-      //   handler: "CacheOnly",
-      //   options: {
-      //     cacheName: "maplist-static-images",
-      //     expiration: {
-      //       maxEntries: 32,
-      //       maxAgeSeconds: 365 * 24 * 60 * 60,
-      //     },
-      //     cacheableResponse: {
-      //       statuses: [0, 200],
-      //     },
-      //   },
-      // },
+      {
+        urlPattern: /^https:\/\/mediabtd6maplist\.sarto\.dev\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "maplist-static-images",
+          expiration: {
+            maxEntries: 16,
+            maxAgeSeconds: 365 * 24 * 60 * 60,
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
 
       {
         urlPattern: ({ url }) =>
