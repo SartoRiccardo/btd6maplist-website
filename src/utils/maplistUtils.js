@@ -95,7 +95,7 @@ export const difficulties = [
       "Challenging, but not frustrating or intense difficulty. May have complications at any point.",
   },
   {
-    name: "Hard",
+    name: "High",
     query: "hard",
     value: 2,
     image: "/format_icons/icon_hard.webp",

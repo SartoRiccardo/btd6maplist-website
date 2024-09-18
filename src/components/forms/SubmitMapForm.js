@@ -241,9 +241,9 @@ function SidebarForm({ type }) {
                 <option value="0">Casual Expert</option>
                 <option value="1">Casual/Medium</option>
                 <option value="2">Medium Expert</option>
-                <option value="3">Medium/Hard</option>
-                <option value="4">Hard Expert</option>
-                <option value="5">Hard/True</option>
+                <option value="3">Medium/High</option>
+                <option value="4">High Expert</option>
+                <option value="5">High/True</option>
                 <option value="6">True Expert</option>
               </>
             )}
