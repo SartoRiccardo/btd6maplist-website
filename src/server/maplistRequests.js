@@ -3,7 +3,7 @@ import { revalidate, cache } from "./cacheOptions";
 export async function maplistAuthenticate(token) {
   const response = await fetch(
     `${process.env.API_URL}/auth?discord_token=${token}`,
-    { method: "POST", cache, next: { revalidate } }
+    { method: "POST", cache: "no-store" }
   );
   if (response.status === 400) return null;
   else if (response.status !== 200)
