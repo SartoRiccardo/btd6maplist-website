@@ -39,12 +39,16 @@ export default function EditCompletion_C({ completion }) {
         );
         if (resp) return;
 
+        const navigateTo = completion.accepted_by
+          ? `/map/${completion.map}`
+          : "/completions/unconfirmed";
+
         await new Promise((resolve) => {
           revalidateCompletion(completion.map, completion.users, {
             cid: completion.id,
             refreshUnapproved: !completion.accepted_by,
           })
-            .then(() => router.push(`/map/${completion.map}`))
+            .then(() => router.push(navigateTo))
             .then(resolve);
         });
       }}

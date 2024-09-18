@@ -17,9 +17,6 @@ export default async function UnconfirmedList({ searchParams }) {
   return (
     <>
       <h1 className="text-center">Unapproved Completions</h1>
-      <p className="text-center muted">
-        To accept/edit/reject a completion, click its medals
-      </p>
 
       <PaginateElement qname="comp_page" page={page} total={completions.pages}>
         {keyOrder.length ? (

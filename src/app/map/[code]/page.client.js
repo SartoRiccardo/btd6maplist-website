@@ -79,15 +79,11 @@ export function AdminRunOptions({ code }) {
 
   return (
     <>
-      <div className="flex-hcenter">
+      <div className="flex-hcenter mb-4">
         <Link href={`/map/${code}/completions/new`}>
           <Button>Insert a Run</Button>
         </Link>
       </div>
-
-      <p className="muted text-center mt-3">
-        To edit/delete a completion, click its medals
-      </p>
     </>
   );
 }
