@@ -206,8 +206,8 @@ export const userRoles = [
     borderColor: "#00bfa5",
     description: "1+ points on the leaderboard",
     requirement: ({ user }) =>
-      (user.maplist.current.points > 0 && user.maplist.current.points < 100) ||
-      (user.maplist.all.points > 0 && user.maplist.all.points < 100),
+      user.maplist.current.points > 0 && user.maplist.current.points < 100,
+    // || (user.maplist.all.points > 0 && user.maplist.all.points < 100),
   },
   {
     name: "Intermediate",
@@ -215,9 +215,8 @@ export const userRoles = [
     borderColor: "#00bfa5",
     description: "100+ points on the leaderboard",
     requirement: ({ user }) =>
-      (user.maplist.current.points >= 100 &&
-        user.maplist.current.points < 350) ||
-      (user.maplist.all.points >= 100 && user.maplist.all.points < 350),
+      user.maplist.current.points >= 100 && user.maplist.current.points < 350,
+    // ||(user.maplist.all.points >= 100 && user.maplist.all.points < 350),
   },
   {
     name: "Advanced",
@@ -225,9 +224,8 @@ export const userRoles = [
     borderColor: "#00bfa5",
     description: "350+ points on the leaderboard",
     requirement: ({ user }) =>
-      (user.maplist.current.points >= 350 &&
-        user.maplist.current.points < 1000) ||
-      (user.maplist.all.points >= 350 && user.maplist.all.points < 1000),
+      user.maplist.current.points >= 350 && user.maplist.current.points < 1000,
+    // || (user.maplist.all.points >= 350 && user.maplist.all.points < 1000),
   },
   {
     name: "Expert",
@@ -235,17 +233,16 @@ export const userRoles = [
     borderColor: "#00bfa5",
     description: "100+ points on the leaderboard",
     requirement: ({ user }) =>
-      (user.maplist.current.points >= 1000 &&
-        user.maplist.current.pts_placement > 1) ||
-      (user.maplist.all.points >= 1000 && user.maplist.all.pts_placement > 1),
+      user.maplist.current.points >= 1000 &&
+      user.maplist.current.pts_placement > 1,
+    // || (user.maplist.all.points >= 1000 && user.maplist.all.pts_placement > 1),
   },
   {
     name: "The GOAT",
     color: "#b2dfdb",
     borderColor: "#00bfa5",
     description: "#1 on the points leaderboard",
-    requirement: ({ user }) =>
-      user.maplist.current.pts_placement === 1 ||
-      user.maplist.all.pts_placement === 1,
+    requirement: ({ user }) => user.maplist.current.pts_placement === 1,
+    // || user.maplist.all.pts_placement === 1,
   },
 ];
