@@ -105,7 +105,8 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
       {(formikProps) => {
         const { handleSubmit, setSubmitting, isSubmitting, errors } =
           formikProps;
-        const disableInputs = isSubmitting || (!completion && success);
+        const disableInputs =
+          isSubmitting || (!completion && success) || completion?.deleted_on;
         let errorCount = Object.keys(errors).length;
         if ("" in errors) errorCount--;
 
@@ -134,19 +135,26 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
 
               <div className="flex-hcenter flex-col-space">
                 {completion ? (
-                  <>
-                    <Button
-                      disabled={disableInputs}
-                      variant="danger"
-                      className="big"
-                      onClick={handleDelete}
-                    >
-                      {completion.accepted_by ? "Delete" : "Reject"}
-                    </Button>
-                    <Button disabled={disableInputs} type="submit">
-                      {completion.accepted_by ? "Save" : "Approve"}
-                    </Button>
-                  </>
+                  completion.deleted_on ? (
+                    <p className="muted">
+                      This is a deleted run, it will not be counted, you cannot
+                      edit it.
+                    </p>
+                  ) : (
+                    <>
+                      <Button
+                        disabled={disableInputs}
+                        variant="danger"
+                        className="big"
+                        onClick={handleDelete}
+                      >
+                        {completion.accepted_by ? "Delete" : "Reject"}
+                      </Button>
+                      <Button disabled={disableInputs} type="submit">
+                        {completion.accepted_by ? "Save" : "Approve"}
+                      </Button>
+                    </>
+                  )
                 ) : (
                   <Button disabled={disableInputs} type="submit">
                     Submit
@@ -213,6 +221,7 @@ function RunProperties() {
               value={values.format}
               onChange={handleChange}
               onBlur={handleBlur}
+              disabled={disableInputs}
               isInvalid={!!errors.format}
             >
               {allFormats.map(({ value, name }) => (
@@ -259,7 +268,11 @@ function RunProperties() {
         />
 
         <h3 className="text-center">Player(s)</h3>
-        <AddableField name="user_ids" defaultValue={{ uid: "" }}>
+        <AddableField
+          disabled={disableInputs}
+          name="user_ids"
+          defaultValue={{ uid: "" }}
+        >
           {values.user_ids.map(({ count, uid }, i) => (
             <div
               key={count}
@@ -285,6 +298,7 @@ function RunProperties() {
                 <div>
                   <Button
                     variant="danger"
+                    disabled={disableInputs}
                     onClick={(_e) =>
                       setValues({
                         ...values,

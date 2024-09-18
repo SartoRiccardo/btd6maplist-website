@@ -7,6 +7,7 @@ export default function AddableField({
   name,
   defaultValue,
   children,
+  disabled,
   firstId,
 }) {
   const [count, setCount] = useState(firstId || 1);
@@ -20,6 +21,7 @@ export default function AddableField({
       <div className="flex-hcenter mt-3">
         <Button
           variant="success"
+          disabled={disabled}
           onClick={(_e) => {
             setValues({
               ...values,
