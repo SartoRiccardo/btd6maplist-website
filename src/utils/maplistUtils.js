@@ -231,7 +231,7 @@ export const userRoles = [
     name: "Expert",
     color: "#80cbc4",
     borderColor: "#00bfa5",
-    description: "100+ points on the leaderboard",
+    description: "1000+ points on the leaderboard",
     requirement: ({ user }) =>
       user.maplist.current.points >= 1000 &&
       user.maplist.current.pts_placement > 1,
