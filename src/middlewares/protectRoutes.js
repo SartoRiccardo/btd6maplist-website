@@ -27,7 +27,10 @@ export default async function protectRoutesMiddleware(request, _rsp) {
       if (
         !(
           roles.includes(process.env.NEXT_PUBLIC_LISTMOD_ROLE) ||
-          roles.includes(process.env.NEXT_PUBLIC_EXPMOD_ROLE)
+          roles.includes(process.env.NEXT_PUBLIC_EXPMOD_ROLE) ||
+          process.env.NEXT_PUBLIC_ADMIN_ROLES.split(",").some((rl) =>
+            roles.includes(rl)
+          )
         )
       )
         return resp404;
