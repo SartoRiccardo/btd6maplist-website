@@ -37,7 +37,9 @@
 a.single-completion {
   text-decoration: none;
   color: var(--color-text);
+  background-color: #496680;
   transition: background-color 0.2s linear;
+  box-shadow: 0 0 0.2rem #202c37;
 }
 
 a.single-completion:first-child {
