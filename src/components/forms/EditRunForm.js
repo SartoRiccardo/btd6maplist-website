@@ -133,35 +133,19 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
 
               <div className="flex-hcenter flex-col-space">
                 {completion ? (
-                  completion.accepted_by ? (
-                    <>
-                      <Button
-                        disabled={disableInputs}
-                        variant="danger"
-                        className="big"
-                        onClick={handleDelete}
-                      >
-                        Delete
-                      </Button>
-                      <Button disabled={disableInputs} type="submit">
-                        Save
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        disabled={disableInputs}
-                        variant="danger"
-                        className="big"
-                        onClick={handleDelete}
-                      >
-                        Delete
-                      </Button>
-                      <Button disabled={disableInputs} type="submit">
-                        Approve
-                      </Button>
-                    </>
-                  )
+                  <>
+                    <Button
+                      disabled={disableInputs}
+                      variant="danger"
+                      className="big"
+                      onClick={handleDelete}
+                    >
+                      {completion.accepted_by ? "Delete" : "Reject"}
+                    </Button>
+                    <Button disabled={disableInputs} type="submit">
+                      {completion.accepted_by ? "Save" : "Approve"}
+                    </Button>
+                  </>
                 ) : (
                   <Button disabled={disableInputs} type="submit">
                     Submit
