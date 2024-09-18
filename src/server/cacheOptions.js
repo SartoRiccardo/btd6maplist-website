@@ -1,2 +1,2 @@
-export const revalidate = 60 * 20;
+export const revalidate = 60 * 5;
 export const cache = undefined;
