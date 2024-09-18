@@ -28,8 +28,9 @@ export default function CompletionColumn({
           </SelectorButton>
         );
 
-        const cmpCol = (
-          <div key={id} className="row">
+        const isAdmin = authLevels.loaded && authLevels.hasPerms;
+        return (
+          <div key={id} className="row gx-0">
             <div className="col-6">
               <div className="d-flex justify-content-start h-100">
                 <div className="align-self-center">
@@ -41,7 +42,7 @@ export default function CompletionColumn({
                 </div>
               </div>
             </div>
-            <div className="col-6">
+            <div className={`col-${isAdmin ? "5" : "6"}`}>
               <div className="d-flex justify-content-end justify-content-lg-start h-100">
                 <div className="align-self-center">
                   {onlyIcon ? (
@@ -65,19 +66,20 @@ export default function CompletionColumn({
                 </div>
               </div>
             </div>
+            {isAdmin && (
+              <div className="col-1 flex-vcenter">
+                <Link
+                  className="completion-link align-self-center no-underline"
+                  key={id}
+                  href={`/completions/${id}`}
+                >
+                  <p className="text-center mb-0">
+                    <i className="bi bi-three-dots" />
+                  </p>
+                </Link>
+              </div>
+            )}
           </div>
-        );
-
-        return authLevels.loaded && authLevels.hasPerms ? (
-          <Link
-            className="single-completion d-block no-underline"
-            key={id}
-            href={`/completions/${id}`}
-          >
-            {cmpCol}
-          </Link>
-        ) : (
-          <div className="single-completion">{cmpCol}</div>
         );
       })
   );
