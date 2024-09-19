@@ -435,6 +435,7 @@ function SubmissionData({ completion }) {
   const [isProofZoomed, setProofZoomed] = useState(false);
 
   if (
+    !completion ||
     !(
       completion.subm_notes ||
       completion.subm_proof_img ||
