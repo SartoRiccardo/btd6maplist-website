@@ -50,3 +50,11 @@ export default function UserEntry_C({
     </Link>
   );
 }
+
+export function UserEntry_Plc() {
+  return (
+    <div className="userEntry">
+      <img className="pfp" src={initialBtd6Profile.avatarURL} />
+    </div>
+  );
+}

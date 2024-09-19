@@ -1,5 +1,6 @@
 import SelectorButton from "@/components/buttons/SelectorButton";
-import FullCompletionInfoRow from "@/components/maps/FullCompletion";
+import FullCompletionInfoRow from "@/components/maps/FullCompletionInfoRow";
+import { FullCompletionInfoRow_Plc } from "@/components/maps/FullCompletionInfoRow";
 import UserEntry from "@/components/users/UserEntry";
 import { getRecentCompletions } from "@/server/maplistRequests";
 import { allFormats } from "@/utils/maplistUtils";
@@ -97,7 +98,7 @@ export default async function Home() {
       </div>
 
       <h2 className="mt-5">Recent Completions</h2>
-      <Suspense fallback={null}>
+      <Suspense fallback={<RecentCompletions_Plc count={5} />}>
         <RecentCompletions />
       </Suspense>
 
@@ -148,4 +149,12 @@ async function RecentCompletions() {
   return completions.map((cmp) => (
     <FullCompletionInfoRow key={cmp.id} completion={cmp} />
   ));
+}
+
+function RecentCompletions_Plc({ count }) {
+  const items = [];
+  for (let i = 0; i < count; i++) {
+    items.push(<FullCompletionInfoRow_Plc key={i} />);
+  }
+  return items;
 }

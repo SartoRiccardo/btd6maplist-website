@@ -1,7 +1,6 @@
-import { initialBtd6Profile } from "@/features/authSlice";
 import { getUser } from "@/server/maplistRequests";
 import { Suspense } from "react";
-import UserEntry_C from "./UserEntry.client";
+import UserEntry_C, { UserEntry_Plc } from "./UserEntry.client";
 
 export default async function UserEntry({ id, label, centered, lead, inline }) {
   return (
@@ -28,13 +27,5 @@ async function UserEntry_S({ id, label, centered, lead, inline }) {
       lead={lead}
       inline={inline}
     />
-  );
-}
-
-function UserEntry_Plc() {
-  return (
-    <div className={`userEntry`}>
-      <img className={`pfp`} src={initialBtd6Profile.avatarURL} />
-    </div>
   );
 }
