@@ -1,9 +1,14 @@
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const medal_size = 45;
-export default function RowMedals({ black_border, no_geraldo, current_lcc }) {
+export default function RowMedals({
+  black_border,
+  no_geraldo,
+  current_lcc,
+  hideNoGeraldo,
+}) {
   return (
-    <div>
+    <div className="medals-container">
       <OverlayTrigger
         overlay={(props) => (
           <Tooltip {...props}>
@@ -26,16 +31,18 @@ export default function RowMedals({ black_border, no_geraldo, current_lcc }) {
         />
       </OverlayTrigger>
 
-      <OverlayTrigger
-        overlay={(props) => <Tooltip {...props}>No Optimal Hero</Tooltip>}
-      >
-        <img
-          src="/medals/medal_nogerry.webp"
-          width={medal_size}
-          height={medal_size}
-          className={`${!no_geraldo ? "comp-blocked" : ""} mx-2`}
-        />
-      </OverlayTrigger>
+      {!hideNoGeraldo && (
+        <OverlayTrigger
+          overlay={(props) => <Tooltip {...props}>No Optimal Hero</Tooltip>}
+        >
+          <img
+            src="/medals/medal_nogerry.webp"
+            width={medal_size}
+            height={medal_size}
+            className={`${!no_geraldo ? "comp-blocked" : ""}`}
+          />
+        </OverlayTrigger>
+      )}
 
       {current_lcc && (
         <OverlayTrigger

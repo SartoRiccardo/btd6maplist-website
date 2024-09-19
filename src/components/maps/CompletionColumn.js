@@ -38,6 +38,7 @@ export default function CompletionColumn({
                     black_border={black_border}
                     no_geraldo={no_geraldo}
                     current_lcc={current_lcc}
+                    hideNoGeraldo={runFormat.value > 50}
                   />
                 </div>
               </div>
