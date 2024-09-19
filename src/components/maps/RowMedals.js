@@ -1,3 +1,4 @@
+"use client";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const medal_size = 45;

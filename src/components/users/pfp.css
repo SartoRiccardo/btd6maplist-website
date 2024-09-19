@@ -44,6 +44,7 @@
 }
 
 .pfp-name {
+  text-align: start;
   font-weight: 700;
   margin-bottom: 0;
 }

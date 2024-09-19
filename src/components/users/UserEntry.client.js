@@ -44,7 +44,7 @@ export default function UserEntry_C({
             <p className={`pfp-name ${leadClass}`}>{nameCmp}</p>
           )}
 
-          <p className={`pfp-small`}>{label}</p>
+          <p className={`text-start pfp-small`}>{label}</p>
         </div>
       </div>
     </Link>

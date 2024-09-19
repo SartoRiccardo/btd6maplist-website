@@ -103,3 +103,13 @@ export async function getUnapprovedRuns(qparams) {
   if (response.status !== 200) return null;
   return await response.json();
 }
+
+export async function getRecentCompletions(qparams) {
+  const response = await fetch(
+    `${process.env.API_URL}/completions/recent?` +
+      new URLSearchParams(qparams).toString(),
+    { next: { tags: ["completions"], revalidate }, cache }
+  );
+  if (response.status !== 200) return null;
+  return await response.json();
+}

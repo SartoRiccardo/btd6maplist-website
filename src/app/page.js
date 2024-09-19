@@ -1,6 +1,10 @@
 import SelectorButton from "@/components/buttons/SelectorButton";
+import FullCompletionInfoRow from "@/components/maps/FullCompletion";
 import UserEntry from "@/components/users/UserEntry";
+import { getRecentCompletions } from "@/server/maplistRequests";
+import { allFormats } from "@/utils/maplistUtils";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default async function Home() {
   return (
@@ -92,6 +96,11 @@ export default async function Home() {
         </div>
       </div>
 
+      <h2 className="mt-5">Recent Completions</h2>
+      <Suspense fallback={null}>
+        <RecentCompletions />
+      </Suspense>
+
       <h2 className="mt-5">Join, Play and Create</h2>
       <p className="text-start fs-5">
         Whether you're a map maker, someone who likes a challenge, or both, you
@@ -130,4 +139,13 @@ export default async function Home() {
       </div>
     </div>
   );
+}
+
+async function RecentCompletions() {
+  const formats = allFormats.map(({ value }) => value.toString()).join(",");
+  const completions = await getRecentCompletions({ formats });
+
+  return completions.map((cmp) => (
+    <FullCompletionInfoRow key={cmp.id} completion={cmp} />
+  ));
 }
