@@ -33,7 +33,7 @@ export default function FullCompletionInfoRow({ completion }) {
         </div>
 
         <div className="col-6 col-sm-4 col-md-3 col-lg-2 align-self-center justify-content-end">
-          <RowMedals {...completion} />
+          <RowMedals {...completion} hideNoGeraldo={completion.format > 50} />
         </div>
       </div>
     </div>
