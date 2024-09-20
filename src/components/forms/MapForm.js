@@ -331,7 +331,12 @@ export default function MapForm({
                           code,
                           name: mapData.name,
                         });
-                    setCurrentMap({ code, valid: true, editing: isMaplist });
+                    setCurrentMap({
+                      code,
+                      valid: true,
+                      editing: isMaplist,
+                      isDeleted: isMaplist && mapData.deleted_on !== null,
+                    });
                   }}
                   onMapFail={() =>
                     setErrors({
@@ -698,7 +703,7 @@ export default function MapForm({
                   </div>
 
                   <div className="flex-hcenter flex-col-space mt-5">
-                    {isEditing && (
+                    {isEditing && !currentMap?.isDeleted && (
                       <Button
                         disabled={isSubmitting || disableInputs}
                         onClick={async (_e) => {
@@ -716,7 +721,11 @@ export default function MapForm({
                       type="submit"
                       disabled={isSubmitting || disableInputs}
                     >
-                      {isEditing ? "Save" : "Submit"}
+                      {isEditing
+                        ? currentMap?.isDeleted
+                          ? "Restore"
+                          : "Save"
+                        : "Insert"}
                     </Button>
                   </div>
 
