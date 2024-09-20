@@ -123,7 +123,11 @@ export default function MapForm({
     onDelete ||
     (async (access_token, code) => {
       await deleteMap(access_token, code);
-      revalidateMap(code).then(() => router.push("/list"));
+      await new Promise((resolve) => {
+        revalidateMap(code)
+          .then(() => router.push("/list"))
+          .then(resolve);
+      });
     });
   initialValues = initialValues || defaultValues;
 
