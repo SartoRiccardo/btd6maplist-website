@@ -125,6 +125,7 @@ export default function MapForm({
       await deleteMap(access_token, code);
       revalidateMap(code).then(() => router.push("/list"));
     });
+  initialValues = initialValues || defaultValues;
 
   const isEditing = !!code || (currentMap && currentMap.editing);
 
@@ -272,7 +273,7 @@ export default function MapForm({
   return (
     <Formik
       validate={validate}
-      initialValues={initialValues || defaultValues}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
     >
       {(formikProps) => {
@@ -386,7 +387,10 @@ export default function MapForm({
                             ) : (
                               <img
                                 style={{ maxWidth: "100%" }}
-                                src={values.map_preview_url}
+                                src={
+                                  values.map_preview_url ||
+                                  `https://data.ninjakiwi.com/btd6/maps/map/${values.code}/preview`
+                                }
                               />
                             )}
                           </div>
