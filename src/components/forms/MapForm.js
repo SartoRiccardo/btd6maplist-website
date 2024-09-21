@@ -182,11 +182,12 @@ export default function MapForm({
 
     if (authLevels.isListMod || authLevels.isAdmin) {
       for (const plcmField of placementFields) {
+        const val = parseInt(values[plcmField]);
         if (
           values[plcmField].toString().length &&
-          (values[plcmField] <= 0 ||
-            (values[plcmField] > maplistCfg.map_count &&
-              values[plcmField] !== parseInt(initialValues[plcmField])))
+          (val <= 0 ||
+            (val > maplistCfg.map_count &&
+              val !== parseInt(initialValues[plcmField])))
         )
           errors[plcmField] = `Must be between 1 and ${maplistCfg.map_count}`;
       }
