@@ -19,7 +19,11 @@ export default async function AddMap({ params }) {
     <>
       <h1 className="text-center">Edit Map - {code}</h1>
 
-      <MapForm code={code} initialValues={initialValues} />
+      <MapForm
+        code={code}
+        initialValues={initialValues}
+        isDeleted={mapData.deleted_on !== null}
+      />
     </>
   );
 }

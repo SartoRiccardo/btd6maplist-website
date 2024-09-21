@@ -104,9 +104,10 @@ export default function MapForm({
   onDelete,
   buttons,
   submitText,
+  isDeleted,
 }) {
   const [currentMap, setCurrentMap] = useState(
-    code ? { code, valid: true, editing: true } : null
+    code ? { code, valid: true, editing: true, isDeleted } : null
   );
   const [isFetching, setIsFetching] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
