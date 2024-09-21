@@ -9,6 +9,7 @@ import { isInt, removeFieldCode } from "@/utils/functions";
 import { allFormats } from "@/utils/maplistUtils";
 import ZoomedImage from "../utils/ZoomedImage";
 import ErrorToast from "./ErrorToast";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 const defaultValues = {
   black_border: false,
@@ -28,6 +29,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
   onDelete = onDelete || (async () => {});
 
   const [showErrorCount, setShowErrorCount] = useState(false);
+  const [showDeleting, setShowDeleting] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const initialValues = completion
@@ -146,7 +148,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
                         disabled={disableInputs}
                         variant="danger"
                         className="big"
-                        onClick={handleDelete}
+                        onClick={() => setShowDeleting(true)}
                       >
                         {completion.accepted_by ? "Delete" : "Reject"}
                       </Button>
@@ -169,6 +171,13 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
               )}
             </Form>
 
+            <ConfirmDeleteModal
+              disabled={disableInputs}
+              show={showDeleting}
+              onHide={() => setShowDeleting(false)}
+              entity="completion"
+              onDelete={handleDelete}
+            />
             <ErrorToast />
           </FormikContext.Provider>
         );

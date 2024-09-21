@@ -20,6 +20,7 @@ import SidebarField from "./MapSidebarField";
 import MapCodeController, { codeRegex } from "./MapCodeController";
 import DragFiles from "./DragFiles";
 import ErrorToast from "./ErrorToast";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -110,6 +111,7 @@ export default function MapForm({
   const [isFetching, setIsFetching] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [showErrorCount, setShowErrorCount] = useState(false);
+  const [showDeleting, setShowDeleting] = useState(false);
   const authLevels = useAuthLevels();
   const maplistCfg = useMaplistConfig();
   const accessToken = useDiscordToken();
@@ -716,11 +718,7 @@ export default function MapForm({
                     {isEditing && !currentMap?.isDeleted && (
                       <Button
                         disabled={isSubmitting || disableInputs}
-                        onClick={async (_e) => {
-                          setSubmitting(true);
-                          await onDelete(accessToken.access_token, code);
-                          setSubmitting(false);
-                        }}
+                        onClick={() => setShowDeleting(true)}
                         variant="danger"
                         className="big"
                       >
@@ -748,6 +746,17 @@ export default function MapForm({
               )}
             </Form>
 
+            <ConfirmDeleteModal
+              disabled={isSubmitting || disableInputs}
+              show={showDeleting}
+              onHide={() => setShowDeleting(false)}
+              entity="map"
+              onDelete={async (_e) => {
+                setSubmitting(true);
+                await onDelete(accessToken.access_token, code);
+                setSubmitting(false);
+              }}
+            />
             <ErrorToast />
           </FormikContext.Provider>
         );
