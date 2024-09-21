@@ -1,7 +1,13 @@
 import { sha256 } from "js-sha256";
 import { NextResponse } from "next/server";
 
-const matcher = ["/config.*", "/map/add.*", "/map/.+?/edit", "/completions/.*"];
+const matcher = [
+  "/config.*",
+  "/map/add.*",
+  "/map/.+?/edit",
+  "/completions/.*",
+  "/list/legacy",
+];
 
 /**
  * Return 404 if attempting to access one of the routes in matcher

@@ -29,6 +29,15 @@ export async function getTheList(version) {
   return await response.json();
 }
 
+export async function getLegacyList() {
+  const response = await fetch(`${process.env.API_URL}/maps/legacy`, {
+    next: { tags: ["list"], revalidate },
+    cache,
+  });
+  if (!response.ok) return [];
+  return await response.json();
+}
+
 export async function getMap(code) {
   const response = await fetch(`${process.env.API_URL}/maps/${code}`, {
     cache,

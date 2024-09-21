@@ -26,24 +26,21 @@ export default function ProtectedLinks({
           </a>
 
           <ul className={`${stylesNav.submenu} shadow`} tabIndex={0}>
-            <li>
-              <Link
-                scroll={false}
-                href="/config"
-                onClick={(e) => onNavigate && onNavigate(e)}
-              >
-                List Config
-              </Link>
-            </li>
-            <li>
-              <Link
-                scroll={false}
-                href="/completions/unconfirmed"
-                onClick={(e) => onNavigate && onNavigate(e)}
-              >
-                Pending Runs
-              </Link>
-            </li>
+            <LinkItem
+              href="/config"
+              label="List Config"
+              onNavigate={onNavigate}
+            />
+            <LinkItem
+              href="/completions/unconfirmed"
+              label="Pending Runs"
+              onNavigate={onNavigate}
+            />
+            <LinkItem
+              href="/list/legacy"
+              label="Legacy List"
+              onNavigate={onNavigate}
+            />
           </ul>
         </li>
       )}
@@ -62,29 +59,40 @@ export default function ProtectedLinks({
           <Collapse in={openSubmenus.includes(100)}>
             <div>
               <ul className={`${styles.submenu} ${styles.mobile}`}>
-                <li>
-                  <Link
-                    scroll={false}
-                    href="/config"
-                    onClick={(e) => onNavigate && onNavigate(e)}
-                  >
-                    List Config
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    scroll={false}
-                    href="/completions/unconfirmed"
-                    onClick={(e) => onNavigate && onNavigate(e)}
-                  >
-                    Pending Runs
-                  </Link>
-                </li>
+                <LinkItem
+                  href="/config"
+                  label="List Config"
+                  onNavigate={onNavigate}
+                />
+                <LinkItem
+                  href="/completions/unconfirmed"
+                  label="Pending Runs"
+                  onNavigate={onNavigate}
+                />
+                <LinkItem
+                  href="/list/legacy"
+                  label="Legacy List"
+                  onNavigate={onNavigate}
+                />
               </ul>
             </div>
           </Collapse>
         </li>
       )}
     </>
+  );
+}
+
+function LinkItem({ href, label, onNavigate }) {
+  return (
+    <li>
+      <Link
+        scroll={false}
+        href={href}
+        onClick={(e) => onNavigate && onNavigate(e)}
+      >
+        {label}
+      </Link>
+    </li>
   );
 }

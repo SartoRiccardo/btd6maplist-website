@@ -180,12 +180,17 @@ export default function MapForm({
           errors[`${field}[${i}].${inner}`] = `This must be a game version`;
         }
 
-    for (const plcmField of placementFields)
-      if (
-        values[plcmField].toString().length &&
-        (values[plcmField] <= 0 || values[plcmField] > maplistCfg.map_count)
-      )
-        errors[plcmField] = `Must be between 1 and ${maplistCfg.map_count}`;
+    if (authLevels.isListMod || authLevels.isAdmin) {
+      for (const plcmField of placementFields) {
+        if (
+          values[plcmField].toString().length &&
+          (values[plcmField] <= 0 ||
+            (values[plcmField] > maplistCfg.map_count &&
+              values[plcmField] !== parseInt(initialValues[plcmField])))
+        )
+          errors[plcmField] = `Must be between 1 and ${maplistCfg.map_count}`;
+      }
+    }
 
     if (
       values.placement_curver === "" &&

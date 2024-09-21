@@ -4,12 +4,12 @@ import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
 import AddMapListEntry from "./AddMapListEntry";
 
-export default function TheList({ maps, format }) {
+export default function TheList({ maps, format, legacy }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
 
   return (
     <div className="row">
-      <AddMapListEntry on="list" />
+      {!legacy && <AddMapListEntry on="list" />}
 
       {maps.map((mapData) => {
         const { code, placement, name, verified } = mapData;
@@ -28,9 +28,10 @@ export default function TheList({ maps, format }) {
               name={name}
               hrefBase="/map"
               verified={verified}
-              placement={placement}
+              placement={placement > -1 ? placement : undefined}
               completion={completion}
-              showMedals={maplistProfile !== null}
+              showMedals={maplistProfile !== null && !legacy}
+              hidePoints={legacy}
             />
           </div>
         );

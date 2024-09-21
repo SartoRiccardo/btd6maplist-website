@@ -18,6 +18,7 @@ export default function Btd6Map({
   className,
   completion,
   showMedals,
+  hidePoints,
 }) {
   code = code || mapData.code;
 
@@ -39,10 +40,12 @@ export default function Btd6Map({
             style={{ paddingTop: isWindows ? "0" : "0.5rem" }}
           >
             #{placement}
-            <span className="points-value">
-              {calcMapPoints(placement, maplistCfg)}
-              <span>pt</span>
-            </span>
+            {!hidePoints && (
+              <span className="points-value">
+                {calcMapPoints(placement, maplistCfg)}
+                <span>pt</span>
+              </span>
+            )}
           </p>
         </div>
       )}
