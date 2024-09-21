@@ -3,23 +3,32 @@ import UserEntry from "../users/UserEntry";
 import RowMedals from "./RowMedals";
 import { fromNow } from "@/utils/dates";
 import { UserEntry_Plc } from "../users/UserEntry.client";
+import Link from "next/link";
 
 export default function FullCompletionInfoRow({ completion }) {
   return (
     <div className="panel my-2 py-2">
       <div className="row gx-0 gy-2 text-start">
-        <div className="col-12 col-md-6">
-          <div className="d-flex align-self-center btd6mapRow">
-            <img
-              className="btd6mapImage"
-              src={completion.map.map_preview_url}
-            />
-            <div className="d-flex flex-column justify-content-center">
-              <p className={`mb-0 ps-3 ${btd6Font.className} font-border fs-5`}>
-                {completion.map.name}
-              </p>
+        <div className="col-12 col-md-6 btd6mapRow">
+          <Link
+            href={`/map/${completion.map.code}`}
+            className="btd6map-clickable"
+            scroll={false}
+          >
+            <div className="d-flex align-self-center">
+              <img
+                className="btd6mapImage"
+                src={completion.map.map_preview_url}
+              />
+              <div className="d-flex flex-column justify-content-center">
+                <p
+                  className={`mb-0 ps-3 ${btd6Font.className} font-border fs-5`}
+                >
+                  {completion.map.name}
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="col-6 col-sm-8 col-md-3 col-lg-4 d-flex flex-column align-self-center">
