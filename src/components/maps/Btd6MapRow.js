@@ -10,7 +10,7 @@ export default function Btd6MapRow({ map, hrefBase, completion }) {
 
   const cmpMap = (
     <div className="d-flex align-self-center">
-      <img className={`btd6mapImage`} src={map.map_preview_url} />
+      <img className="btd6mapImage" loading="lazy" src={map.map_preview_url} />
       <div className="d-flex flex-column justify-content-center">
         <p className={`mb-0 ps-3 ${btd6Font.className} font-border fs-5`}>
           {map.name}

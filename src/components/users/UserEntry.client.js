@@ -24,6 +24,7 @@ export default function UserEntry_C({
     <Link scroll={false} href={`/user/${profile.id}`} className={`pfp-link`}>
       <div className={`userEntry ${inline ? "inline" : ""}`}>
         <img
+          loading="lazy"
           className={`pfp ${inline ? "inline" : ""}`}
           src={profile.avatarURL || initialBtd6Profile.avatarURL}
         />

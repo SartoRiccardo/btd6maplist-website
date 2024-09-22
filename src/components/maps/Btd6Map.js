@@ -50,7 +50,7 @@ export default function Btd6Map({
         </div>
       )}
 
-      <img className="btd6mapImage" src={previewUrl} />
+      <img className="btd6mapImage" loading="lazy" src={previewUrl} />
 
       {showMedals && (
         <div className="btd6map-medals d-flex">

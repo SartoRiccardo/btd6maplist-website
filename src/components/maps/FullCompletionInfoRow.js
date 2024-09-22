@@ -17,6 +17,7 @@ export default function FullCompletionInfoRow({ completion }) {
           >
             <div className="d-flex align-self-center">
               <img
+                loading="lazy"
                 className="btd6mapImage"
                 src={completion.map.map_preview_url}
               />
