@@ -1,11 +1,11 @@
 import { btd6Font } from "@/lib/fonts";
 import Link from "next/link";
 import CompletionColumn from "./CompletionColumn";
-import { filterCompletionFormats, listVersions } from "@/utils/maplistUtils";
+import { allFormats, filterCompletionFormats } from "@/utils/maplistUtils";
 
 export default function Btd6MapRow({ map, hrefBase, completion }) {
   completion = completion instanceof Array ? completion : [completion];
-  completion = filterCompletionFormats(completion, listVersions);
+  completion = filterCompletionFormats(completion, allFormats);
   if (!completion.length) return null;
 
   const cmpMap = (
@@ -36,7 +36,7 @@ export default function Btd6MapRow({ map, hrefBase, completion }) {
           )}
         </div>
 
-        <div className="col-12 col-md-7 col-lg-5 align-self-center">
+        <div className="col-12 col-md-7 col-lg-5 align-self-center compcol-container">
           <CompletionColumn
             completion={completion}
             mapIdxCurver={map.placement_cur}
