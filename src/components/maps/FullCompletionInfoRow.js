@@ -55,10 +55,7 @@ export function FullCompletionInfoRow_Plc() {
       <div className="row gx-0 gy-2 text-start">
         <div className="col-12 col-md-6">
           <div className="d-flex align-self-center btd6mapRow">
-            <img
-              className="btd6mapImage"
-              src="https://data.ninjakiwi.com/btd6/maps/map/ZMYWROV/preview"
-            />
+            <div className="btd6mapImage empty flex-vcenter" />
             <div className="d-flex flex-column justify-content-center">
               <p className={`mb-0 ps-3 ${btd6Font.className} font-border fs-5`}>
                 Loading...
