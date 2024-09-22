@@ -26,17 +26,18 @@ export default function NavLogin({ onNavigate }) {
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(false);
 
   const cmpLoggedOut = (
-    <a
-      href={`https://discord.com/oauth2/authorize?${new URLSearchParams({
-        state: `-${pathname}`,
-        ...discOAuth2Params,
-      }).toString()}`}
-    >
-      <li style={{ color: "#9fa8da" }}>
+    <li>
+      <a
+        href={`https://discord.com/oauth2/authorize?${new URLSearchParams({
+          state: `-${pathname}`,
+          ...discOAuth2Params,
+        }).toString()}`}
+        style={{ color: "#9fa8da" }}
+      >
         <i className="bi bi-discord me-2" />
         Login
-      </li>
-    </a>
+      </a>
+    </li>
   );
   const cmpLoggedIn = (
     <>
