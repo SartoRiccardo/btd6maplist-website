@@ -9,7 +9,7 @@ import { groupCompsByUser } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button, Fade } from "react-bootstrap";
+import { Fade } from "react-bootstrap";
 
 // https://stackoverflow.com/a/37704433/13033269
 const youtubeRe =
@@ -81,7 +81,7 @@ export function AdminRunOptions({ code }) {
     <>
       <div className="flex-hcenter mb-4">
         <Link href={`/map/${code}/completions/new`}>
-          <Button>Insert a Run</Button>
+          <button className="btn btn-primary">Insert a Run</button>
         </Link>
       </div>
     </>
@@ -93,7 +93,7 @@ export function SubmitRunButton({ code }) {
 
   return (
     <Link href={`/map/${code}/submit`} prefetch={!!token}>
-      <Button className="active">Submit a Run</Button>
+      <button className="btn btn-primary active">Submit a Run</button>
     </Link>
   );
 }

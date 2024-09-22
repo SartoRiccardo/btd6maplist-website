@@ -1,9 +1,8 @@
 "use client";
-
 import { useRef, useState } from "react";
 
 // https://medium.com/@dprincecoder/creating-a-drag-and-drop-file-upload-component-in-react-a-step-by-step-guide-4d93b6cc21e0
-export default function DragImage({
+export default function DragFiles({
   name,
   value,
   onChange,
@@ -21,7 +20,7 @@ export default function DragImage({
   className = className || "";
   style = style || {};
   formats = formats ? formats.map((f) => f.toLowerCase()) : [];
-  icon = icon || "image";
+  icon = icon || "bi-image";
 
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef();
@@ -81,7 +80,7 @@ export default function DragImage({
         children
       ) : (
         <div className="d-flex justify-content-center">
-          <i className={`bi bi-${icon} align-self-center dragfile-icon`} />
+          <i className={`bi ${icon} align-self-center dragfile-icon`} />
         </div>
       )}
       {isValid && (

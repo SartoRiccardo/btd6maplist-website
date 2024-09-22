@@ -5,7 +5,6 @@ import {
 } from "@/components/layout/maplists/MaplistRules";
 import MustBeInDiscord from "@/components/utils/MustBeInDiscord";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 
 export default function RulePage() {
   const [on, setOn] = useState("list");
@@ -20,18 +19,18 @@ export default function RulePage() {
         Rules differ slightly depending on the format
       </p>
       <div className="flex-hcenter flex-col-space">
-        <Button
-          className={on === "list" ? "active" : ""}
+        <button
+          className={`btn btn-primary ${on === "list" ? "active" : ""}`}
           onClick={() => setOn("list")}
         >
           List
-        </Button>
-        <Button
-          className={on === "experts" ? "active" : ""}
+        </button>
+        <button
+          className={`btn btn-primary ${on === "experts" ? "active" : ""}`}
           onClick={() => setOn("experts")}
         >
           Experts
-        </Button>
+        </button>
       </div>
 
       <h2 className="text-center mt-5" id="map-rules">

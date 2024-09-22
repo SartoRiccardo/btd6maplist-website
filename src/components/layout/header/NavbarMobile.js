@@ -58,9 +58,11 @@ export function NavbarMobile() {
             <li>
               <a href="#" onClick={toggleSubmenu(0, openSubmenus.includes(0))}>
                 <i
-                  className={`bi bi-caret-${
-                    openSubmenus.includes(0) ? "down" : "right"
-                  }-fill`}
+                  className={`bi ${
+                    openSubmenus.includes(0)
+                      ? "bi-caret-down-fill"
+                      : "bi-caret-right-fill"
+                  }`}
                 />{" "}
                 Maps
               </a>
@@ -100,30 +102,6 @@ export function NavbarMobile() {
                 Leaderboard
               </Link>
             </li>
-
-            {/* <li>
-              <a href="#" onClick={toggleSubmenu(1, openSubmenus.includes(1))}>
-                <i
-                  className={`bi bi-caret-${
-                    openSubmenus.includes(1) ? "down" : "right"
-                  }-fill`}
-                />{" "}
-                Leaderboard
-              </a>
-
-              <Collapse in={openSubmenus.includes(1)}>
-                <div>
-                  <ul className={`${styles.submenu} ${styles.mobile}`}>
-                    <li>
-                      <Link scroll={false} href="/experts">Experts</Link>
-                    </li>
-                    <li>
-                      <Link scroll={false} href="/list">The List</Link>
-                    </li>
-                  </ul>
-                </div>
-              </Collapse>
-            </li> */}
           </ul>
         </Offcanvas.Body>
       </Offcanvas>

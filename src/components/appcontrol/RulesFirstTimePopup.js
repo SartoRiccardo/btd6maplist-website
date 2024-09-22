@@ -4,7 +4,8 @@ import { useAppSelector } from "@/lib/store";
 import { useDiscordToken } from "@/utils/hooks";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import CheckBox from "../forms/bootstrap/CheckBox";
 
 export default function RulesFirstTimePopup() {
   const [show, setShow] = useState(false);
@@ -64,9 +65,8 @@ export default function RulesFirstTimePopup() {
           }}
         >
           {({ values, errors, touched, handleSubmit, handleChange }) => (
-            <Form onSubmit={handleSubmit}>
-              <Form.Check
-                type="checkbox"
+            <form onSubmit={handleSubmit}>
+              <CheckBox
                 name="knowsExist"
                 onChange={handleChange}
                 isInvalid={touched.knowsExist && !!errors.knowsExist}
@@ -74,8 +74,7 @@ export default function RulesFirstTimePopup() {
                 label="I am aware that rules exist"
               />
 
-              <Form.Check
-                type="checkbox"
+              <CheckBox
                 name="willRead"
                 onChange={handleChange}
                 isInvalid={touched.willRead && !!errors.willRead}
@@ -84,11 +83,11 @@ export default function RulesFirstTimePopup() {
               />
 
               <div className="flex-hcenter mt-3">
-                <Button type="submit" className="active">
+                <button type="submit" className="btn btn-primary active">
                   Understood
-                </Button>
+                </button>
               </div>
-            </Form>
+            </form>
           )}
         </Formik>
       </Modal.Body>

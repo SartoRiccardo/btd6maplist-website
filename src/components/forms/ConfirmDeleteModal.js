@@ -1,5 +1,5 @@
 "use client";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 export default function ConfirmDeleteModal({
   show,
@@ -14,17 +14,20 @@ export default function ConfirmDeleteModal({
         <h2 className="text-center">Confirm Deletion</h2>
         <p>Are you sure you wanna delete this {entity}?</p>
         <div className="d-flex justify-content-between">
-          <Button variant="primary" onClick={onHide} disabled={disabled}>
+          <button
+            className="btn btn-primary"
+            onClick={onHide}
+            disabled={disabled}
+          >
             Cancel
-          </Button>
-          <Button
-            variant="danger"
-            className="big"
+          </button>
+          <button
+            className="btn btn-danger big"
             onClick={onDelete}
             disabled={disabled}
           >
             Yes, Delete
-          </Button>
+          </button>
         </div>
       </Modal.Body>
     </Modal>

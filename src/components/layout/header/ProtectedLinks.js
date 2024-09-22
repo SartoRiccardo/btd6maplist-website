@@ -49,11 +49,13 @@ export default function ProtectedLinks({
         <li>
           <a href="#" onClick={toggleSubmenu(100, openSubmenus.includes(100))}>
             <i
-              className={`bi bi-caret-${
-                openSubmenus.includes(100) ? "down" : "right"
-              }-fill`}
+              className={`bi ${
+                openSubmenus.includes(100)
+                  ? "bi-caret-down-fill"
+                  : "bi-caret-right-fill"
+              }`}
             />
-            &nbsp; Admin
+            &nbsp;Admin
           </a>
 
           <Collapse in={openSubmenus.includes(100)}>

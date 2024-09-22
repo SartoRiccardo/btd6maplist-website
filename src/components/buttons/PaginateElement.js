@@ -16,7 +16,8 @@ export default function PaginateElement({
 
   const PageButtons = () => (
     <div className="flex-hcenter">
-      <Button
+      <button
+        className="btn btn-primary"
         disabled={page <= 1}
         onClick={() =>
           router.replace(
@@ -30,11 +31,12 @@ export default function PaginateElement({
         }
       >
         &laquo;
-      </Button>
+      </button>
       <p className="fs-5 px-3 mb-0 align-self-center">
         {page}/{total}
       </p>
-      <Button
+      <button
+        className="btn btn-primary"
         disabled={page >= total}
         onClick={() =>
           router.replace(
@@ -48,7 +50,7 @@ export default function PaginateElement({
         }
       >
         &raquo;
-      </Button>
+      </button>
     </div>
   );
 

@@ -3,7 +3,8 @@ import { insertUser } from "@/server/maplistRequests.client";
 import { useDiscordToken } from "@/utils/hooks";
 import { Formik } from "formik";
 import { useState } from "react";
-import { Button, Form, Toast } from "react-bootstrap";
+import { Toast } from "react-bootstrap";
+import Input from "./bootstrap/Input";
 
 const MAX_NAME_LEN = 100;
 
@@ -63,13 +64,13 @@ export default function AddUserForm() {
           } = formikProps;
 
           return (
-            <Form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <div className="panel panel-container">
                 <div className="row flex-row-space">
                   <div className="col-6">
-                    <Form.Group>
-                      <Form.Label>Discord ID</Form.Label>
-                      <Form.Control
+                    <div>
+                      <label className="form-label">Discord ID</label>
+                      <Input
                         name="discord_id"
                         type="text"
                         placeholder="8694...1984"
@@ -84,16 +85,16 @@ export default function AddUserForm() {
                         disabled={isSubmitting}
                         autoComplete="off"
                       />
-                      <Form.Control.Feedback type="invalid">
+                      <div className="invalid-feedback">
                         {errors.discord_id}
-                      </Form.Control.Feedback>
-                    </Form.Group>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="col-6">
-                    <Form.Group>
-                      <Form.Label>Username</Form.Label>
-                      <Form.Control
+                    <div>
+                      <label className="form-label">Username</label>
+                      <Input
                         name="name"
                         type="text"
                         placeholder="chimenea.mo"
@@ -107,20 +108,22 @@ export default function AddUserForm() {
                         disabled={isSubmitting}
                         autoComplete="off"
                       />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.name}
-                      </Form.Control.Feedback>
-                    </Form.Group>
+                      <div className="invalid-feedback">{errors.name}</div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="d-flex flex-col-space justify-content-center">
-                <Button disabled={isSubmitting} type="submit">
+                <button
+                  className="btn btn-primary"
+                  disabled={isSubmitting}
+                  type="submit"
+                >
                   Insert
-                </Button>
+                </button>
               </div>
-            </Form>
+            </form>
           );
         }}
       </Formik>

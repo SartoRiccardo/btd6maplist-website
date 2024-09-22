@@ -9,18 +9,18 @@ export default function SubmissionRules({ on }) {
   return (
     <div className="mb-4">
       <div className="flex-hcenter flex-col-space">
-        <Button
-          className={`fs-6 ${openRules === 0 ? "active" : ""}`}
+        <button
+          className={`btn btn-primary fs-6 ${openRules === 0 ? "active" : ""}`}
           onClick={(_e) => setOpenRules(openRules !== 0 ? 0 : -1)}
         >
           Map Submission Rules
-        </Button>
-        <Button
-          className={`fs-6 ${openRules === 1 ? "active" : ""}`}
+        </button>
+        <button
+          className={`btn btn-primary fs-6 ${openRules === 1 ? "active" : ""}`}
           onClick={(_e) => setOpenRules(openRules !== 1 ? 1 : -1)}
         >
           Run Submission Rules
-        </Button>
+        </button>
       </div>
 
       <Fade in={openRules === 0} mountOnEnter={true} unmountOnExit={true}>

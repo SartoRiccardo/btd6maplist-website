@@ -2,7 +2,7 @@
 import { FormikContext } from "@/contexts";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Button, Form, Toast } from "react-bootstrap";
+import { Toast } from "react-bootstrap";
 import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
 import { isInt, removeFieldCode } from "@/utils/functions";
@@ -10,6 +10,8 @@ import { allFormats } from "@/utils/maplistUtils";
 import ZoomedImage from "../utils/ZoomedImage";
 import ErrorToast from "./ErrorToast";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import Input from "./bootstrap/Input";
+import CheckBox from "./bootstrap/CheckBox";
 
 const defaultValues = {
   black_border: false,
@@ -123,7 +125,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
             value={{ ...formikProps, disableInputs }}
             key={0}
           >
-            <Form
+            <form
               onSubmit={(evt) => {
                 setShowErrorCount(true);
                 handleSubmit(evt);
@@ -144,23 +146,30 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
                     </p>
                   ) : (
                     <>
-                      <Button
+                      <button
                         disabled={disableInputs}
-                        variant="danger"
-                        className="big"
+                        className="btn btn-danger big"
                         onClick={() => setShowDeleting(true)}
                       >
                         {completion.accepted_by ? "Delete" : "Reject"}
-                      </Button>
-                      <Button disabled={disableInputs} type="submit">
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                        disabled={disableInputs}
+                        type="submit"
+                      >
                         {completion.accepted_by ? "Save" : "Approve"}
-                      </Button>
+                      </button>
                     </>
                   )
                 ) : (
-                  <Button disabled={disableInputs} type="submit">
+                  <button
+                    className="btn btn-primary"
+                    disabled={disableInputs}
+                    type="submit"
+                  >
                     Submit
-                  </Button>
+                  </button>
                 )}
               </div>
 
@@ -169,7 +178,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
                   There are {errorCount} fields to compile correctly
                 </p>
               )}
-            </Form>
+            </form>
 
             <ConfirmDeleteModal
               disabled={disableInputs}
@@ -224,8 +233,9 @@ function RunProperties() {
 
         <div className="d-flex justify-content-between mt-4 mb-3 w-100">
           <p className="mb-0 mt-1">Format</p>
-          <Form.Group>
-            <Form.Select
+          <div>
+            <select
+              className="form-select"
               name="format"
               value={values.format}
               onChange={handleChange}
@@ -238,15 +248,12 @@ function RunProperties() {
                   {name}
                 </option>
               ))}
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              {errors.format}
-            </Form.Control.Feedback>
-          </Form.Group>
+            </select>
+            <div className="invalid-feedback">{errors.format}</div>
+          </div>
         </div>
 
-        <Form.Check
-          type="checkbox"
+        <CheckBox
           className="medal-check"
           name="black_border"
           onChange={handleChange}
@@ -260,8 +267,7 @@ function RunProperties() {
             </span>
           }
         />
-        <Form.Check
-          type="checkbox"
+        <CheckBox
           className="medal-check my-2"
           name="no_geraldo"
           onChange={handleChange}
@@ -287,8 +293,8 @@ function RunProperties() {
               key={count}
               className="flex-hcenter flex-col-space px-0 px-md-5 mb-2"
             >
-              <Form.Group className="w-100">
-                <Form.Control
+              <div className="w-100">
+                <Input
                   name={`user_ids[${i}].uid`}
                   type="text"
                   placeholder="Maplist Username or Discord ID"
@@ -299,14 +305,14 @@ function RunProperties() {
                   disabled={disableInputs}
                   autoComplete="off"
                 />
-                <Form.Control.Feedback type="invalid">
+                <div className="invalid-feedback">
                   {errors[`user_ids[${i}]`]}
-                </Form.Control.Feedback>
-              </Form.Group>
+                </div>
+              </div>
               {values.user_ids.length > 1 && (
                 <div>
-                  <Button
-                    variant="danger"
+                  <button
+                    className="btn btn-danger"
                     disabled={disableInputs}
                     onClick={(_e) =>
                       setValues({
@@ -318,7 +324,7 @@ function RunProperties() {
                     }
                   >
                     <i className="bi bi-dash" />
-                  </Button>
+                  </button>
                 </div>
               )}
             </div>
@@ -346,18 +352,18 @@ function LCCProperties() {
     <div className="col-12 col-lg-6 mb-3">
       <div className={`panel py-3 ${!values.is_lcc && "disabled"}`}>
         <div className="flex-hcenter no-disable">
-          <Button
+          <button
             onClick={() => setFieldValue("is_lcc", !values.is_lcc)}
-            className={` ${values.is_lcc ? "active" : ""}`}
+            className={`btn btn-primary ${values.is_lcc ? "active" : ""}`}
           >
             LCC Properties
-          </Button>
+          </button>
         </div>
 
         <div className="d-flex justify-content-between mt-4 mb-3 w-100">
           <p className="mb-0 mt-1">Saveup</p>
-          <Form.Group>
-            <Form.Control
+          <div>
+            <Input
               name="lcc.leftover"
               type="text"
               placeholder="40870"
@@ -368,10 +374,8 @@ function LCCProperties() {
               disabled={disableLccInputs}
               autoComplete="off"
             />
-            <Form.Control.Feedback type="invalid">
-              {errors["lcc.leftover"]}
-            </Form.Control.Feedback>
-          </Form.Group>
+            <div className="invalid-feedback">{errors["lcc.leftover"]}</div>
+          </div>
         </div>
 
         <h3 className="text-center mb-1">Proof</h3>
@@ -381,8 +385,8 @@ function LCCProperties() {
 
         <div className="d-flex justify-content-between my-3 w-100">
           <p className="mb-0 mt-1">Proof URL</p>
-          <Form.Group>
-            <Form.Control
+          <div>
+            <Input
               name="lcc.proof_url"
               type="url"
               placeholder="https://drive.com/..."
@@ -398,10 +402,8 @@ function LCCProperties() {
               disabled={disableLccInputs}
               autoComplete="off"
             />
-            <Form.Control.Feedback type="invalid">
-              {errors["lcc.proof_url"]}
-            </Form.Control.Feedback>
-          </Form.Group>
+            <div className="invalid-feedback">{errors["lcc.proof_url"]}</div>
+          </div>
         </div>
 
         <DragFiles

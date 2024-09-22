@@ -21,7 +21,7 @@ export default function UserEntry_C({
   );
 
   return (
-    <Link scroll={false} href={`/user/${profile.id}`} className={`pfp-link`}>
+    <Link scroll={false} href={`/user/${profile.id}`} className="pfp-link">
       <div className={`userEntry ${inline ? "inline" : ""}`}>
         <img
           loading="lazy"
