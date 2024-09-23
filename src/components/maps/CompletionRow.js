@@ -1,3 +1,4 @@
+import stylesComp from "./MaplistCompletions.module.css";
 import { allFormats, filterCompletionFormats } from "@/utils/maplistUtils";
 import CompletionColumn from "./CompletionColumn";
 
@@ -20,7 +21,9 @@ export default function CompletionRow({
           {userEntry}
         </div>
 
-        <div className="col-12 col-md-7 col-lg-5 align-self-center compcol-container">
+        <div
+          className={`col-12 col-md-7 col-lg-5 align-self-center ${stylesComp.compcol_container}`}
+        >
           <CompletionColumn
             completion={completion}
             mapIdxCurver={mapIdxCurver}

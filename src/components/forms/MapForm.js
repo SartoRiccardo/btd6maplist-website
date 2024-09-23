@@ -1,5 +1,6 @@
 "use client";
 /* One thousand billion line code component please refactor immediately */
+import stylesFrmMap from "./MapForm.module.css";
 import { Formik } from "formik";
 import { useState } from "react";
 import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
@@ -327,7 +328,7 @@ export default function MapForm({
                 setShowErrorCount(true);
                 handleSubmit(evt);
               }}
-              className="addmap"
+              className={stylesFrmMap.addmap}
             >
               {!code && (
                 <MapCodeController
@@ -367,8 +368,10 @@ export default function MapForm({
                   <div className="row flex-row-space mt-5">
                     {/* Map preview */}
                     <div className="col-12 col-lg-6">
-                      <div className="panel pt-3 px-3 pb-4 map-preview">
-                        <div className="map-name-container">
+                      <div
+                        className={`panel pt-3 px-3 pb-4 ${stylesFrmMap.map_preview}`}
+                      >
+                        <div className={`${stylesFrmMap.map_name_container}`}>
                           <div>
                             <Input
                               name="name"
@@ -507,13 +510,15 @@ export default function MapForm({
                     </div>
 
                     <h2 className="mt-3">Optimal Heros</h2>
-                    <div className="herobtn-container">
+                    <div className={stylesFrmMap.herobtn_container}>
                       {heros.map((h) => (
                         <button
                           type="button"
                           key={h}
-                          className={`btn btn-primary herobtn ${
-                            values.optimal_heros.includes(h) ? "active" : ""
+                          className={`btn btn-primary ${stylesFrmMap.herobtn} ${
+                            values.optimal_heros.includes(h)
+                              ? `${stylesFrmMap.active} active`
+                              : ""
                           }`}
                           onClick={(_e) => {
                             if (values.optimal_heros.includes(h))
@@ -643,9 +648,12 @@ export default function MapForm({
                         <div>
                           {values.version_compatibilities.map(
                             ({ version, status, count }, i) => (
-                              <div key={count || -1} className="vcompat">
+                              <div
+                                key={count || -1}
+                                className={stylesFrmMap.vcompat}
+                              >
                                 <p>Since v&nbsp;</p>
-                                <div className="vcompat-input">
+                                <div className={stylesFrmMap.vcompat_input}>
                                   <Input
                                     name={`version_compatibilities[${i}].version`}
                                     type="text"
@@ -674,7 +682,7 @@ export default function MapForm({
                                   </div>
                                 </div>
                                 <p>&nbsp;the map&nbsp;</p>
-                                <div className="vcompat-select">
+                                <div className={stylesFrmMap.vcompat_select}>
                                   <select
                                     className="form-select"
                                     name={`version_compatibilities[${i}].status`}

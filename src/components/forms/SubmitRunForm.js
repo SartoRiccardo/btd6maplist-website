@@ -1,4 +1,5 @@
 "use client";
+import stylesMedals from "../maps/Medals.module.css";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
 import { Fade } from "react-bootstrap";
@@ -279,7 +280,7 @@ function SidebarForm({ formats }) {
       </div>
 
       <h3 className="text-center mt-2">Run Properties</h3>
-      <div className="medal-check form-check">
+      <div className={`${stylesMedals.medal_check} form-check`}>
         <Input
           type="checkbox"
           name="black_border"
@@ -288,13 +289,16 @@ function SidebarForm({ formats }) {
         />
         <label className="form-check-label">
           <span>
-            <img src="/medals/medal_bb.webp" className="inline-medal" />
+            <img
+              src="/medals/medal_bb.webp"
+              className={stylesMedals.inline_medal}
+            />
             &nbsp; Black Border
           </span>
         </label>
       </div>
 
-      <div className="medal-check form-check my-2">
+      <div className={`${stylesMedals.medal_check} form-check my-2`}>
         <Input
           type="checkbox"
           name="no_geraldo"
@@ -303,13 +307,16 @@ function SidebarForm({ formats }) {
         />
         <label className="form-check-label">
           <span>
-            <img src="/medals/medal_nogerry.webp" className="inline-medal" />
+            <img
+              src="/medals/medal_nogerry.webp"
+              className={stylesMedals.inline_medal}
+            />
             &nbsp; No Optimal Hero
           </span>
         </label>
       </div>
 
-      <div className="medal-check form-check">
+      <div className={`${stylesMedals.medal_check} form-check`}>
         <Input
           type="checkbox"
           name="current_lcc"
@@ -318,7 +325,10 @@ function SidebarForm({ formats }) {
         />
         <label className="form-check-label">
           <span>
-            <img src="/medals/medal_lcc.webp" className="inline-medal" />
+            <img
+              src="/medals/medal_lcc.webp"
+              className={stylesMedals.inline_medal}
+            />
             &nbsp; Least Cash CHIMPS
           </span>
         </label>

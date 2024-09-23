@@ -1,4 +1,5 @@
 "use client";
+import stylesFrmMap from "./MapForm.module.css";
 import { FormikContext } from "@/contexts";
 import { Fragment, useContext } from "react";
 import Input from "./bootstrap/Input";
@@ -84,7 +85,7 @@ export default function TwoFieldEntry({
             <div className="d-flex flex-column w-100">
               <button
                 type="button"
-                className="btn btn-danger map-form-rm-field"
+                className={`btn btn-danger ${stylesFrmMap.map_form_rm_field}`}
                 onClick={(_e) =>
                   setValues({
                     ...values,

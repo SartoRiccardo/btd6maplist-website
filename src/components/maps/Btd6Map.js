@@ -1,4 +1,5 @@
 "use client";
+import stylesMedals from "./Medals.module.css";
 import Link from "next/link";
 import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";
@@ -62,14 +63,16 @@ export default function Btd6Map({
             }
             width={MEDAL_SIZE}
             height={MEDAL_SIZE}
-            className={`${!completion ? "comp-blocked" : ""}`}
+            className={!completion ? stylesMedals.comp_blocked : ""}
           />
           <img
             src="/medals/medal_nogerry.webp"
             width={MEDAL_SIZE}
             height={MEDAL_SIZE}
             className={`${
-              !(completion && completion.no_geraldo) ? "comp-blocked" : ""
+              !(completion && completion.no_geraldo)
+                ? stylesMedals.comp_blocked
+                : ""
             } mx-2`}
           />
           <img

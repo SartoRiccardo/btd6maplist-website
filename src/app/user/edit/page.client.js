@@ -4,6 +4,7 @@ import {
   setBtd6Profile,
   setMinMaplistProfile,
 } from "@/features/authSlice";
+import stylesUsrEdit from "./UserEditPage.module.css";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
 import { Collapse, Toast } from "react-bootstrap";
 import { Formik } from "formik";
@@ -149,7 +150,7 @@ export default function EditSelf_C() {
                       <div className="d-flex justify-content-center">
                         <img
                           src="https://i.imgur.com/FurlzfB.png"
-                          className="mb-3 opendata-guide"
+                          className={`mb-3 ${stylesUsrEdit.opendata_guide}`}
                         />
                       </div>
 
@@ -163,7 +164,7 @@ export default function EditSelf_C() {
                       <div className="d-flex justify-content-center">
                         <img
                           src="https://i.imgur.com/tCqlDYj.png"
-                          className="mb-3 opendata-guide"
+                          className={`mb-3 ${stylesUsrEdit.opendata_guide}`}
                         />
                       </div>
 
@@ -177,7 +178,7 @@ export default function EditSelf_C() {
                       <div className="d-flex justify-content-center">
                         <img
                           src="https://i.imgur.com/owhXl4U.png"
-                          className="mb-3 opendata-guide"
+                          className={`mb-3 ${stylesUsrEdit.opendata_guide}`}
                         />
                       </div>
                     </div>

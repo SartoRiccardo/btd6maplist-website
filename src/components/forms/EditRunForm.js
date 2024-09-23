@@ -1,4 +1,5 @@
 "use client";
+import stylesMedals from "../maps/Medals.module.css";
 import { FormikContext } from "@/contexts";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
@@ -256,7 +257,7 @@ function RunProperties() {
         </div>
 
         <CheckBox
-          className="medal-check"
+          className={stylesMedals.medal_check}
           name="black_border"
           onChange={handleChange}
           value={values.black_border}
@@ -264,13 +265,16 @@ function RunProperties() {
           disabled={disableInputs}
           label={
             <span>
-              <img src="/medals/medal_bb.webp" className="inline-medal" />
+              <img
+                src="/medals/medal_bb.webp"
+                className={stylesMedals.inline_medal}
+              />
               &nbsp; Black Border
             </span>
           }
         />
         <CheckBox
-          className="medal-check my-2"
+          className={`${stylesMedals.medal_check} my-2`}
           name="no_geraldo"
           onChange={handleChange}
           value={values.no_geraldo}
@@ -278,7 +282,10 @@ function RunProperties() {
           disabled={disableInputs}
           label={
             <span>
-              <img src="/medals/medal_nogerry.webp" className="inline-medal" />
+              <img
+                src="/medals/medal_nogerry.webp"
+                className={stylesMedals.inline_medal}
+              />
               &nbsp; No Optimal Hero
             </span>
           }

@@ -1,4 +1,5 @@
 "use client";
+import stylesFrmMap from "./MapForm.module.css";
 import { FormikContext } from "@/contexts";
 import { getMap } from "@/server/maplistRequests.client";
 import { getCustomMap } from "@/server/ninjakiwiRequests";
@@ -52,7 +53,7 @@ export default function MapCodeController({
 
   return (
     <>
-      <div className="mapcode-input">
+      <div className={stylesFrmMap.mapcode_input}>
         <label className="form-label">Map Code</label>
         <Input
           name={name}

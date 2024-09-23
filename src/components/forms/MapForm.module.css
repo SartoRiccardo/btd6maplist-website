@@ -1,13 +1,13 @@
-.mapcode-input {
+.mapcode_input {
   width: 15rem;
   margin: 0 auto 0.5rem auto;
 }
 
-.map-preview {
+.map_preview {
   position: relative;
 }
 
-.map-preview .map-name-container {
+.map_name_container {
   width: 100%;
   position: absolute;
   left: 0;
@@ -17,7 +17,7 @@
   justify-content: center;
 }
 
-.btn.map-form-rm-field {
+.map_form_rm_field {
   margin-top: 31px;
 }
 
@@ -36,31 +36,31 @@
   margin-bottom: 0;
 }
 
-.vcompat .vcompat-input {
+.vcompat_input {
   width: 4rem;
 }
 
-.vcompat .vcompat-select {
+.vcompat_select {
   flex: 1;
   max-width: 15rem;
 }
 
-form.addmap h2 {
+.addmap h2 {
   text-align: center;
   margin-bottom: 0.5rem;
 }
 
-.herobtn-container img {
-  width: 4rem;
-  height: 4rem;
-}
-
-.herobtn-container {
+.herobtn_container {
   display: flex;
   justify-content: center;
   row-gap: 0.5rem;
   column-gap: 0.5rem;
   flex-wrap: wrap;
+}
+
+.herobtn_container img {
+  width: 4rem;
+  height: 4rem;
 }
 
 .herobtn {

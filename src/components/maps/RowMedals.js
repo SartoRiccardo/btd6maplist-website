@@ -1,4 +1,5 @@
 "use client";
+import stylesMedals from "./Medals.module.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const medal_size = 45;
@@ -9,7 +10,7 @@ export default function RowMedals({
   hideNoGeraldo,
 }) {
   return (
-    <div className="medals-container">
+    <div className={stylesMedals.medals_container}>
       <OverlayTrigger
         overlay={(props) => (
           <Tooltip {...props}>
@@ -40,7 +41,7 @@ export default function RowMedals({
             src="/medals/medal_nogerry.webp"
             width={medal_size}
             height={medal_size}
-            className={`${!no_geraldo ? "comp-blocked" : ""}`}
+            className={`${!no_geraldo ? stylesMedals.comp_blocked : ""}`}
           />
         </OverlayTrigger>
       )}

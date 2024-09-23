@@ -1,4 +1,5 @@
 "use client";
+import stylesDrgF from "./DragFiles.module.css";
 import { useRef, useState } from "react";
 
 // https://medium.com/@dprincecoder/creating-a-drag-and-drop-file-upload-component-in-react-a-step-by-step-guide-4d93b6cc21e0
@@ -60,9 +61,9 @@ export default function DragFiles({
 
   return (
     <div
-      className={`dragfiles ${disabled ? "disabled" : ""} ${
-        dragging ? "dragging" : ""
-      } ${className}`}
+      className={`${stylesDrgF.dragfiles} ${
+        disabled ? stylesDrgF.disabled : ""
+      } ${dragging ? stylesDrgF.dragging : ""} ${className}`}
       style={style}
       name={name}
       onDrop={handleDrop}
@@ -80,16 +81,18 @@ export default function DragFiles({
         children
       ) : (
         <div className="d-flex justify-content-center">
-          <i className={`bi ${icon} align-self-center dragfile-icon`} />
+          <i
+            className={`bi ${icon} align-self-center ${stylesDrgF.dragfile_icon}`}
+          />
         </div>
       )}
       {isValid && (
-        <div className="dragfiles-validity">
-          <i className="bi bi-check-circle-fill valid" />
+        <div className={stylesDrgF.dragfiles_validity}>
+          <i className={`bi bi-check-circle-fill ${stylesDrgF.valid}`} />
         </div>
       )}
       <div
-        className="dragdetector"
+        className={stylesDrgF.dragdetector}
         onDragEnter={(_e) => setDragging(true)}
         onDragLeave={(_e) => setDragging(false)}
         onDragEnd={(_e) => setDragging(false)}

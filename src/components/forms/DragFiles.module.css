@@ -21,14 +21,14 @@
   border-color: var(--color-less-highlight);
 }
 
-.dragfiles > div > i.dragfile-icon {
+.dragfiles > div > i.dragfile_icon {
   color: var(--color-primary);
   transition: color 0.2s linear;
   font-size: 4rem;
 }
 
-.dragfiles:hover > div > i.dragfile-icon,
-.dragfiles.dragging > div > i.dragfile-icon {
+.dragfiles:hover > div > i.dragfile_icon,
+.dragfiles.dragging > div > i.dragfile_icon {
   color: var(--color-less-highlight);
 }
 
@@ -42,11 +42,11 @@
   border-color: var(--color-primary);
 }
 
-.dragfiles.disabled:hover > div > i.dragfile-icon {
+.dragfiles.disabled:hover > div > i.dragfile_icon {
   color: var(--color-primary);
 }
 
-.dragfiles .dragfiles-validity {
+.dragfiles .dragfiles_validity {
   position: absolute;
   bottom: 0;
   right: 0.5rem;
@@ -54,10 +54,10 @@
   font-size: 1.5rem;
 }
 
-.dragfiles .dragfiles-validity .valid {
+.dragfiles .dragfiles_validity .valid {
   color: green;
 }
 
-.dragfiles .dragfiles-validity .invalid {
+.dragfiles .dragfiles_validity .invalid {
   color: red;
 }

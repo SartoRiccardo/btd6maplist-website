@@ -1,3 +1,4 @@
+import stylesComp from "./MaplistCompletions.module.css";
 import { btd6Font } from "@/lib/fonts";
 import Link from "next/link";
 import CompletionColumn from "./CompletionColumn";
@@ -36,7 +37,9 @@ export default function Btd6MapRow({ map, hrefBase, completion }) {
           )}
         </div>
 
-        <div className="col-12 col-md-7 col-lg-5 align-self-center compcol-container">
+        <div
+          className={`col-12 col-md-7 col-lg-5 align-self-center ${stylesComp.compcol_container}`}
+        >
           <CompletionColumn
             completion={completion}
             mapIdxCurver={map.placement_cur}
