@@ -203,6 +203,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     <>
       <div className="flex-hcenter">
         <button
+          type="button"
           onClick={() => setOpenRules(!openRules)}
           className="btn btn-primary fs-6"
         >

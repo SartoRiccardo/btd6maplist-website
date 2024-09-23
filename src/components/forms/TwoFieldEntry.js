@@ -83,6 +83,7 @@ export default function TwoFieldEntry({
           {(optional || i > 0) && (
             <div className="d-flex flex-column w-100">
               <button
+                type="button"
                 className="btn btn-danger map-form-rm-field"
                 onClick={(_e) =>
                   setValues({

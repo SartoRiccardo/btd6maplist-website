@@ -150,6 +150,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
                         disabled={disableInputs}
                         className="btn btn-danger big"
                         onClick={() => setShowDeleting(true)}
+                        type="button"
                       >
                         {completion.accepted_by ? "Delete" : "Reject"}
                       </button>
@@ -312,6 +313,7 @@ function RunProperties() {
               {values.user_ids.length > 1 && (
                 <div>
                   <button
+                    type="button"
                     className="btn btn-danger"
                     disabled={disableInputs}
                     onClick={(_e) =>
@@ -353,6 +355,7 @@ function LCCProperties() {
       <div className={`panel py-3 ${!values.is_lcc && "disabled"}`}>
         <div className="flex-hcenter no-disable">
           <button
+            type="button"
             onClick={() => setFieldValue("is_lcc", !values.is_lcc)}
             className={`btn btn-primary ${values.is_lcc ? "active" : ""}`}
           >

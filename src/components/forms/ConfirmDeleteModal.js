@@ -15,6 +15,7 @@ export default function ConfirmDeleteModal({
         <p>Are you sure you wanna delete this {entity}?</p>
         <div className="d-flex justify-content-between">
           <button
+            type="button"
             className="btn btn-primary"
             onClick={onHide}
             disabled={disabled}
@@ -22,6 +23,7 @@ export default function ConfirmDeleteModal({
             Cancel
           </button>
           <button
+            type="button"
             className="btn btn-danger big"
             onClick={onDelete}
             disabled={disabled}

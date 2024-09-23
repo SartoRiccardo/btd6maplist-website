@@ -19,6 +19,7 @@ export default function AddableField({
 
       <div className="flex-hcenter mt-3">
         <button
+          type="button"
           className="btn btn-success"
           disabled={disabled}
           onClick={(_e) => {

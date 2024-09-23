@@ -123,6 +123,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
 
               <div className="flex-hcenter">
                 <button
+                  type="button"
                   onClick={() => setOpenRules(!openRules)}
                   className="btn btn-primary fs-6"
                 >

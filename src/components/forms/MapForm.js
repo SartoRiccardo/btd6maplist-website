@@ -510,6 +510,7 @@ export default function MapForm({
                     <div className="herobtn-container">
                       {heros.map((h) => (
                         <button
+                          type="button"
                           key={h}
                           className={`btn btn-primary herobtn ${
                             values.optimal_heros.includes(h) ? "active" : ""
@@ -694,6 +695,7 @@ export default function MapForm({
                                 <div>
                                   <div className="d-flex flex-column w-100">
                                     <button
+                                      type="button"
                                       className="btn btn-danger"
                                       onClick={(_e) =>
                                         setValues({
@@ -720,6 +722,7 @@ export default function MapForm({
                   <div className="flex-hcenter flex-col-space mt-5">
                     {isEditing && !currentMap?.isDeleted && (
                       <button
+                        type="button"
                         disabled={isSubmitting || disableInputs}
                         onClick={() => setShowDeleting(true)}
                         className="btn btn-danger big"
