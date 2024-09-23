@@ -19,17 +19,22 @@ module.exports = {
         content: ["./src/**/*.{js,jsx,ts,tsx}"],
         defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
         safelist: {
-          standard: [/html/, /body/],
-          deep: [/fs-(?:\w\w-)4$/, /d-(?:\w\w-)?(?:block|none)$/],
-          greedy: [
-            /tooltip/,
-            /modal/,
-            /fade/,
-            /offcanvas/,
-            /collaps/,
-            /show/,
-            /select/,
+          standard: [
+            /html/,
+            /body/,
+            // Toasts
+            /bg-danger$/,
+            /bg-success$/,
+            // Modals
+            /modal(?:-(?:backdrop|content|body|lg))?$/,
+            /modal-dialog(?:-(?:centered))?$/,
           ],
+          deep: [
+            // UserEntry
+            /fs-(?:\w\w-)4$/,
+            /d-(?:\w\w-)?(?:block|none)$/,
+          ],
+          greedy: [/tooltip/, /toast/, /fade/, /offcanvas/, /collaps/, /show/],
         },
       },
     ],
