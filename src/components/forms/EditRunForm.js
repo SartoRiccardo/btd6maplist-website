@@ -108,16 +108,17 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
       initialValues={initialValues}
     >
       {(formikProps) => {
-        const { handleSubmit, setSubmitting, isSubmitting, errors } =
+        const { handleSubmit, setSubmitting, isSubmitting, errors, setErrors } =
           formikProps;
         const disableInputs =
           isSubmitting || (!completion && success) || completion?.deleted_on;
-        let errorCount = Object.keys(errors).length;
         if ("" in errors) errorCount--;
 
         const handleDelete = async (_e) => {
           setSubmitting(true);
-          await onDelete();
+          setShowErrorCount(true);
+          const errors = await onDelete();
+          if (errors) setErrors(errors);
           setSubmitting(false);
         };
 

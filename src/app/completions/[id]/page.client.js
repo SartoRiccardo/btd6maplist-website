@@ -37,7 +37,7 @@ export default function EditCompletion_C({ completion }) {
           accessToken.access_token,
           completion.id
         );
-        if (resp) return;
+        if (resp) return resp?.errors;
 
         const navigateTo = completion.accepted_by
           ? `/map/${completion.map}`
