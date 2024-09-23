@@ -20,21 +20,44 @@ module.exports = {
         defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
         safelist: {
           standard: [
+            /* Preset */
             /html/,
             /body/,
-            // Toasts
-            /bg-danger$/,
-            /bg-success$/,
-            // Modals
-            /modal(?:-(?:backdrop|content|body|lg))?$/,
-            /modal-dialog(?:-(?:centered))?$/,
-          ],
-          deep: [
+
+            /* Dynamic */
             // UserEntry
             /fs-(?:\w\w-)4$/,
             /d-(?:\w\w-)?(?:block|none)$/,
+
+            /* React-Bootstrap */
+            // Toasts
+            /bg-(?:danger|success)$/,
+            /toast$/,
+            /toast-(?:body)$/, // Components
+            // Modals
+            /modal$/,
+            /modal-(?:backdrop|content|body|dialog)$/, // Components
+            /modal-(?:lg)$/, // Sizes
+            /modal-dialog-(?:centered)$/, // Dialog
+            // Tooltips
+            /tooltip$/,
+            /tooltip-(?:arrow|inner)$/, // Components
+            /bs-tooltip-(?:top)$/, // Placements
+            // Collapse
+            /collapse$/,
+            /collapsing$/,
+            // Offcanvas
+            /offcanvas$/,
+            /offcanvas-(?:header|body)$/, // Components
+            /offcanvas-(?:md)$/, // Responsiveness
+            /offcanvas-(?:top)$/, // Direction
           ],
-          greedy: [/tooltip/, /toast/, /fade/, /offcanvas/, /collaps/, /show/],
+          deep: [],
+          greedy: [
+            /* Transitions */
+            /fade/,
+            /show/,
+          ],
         },
       },
     ],
