@@ -12,6 +12,7 @@ import ErrorToast from "./ErrorToast";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import Input from "./bootstrap/Input";
 import CheckBox from "./bootstrap/CheckBox";
+import Select from "./bootstrap/Select";
 
 const defaultValues = {
   black_border: false,
@@ -235,8 +236,7 @@ function RunProperties() {
         <div className="d-flex justify-content-between mt-4 mb-3 w-100">
           <p className="mb-0 mt-1">Format</p>
           <div>
-            <select
-              className="form-select"
+            <Select
               name="format"
               value={values.format}
               onChange={handleChange}
@@ -249,7 +249,7 @@ function RunProperties() {
                   {name}
                 </option>
               ))}
-            </select>
+            </Select>
             <div className="invalid-feedback">{errors.format}</div>
           </div>
         </div>
