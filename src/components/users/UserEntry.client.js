@@ -1,4 +1,5 @@
 "use client";
+import stylesUsrE from "./UserEntry.module.css";
 import { initialBtd6Profile } from "@/features/authSlice";
 import Link from "next/link";
 
@@ -14,38 +15,46 @@ export default function UserEntry_C({
 
   const nameCmp = inline ? (
     <>
-      <span className="pfp-padding-inline" /> {profile.name}
+      <span className={stylesUsrE.pfp_padding_inline} /> {profile.name}
     </>
   ) : (
     profile.name
   );
 
   return (
-    <Link scroll={false} href={`/user/${profile.id}`} className="pfp-link">
-      <div className={`userEntry ${inline ? "inline" : ""}`}>
+    <Link
+      scroll={false}
+      href={`/user/${profile.id}`}
+      className={stylesUsrE.pfp_link}
+    >
+      <div className={`${stylesUsrE.user_entry} ${inline ? "inline" : ""}`}>
         <img
           loading="lazy"
-          className={`pfp ${inline ? "inline" : ""}`}
+          className={`${stylesUsrE.pfp} ${inline ? "inline" : ""}`}
           src={profile.avatarURL || initialBtd6Profile.avatarURL}
         />
 
         <div
-          className={`name-container ${
+          className={`${stylesUsrE.name_container} ${
             centered ? "d-flex flex-column justify-content-center" : ""
           }`}
         >
           {leadClass && leadClass !== "fs-4" ? (
             <>
-              <p className={`pfp-name d-none d-${lead}-block fs-4`}>
+              <p
+                className={`${stylesUsrE.pfp_name} d-none d-${lead}-block fs-4`}
+              >
                 {nameCmp}
               </p>
-              <p className={`pfp-name d-block d-${lead}-none`}>{nameCmp}</p>
+              <p className={`${stylesUsrE.pfp_name} d-block d-${lead}-none`}>
+                {nameCmp}
+              </p>
             </>
           ) : (
-            <p className={`pfp-name ${leadClass}`}>{nameCmp}</p>
+            <p className={`${stylesUsrE.pfp_name} ${leadClass}`}>{nameCmp}</p>
           )}
 
-          <p className={`text-start pfp-small`}>{label}</p>
+          <p className={`text-start ${stylesUsrE.pfp_small}`}>{label}</p>
         </div>
       </div>
     </Link>
@@ -54,8 +63,8 @@ export default function UserEntry_C({
 
 export function UserEntry_Plc() {
   return (
-    <div className="userEntry">
-      <img className="pfp" src={initialBtd6Profile.avatarURL} />
+    <div className={stylesUsrE.user_entry}>
+      <img className={stylesUsrE.pfp} src={initialBtd6Profile.avatarURL} />
     </div>
   );
 }

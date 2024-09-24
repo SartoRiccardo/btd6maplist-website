@@ -1,6 +1,7 @@
 "use client";
+import stylesMap from "../../maps/Btd6Map.module.css";
 import AddMapButton from "@/components/buttons/AddMapButton";
-import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
+import { useAuthLevels } from "@/utils/hooks";
 
 export default function AddMapListEntry({ on }) {
   const { loaded, isExplistMod, isListMod, isAdmin } = useAuthLevels();
@@ -19,7 +20,7 @@ export default function AddMapListEntry({ on }) {
         <AddMapButton
           href={`/map/submit?on=${on}`}
           title="Submit a map"
-          icon={<i className="warn bi bi-pencil-fill" />}
+          icon={<i className={`${stylesMap.warn} bi bi-pencil-fill`} />}
         />
       </div>
     </>

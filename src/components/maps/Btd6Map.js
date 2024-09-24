@@ -1,5 +1,6 @@
 "use client";
 import stylesMedals from "./Medals.module.css";
+import stylesMap from "./Btd6Map.module.css";
 import Link from "next/link";
 import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";
@@ -30,11 +31,17 @@ export default function Btd6Map({
     `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
 
   const cmpMap = (
-    <div className={`shadow btd6map pb-3 ${className ? className : ""}`}>
-      <p className={`mapTitle ${btd6Font.className} font-border`}>{name}</p>
+    <div
+      className={`shadow ${stylesMap.btd6map} pb-3 ${
+        className ? className : ""
+      }`}
+    >
+      <p className={`${stylesMap.map_title} ${btd6Font.className} font-border`}>
+        {name}
+      </p>
 
       {placement !== undefined && Object.keys(maplistCfg).length && (
-        <div className="points">
+        <div className={stylesMap.points}>
           <p
             className={`my-0 text-center ${btd6Font.className} font-border`}
             // Luckiest Guy for some reason is perfectly centered on Windows but not anywhere else?
@@ -42,7 +49,7 @@ export default function Btd6Map({
           >
             #{placement}
             {!hidePoints && (
-              <span className="points-value">
+              <span className={stylesMap.points_value}>
                 {calcMapPoints(placement, maplistCfg)}
                 <span>pt</span>
               </span>
@@ -51,10 +58,14 @@ export default function Btd6Map({
         </div>
       )}
 
-      <img className="btd6mapImage" loading="lazy" src={previewUrl} />
+      <img
+        className={stylesMap.btd6map_image}
+        loading="lazy"
+        src={previewUrl}
+      />
 
       {showMedals && (
-        <div className="btd6map-medals d-flex">
+        <div className={`${stylesMap.btd6map_medals} d-flex`}>
           <img
             src={
               completion && completion.black_border
@@ -86,7 +97,9 @@ export default function Btd6Map({
 
       {verified && (
         <div
-          className={`verifiedCheck ${!name || name.length === 0 ? "up" : ""}`}
+          className={`${stylesMap.verified_check} ${
+            !name || name.length === 0 ? stylesMap.up : ""
+          }`}
         >
           <i className="bi bi-check" />v{maplistCfg.current_btd6_ver / 10}
         </div>
@@ -125,7 +138,7 @@ export default function Btd6Map({
   return hrefBase ? (
     <Link
       scroll={false}
-      className="btd6map-clickable"
+      className={stylesMap.btd6map_clickable}
       href={`${hrefBase}/${code}`}
     >
       {cmpMap}
@@ -138,7 +151,9 @@ export default function Btd6Map({
 function PlayBtn({ code, displayCode, className }) {
   return (
     <div
-      className={`playBtn ${btd6Font.className} ${className ? className : ""}`}
+      className={`${stylesMap.play_btn} ${btd6Font.className} ${
+        className ? className : ""
+      }`}
     >
       <a
         href={`https://join.btd6.com/Map/${code}`}

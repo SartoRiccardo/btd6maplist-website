@@ -1,4 +1,5 @@
 "use client";
+import stylesDiffS from "./DifficultySelector.module.css";
 import SelectorButton from "../buttons/SelectorButton";
 import Link from "next/link";
 
@@ -6,7 +7,7 @@ function DifficultySelector({ onChange, value, difficulties, href }) {
   if (difficulties.length < 2) return null;
 
   return (
-    <div className={`difficultySelector row`}>
+    <div className={`${stylesDiffS.difficulty_selector} row`}>
       {difficulties.map((diff) => (
         <div
           key={diff.value}
@@ -27,7 +28,9 @@ function DifficultySelector({ onChange, value, difficulties, href }) {
 function Difficulty({ difficulty, onClick, active, href }) {
   const cmp = (
     <div
-      className={`difficulty ${active ? "diffsel-active" : ""}`}
+      className={`${stylesDiffS.difficulty} ${
+        active ? stylesDiffS.active : ""
+      }`}
       tabIndex={0}
       onClick={onClick}
     >

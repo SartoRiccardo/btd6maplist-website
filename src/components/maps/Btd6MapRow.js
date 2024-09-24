@@ -1,4 +1,5 @@
 import stylesComp from "./MaplistCompletions.module.css";
+import stylesMap from "./Btd6Map.module.css";
 import { btd6Font } from "@/lib/fonts";
 import Link from "next/link";
 import CompletionColumn from "./CompletionColumn";
@@ -11,7 +12,11 @@ export default function Btd6MapRow({ map, hrefBase, completion }) {
 
   const cmpMap = (
     <div className="d-flex align-self-center">
-      <img className="btd6mapImage" loading="lazy" src={map.map_preview_url} />
+      <img
+        className={stylesMap.btd6map_image}
+        loading="lazy"
+        src={map.map_preview_url}
+      />
       <div className="d-flex flex-column justify-content-center">
         <p className={`mb-0 ps-3 ${btd6Font.className} font-border fs-5`}>
           {map.name}
@@ -21,13 +26,13 @@ export default function Btd6MapRow({ map, hrefBase, completion }) {
   );
 
   return (
-    <div className={`panel py-2 my-2 btd6mapRow`}>
+    <div className={`panel py-2 my-2 ${stylesMap.btd6map_row}`}>
       <div className="row">
         <div className="col-12 col-md-5 col-lg-7 d-flex pb-3 pb-md-0">
           {hrefBase ? (
             <Link
               scroll={false}
-              className="btd6map-clickable"
+              className={stylesMap.btd6map_clickable}
               href={`${hrefBase}/${map.code}`}
             >
               {cmpMap}

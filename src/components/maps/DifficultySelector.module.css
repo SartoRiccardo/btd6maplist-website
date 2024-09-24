@@ -1,4 +1,4 @@
-.difficultySelector {
+.difficulty_selector {
   justify-content: center;
   margin: 0;
 }
@@ -11,7 +11,7 @@
   cursor: pointer;
 }
 
-.diffsel-imgWrapper p {
+.img_wrapper p {
   position: absolute;
   width: 100%;
   bottom: -1rem;
@@ -19,7 +19,7 @@
   margin-bottom: 0;
 }
 
-.diffsel-imgWrapper {
+.img_wrapper {
   position: relative;
   background-color: var(--color-secondary);
   border: 7px solid var(--color-misc);
@@ -27,11 +27,11 @@
   transition: border-color 0.3s linear;
 }
 
-.difficulty.diffsel-active .diffsel-imgWrapper,
-.diffsel-imgWrapper.diffsel-active {
+.difficulty.active .img_wrapper,
+.img_wrapper.active {
   border-color: var(--color-highlight);
 }
 
-.difficulty:hover .diffsel-imgWrapper {
+.difficulty:hover .img_wrapper {
   border-color: var(--color-less-highlight);
 }
