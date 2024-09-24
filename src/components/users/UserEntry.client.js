@@ -27,10 +27,14 @@ export default function UserEntry_C({
       href={`/user/${profile.id}`}
       className={stylesUsrE.pfp_link}
     >
-      <div className={`${stylesUsrE.user_entry} ${inline ? "inline" : ""}`}>
+      <div
+        className={`${stylesUsrE.user_entry} ${
+          inline ? stylesUsrE.inline : ""
+        }`}
+      >
         <img
           loading="lazy"
-          className={`${stylesUsrE.pfp} ${inline ? "inline" : ""}`}
+          className={`${stylesUsrE.pfp} ${inline ? stylesUsrE.inline : ""}`}
           src={profile.avatarURL || initialBtd6Profile.avatarURL}
         />
 
