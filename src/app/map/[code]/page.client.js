@@ -1,4 +1,5 @@
 "use client";
+import stylesLoader from "../../../components/utils/Loader.module.css";
 import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry_C from "@/components/users/UserEntry.client";
 import ZoomedImage from "@/components/utils/ZoomedImage";
@@ -42,7 +43,7 @@ export function LoggedUserRun({ mapData }) {
   return maplistProfile ? (
     completions === null ? (
       <div className="flex-hcenter mb-4">
-        <div className="loader" />
+        <div className={stylesLoader.loader} />
       </div>
     ) : completions.length ? (
       keyOrder.map((key) => (
