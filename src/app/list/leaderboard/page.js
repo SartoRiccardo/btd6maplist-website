@@ -7,6 +7,7 @@ import { listVersions } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { Button } from "react-bootstrap";
 import PaginateElement from "@/components/buttons/PaginateElement";
+import Image from "next/image";
 
 export async function generateMetadata({ searchParams }) {
   let version = searchParams?.format || "current";
@@ -107,7 +108,17 @@ export default async function ListLeaderboard({ searchParams }) {
                 <div className="col-3 d-flex flex-column justify-content-center">
                   <p className="fs-4 text-end mb-0">
                     {score}
-                    {value === "points" && "pt"}
+                    {value === "points" ? (
+                      "pt"
+                    ) : (
+                      <Image
+                        src="/medals/medal_lcc.webp"
+                        alt=""
+                        className="ms-2"
+                        width={30}
+                        height={30}
+                      />
+                    )}
                   </p>
                 </div>
               </div>
