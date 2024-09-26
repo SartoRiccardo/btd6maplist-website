@@ -23,7 +23,7 @@ export default function CompletionColumn({
         if (!runFormat) return null;
 
         const fmtIcon = (
-          <SelectorButton text={runFormat.short} active>
+          <SelectorButton text={runFormat.short} className="ms-3" active>
             <img src={runFormat.image} width={35} height={35} />
           </SelectorButton>
         );
@@ -59,7 +59,7 @@ export default function CompletionColumn({
                           <img src={runFormat.image} width={35} height={35} />
                         </SelectorButton>
                       }
-                      className={"ms-3"}
+                      className="ms-3"
                     />
                   ) : (
                     fmtIcon
