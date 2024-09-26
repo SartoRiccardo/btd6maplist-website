@@ -31,10 +31,23 @@
   border-width: 2px;
 }
 
-.profileViewContainer {
+.profileContainer {
+  padding: 5px;
+}
+
+.profileBannerContainer {
   background-size: cover;
   background-position: center;
-  border: 5px solid var(--color-secondary);
+  border-radius: 0.5rem;
+  padding: 1rem 0.5rem;
+}
+
+.medals_container {
+  display: flex;
+  justify-content: center;
+  row-gap: 0.75rem;
+  column-gap: 0.75rem;
+  padding-top: 0.5rem;
 }
 
 .rainbow {
