@@ -12,6 +12,7 @@ import { submitMap } from "@/server/maplistRequests.client";
 import MustBeInDiscord from "../utils/MustBeInDiscord";
 import { MapSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
+import { imageFormats } from "@/utils/file-formats";
 
 const MAX_TEXT_LEN = 500;
 
@@ -258,7 +259,7 @@ function SidebarForm({ type }) {
         </p>
         <DragFiles
           name="proof_completion"
-          formats={["jpg", "png", "webp"]}
+          formats={imageFormats}
           limit={1}
           onChange={handleChange}
           value={values.proof_completion}

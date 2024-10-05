@@ -10,6 +10,7 @@ import { submitRun } from "@/server/maplistRequests.client";
 import Link from "next/link";
 import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
+import { imageFormats } from "@/utils/file-formats";
 
 const MAX_TEXT_LEN = 500;
 
@@ -135,7 +136,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                       <h2 className="text-center">Proof of Completion</h2>
                       <DragFiles
                         name="proof_completion"
-                        formats={["jpg", "png", "webp"]}
+                        formats={imageFormats}
                         limit={1}
                         onChange={handleChange}
                         value={values.proof_completion}

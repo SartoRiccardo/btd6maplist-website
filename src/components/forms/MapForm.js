@@ -21,6 +21,7 @@ import MapCodeController, { codeRegex } from "./MapCodeController";
 import DragFiles from "./DragFiles";
 import ErrorToast from "./ErrorToast";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { imageFormats } from "@/utils/file-formats";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -389,7 +390,7 @@ export default function MapForm({
 
                         <DragFiles
                           name="map_preview_file"
-                          formats={["jpg", "png", "webp"]}
+                          formats={imageFormats}
                           limit={1}
                           onChange={handleChange}
                           value={values.map_preview_file}
@@ -474,14 +475,14 @@ export default function MapForm({
                           <div className="px-3">
                             <DragFiles
                               name="r6_start_file"
-                              formats={["jpg", "png", "webp"]}
+                              formats={imageFormats}
                               limit={1}
                               onChange={handleChange}
                               value={values.r6_start_file}
                               className="w-100"
                               showChildren={
                                 !!initialValues?.r6_start &&
-                                ["jpg", "png", "webp"].some((ext) =>
+                                imageFormats.some((ext) =>
                                   initialValues.r6_start.endsWith(ext)
                                 )
                               }

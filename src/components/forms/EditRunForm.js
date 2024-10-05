@@ -10,6 +10,7 @@ import { allFormats } from "@/utils/maplistUtils";
 import ZoomedImage from "../utils/ZoomedImage";
 import ErrorToast from "./ErrorToast";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { imageFormats } from "@/utils/file-formats";
 
 const defaultValues = {
   black_border: false,
@@ -406,7 +407,7 @@ function LCCProperties() {
 
         <DragFiles
           name="lcc.proof_file"
-          formats={["jpg", "png", "webp"]}
+          formats={imageFormats}
           limit={1}
           onChange={(evt) => {
             setFieldValue("lcc.proof_url", "");
