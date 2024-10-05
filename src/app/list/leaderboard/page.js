@@ -8,6 +8,8 @@ import DifficultySelector from "@/components/maps/DifficultySelector";
 import { Button } from "react-bootstrap";
 import PaginateElement from "@/components/buttons/PaginateElement";
 import Image from "next/image";
+import PointCalcFormula from "@/components/layout/maplists/PointCalcFormula";
+import { PointCalcFade } from "./page.client";
 
 export async function generateMetadata({ searchParams }) {
   let version = searchParams?.format || "current";
@@ -81,6 +83,8 @@ export default async function ListLeaderboard({ searchParams }) {
           );
         })}
       </div>
+
+      {value === "points" && <PointCalcFade />}
 
       <div className="my-4">
         <PaginateElement qname="page" page={page} total={leaderboard.pages}>

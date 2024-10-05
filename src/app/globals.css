@@ -184,6 +184,13 @@ a.white-text {
   height: 100%;
 }
 
+code {
+  padding: 0.1rem 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-less-highlight);
+  border-radius: 0.3rem;
+}
+
 /* Buttons */
 
 .btn.big,
