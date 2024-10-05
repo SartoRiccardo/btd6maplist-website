@@ -13,6 +13,19 @@ export const metadata = {
   title: "Bloons TD 6 Maplist",
   description: "A community curated list of the best Bloons TD 6 custom maps",
   manifest: "/manifest.json",
+  openGraph: {
+    images: [
+      {
+        url: "https://btd6maplist.sarto.dev/site-banner.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+};
+
+export const viewport = {
+  themeColor: "#00897b",
 };
 
 const getUserInfo = async (accessToken) => {
