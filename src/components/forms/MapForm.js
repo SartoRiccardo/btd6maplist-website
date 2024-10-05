@@ -213,7 +213,11 @@ export default function MapForm({
     const fileFields = ["r6_start_file", "map_preview_file"];
     for (const ff of fileFields) {
       const fsize = values[ff]?.[0]?.file?.size || 0;
-      if (fsize > 1024 ** 2 * 3) errors[ff] = "Can upload maximum 2MB";
+      if (fsize > 1024 ** 2 * 3)
+        errors[ff] = `Can upload maximum 3MB (yours is ${(
+          fsize /
+          1024 ** 2
+        ).toFixed(2)}MB)`;
     }
 
     return errors;

@@ -71,7 +71,10 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
 
     const fsize = values.lcc.proof_file?.[0]?.file?.size || 0;
     if (fsize > 1024 ** 2 * 3)
-      errors["lcc.proof_file"] = "Can upload maximum 2MB";
+      errors["lcc.proof_file"] = `Can upload maximum 3MB (yours is ${(
+        fsize /
+        1024 ** 2
+      ).toFixed(2)}MB)`;
 
     return errors;
   };

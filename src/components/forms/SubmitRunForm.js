@@ -66,6 +66,13 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     if (!values.proof_completion.length)
       errors.proof_completion = "Upload proof of completion";
 
+    const fsize = values.proof_completion?.[0]?.file?.size || 0;
+    if (fsize > 1024 ** 2 * 3)
+      errors.proof_completion = `Can upload maximum 3MB (yours is ${(
+        fsize /
+        1024 ** 2
+      ).toFixed(2)}MB)`;
+
     if (requiresVideoProof(values) && !values.video_proof_url?.length)
       errors.video_proof_url = "Submit a valid video proof of your run!";
 
