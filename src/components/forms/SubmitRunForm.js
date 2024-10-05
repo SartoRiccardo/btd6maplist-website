@@ -2,7 +2,11 @@
 import { Formik } from "formik";
 import { useContext, useState } from "react";
 import { Button, Fade, Form } from "react-bootstrap";
-import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
+import {
+  useAuthLevels,
+  useDiscordToken,
+  useMaplistConfig,
+} from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import DragFiles from "./DragFiles";
 import { listVersions } from "@/utils/maplistUtils";
@@ -22,6 +26,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   const [success, setSuccess] = useState(false);
   const [openRules, setOpenRules] = useState(false);
   const accessToken = useDiscordToken();
+  const authLevels = useAuthLevels();
 
   const formats = [];
   if (
@@ -48,7 +53,9 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   if (!accessToken) return null;
 
   const requiresVideoProof = ({ black_border, no_geraldo, current_lcc }) => {
-    return black_border || no_geraldo || current_lcc;
+    return (
+      authLevels.requiresRecording || black_border || no_geraldo || current_lcc
+    );
   };
 
   const validate = (values) => {
