@@ -13,6 +13,7 @@ import MustBeInDiscord from "../utils/MustBeInDiscord";
 import { MapSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
 import { imageFormats } from "@/utils/file-formats";
+import { revalidateMapSubmissions } from "@/server/revalidations";
 
 const MAX_TEXT_LEN = 500;
 
@@ -66,6 +67,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
       return;
     }
 
+    revalidateMapSubmissions();
     setSuccess(true);
   };
 
