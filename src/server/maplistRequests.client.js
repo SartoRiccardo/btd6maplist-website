@@ -236,3 +236,19 @@ export async function insertUser(token, payload) {
     return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
   }
 }
+
+export async function rejectMapSubmission(token, code) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/maps/submit/${code}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (response.headers.get("Content-Type")?.includes("application/json"))
+      return await response.json();
+  } catch (exc) {
+    return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
+  }
+}

@@ -28,3 +28,7 @@ export async function revalidateCompletion(
   revalidateTag("leaderboard");
   if (refreshUnapproved) revalidateTag("unapproved");
 }
+
+export async function revalidateMapSubmissions() {
+  revalidateTag("map_submissions");
+}

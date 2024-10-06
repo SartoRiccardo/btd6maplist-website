@@ -193,6 +193,10 @@ code {
 
 /* Buttons */
 
+a .btn {
+  color: var(--color-text);
+}
+
 .btn.big,
 .btn-primary {
   font-weight: bold;
