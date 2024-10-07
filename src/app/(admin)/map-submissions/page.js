@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default async function MapSubmissionList({ searchParams }) {
   let show = searchParams?.show || "pending";
-  if (!["pending", "all"].includes(show.toLowerCase())) show = "current";
+  if (!["pending", "all"].includes(show.toLowerCase())) show = "pending";
   let page = searchParams?.page || "1";
   if (!/^\d+$/.test(page)) page = "1";
   page = parseInt(page);
@@ -26,7 +26,9 @@ export default async function MapSubmissionList({ searchParams }) {
             }).toString()
           }
         >
-          <span className="btn btn-primary fs-6">Show Rejected</span>
+          <span className="btn btn-primary fs-6">
+            {show === "pending" ? "Show" : "Hide"} Rejected
+          </span>
         </Link>
       </div>
 
