@@ -5,7 +5,10 @@ import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
 import { isFloat, removeFieldCode } from "@/utils/functions";
-import { revalidateMap } from "@/server/revalidations";
+import {
+  revalidateMap,
+  revalidateMapSubmissions,
+} from "@/server/revalidations";
 import { useRouter } from "next/navigation";
 import {
   useAuthLevels,
@@ -285,6 +288,7 @@ export default function MapForm({
     }
 
     setIsRedirecting(true);
+    if (!isEditing) revalidateMapSubmissions();
     revalidateMap(code).then(() => router.push(`/map/${code}`));
   };
 
