@@ -1,1 +1,1 @@
-export const imageFormats = ["web", "png", "jpg", "jpeg", "avif"];
+export const imageFormats = ["webp", "png", "jpg", "jpeg", "avif"];
