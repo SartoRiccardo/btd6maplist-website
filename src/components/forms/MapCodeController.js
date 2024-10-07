@@ -15,6 +15,8 @@ export default function MapCodeController({
   setIsFetching,
   onMapSuccess,
   onMapFail,
+  noLabels,
+  notRequired,
 }) {
   const formikProps = useContext(FormikContext);
   const {
@@ -28,8 +30,8 @@ export default function MapCodeController({
   } = formikProps;
 
   useEffect(() => {
-    const codeMatch = values.code.match(codeRegex);
-    if (!codeMatch || errors.code || isFetching) return;
+    const codeMatch = values[name].match(codeRegex);
+    if (!codeMatch || errors[name] || isFetching) return;
     const code = codeMatch[1].toUpperCase();
 
     const fetchMap = async () => {
@@ -43,17 +45,17 @@ export default function MapCodeController({
         onMapSuccess({ mapData: maplistMap, isMaplist: true });
       else if (customMap && onMapSuccess)
         onMapSuccess({ mapData: customMap, isMaplist: false });
-      else if (onMapFail) onMapFail();
+      else if (onMapFail) onMapFail(code);
       if (setIsFetching) setIsFetching(false);
     };
 
     if (currentMap !== code) fetchMap();
-  }, [errors.code, values.code]);
+  }, [errors[name], values[name]]);
 
   return (
     <>
       <Form.Group className="mapcode-input">
-        <Form.Label>Map Code</Form.Label>
+        {!noLabels && <Form.Label>Map Code</Form.Label>}
         <Form.Control
           name={name}
           type="text"
@@ -62,9 +64,10 @@ export default function MapCodeController({
           onChange={handleChange}
           onBlur={handleBlur}
           isInvalid={
-            touched[name] && (values[name].length === 0 || name in errors)
+            touched[name] &&
+            ((!notRequired && values[name].length === 0) || name in errors)
           }
-          isValid={!([name] in errors)}
+          isValid={!(name in errors) && values[name].length > 0}
           disabled={isSubmitting || disableInputs}
           autoComplete="off"
         />
@@ -73,9 +76,11 @@ export default function MapCodeController({
         </Form.Control.Feedback>
       </Form.Group>
 
-      <p className="muted text-center">
-        You can also paste the whole map share URL
-      </p>
+      {!noLabels && (
+        <p className="muted text-center">
+          You can also paste the whole map share URL
+        </p>
+      )}
     </>
   );
 }

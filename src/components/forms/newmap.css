@@ -1,5 +1,12 @@
+.danger-zone {
+  border: 1px solid var(--bs-danger);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
 .mapcode-input {
   width: 15rem;
+  max-width: 100%;
   margin: 0 auto 0.5rem auto;
 }
 
