@@ -343,6 +343,10 @@ function SidebarForm({ formats }) {
           <Form.Control.Feedback type="invalid">
             {errors.video_proof_url}
           </Form.Control.Feedback>
+          <p className="muted">
+            Only <u>one</u> URL can go here. If you have multiple, put the rest
+            in the Notes field.
+          </p>
         </Form.Group>
       )}
 
