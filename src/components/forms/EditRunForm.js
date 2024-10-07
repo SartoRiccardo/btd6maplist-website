@@ -104,7 +104,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
               values.lcc.proof_url || values.lcc.proof_file[0].file,
           }
         : null,
-      subm_proof: values.has_no_image ? null : values.subm_proof[0].file,
+      subm_proof: values.has_no_image ? null : values.subm_proof?.[0].file,
     };
     delete payload.is_lcc;
     delete payload.has_no_image;
