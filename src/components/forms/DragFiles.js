@@ -84,7 +84,7 @@ export default function DragImage({
           <i className={`bi bi-${icon} align-self-center dragfile-icon`} />
         </div>
       )}
-      {isValid && (
+      {!!isValid && (
         <div className="dragfiles-validity">
           <i className="bi bi-check-circle-fill valid" />
         </div>

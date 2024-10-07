@@ -180,6 +180,10 @@ export async function editCompletion(token, payload) {
     body.append("proof_completion", payload.lcc.proof_completion);
     delete data.lcc.proof_completion;
   }
+  if (payload?.subm_proof) {
+    body.append("submission_proof", payload.subm_proof);
+    delete data.subm_proof;
+  }
   body.append("data", JSON.stringify(data));
 
   const endpoint = payload.code
