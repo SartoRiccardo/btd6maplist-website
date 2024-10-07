@@ -78,7 +78,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
 
     const fileFields = {
       "lcc.proof_file": values.lcc.proof_file,
-      subm_proof: values.lcc.proof_file,
+      subm_proof: values.subm_proof,
     };
     for (const field of Object.keys(fileFields)) {
       const fsize = values[field]?.[0]?.file?.size || 0;
@@ -104,7 +104,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
               values.lcc.proof_url || values.lcc.proof_file[0].file,
           }
         : null,
-      subm_proof: values.has_no_image ? null : values.subm_proof?.[0].file,
+      subm_proof: values.has_no_image ? null : values.subm_proof?.[0]?.file,
     };
     delete payload.is_lcc;
     delete payload.has_no_image;
