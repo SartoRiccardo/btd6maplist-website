@@ -50,7 +50,7 @@ export default function MapCodeController({
     };
 
     if (currentMap !== code) fetchMap();
-  }, [errors[name], values[name]]);
+  }, [values[name]]);
 
   return (
     <>
