@@ -6,7 +6,6 @@ import {
 } from "@/features/authSlice";
 import stylesUsrEdit from "./UserEditPage.module.css";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
-import { Toast } from "react-bootstrap";
 import { Formik } from "formik";
 import { editProfile } from "@/server/maplistRequests.client";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
@@ -16,6 +15,7 @@ import { useState } from "react";
 import { useDiscordToken } from "@/utils/hooks";
 import Input from "@/components/forms/bootstrap/Input";
 import LazyCollapse from "@/components/transitions/LazyCollapse";
+import LazyToast from "@/components/transitions/LazyToast";
 
 const MAX_NAME_LEN = 100;
 
@@ -210,7 +210,7 @@ export default function EditSelf_C() {
         )}
       </Formik>
 
-      <Toast
+      <LazyToast
         bg="success"
         className="notification"
         show={success}
@@ -218,8 +218,8 @@ export default function EditSelf_C() {
         delay={4000}
         autohide
       >
-        <Toast.Body>Profile changed successfully!</Toast.Body>
-      </Toast>
+        <div className="toast-body">Profile changed successfully!</div>
+      </LazyToast>
     </>
   );
 }

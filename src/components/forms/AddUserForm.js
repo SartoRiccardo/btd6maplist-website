@@ -3,8 +3,8 @@ import { insertUser } from "@/server/maplistRequests.client";
 import { useDiscordToken } from "@/utils/hooks";
 import { Formik } from "formik";
 import { useState } from "react";
-import { Toast } from "react-bootstrap";
 import Input from "./bootstrap/Input";
+import LazyToast from "../transitions/LazyToast";
 
 const MAX_NAME_LEN = 100;
 
@@ -128,7 +128,7 @@ export default function AddUserForm() {
         }}
       </Formik>
 
-      <Toast
+      <LazyToast
         bg="success"
         className="notification"
         show={success}
@@ -136,8 +136,8 @@ export default function AddUserForm() {
         delay={4000}
         autohide
       >
-        <Toast.Body>User inserted!</Toast.Body>
-      </Toast>
+        <div className="toast-body">User inserted!</div>
+      </LazyToast>
     </>
   );
 }

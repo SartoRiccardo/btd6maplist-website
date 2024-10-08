@@ -1,7 +1,7 @@
 "use client";
 import { FormikContext } from "@/contexts";
 import { useContext, useEffect, useState } from "react";
-import { Toast } from "react-bootstrap";
+import LazyToast from "../transitions/LazyToast";
 
 export default function ErrorToast() {
   const { errors, setErrors } = useContext(FormikContext);
@@ -18,7 +18,7 @@ export default function ErrorToast() {
   }, [errors[""]]);
 
   return (
-    <Toast
+    <LazyToast
       bg="danger"
       className="notification"
       show={show}
@@ -32,7 +32,7 @@ export default function ErrorToast() {
       delay={7000}
       autohide
     >
-      <Toast.Body>{errors[""] || currentErr}</Toast.Body>
-    </Toast>
+      <div className="toast-body">{errors[""] || currentErr}</div>
+    </LazyToast>
   );
 }

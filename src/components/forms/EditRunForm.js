@@ -3,7 +3,6 @@ import stylesMedals from "../maps/Medals.module.css";
 import { FormikContext } from "@/contexts";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Toast } from "react-bootstrap";
 import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
 import { isInt, removeFieldCode } from "@/utils/functions";
@@ -15,6 +14,7 @@ import Input from "./bootstrap/Input";
 import CheckBox from "./bootstrap/CheckBox";
 import Select from "./bootstrap/Select";
 import { imageFormats } from "@/utils/file-formats";
+import LazyToast from "../transitions/LazyToast";
 
 const defaultValues = {
   black_border: false,
@@ -132,6 +132,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
           formikProps;
         const disableInputs =
           isSubmitting || (!completion && success) || completion?.deleted_on;
+        let errorCount = Object.keys(errors).length;
         if ("" in errors) errorCount--;
 
         const handleDelete = async (_e) => {
@@ -221,7 +222,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
     <>
       {form}
 
-      <Toast
+      <LazyToast
         bg="success"
         className="notification"
         show={success}
@@ -229,10 +230,10 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
         delay={4000}
         autohide
       >
-        <Toast.Body>
+        <div className="toast-body">
           Completion {completion ? "modified" : "submitted"} successfully!
-        </Toast.Body>
-      </Toast>
+        </div>
+      </LazyToast>
     </>
   );
 }

@@ -4,7 +4,6 @@ import { FormikContext } from "@/contexts";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import { Formik } from "formik";
 import { useState } from "react";
-import Toast from "react-bootstrap/Toast";
 import MapCodeController, { codeRegex } from "./MapCodeController";
 import { difficulties } from "@/utils/maplistUtils";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import { transferCompletions } from "@/server/maplistRequests.client";
 import ErrorToast from "./ErrorToast";
 import { revalidateMap } from "@/server/revalidations";
 import LazyModal from "../transitions/LazyModal";
+import LazyToast from "../transitions/LazyToast";
 
 const defaultValues = {
   code: "",
@@ -193,7 +193,7 @@ export default function FormTransferCompletion({ from }) {
         }}
       </Formik>
 
-      <Toast
+      <LazyToast
         bg="success"
         className="notification"
         show={success}
@@ -201,8 +201,8 @@ export default function FormTransferCompletion({ from }) {
         delay={4000}
         autohide
       >
-        <Toast.Body>Completions transferred successfully!</Toast.Body>
-      </Toast>
+        <div className="toast-body">Completions transferred successfully!</div>
+      </LazyToast>
     </>
   );
 }

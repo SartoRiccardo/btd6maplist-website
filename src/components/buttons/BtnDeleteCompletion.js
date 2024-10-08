@@ -4,8 +4,8 @@ import { rejectMapSubmission } from "@/server/maplistRequests.client";
 import { revalidateMapSubmissions } from "@/server/revalidations";
 import { useDiscordToken } from "@/utils/hooks";
 import { useState } from "react";
-import { Toast } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
+import LazyToast from "../transitions/LazyToast";
+import LazyModal from "../transitions/LazyModal";
 
 export default function BtnDeleteSubmission({ name, code, className }) {
   const [show, setShow] = useState(false);
@@ -33,7 +33,11 @@ export default function BtnDeleteSubmission({ name, code, className }) {
         </span>
       </p>
 
-      <Modal show={show} onHide={() => setShow(false)} className="modal-panel">
+      <LazyModal
+        show={show}
+        onHide={() => setShow(false)}
+        className="modal-panel"
+      >
         <div className="modal-content">
           <div className="modal-body">
             <p>
@@ -52,9 +56,9 @@ export default function BtnDeleteSubmission({ name, code, className }) {
             </div>
           </div>
         </div>
-      </Modal>
+      </LazyModal>
 
-      <Toast
+      <LazyToast
         bg="danger"
         className="notification"
         show={error}
@@ -62,10 +66,10 @@ export default function BtnDeleteSubmission({ name, code, className }) {
         delay={4000}
         autohide
       >
-        <Toast.Body>{error}</Toast.Body>
-      </Toast>
+        <div className="toast-body">{error}</div>
+      </LazyToast>
 
-      <Toast
+      <LazyToast
         bg="success"
         className="notification"
         show={success}
@@ -73,8 +77,8 @@ export default function BtnDeleteSubmission({ name, code, className }) {
         delay={4000}
         autohide
       >
-        <Toast.Body>Submission rejected!</Toast.Body>
-      </Toast>
+        <div className="toast-body">Submission rejected!</div>
+      </LazyToast>
     </>
   );
 }

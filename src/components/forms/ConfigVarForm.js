@@ -6,9 +6,9 @@ import { isFloat, isInt } from "@/utils/functions";
 import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
 import { Formik } from "formik";
 import { Fragment, useState } from "react";
-import { Toast } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import Input from "./bootstrap/Input";
+import LazyToast from "../transitions/LazyToast";
 
 const configNames = {
   points_top_map: "Points for the #1 map",
@@ -125,7 +125,7 @@ export default function ConfigVarForm() {
         )}
       </Formik>
 
-      <Toast
+      <LazyToast
         bg="success"
         className="notification"
         show={success}
@@ -133,8 +133,10 @@ export default function ConfigVarForm() {
         delay={4000}
         autohide
       >
-        <Toast.Body>Config variables modified successfully!</Toast.Body>
-      </Toast>
+        <div className="toast-body">
+          Config variables modified successfully!
+        </div>
+      </LazyToast>
     </>
   );
 }
