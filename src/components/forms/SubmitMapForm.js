@@ -1,7 +1,7 @@
 "use client";
+import dynamic from "next/dynamic";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Fade } from "react-bootstrap";
 import { useDiscordToken } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import MapCodeController, { codeRegex } from "./MapCodeController";
@@ -16,6 +16,9 @@ import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
 import { revalidateMapSubmissions } from "@/server/revalidations";
 import Select from "./bootstrap/Select";
+const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
+  ssr: false,
+});
 
 const MAX_TEXT_LEN = 500;
 
@@ -143,12 +146,12 @@ export default function SubmitMapForm({ onSubmit, type }) {
                 </button>
               </div>
 
-              <Fade in={openRules} mountOnEnter={true} unmountOnExit={true}>
+              <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
                 <div>
                   <br />
                   <MapSubmissionRules on={type} />
                 </div>
-              </Fade>
+              </LazyFade>
 
               {currentMap && currentMap.valid && (
                 <>

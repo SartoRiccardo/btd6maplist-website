@@ -1,8 +1,8 @@
 "use client";
+import dynamic from "next/dynamic";
 import stylesMedals from "../maps/Medals.module.css";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import Fade from "react-bootstrap/Fade";
 import {
   useAuthLevels,
   useDiscordToken,
@@ -17,6 +17,9 @@ import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
+const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
+  ssr: false,
+});
 
 const MAX_TEXT_LEN = 500;
 
@@ -227,12 +230,12 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         </button>
       </div>
 
-      <Fade in={openRules} mountOnEnter={true} unmountOnExit={true}>
+      <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
         <div>
           <br />
           <RunSubmissionRules on={formats.includes(3) ? "experts" : "list"} />
         </div>
-      </Fade>
+      </LazyFade>
 
       {form}
     </>

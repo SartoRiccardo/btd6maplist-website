@@ -1,7 +1,10 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Fade } from "react-bootstrap";
 import { MapSubmissionRules, RunSubmissionRules } from "./MaplistRules";
+const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
+  ssr: false,
+});
 
 export default function SubmissionRules({ on }) {
   const [openRules, setOpenRules] = useState(-1);
@@ -23,18 +26,18 @@ export default function SubmissionRules({ on }) {
         </button>
       </div>
 
-      <Fade in={openRules === 0} mountOnEnter={true} unmountOnExit={true}>
+      <LazyFade in={openRules === 0} mountOnEnter={true} unmountOnExit={true}>
         <div>
           <br />
           <MapSubmissionRules on={on} />
         </div>
-      </Fade>
-      <Fade in={openRules === 1} mountOnEnter={true} unmountOnExit={true}>
+      </LazyFade>
+      <LazyFade in={openRules === 1} mountOnEnter={true} unmountOnExit={true}>
         <div>
           <br />
           <RunSubmissionRules on={on} />
         </div>
-      </Fade>
+      </LazyFade>
     </div>
   );
 }

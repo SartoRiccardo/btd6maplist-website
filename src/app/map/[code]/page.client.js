@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import stylesLoader from "../../../components/utils/Loader.module.css";
 import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry_C from "@/components/users/UserEntry.client";
@@ -11,7 +12,9 @@ import { groupCompsByUser } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Fade } from "react-bootstrap";
+const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
+  ssr: false,
+});
 
 // https://stackoverflow.com/a/37704433/13033269
 const youtubeRe =
@@ -135,12 +138,16 @@ export function Round6Start({ r6Start }) {
   return dropComponent ? (
     <>
       <h3 className="c-pointer mb-1" onClick={() => setOpen(!open)}>
-        <i className={`bi bi-caret-${open ? "down" : "right"}-fill me-2`} />
+        <i
+          className={`bi ${
+            open ? "bi-caret-down-fill" : "bi-caret-right-fill"
+          } me-2`}
+        />
         Round 6 Start
       </h3>
-      <Fade in={open} mountOnEnter={true} unmountOnExit={true}>
+      <LazyFade in={open} mountOnEnter={true} unmountOnExit={true}>
         <div>{dropComponent}</div>
-      </Fade>
+      </LazyFade>
     </>
   ) : (
     <a href={r6Start} target="_blank">

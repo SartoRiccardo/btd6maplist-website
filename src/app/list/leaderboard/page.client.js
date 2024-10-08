@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
 import PointCalcFormula from "@/components/layout/maplists/PointCalcFormula";
-import Fade from "react-bootstrap/Fade";
+import dynamic from "next/dynamic";
+const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
+  ssr: false,
+});
 
 export function PointCalcFade() {
   const [show, setShow] = useState(false);
@@ -11,12 +14,12 @@ export function PointCalcFade() {
         How are points calculated?
       </button>
 
-      <Fade in={show} mountOnEnter={true} unmountOnExit={true}>
+      <LazyFade in={show} mountOnEnter={true} unmountOnExit={true}>
         <div>
           <br />
           <PointCalcFormula />
         </div>
-      </Fade>
+      </LazyFade>
     </div>
   );
 }
