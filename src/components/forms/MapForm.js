@@ -29,7 +29,7 @@ import { imageFormats } from "@/utils/file-formats";
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
 const MAX_TEXT_LEN = 100;
-const MAX_ALIAS_LENGTH = 20;
+const MAX_ALIAS_LENGTH = 255;
 
 const randomAliases = ["ouch", "bluddles", "muddles", "ws", "wshop"];
 
