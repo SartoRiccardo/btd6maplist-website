@@ -211,6 +211,23 @@ export async function editCompletion(token, payload) {
   }
 }
 
+export async function transferCompletions(token, fromCode, toCode) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/maps/${fromCode}/completions/transfer`,
+      {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ code: toCode }),
+      }
+    );
+    if (response.headers.get("Content-Type")?.includes("application/json"))
+      return await response.json();
+  } catch (exc) {
+    return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
+  }
+}
+
 export async function deleteCompletion(token, id) {
   try {
     const response = await fetch(

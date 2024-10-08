@@ -31,7 +31,7 @@ export default function MapCodeController({
 
   useEffect(() => {
     const codeMatch = values[name].match(codeRegex);
-    if (!codeMatch || errors[name] || isFetching) return;
+    if (!codeMatch || isFetching) return;
     const code = codeMatch[1].toUpperCase();
 
     const fetchMap = async () => {
@@ -65,7 +65,8 @@ export default function MapCodeController({
           onBlur={handleBlur}
           isInvalid={
             touched[name] &&
-            ((!notRequired && values[name].length === 0) || name in errors)
+            ((!notRequired && values[name].length === 0) || name in errors) &&
+            !isFetching
           }
           isValid={!(name in errors) && values[name].length > 0}
           disabled={isSubmitting || disableInputs}
