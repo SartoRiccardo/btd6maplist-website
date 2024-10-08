@@ -3,14 +3,11 @@ import dynamic from "next/dynamic";
 import { titleFont } from "@/lib/fonts";
 import styles from "./navbar.module.css";
 import { useState } from "react";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import Link from "next/link";
 import NavLogin from "../header/NavLogin";
 import ProtectedLinks from "./ProtectedLinks";
-const LazyCollapse = dynamic(
-  () => import("@/components/transitions/LazyCollapse"),
-  { ssr: false }
-);
+import LazyOffcanvas from "@/components/transitions/LazyOffcanvas";
+import LazyCollapse from "@/components/transitions/LazyCollapse";
 
 export function NavbarMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,21 +31,21 @@ export function NavbarMobile() {
         />
       </p>
 
-      <Offcanvas
+      <LazyOffcanvas
         show={isMenuOpen}
         onHide={(_e) => setIsMenuOpen(false)}
         placement="top"
         className={`${styles.navmobile} ${titleFont.className} font-border h-100`}
         responsive="md"
       >
-        <Offcanvas.Header className="d-flex justify-content-end pb-0">
+        <div className="offcanvas-header d-flex justify-content-end pb-0">
           <i
             className={`${styles.closeButton} bi bi-x-lg text-5`}
             onClick={(_e) => setIsMenuOpen(false)}
           />
-        </Offcanvas.Header>
+        </div>
 
-        <Offcanvas.Body>
+        <div className="offcanvas-body">
           <ul className={`${styles.navbar} ${styles.mobile}`}>
             <NavLogin onNavigate={(_e) => setIsMenuOpen(false)} />
 
@@ -107,8 +104,8 @@ export function NavbarMobile() {
               </Link>
             </li>
           </ul>
-        </Offcanvas.Body>
-      </Offcanvas>
+        </div>
+      </LazyOffcanvas>
     </>
   );
 }

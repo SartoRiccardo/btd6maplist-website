@@ -6,7 +6,7 @@ import { isFloat, isInt } from "@/utils/functions";
 import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
 import { Formik } from "formik";
 import { Fragment, useState } from "react";
-import { Button, Form, Toast } from "react-bootstrap";
+import { Toast } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import Input from "./bootstrap/Input";
 
