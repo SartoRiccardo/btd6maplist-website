@@ -2,6 +2,7 @@ import SelectorButton from "@/components/buttons/SelectorButton";
 import FullCompletionInfoRow from "@/components/maps/FullCompletionInfoRow";
 import { FullCompletionInfoRow_Plc } from "@/components/maps/FullCompletionInfoRow";
 import UserEntry from "@/components/users/UserEntry";
+import DiscordWidget from "@/components/utils/DiscordWidget";
 import { getRecentCompletions } from "@/server/maplistRequests";
 import { allFormats } from "@/utils/maplistUtils";
 import Link from "next/link";
@@ -12,7 +13,8 @@ export default async function Home() {
     <div className="text-center">
       <h1> Bloons TD 6 Maplist</h1>
       <div className="text-center fs-5 mb-3">
-        The BTD6 Maplist is a project started by
+        The BTD6 Maplist is a ranking of the best and hardest custom maps in the
+        game. It was started by
         <span className="d-inline-block mx-2">
           <UserEntry id="513869624157405186" centered={true} inline />
         </span>
@@ -20,8 +22,11 @@ export default async function Home() {
         <span className="d-inline-block mx-2">
           <UserEntry id="300761010569216001" centered={true} inline />
         </span>
-        in order to categorize and rank the hardest maps in the game because of
-        the advent of the map editor.
+        with
+        <span className="d-inline-block mx-2">
+          <UserEntry id="388338653937532929" centered={true} inline />
+        </span>
+        managing the Expert List.
         <div className="mt-3 fs-6">
           <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
             Discord
@@ -103,15 +108,23 @@ export default async function Home() {
       </Suspense>
 
       <h2 className="mt-5">Join, Play and Create</h2>
-      <p className="text-start fs-5">
-        Whether you're a map maker, someone who likes a challenge, or both, you
-        can submit your own custom maps and run completions either through the
-        Discord server's bot or this website (you don't need to make an account,
-        you can log in with Discord). Either way you should{" "}
-        <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
-          join the Discord server!
-        </a>
-      </p>
+      <div className="row d-flex justify-content-center align-items-center">
+        <div className="col-12 col-md-5">
+          <p className="text-start fs-5">
+            Whether you're a map maker, someone who likes a challenge, or both,
+            you can submit your own custom maps and run completions either
+            through the Discord server's bot or this website (you don't need to
+            make an account, you can log in with Discord). Either way you should{" "}
+            <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
+              join the Discord server!
+            </a>
+          </p>
+        </div>
+
+        <div className="col-12 col-md-auto">
+          <DiscordWidget />
+        </div>
+      </div>
 
       <hr className="my-5" />
 
