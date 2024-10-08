@@ -114,6 +114,22 @@ export const difficulties = [
     meta_desc:
       "Many strategies will not work. If you're asking for one of the best, you'd better be one of the best.",
   },
+  {
+    name: "Extreme",
+    query: "extreme",
+    value: 4,
+    image: "/format_icons/icon_extreme.webp",
+    description: (
+      <>
+        The absolute hardest this community has to offer. Many strategies are
+        forced, don't hesitate to go all out on beating these maps.
+        <br />
+        <i>Good luck...</i>
+      </>
+    ),
+    meta_desc:
+      "The absolute hardest this community has to offer. Many strategies are forced. Good luck...",
+  },
 ];
 
 export const filterCompletionFormats = (completions, formats) => {

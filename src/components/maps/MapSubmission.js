@@ -17,6 +17,8 @@ const proposed = {
     "High Expert",
     "High/True",
     "True Expert",
+    "True/Extreme",
+    "Extreme Expert",
   ],
 };
 
