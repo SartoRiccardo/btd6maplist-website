@@ -1,9 +1,13 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useAuthLevels } from "@/utils/hooks";
 import stylesNav from "./navbar.module.css";
 import styles from "./navbar.module.css";
 import Link from "next/link";
-import { Collapse } from "react-bootstrap";
+const LazyCollapse = dynamic(
+  () => import("@/components/transitions/LazyCollapse"),
+  { ssr: false }
+);
 
 export default function ProtectedLinks({
   onNavigate,
@@ -63,7 +67,7 @@ export default function ProtectedLinks({
             &nbsp;Admin
           </a>
 
-          <Collapse in={openSubmenus.includes(100)}>
+          <LazyCollapse in={openSubmenus.includes(100)}>
             <div>
               <ul className={`${styles.submenu} ${styles.mobile}`}>
                 <LinkItem
@@ -88,7 +92,7 @@ export default function ProtectedLinks({
                 />
               </ul>
             </div>
-          </Collapse>
+          </LazyCollapse>
         </li>
       )}
     </>

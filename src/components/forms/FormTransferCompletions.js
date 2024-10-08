@@ -1,10 +1,10 @@
 "use client";
+import dynamic from "next/dynamic";
 import cssDangerZone from "./DangerZone.module.css";
 import { FormikContext } from "@/contexts";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import { Formik } from "formik";
 import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import Toast from "react-bootstrap/Toast";
 import MapCodeController, { codeRegex } from "./MapCodeController";
 import { difficulties } from "@/utils/maplistUtils";
@@ -12,6 +12,9 @@ import Link from "next/link";
 import { transferCompletions } from "@/server/maplistRequests.client";
 import ErrorToast from "./ErrorToast";
 import { revalidateMap } from "@/server/revalidations";
+const LazyModal = dynamic(() => import("../transitions/LazyModal"), {
+  ssr: false,
+});
 
 const defaultValues = {
   code: "",
@@ -138,7 +141,11 @@ export default function FormTransferCompletion({ from }) {
                   )}
                 </div>
 
-                <Modal className="modal-panel" show={show} onHide={handleHide}>
+                <LazyModal
+                  className="modal-panel"
+                  show={show}
+                  onHide={handleHide}
+                >
                   <div className="modal-body text-center">
                     <h2>Transfer Completions?</h2>
                     <p>
@@ -180,7 +187,7 @@ export default function FormTransferCompletion({ from }) {
                       </button>
                     </div>
                   </div>
-                </Modal>
+                </LazyModal>
               </form>
 
               <ErrorToast />

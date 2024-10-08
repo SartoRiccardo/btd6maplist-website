@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import {
   selectMaplistProfile,
   setBtd6Profile,
@@ -6,7 +7,7 @@ import {
 } from "@/features/authSlice";
 import stylesUsrEdit from "./UserEditPage.module.css";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
-import { Collapse, Toast } from "react-bootstrap";
+import { Toast } from "react-bootstrap";
 import { Formik } from "formik";
 import { editProfile } from "@/server/maplistRequests.client";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
@@ -15,6 +16,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDiscordToken } from "@/utils/hooks";
 import Input from "@/components/forms/bootstrap/Input";
+const LazyCollapse = dynamic(
+  () => import("@/components/transitions/LazyCollapse"),
+  { ssr: false }
+);
 
 const MAX_NAME_LEN = 100;
 
@@ -139,7 +144,7 @@ export default function EditSelf_C() {
                       How do I get mine?
                     </button>
                   </div>
-                  <Collapse in={showOakHelp}>
+                  <LazyCollapse in={showOakHelp}>
                     <div>
                       <p className="text-center">
                         Open BTD6 and go into the settings, then click{" "}
@@ -182,7 +187,7 @@ export default function EditSelf_C() {
                         />
                       </div>
                     </div>
-                  </Collapse>
+                  </LazyCollapse>
                 </div>
               </div>
             </div>

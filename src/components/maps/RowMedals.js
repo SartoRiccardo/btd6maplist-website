@@ -1,6 +1,7 @@
 "use client";
 import stylesMedals from "./Medals.module.css";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const medal_size = 45;
 export default function RowMedals({

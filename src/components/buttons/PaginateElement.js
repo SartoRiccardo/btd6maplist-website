@@ -1,6 +1,5 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Button } from "react-bootstrap";
 
 export default function PaginateElement({
   qname,

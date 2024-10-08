@@ -1,12 +1,16 @@
 "use client";
+import dynamic from "next/dynamic";
 import { titleFont } from "@/lib/fonts";
 import styles from "./navbar.module.css";
 import { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Link from "next/link";
-import Collapse from "react-bootstrap/Collapse";
 import NavLogin from "../header/NavLogin";
 import ProtectedLinks from "./ProtectedLinks";
+const LazyCollapse = dynamic(
+  () => import("@/components/transitions/LazyCollapse"),
+  { ssr: false }
+);
 
 export function NavbarMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,7 +71,7 @@ export function NavbarMobile() {
                 Maps
               </a>
 
-              <Collapse in={openSubmenus.includes(0)}>
+              <LazyCollapse in={openSubmenus.includes(0)}>
                 <div>
                   <ul className={`${styles.submenu} ${styles.mobile}`}>
                     <li>
@@ -90,7 +94,7 @@ export function NavbarMobile() {
                     </li>
                   </ul>
                 </div>
-              </Collapse>
+              </LazyCollapse>
             </li>
 
             <li>

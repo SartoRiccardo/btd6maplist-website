@@ -1,6 +1,7 @@
 "use client";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import styles from "./userpage.module.css";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export function UserRole({ name, color, borderColor, description }) {
   return (
