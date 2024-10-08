@@ -1,7 +1,4 @@
-import dynamic from "next/dynamic";
-const LazyModal = dynamic(() => import("../transitions/LazyModal"), {
-  ssr: false,
-});
+import LazyModal from "../transitions/LazyModal";
 
 export default function ConfirmDeleteModal({
   show,
