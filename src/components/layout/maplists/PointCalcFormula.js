@@ -1,4 +1,5 @@
 "use client";
+import cssMedals from "@/components/maps/Medals.module.css";
 import cssFormula from "./Formula.module.css";
 import { useMaplistConfig } from "@/utils/hooks";
 
@@ -14,17 +15,26 @@ export default function PointCalcFormula() {
       </p>
       <ul>
         <li>
-          <img src="/medals/medal_nogerry.webp" className="inline-medal me-1" />{" "}
+          <img
+            src="/medals/medal_nogerry.webp"
+            className={`${cssMedals.inline_medal} me-1`}
+          />{" "}
           Maps beat without using its Optimal Hero are worth{" "}
           <b>{maplistCfg.points_multi_gerry}x points</b>
         </li>
         <li>
-          <img src="/medals/medal_bb.webp" className="inline-medal me-1" /> Maps
-          beat without ever loading a save (a <i>Black Border</i> run) are worth{" "}
-          <b>{maplistCfg.points_multi_bb}x points</b>
+          <img
+            src="/medals/medal_bb.webp"
+            className={`${cssMedals.inline_medal} me-1`}
+          />{" "}
+          Maps beat without ever loading a save (a <i>Black Border</i> run) are
+          worth <b>{maplistCfg.points_multi_bb}x points</b>
         </li>
         <li>
-          <img src="/medals/medal_lcc.webp" className="inline-medal me-1" />{" "}
+          <img
+            src="/medals/medal_lcc.webp"
+            className={`${cssMedals.inline_medal} me-1`}
+          />{" "}
           Holding the current LCC on a map gives you{" "}
           <b>+{maplistCfg.points_extra_lcc} points</b>
           <ul>

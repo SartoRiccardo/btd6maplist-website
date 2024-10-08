@@ -12,10 +12,16 @@
 
 .completion_link {
   font-size: 1.5rem;
+  transition: color 0.2s ease;
 }
 
 .completion_link:not(:hover) {
   color: var(--color-text);
+}
+
+.completion_link:hover {
+  cursor: pointer;
+  color: var(--color-less-highlight);
 }
 
 .compcol_container > :not(:first-child) {

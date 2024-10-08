@@ -15,6 +15,7 @@ import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
 import { revalidateMapSubmissions } from "@/server/revalidations";
+import Select from "./bootstrap/Select";
 
 const MAX_TEXT_LEN = 500;
 
@@ -238,7 +239,7 @@ function SidebarForm({ type }) {
       <div className="d-flex w-100 justify-content-between mt-3">
         <p className="my-0 align-self-center">Submit to</p>
         <div className="align-self-end">
-          <Form.Select
+          <Select
             name="type"
             value={values.type}
             onChange={handleChange}
@@ -246,7 +247,7 @@ function SidebarForm({ type }) {
           >
             <option value="list">The Maplist</option>
             <option value="experts">Expert List</option>
-          </Form.Select>
+          </Select>
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 "use client";
+import cssDangerZone from "./DangerZone.module.css";
 import { FormikContext } from "@/contexts";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import { Formik } from "formik";
@@ -61,7 +62,9 @@ export default function FormTransferCompletion({ from }) {
           return (
             <FormikContext.Provider value={{ ...formikProps, disableInputs }}>
               <form onSubmit={handleSubmit}>
-                <div className="danger-zone mt-5 text-center">
+                <div
+                  className={`${cssDangerZone.danger_zone} mt-5 text-center`}
+                >
                   <h2>Transfer Completions</h2>
                   <p>Transfer all completions to another map.</p>
                   {!(authLevels.isExplistMod || authLevels.isAdmin) && (

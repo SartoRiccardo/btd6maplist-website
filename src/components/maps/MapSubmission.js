@@ -1,3 +1,4 @@
+import cssMap from "./Btd6Map.module.css";
 import cssMapSubm from "./MapSubmission.module.css";
 import { getCustomMap } from "@/server/ninjakiwiRequests";
 import BtnShowCompletion from "../buttons/BtnShowCompletion";
@@ -33,13 +34,13 @@ export default async function MapSubmission({
 
   return (
     <div
-      className={`row panel btd6mapRow my-3 gy-2 ${
+      className={`row panel ${cssMap.btd6map_row} my-3 gy-2 ${
         rejected_by !== null && cssMapSubm.rejected
       }`}
     >
       <div className="col-12 col-md-6">
         <div className="d-flex align-self-center">
-          <div className="btd6mapImage">
+          <div className={cssMap.btd6map_image}>
             <img className="w-100" loading="lazy" src={btd6Map.mapURL} />
           </div>
           <div className="d-flex flex-column justify-content-center ps-3">
