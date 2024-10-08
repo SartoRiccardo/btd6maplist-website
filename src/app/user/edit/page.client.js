@@ -4,8 +4,8 @@ import {
   setBtd6Profile,
   setMinMaplistProfile,
 } from "@/features/authSlice";
+import stylesUsrEdit from "./UserEditPage.module.css";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
-import { Button, Collapse, Form, Toast } from "react-bootstrap";
 import { Formik } from "formik";
 import { editProfile } from "@/server/maplistRequests.client";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
@@ -13,6 +13,9 @@ import { revalidateUser } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDiscordToken } from "@/utils/hooks";
+import Input from "@/components/forms/bootstrap/Input";
+import LazyCollapse from "@/components/transitions/LazyCollapse";
+import LazyToast from "@/components/transitions/LazyToast";
 
 const MAX_NAME_LEN = 100;
 
@@ -76,15 +79,15 @@ export default function EditSelf_C() {
         }}
       >
         {({ handleSubmit, handleChange, values, errors, isSubmitting }) => (
-          <Form noValidate onSubmit={handleSubmit}>
+          <form noValidate onSubmit={handleSubmit}>
             <div className="panel panel-container">
               <div className="row flex-row-space">
                 <div className="col-5 col-sm-6">
                   <p>Username</p>
                 </div>
                 <div className="col-7 col-sm-6">
-                  <Form.Group>
-                    <Form.Control
+                  <div>
+                    <Input
                       name="name"
                       type="text"
                       placeholder="chimenea.mo"
@@ -94,18 +97,16 @@ export default function EditSelf_C() {
                       disabled={isSubmitting}
                       autocomplete="off"
                     />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.name}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                    <div className="invalid-feedback">{errors.name}</div>
+                  </div>
                 </div>
 
                 <div className="col-5 col-sm-6">
                   <p>NinjaKiwi OAK</p>
                 </div>
                 <div className="col-7 col-sm-6">
-                  <Form.Group>
-                    <Form.Control
+                  <div>
+                    <Input
                       type="text"
                       name="oak"
                       placeholder="oak_b1B..."
@@ -115,10 +116,8 @@ export default function EditSelf_C() {
                       disabled={isSubmitting}
                       autocomplete="off"
                     />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.oak}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                    <div className="invalid-feedback">{errors.oak}</div>
+                  </div>
                 </div>
                 <div className="col-12">
                   <p className="muted text-center mb-2">
@@ -134,14 +133,14 @@ export default function EditSelf_C() {
                     BTD6 very easily.
                   </p>
                   <div className="d-flex justify-content-center">
-                    <Button
+                    <button
                       onClick={(_e) => setShowOakHelp(!showOakHelp)}
-                      className="fs-6 mb-3"
+                      className="btn btn-primary fs-6 mb-3"
                     >
                       How do I get mine?
-                    </Button>
+                    </button>
                   </div>
-                  <Collapse in={showOakHelp}>
+                  <LazyCollapse in={showOakHelp}>
                     <div>
                       <p className="text-center">
                         Open BTD6 and go into the settings, then click{" "}
@@ -152,7 +151,7 @@ export default function EditSelf_C() {
                       <div className="d-flex justify-content-center">
                         <img
                           src="https://i.imgur.com/FurlzfB.png"
-                          className="mb-3 opendata-guide"
+                          className={`mb-3 ${stylesUsrEdit.opendata_guide}`}
                         />
                       </div>
 
@@ -166,7 +165,7 @@ export default function EditSelf_C() {
                       <div className="d-flex justify-content-center">
                         <img
                           src="https://i.imgur.com/tCqlDYj.png"
-                          className="mb-3 opendata-guide"
+                          className={`mb-3 ${stylesUsrEdit.opendata_guide}`}
                         />
                       </div>
 
@@ -180,33 +179,38 @@ export default function EditSelf_C() {
                       <div className="d-flex justify-content-center">
                         <img
                           src="https://i.imgur.com/owhXl4U.png"
-                          className="mb-3 opendata-guide"
+                          className={`mb-3 ${stylesUsrEdit.opendata_guide}`}
                         />
                       </div>
                     </div>
-                  </Collapse>
+                  </LazyCollapse>
                 </div>
               </div>
             </div>
 
             <div className="d-flex flex-col-space justify-content-center">
-              <Button
+              <button
+                className="btn btn-primary"
                 disabled={isSubmitting}
                 onClick={(_e) =>
                   router.push(`/user/${maplistProfile.id}`, { scroll: false })
                 }
               >
                 Back
-              </Button>
-              <Button disabled={isSubmitting} type="submit">
+              </button>
+              <button
+                className="btn btn-primary"
+                disabled={isSubmitting}
+                type="submit"
+              >
                 Save
-              </Button>
+              </button>
             </div>
-          </Form>
+          </form>
         )}
       </Formik>
 
-      <Toast
+      <LazyToast
         bg="success"
         className="notification"
         show={success}
@@ -214,8 +218,8 @@ export default function EditSelf_C() {
         delay={4000}
         autohide
       >
-        <Toast.Body>Profile changed successfully!</Toast.Body>
-      </Toast>
+        <div className="toast-body">Profile changed successfully!</div>
+      </LazyToast>
     </>
   );
 }

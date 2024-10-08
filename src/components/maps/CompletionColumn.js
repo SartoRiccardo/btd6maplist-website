@@ -1,4 +1,5 @@
 "use client";
+import stylesComp from "./MaplistCompletions.module.css";
 import { allFormats } from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import MaplistPoints from "./MaplistPoints";
@@ -80,7 +81,7 @@ export default function CompletionColumn({
             <div className="col-1 flex-vcenter">
               {isAdmin ? (
                 <Link
-                  className="completion-link align-self-center no-underline"
+                  className={`${stylesComp.completion_link} align-self-center no-underline`}
                   href={`/completions/${id}`}
                 >
                   <p className="text-center mb-0">
@@ -91,7 +92,7 @@ export default function CompletionColumn({
                 subm_proof_img && (
                   <>
                     <span
-                      className="completion-link align-self-center no-underline"
+                      className={`${stylesComp.completion_link} align-self-center no-underline`}
                       onClick={() => setShownCompletion(id)}
                     >
                       <p className="text-center mb-0">

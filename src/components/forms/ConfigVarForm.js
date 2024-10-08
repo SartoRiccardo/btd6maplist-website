@@ -6,8 +6,9 @@ import { isFloat, isInt } from "@/utils/functions";
 import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
 import { Formik } from "formik";
 import { Fragment, useState } from "react";
-import { Button, Form, Toast } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import Input from "./bootstrap/Input";
+import LazyToast from "../transitions/LazyToast";
 
 const configNames = {
   points_top_map: "Points for the #1 map",
@@ -79,7 +80,7 @@ export default function ConfigVarForm() {
         initialValues={defaultVals}
       >
         {({ handleSubmit, handleChange, values, errors, isSubmitting }) => (
-          <Form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="panel panel-container">
               <div className="row flex-row-space">
                 {Object.keys(config)
@@ -90,8 +91,8 @@ export default function ConfigVarForm() {
                         <p>{configNames[key]}</p>
                       </div>
                       <div className="col-7 col-sm-6">
-                        <Form.Group>
-                          <Form.Control
+                        <div>
+                          <Input
                             name={key}
                             type="text"
                             placeholder={defaultVals[key]}
@@ -103,10 +104,8 @@ export default function ConfigVarForm() {
                             disabled={isSubmitting}
                             autoComplete="off"
                           />
-                          <Form.Control.Feedback type="invalid">
-                            {errors[key]}
-                          </Form.Control.Feedback>
-                        </Form.Group>
+                          <div className="invalid-feedback">{errors[key]}</div>
+                        </div>
                       </div>
                     </Fragment>
                   ))}
@@ -114,15 +113,19 @@ export default function ConfigVarForm() {
             </div>
 
             <div className="d-flex flex-col-space justify-content-center">
-              <Button disabled={isSubmitting} type="submit">
+              <button
+                className="btn btn-primary"
+                disabled={isSubmitting}
+                type="submit"
+              >
                 Save
-              </Button>
+              </button>
             </div>
-          </Form>
+          </form>
         )}
       </Formik>
 
-      <Toast
+      <LazyToast
         bg="success"
         className="notification"
         show={success}
@@ -130,8 +133,10 @@ export default function ConfigVarForm() {
         delay={4000}
         autohide
       >
-        <Toast.Body>Config variables modified successfully!</Toast.Body>
-      </Toast>
+        <div className="toast-body">
+          Config variables modified successfully!
+        </div>
+      </LazyToast>
     </>
   );
 }

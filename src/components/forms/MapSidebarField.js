@@ -1,7 +1,7 @@
 "use client";
 import { FormikContext } from "@/contexts";
 import { useContext } from "react";
-import { Form } from "react-bootstrap";
+import Input from "./bootstrap/Input";
 
 export default function MapSidebarField({
   title,
@@ -35,8 +35,8 @@ export default function MapSidebarField({
         {children && !appendChildren ? (
           children
         ) : (
-          <Form.Group>
-            <Form.Control
+          <div>
+            <Input
               name={name}
               type={type || "text"}
               placeholder={placeholder || ""}
@@ -55,12 +55,10 @@ export default function MapSidebarField({
               autoComplete="off"
             />
             {invalidFeedback && (
-              <Form.Control.Feedback type="invalid">
-                {errors[name]}
-              </Form.Control.Feedback>
+              <div className="invalid-feedback">{errors[name]}</div>
             )}
             {appendChildren && children}
-          </Form.Group>
+          </div>
         )}
       </div>
     </>

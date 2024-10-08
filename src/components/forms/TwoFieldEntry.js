@@ -1,7 +1,8 @@
 "use client";
+import stylesFrmMap from "./MapForm.module.css";
 import { FormikContext } from "@/contexts";
 import { Fragment, useContext } from "react";
-import { Button, Form } from "react-bootstrap";
+import Input from "./bootstrap/Input";
 
 export default function TwoFieldEntry({
   name,
@@ -37,11 +38,11 @@ export default function TwoFieldEntry({
     return (
       <Fragment key={count || -1}>
         <div className="col-12 col-md-5 col-lg-6">
-          <Form.Group>
+          <div>
             {labels && labels.length > 0 && (
-              <Form.Label>{labels[0]}</Form.Label>
+              <label className="form-label">{labels[0]}</label>
             )}
-            <Form.Control
+            <Input
               name={realField1}
               type="text"
               value={value1}
@@ -53,18 +54,16 @@ export default function TwoFieldEntry({
               autoComplete="off"
               {...firstProps}
             />
-            <Form.Control.Feedback type="invalid">
-              {errors[realField1]}
-            </Form.Control.Feedback>
-          </Form.Group>
+            <div className="invalid-feedback">{errors[realField1]}</div>
+          </div>
         </div>
         <div className="col-9 col-md-5 col-lg-5">
           {!(omitFirstOptional && i === 0) && (
-            <Form.Group>
+            <div>
               {labels && labels.length > 1 && (
-                <Form.Label>{labels[1]}</Form.Label>
+                <label className="form-label">{labels[1]}</label>
               )}
-              <Form.Control
+              <Input
                 name={realField2}
                 type="text"
                 value={value2}
@@ -76,19 +75,17 @@ export default function TwoFieldEntry({
                 autoComplete="off"
                 {...secondProps}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors[realField2]}
-              </Form.Control.Feedback>
-            </Form.Group>
+              <input className="invalid-feedback">{errors[realField2]}</input>
+            </div>
           )}
         </div>
 
         <div className="col-3 col-md-2 col-lg-1 flex-hcenter">
           {(optional || i > 0) && (
             <div className="d-flex flex-column w-100">
-              <Button
-                className="map-form-rm-field"
-                variant="danger"
+              <button
+                type="button"
+                className={`btn btn-danger ${stylesFrmMap.map_form_rm_field}`}
                 onClick={(_e) =>
                   setValues({
                     ...values,
@@ -97,7 +94,7 @@ export default function TwoFieldEntry({
                 }
               >
                 <i className="bi bi-dash" />
-              </Button>
+              </button>
             </div>
           )}
         </div>

@@ -1,3 +1,4 @@
+import stylesMap from "./Btd6Map.module.css";
 import { btd6Font } from "@/lib/fonts";
 import UserEntry from "../users/UserEntry";
 import RowMedals from "./RowMedals";
@@ -9,16 +10,16 @@ export default function FullCompletionInfoRow({ completion }) {
   return (
     <div className="panel my-2 py-2">
       <div className="row gx-0 gy-2 text-start">
-        <div className="col-12 col-md-6 btd6mapRow">
+        <div className={`col-12 col-md-6 ${stylesMap.btd6map_row}`}>
           <Link
             href={`/map/${completion.map.code}`}
-            className="btd6map-clickable"
+            className={stylesMap.btd6map_clickable}
             scroll={false}
           >
             <div className="d-flex align-self-center">
               <img
                 loading="lazy"
-                className="btd6mapImage"
+                className={stylesMap.btd6map_image}
                 src={completion.map.map_preview_url}
               />
               <div className="d-flex flex-column justify-content-center">
@@ -55,8 +56,10 @@ export function FullCompletionInfoRow_Plc() {
     <div className="panel my-2 py-2">
       <div className="row gx-0 gy-2 text-start">
         <div className="col-12 col-md-6">
-          <div className="d-flex align-self-center btd6mapRow">
-            <div className="btd6mapImage empty flex-vcenter" />
+          <div className={`d-flex align-self-center ${stylesMap.btd6map_row}`}>
+            <div
+              className={`${stylesMap.btd6map_image} ${stylesMap.empty} flex-vcenter`}
+            />
             <div className="d-flex flex-column justify-content-center">
               <p className={`mb-0 ps-3 ${btd6Font.className} font-border fs-5`}>
                 Loading...

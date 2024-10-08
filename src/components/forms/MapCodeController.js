@@ -1,9 +1,10 @@
 "use client";
+import stylesFrmMap from "./MapForm.module.css";
 import { FormikContext } from "@/contexts";
 import { getMap } from "@/server/maplistRequests.client";
 import { getCustomMap } from "@/server/ninjakiwiRequests";
 import { useContext, useEffect } from "react";
-import { Form } from "react-bootstrap";
+import Input from "./bootstrap/Input";
 
 export const codeRegex =
   /^(?:https:\/\/join\.btd6\.com\/Map\/|https:\/\/data\.ninjakiwi\.com\/btd6\/maps\/map\/)?([(A-Za-z]{7})$/;
@@ -54,9 +55,9 @@ export default function MapCodeController({
 
   return (
     <>
-      <Form.Group className="mapcode-input">
-        {!noLabels && <Form.Label>Map Code</Form.Label>}
-        <Form.Control
+      <div className={stylesFrmMap.mapcode_input}>
+        {!noLabels && <label className="form-label">Map Code</label>}
+        <Input
           name={name}
           type="text"
           placeholder="ZFMOOKU"
@@ -72,10 +73,8 @@ export default function MapCodeController({
           disabled={isSubmitting || disableInputs}
           autoComplete="off"
         />
-        <Form.Control.Feedback type="invalid">
-          {errors[name]}
-        </Form.Control.Feedback>
-      </Form.Group>
+        <div className="invalid-feedback">{errors[name]}</div>
+      </div>
 
       {!noLabels && (
         <p className="muted text-center">

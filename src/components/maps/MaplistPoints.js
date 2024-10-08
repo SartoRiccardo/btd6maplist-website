@@ -1,4 +1,5 @@
 "use client";
+import stylesComp from "./MaplistCompletions.module.css";
 import { useMaplistConfig } from "@/utils/hooks";
 import { calcMapPoints } from "@/utils/maplistUtils";
 
@@ -53,7 +54,7 @@ export default function MaplistPoints({
     <div className={`d-flex ${className ? className : ""}`}>
       {icon}
 
-      <div className={"pointsLabelContainer"}>
+      <div className={stylesComp.points_label_container}>
         <p className="fs-5">+{gainedPoints}pt</p>
       </div>
     </div>

@@ -1,4 +1,4 @@
-.difficultyContainer {
+.difficulty_container {
   background-color: var(--color-secondary);
   margin: 0.2rem 0;
   padding: 0.5rem 1rem;
@@ -7,11 +7,11 @@
   align-items: stretch;
 }
 
-.difficultyContainer > * {
+.difficulty_container > * {
   display: inline-block;
 }
 
-.difficultyLabel {
+.difficulty_label {
   font-size: 1.7rem;
   margin-left: 1rem;
   margin-bottom: 0.5rem;

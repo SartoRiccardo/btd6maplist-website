@@ -1,4 +1,5 @@
 "use client";
+import stylesMapP from "./MapPlacements.module.css";
 import {
   calcMapPoints,
   difficulties,
@@ -49,7 +50,7 @@ export default function MapPlacements({ mapData }) {
 function DifficultyPanel({ image, shortLabel, label }) {
   return (
     <div className="col-auto">
-      <div className={`difficultyContainer shadow`}>
+      <div className={`${stylesMapP.difficulty_container} shadow`}>
         <div>
           <SelectorButton text={shortLabel} active>
             <img src={image} width={75} height={75} />
@@ -57,7 +58,11 @@ function DifficultyPanel({ image, shortLabel, label }) {
         </div>
 
         <div className="d-flex flex-column justify-content-center">
-          <p className={`${titleFont.className} difficultyLabel`}>{label}</p>
+          <p
+            className={`${titleFont.className} ${stylesMapP.difficulty_label}`}
+          >
+            {label}
+          </p>
         </div>
       </div>
     </div>

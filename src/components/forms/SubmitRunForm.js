@@ -1,7 +1,7 @@
 "use client";
+import stylesMedals from "../maps/Medals.module.css";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Button, Fade, Form } from "react-bootstrap";
 import {
   useAuthLevels,
   useDiscordToken,
@@ -14,7 +14,9 @@ import { submitRun } from "@/server/maplistRequests.client";
 import Link from "next/link";
 import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
+import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
+import LazyFade from "../transitions/LazyFade";
 
 const MAX_TEXT_LEN = 500;
 
@@ -133,7 +135,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
             value={{ ...formikProps, disableInputs, requiresVideoProof }}
             key={0}
           >
-            <Form
+            <form
               onSubmit={(evt) => {
                 setShowErrorCount(true);
                 handleSubmit(evt);
@@ -188,12 +190,13 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
               {!success && (
                 <>
                   <div className="flex-hcenter flex-col-space mt-5">
-                    <Button
+                    <button
+                      className="btn btn-primary"
                       type="submit"
                       disabled={isSubmitting || disableInputs}
                     >
                       Submit
-                    </Button>
+                    </button>
                   </div>
 
                   {showErrorCount && errorCount > 0 && (
@@ -203,7 +206,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                   )}
                 </>
               )}
-            </Form>
+            </form>
 
             <ErrorToast />
           </FormikContext.Provider>
@@ -215,17 +218,21 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   return (
     <>
       <div className="flex-hcenter">
-        <Button onClick={() => setOpenRules(!openRules)} className="fs-6">
+        <button
+          type="button"
+          onClick={() => setOpenRules(!openRules)}
+          className="btn btn-primary fs-6"
+        >
           Run Submission Rules
-        </Button>
+        </button>
       </div>
 
-      <Fade in={openRules} mountOnEnter={true} unmountOnExit={true}>
+      <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
         <div>
           <br />
           <RunSubmissionRules on={formats.includes(3) ? "experts" : "list"} />
         </div>
-      </Fade>
+      </LazyFade>
 
       {form}
     </>
@@ -253,7 +260,8 @@ function SidebarForm({ formats }) {
         <div className="d-flex w-100 justify-content-between mt-3">
           <p className=" align-self-center">Format</p>
           <div className="align-self-end">
-            <Form.Select
+            <select
+              className="form-select"
               name="format"
               value={values.proposed}
               onChange={handleChange}
@@ -264,16 +272,16 @@ function SidebarForm({ formats }) {
                   {name}
                 </option>
               ))}
-            </Form.Select>
+            </select>
           </div>
         </div>
       )}
 
-      <Form.Group>
-        <Form.Label>Notes</Form.Label>
-        <Form.Control
+      <div>
+        <label className="form-label">Notes</label>
+        <Input
           name="notes"
-          as="textarea"
+          type="textarea"
           rows={3}
           placeholder="Anything particular you want to say about your run, if any."
           value={values.notes}
@@ -283,56 +291,68 @@ function SidebarForm({ formats }) {
           disabled={disableInputs}
           autoComplete="off"
         />
-        <Form.Control.Feedback type="invalid">
-          {errors.notes}
-        </Form.Control.Feedback>
-      </Form.Group>
+        <div className="invalid-feedback">{errors.notes}</div>
+      </div>
 
       <h3 className="text-center mt-2">Run Properties</h3>
-      <Form.Check
-        type="checkbox"
-        className="medal-check"
-        name="black_border"
-        onChange={handleChange}
-        value={values.black_border}
-        label={
+      <div className={`${stylesMedals.medal_check} form-check`}>
+        <Input
+          type="checkbox"
+          name="black_border"
+          onChange={handleChange}
+          value={values.black_border}
+        />
+        <label className="form-check-label">
           <span>
-            <img src="/medals/medal_bb.webp" className="inline-medal" />
+            <img
+              src="/medals/medal_bb.webp"
+              className={stylesMedals.inline_medal}
+            />
             &nbsp; Black Border
           </span>
-        }
-      />
-      <Form.Check
-        type="checkbox"
-        className="medal-check my-2"
-        name="no_geraldo"
-        onChange={handleChange}
-        value={values.no_geraldo}
-        label={
+        </label>
+      </div>
+
+      <div className={`${stylesMedals.medal_check} form-check my-2`}>
+        <Input
+          type="checkbox"
+          name="no_geraldo"
+          onChange={handleChange}
+          value={values.no_geraldo}
+        />
+        <label className="form-check-label">
           <span>
-            <img src="/medals/medal_nogerry.webp" className="inline-medal" />
+            <img
+              src="/medals/medal_nogerry.webp"
+              className={stylesMedals.inline_medal}
+            />
             &nbsp; No Optimal Hero
           </span>
-        }
-      />
-      <Form.Check
-        type="checkbox"
-        className="medal-check"
-        name="current_lcc"
-        onChange={handleChange}
-        value={values.current_lcc}
-        label={
+        </label>
+      </div>
+
+      <div className={`${stylesMedals.medal_check} form-check`}>
+        <Input
+          type="checkbox"
+          name="current_lcc"
+          onChange={handleChange}
+          value={values.current_lcc}
+        />
+        <label className="form-check-label">
           <span>
-            <img src="/medals/medal_lcc.webp" className="inline-medal" />
+            <img
+              src="/medals/medal_lcc.webp"
+              className={stylesMedals.inline_medal}
+            />
             &nbsp; Least Cash CHIMPS
           </span>
-        }
-      />
+        </label>
+      </div>
 
       {requiresVideoProof(values) && (
-        <Form.Group className="mt-2">
-          <Form.Label>Video Proof URL</Form.Label>
-          <Form.Control
+        <div className="mt-2">
+          <label className="form-label">Video Proof URL</label>
+          <Input
             type="text"
             name="video_proof_url"
             value={values.video_proof_url}
@@ -340,20 +360,18 @@ function SidebarForm({ formats }) {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          <Form.Control.Feedback type="invalid">
-            {errors.video_proof_url}
-          </Form.Control.Feedback>
+          <div className="invalid-feedback">{errors.video_proof_url}</div>
           <p className="muted">
             Only <u>one</u> URL can go here. If you have multiple, put the rest
             in the Notes field.
           </p>
-        </Form.Group>
+        </div>
       )}
 
       {values.current_lcc && (
-        <Form.Group className="mt-2">
-          <Form.Label>LCC Saveup</Form.Label>
-          <Form.Control
+        <div className="mt-2">
+          <label className="form-label">LCC Saveup</label>
+          <Input
             type="number"
             name="leftover"
             value={values.leftover}
@@ -361,10 +379,8 @@ function SidebarForm({ formats }) {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          <Form.Control.Feedback type="invalid">
-            {errors.leftover}
-          </Form.Control.Feedback>
-        </Form.Group>
+          <div className="invalid-feedback">{errors.leftover}</div>
+        </div>
       )}
     </div>
   );

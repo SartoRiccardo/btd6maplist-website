@@ -1,7 +1,6 @@
 "use client";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Button, Fade, Form } from "react-bootstrap";
 import { useDiscordToken } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import MapCodeController, { codeRegex } from "./MapCodeController";
@@ -12,8 +11,11 @@ import { submitMap } from "@/server/maplistRequests.client";
 import MustBeInDiscord from "../utils/MustBeInDiscord";
 import { MapSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
+import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
 import { revalidateMapSubmissions } from "@/server/revalidations";
+import Select from "./bootstrap/Select";
+import LazyFade from "../transitions/LazyFade";
 
 const MAX_TEXT_LEN = 500;
 
@@ -96,7 +98,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
             value={{ ...formikProps, disableInputs }}
             key={0}
           >
-            <Form
+            <form
               onSubmit={(evt) => {
                 setShowErrorCount(true);
                 handleSubmit(evt);
@@ -132,20 +134,21 @@ export default function SubmitMapForm({ onSubmit, type }) {
               <MustBeInDiscord />
 
               <div className="flex-hcenter">
-                <Button
+                <button
+                  type="button"
                   onClick={() => setOpenRules(!openRules)}
-                  className="fs-6"
+                  className="btn btn-primary fs-6"
                 >
                   Map Submission Rules
-                </Button>
+                </button>
               </div>
 
-              <Fade in={openRules} mountOnEnter={true} unmountOnExit={true}>
+              <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
                 <div>
                   <br />
                   <MapSubmissionRules on={type} />
                 </div>
-              </Fade>
+              </LazyFade>
 
               {currentMap && currentMap.valid && (
                 <>
@@ -174,12 +177,13 @@ export default function SubmitMapForm({ onSubmit, type }) {
                   {!success && (
                     <>
                       <div className="flex-hcenter flex-col-space mt-5">
-                        <Button
+                        <button
+                          className="btn btn-primary"
                           type="submit"
                           disabled={isSubmitting || disableInputs}
                         >
                           Submit
-                        </Button>
+                        </button>
                       </div>
 
                       {showErrorCount && errorCount > 0 && (
@@ -191,7 +195,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
                   )}
                 </>
               )}
-            </Form>
+            </form>
 
             <ErrorToast />
           </FormikContext.Provider>
@@ -215,11 +219,11 @@ function SidebarForm({ type }) {
 
   return (
     <div className="my-2">
-      <Form.Group>
-        <Form.Label>Notes</Form.Label>
-        <Form.Control
+      <div>
+        <label className="form-label">Notes</label>
+        <Input
           name="notes"
-          as="textarea"
+          type="textarea"
           rows={3}
           placeholder="Small description of the map, additional credits, etc..."
           value={values.notes}
@@ -229,15 +233,13 @@ function SidebarForm({ type }) {
           disabled={disableInputs}
           autoComplete="off"
         />
-        <Form.Control.Feedback type="invalid">
-          {errors.notes}
-        </Form.Control.Feedback>
-      </Form.Group>
+        <div className="invalid-feedback">{errors.notes}</div>
+      </div>
 
       <div className="d-flex w-100 justify-content-between mt-3">
         <p className="my-0 align-self-center">Submit to</p>
         <div className="align-self-end">
-          <Form.Select
+          <Select
             name="type"
             value={values.type}
             onChange={handleChange}
@@ -245,7 +247,7 @@ function SidebarForm({ type }) {
           >
             <option value="list">The Maplist</option>
             <option value="experts">Expert List</option>
-          </Form.Select>
+          </Select>
         </div>
       </div>
 
@@ -255,7 +257,8 @@ function SidebarForm({ type }) {
           {values.type === "list" ? "List Position" : "Expert Difficulty"}
         </p>
         <div className="align-self-end">
-          <Form.Select
+          <select
+            className="form-select"
             name="proposed"
             value={values.proposed}
             onChange={handleChange}
@@ -281,7 +284,7 @@ function SidebarForm({ type }) {
                 <option value="6">True Expert</option>
               </>
             )}
-          </Form.Select>
+          </select>
         </div>
       </div>
 

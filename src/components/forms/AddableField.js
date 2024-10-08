@@ -1,7 +1,6 @@
 "use client";
 import { FormikContext } from "@/contexts";
 import { useContext, useState } from "react";
-import { Button } from "react-bootstrap";
 
 export default function AddableField({
   name,
@@ -19,8 +18,9 @@ export default function AddableField({
       {children}
 
       <div className="flex-hcenter mt-3">
-        <Button
-          variant="success"
+        <button
+          type="button"
+          className="btn btn-success"
           disabled={disabled}
           onClick={(_e) => {
             setValues({
@@ -31,7 +31,7 @@ export default function AddableField({
           }}
         >
           <i className="bi bi-plus-lg" />
-        </Button>
+        </button>
       </div>
     </>
   );

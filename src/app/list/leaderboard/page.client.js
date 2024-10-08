@@ -1,23 +1,22 @@
 "use client";
 import { useState } from "react";
 import PointCalcFormula from "@/components/layout/maplists/PointCalcFormula";
-import Fade from "react-bootstrap/Fade";
-import Button from "react-bootstrap/Button";
+import LazyFade from "@/components/transitions/LazyFade";
 
 export function PointCalcFade() {
   const [show, setShow] = useState(false);
   return (
     <div className="d-flex flex-column align-items-center">
-      <Button className="fs-6" onClick={() => setShow(!show)}>
+      <button className="btn btn-primary fs-6" onClick={() => setShow(!show)}>
         How are points calculated?
-      </Button>
+      </button>
 
-      <Fade in={show} mountOnEnter={true} unmountOnExit={true}>
+      <LazyFade in={show} mountOnEnter={true} unmountOnExit={true}>
         <div>
           <br />
           <PointCalcFormula />
         </div>
-      </Fade>
+      </LazyFade>
     </div>
   );
 }

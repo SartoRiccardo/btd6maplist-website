@@ -3,7 +3,7 @@ import { useAuthLevels } from "@/utils/hooks";
 import stylesNav from "./navbar.module.css";
 import styles from "./navbar.module.css";
 import Link from "next/link";
-import { Collapse } from "react-bootstrap";
+import LazyCollapse from "@/components/transitions/LazyCollapse";
 
 export default function ProtectedLinks({
   onNavigate,
@@ -54,14 +54,16 @@ export default function ProtectedLinks({
         <li>
           <a href="#" onClick={toggleSubmenu(100, openSubmenus.includes(100))}>
             <i
-              className={`bi bi-caret-${
-                openSubmenus.includes(100) ? "down" : "right"
-              }-fill`}
+              className={`bi ${
+                openSubmenus.includes(100)
+                  ? "bi-caret-down-fill"
+                  : "bi-caret-right-fill"
+              }`}
             />
-            &nbsp; Admin
+            &nbsp;Admin
           </a>
 
-          <Collapse in={openSubmenus.includes(100)}>
+          <LazyCollapse in={openSubmenus.includes(100)}>
             <div>
               <ul className={`${styles.submenu} ${styles.mobile}`}>
                 <LinkItem
@@ -86,7 +88,7 @@ export default function ProtectedLinks({
                 />
               </ul>
             </div>
-          </Collapse>
+          </LazyCollapse>
         </li>
       )}
     </>

@@ -1,0 +1,24 @@
+.medal_check {
+  display: flex;
+  column-gap: 0.7rem;
+}
+
+.medal_check input {
+  align-self: center;
+}
+
+.inline_medal {
+  width: 2rem;
+  height: 2rem;
+}
+
+.comp_blocked {
+  -webkit-filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white);
+  filter: brightness(0%) drop-shadow(1px 1px 0 white)
+    drop-shadow(-1px -1px 0 white);
+}
+
+.medals_container {
+  display: flex;
+  column-gap: 0.5rem;
+}

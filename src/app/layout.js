@@ -1,4 +1,6 @@
-import "./globalcss";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { titleFont, pFont, btd6Font } from "@/lib/fonts";

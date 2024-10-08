@@ -1,4 +1,5 @@
 "use client";
+import stylesComp from "../maps/MaplistCompletions.module.css";
 import { useState } from "react";
 import ZoomedImage from "../utils/ZoomedImage";
 
@@ -9,7 +10,7 @@ export default function BtnShowCompletion({ src }) {
     <>
       <p className="text-center mb-0">
         <span
-          className="completion-link align-self-center no-underline"
+          className={`${stylesComp.completion_link} align-self-center no-underline`}
           onClick={() => setShow(true)}
         >
           <i className="bi bi-search" />

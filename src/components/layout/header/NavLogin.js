@@ -5,9 +5,9 @@ import Link from "next/link";
 import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
 import { useState } from "react";
-import Collapse from "react-bootstrap/Collapse";
 import { useDiscordToken } from "@/utils/hooks";
 import { usePathname } from "next/navigation";
+import LazyCollapse from "@/components/transitions/LazyCollapse";
 
 const discOAuth2Params = {
   client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
@@ -79,7 +79,7 @@ export default function NavLogin({ onNavigate }) {
         </a>
 
         {maplistProfile && (
-          <Collapse in={mobileSubmenuOpen}>
+          <LazyCollapse in={mobileSubmenuOpen}>
             <div>
               <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
                 <li>
@@ -98,7 +98,7 @@ export default function NavLogin({ onNavigate }) {
                 </li>
               </ul>
             </div>
-          </Collapse>
+          </LazyCollapse>
         )}
       </li>
     </>

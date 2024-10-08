@@ -1,4 +1,6 @@
 "use client";
+import LazyFade from "@/components/transitions/LazyFade";
+import stylesLoader from "../../../components/utils/Loader.module.css";
 import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry_C from "@/components/users/UserEntry.client";
 import ZoomedImage from "@/components/utils/ZoomedImage";
@@ -10,7 +12,6 @@ import { groupCompsByUser } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button, Fade } from "react-bootstrap";
 
 // https://stackoverflow.com/a/37704433/13033269
 const youtubeRe =
@@ -43,7 +44,7 @@ export function LoggedUserRun({ mapData }) {
   return maplistProfile ? (
     completions === null ? (
       <div className="flex-hcenter mb-4">
-        <div className="loader" />
+        <div className={stylesLoader.loader} />
       </div>
     ) : completions.length ? (
       keyOrder.map((key) => (
@@ -82,7 +83,7 @@ export function AdminRunOptions({ code }) {
     <>
       <div className="flex-hcenter mb-4">
         <Link href={`/map/${code}/completions/new`}>
-          <Button>Insert a Run</Button>
+          <button className="btn btn-primary">Insert a Run</button>
         </Link>
       </div>
     </>
@@ -94,7 +95,7 @@ export function SubmitRunButton({ code }) {
 
   return (
     <Link href={`/map/${code}/submit`} prefetch={!!token}>
-      <Button className="active">Submit a Run</Button>
+      <button className="btn btn-primary active">Submit a Run</button>
     </Link>
   );
 }
@@ -134,12 +135,16 @@ export function Round6Start({ r6Start }) {
   return dropComponent ? (
     <>
       <h3 className="c-pointer mb-1" onClick={() => setOpen(!open)}>
-        <i className={`bi bi-caret-${open ? "down" : "right"}-fill me-2`} />
+        <i
+          className={`bi ${
+            open ? "bi-caret-down-fill" : "bi-caret-right-fill"
+          } me-2`}
+        />
         Round 6 Start
       </h3>
-      <Fade in={open} mountOnEnter={true} unmountOnExit={true}>
+      <LazyFade in={open} mountOnEnter={true} unmountOnExit={true}>
         <div>{dropComponent}</div>
-      </Fade>
+      </LazyFade>
     </>
   ) : (
     <a href={r6Start} target="_blank">

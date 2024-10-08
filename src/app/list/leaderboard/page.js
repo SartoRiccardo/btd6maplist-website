@@ -5,7 +5,6 @@ import Link from "next/link";
 import { getPositionColor } from "@/utils/functions";
 import { listVersions } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
-import { Button } from "react-bootstrap";
 import PaginateElement from "@/components/buttons/PaginateElement";
 import Image from "next/image";
 import PointCalcFormula from "@/components/layout/maplists/PointCalcFormula";
@@ -63,9 +62,9 @@ export default async function ListLeaderboard({ searchParams }) {
         {leaderboards.map(({ key, title }) => {
           const isActive = key === value;
           return isActive ? (
-            <Button className={isActive ? "active" : ""} key={key}>
+            <button className="btn btn-primary active" key={key}>
               {title}
-            </Button>
+            </button>
           ) : (
             <Link
               key={key}
@@ -78,7 +77,7 @@ export default async function ListLeaderboard({ searchParams }) {
                 key === value ? styles.lbValueActive : ""
               } font-border`}
             >
-              <Button className={isActive ? "active" : ""}>{title}</Button>
+              <button className="btn btn-primary">{title}</button>
             </Link>
           );
         })}
