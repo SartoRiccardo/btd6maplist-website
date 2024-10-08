@@ -1,5 +1,4 @@
 "use client";
-import dynamic from "next/dynamic";
 import cssDangerZone from "./DangerZone.module.css";
 import { FormikContext } from "@/contexts";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
@@ -12,9 +11,7 @@ import Link from "next/link";
 import { transferCompletions } from "@/server/maplistRequests.client";
 import ErrorToast from "./ErrorToast";
 import { revalidateMap } from "@/server/revalidations";
-const LazyModal = dynamic(() => import("../transitions/LazyModal"), {
-  ssr: false,
-});
+import LazyModal from "../transitions/LazyModal";
 
 const defaultValues = {
   code: "",

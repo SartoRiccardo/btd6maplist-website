@@ -1,5 +1,4 @@
 "use client";
-import dynamic from "next/dynamic";
 import { titleFont } from "@/lib/fonts";
 import styles from "./navbar.module.css";
 import { useState } from "react";

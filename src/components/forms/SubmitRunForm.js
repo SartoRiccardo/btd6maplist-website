@@ -1,5 +1,4 @@
 "use client";
-import dynamic from "next/dynamic";
 import stylesMedals from "../maps/Medals.module.css";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
@@ -17,9 +16,7 @@ import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
-const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
-  ssr: false,
-});
+import LazyFade from "../transitions/LazyFade";
 
 const MAX_TEXT_LEN = 500;
 

@@ -1,5 +1,4 @@
 "use client";
-import dynamic from "next/dynamic";
 import styles from "./navlogin.module.css";
 import stylesNav from "./navbar.module.css";
 import Link from "next/link";
@@ -8,10 +7,7 @@ import { useAppSelector } from "@/lib/store";
 import { useState } from "react";
 import { useDiscordToken } from "@/utils/hooks";
 import { usePathname } from "next/navigation";
-const LazyCollapse = dynamic(
-  () => import("@/components/transitions/LazyCollapse"),
-  { ssr: false }
-);
+import LazyCollapse from "@/components/transitions/LazyCollapse";
 
 const discOAuth2Params = {
   client_id: process.env.NEXT_PUBLIC_CLIENT_ID,

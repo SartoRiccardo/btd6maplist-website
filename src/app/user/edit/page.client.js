@@ -1,5 +1,4 @@
 "use client";
-import dynamic from "next/dynamic";
 import {
   selectMaplistProfile,
   setBtd6Profile,
@@ -16,10 +15,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDiscordToken } from "@/utils/hooks";
 import Input from "@/components/forms/bootstrap/Input";
-const LazyCollapse = dynamic(
-  () => import("@/components/transitions/LazyCollapse"),
-  { ssr: false }
-);
+import LazyCollapse from "@/components/transitions/LazyCollapse";
 
 const MAX_NAME_LEN = 100;
 

@@ -1,13 +1,9 @@
 "use client";
-import dynamic from "next/dynamic";
 import { useAuthLevels } from "@/utils/hooks";
 import stylesNav from "./navbar.module.css";
 import styles from "./navbar.module.css";
 import Link from "next/link";
-const LazyCollapse = dynamic(
-  () => import("@/components/transitions/LazyCollapse"),
-  { ssr: false }
-);
+import LazyCollapse from "@/components/transitions/LazyCollapse";
 
 export default function ProtectedLinks({
   onNavigate,

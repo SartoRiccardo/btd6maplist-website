@@ -1,10 +1,7 @@
 "use client";
-import dynamic from "next/dynamic";
 import { useState } from "react";
 import { MapSubmissionRules, RunSubmissionRules } from "./MaplistRules";
-const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
-  ssr: false,
-});
+import LazyFade from "@/components/transitions/LazyFade";
 
 export default function SubmissionRules({ on }) {
   const [openRules, setOpenRules] = useState(-1);

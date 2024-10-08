@@ -1,10 +1,7 @@
 "use client";
 import { useState } from "react";
 import PointCalcFormula from "@/components/layout/maplists/PointCalcFormula";
-import dynamic from "next/dynamic";
-const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
-  ssr: false,
-});
+import LazyFade from "@/components/transitions/LazyFade";
 
 export function PointCalcFade() {
   const [show, setShow] = useState(false);

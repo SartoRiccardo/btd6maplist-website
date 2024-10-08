@@ -1,5 +1,4 @@
 "use client";
-import dynamic from "next/dynamic";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
 import { useDiscordToken } from "@/utils/hooks";
@@ -16,9 +15,7 @@ import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
 import { revalidateMapSubmissions } from "@/server/revalidations";
 import Select from "./bootstrap/Select";
-const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
-  ssr: false,
-});
+import LazyFade from "../transitions/LazyFade";
 
 const MAX_TEXT_LEN = 500;
 

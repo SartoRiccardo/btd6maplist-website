@@ -1,5 +1,5 @@
 "use client";
-import dynamic from "next/dynamic";
+import LazyFade from "@/components/transitions/LazyFade";
 import stylesLoader from "../../../components/utils/Loader.module.css";
 import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry_C from "@/components/users/UserEntry.client";
@@ -12,9 +12,6 @@ import { groupCompsByUser } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-const LazyFade = dynamic(() => import("@/components/transitions/LazyFade"), {
-  ssr: false,
-});
 
 // https://stackoverflow.com/a/37704433/13033269
 const youtubeRe =
