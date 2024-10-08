@@ -14,7 +14,7 @@
   position: absolute;
   right: 0;
   opacity: 0;
-  top: -10rem;
+  top: -100rem;
   transition: opacity 0.1s linear;
 
   z-index: 999;

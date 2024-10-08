@@ -2,6 +2,7 @@ import { getMap } from "@/server/maplistRequests";
 import { mapDataToFormik } from "@/utils/maplistUtils";
 import MapForm from "@/components/forms/MapForm";
 import ResourceNotFound from "@/components/layout/ResourceNotFound";
+import FormTransferCompletion from "@/components/forms/FormTransferCompletions";
 
 export const metadata = {
   title: "Edit Map | BTD6 Maplist",
@@ -14,6 +15,7 @@ export default async function AddMap({ params }) {
   if (!mapData) return <ResourceNotFound label="map" />;
 
   const initialValues = mapDataToFormik(mapData);
+  const isDeleted = mapData.deleted_on !== null;
 
   return (
     <>
@@ -22,8 +24,10 @@ export default async function AddMap({ params }) {
       <MapForm
         code={code}
         initialValues={initialValues}
-        isDeleted={mapData.deleted_on !== null}
+        isDeleted={isDeleted}
       />
+
+      {isDeleted && <FormTransferCompletion from={mapData.code} />}
     </>
   );
 }

@@ -13,6 +13,8 @@ import MustBeInDiscord from "../utils/MustBeInDiscord";
 import { MapSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
+import { imageFormats } from "@/utils/file-formats";
+import { revalidateMapSubmissions } from "@/server/revalidations";
 
 const MAX_TEXT_LEN = 500;
 
@@ -40,6 +42,13 @@ export default function SubmitMapForm({ onSubmit, type }) {
     if (!values.proof_completion.length)
       errors.proof_completion = "Upload proof of completion";
 
+    const fsize = values.proof_completion?.[0]?.file?.size || 0;
+    if (fsize > 1024 ** 2 * 3)
+      errors.proof_completion = `Can upload maximum 3MB (yours is ${(
+        fsize /
+        1024 ** 2
+      ).toFixed(2)}MB)`;
+
     return errors;
   };
 
@@ -47,7 +56,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
     const code = values.code.match(codeRegex)[1].toUpperCase();
     const payload = {
       code,
-      type,
+      type: values.type,
       notes: values.notes.length ? values.notes : null,
       proposed: parseInt(values.proposed),
       proof_completion: values.proof_completion[0].file,
@@ -59,6 +68,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
       return;
     }
 
+    revalidateMapSubmissions();
     setSuccess(true);
   };
 
@@ -68,6 +78,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
       initialValues={{
         code: "",
         notes: "",
+        type,
         proposed: "0",
         proof_completion: [],
       }}
@@ -195,8 +206,15 @@ export default function SubmitMapForm({ onSubmit, type }) {
 
 function SidebarForm({ type }) {
   const formikProps = useContext(FormikContext);
-  const { handleChange, handleBlur, values, touched, errors, disableInputs } =
-    formikProps;
+  const {
+    handleChange,
+    handleBlur,
+    values,
+    setFieldValue,
+    touched,
+    errors,
+    disableInputs,
+  } = formikProps;
 
   return (
     <div className="my-2">
@@ -218,8 +236,24 @@ function SidebarForm({ type }) {
       </div>
 
       <div className="d-flex w-100 justify-content-between mt-3">
+        <p className="my-0 align-self-center">Submit to</p>
+        <div className="align-self-end">
+          <Form.Select
+            name="type"
+            value={values.type}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          >
+            <option value="list">The Maplist</option>
+            <option value="experts">Expert List</option>
+          </Form.Select>
+        </div>
+      </div>
+
+      <div className="d-flex w-100 justify-content-between mt-3">
         <p className="my-0 align-self-center">
-          Proposed {type === "list" ? "List Position" : "Expert Difficulty"}
+          Proposed{" "}
+          {values.type === "list" ? "List Position" : "Expert Difficulty"}
         </p>
         <div className="align-self-end">
           <select
@@ -229,7 +263,7 @@ function SidebarForm({ type }) {
             onChange={handleChange}
             onBlur={handleBlur}
           >
-            {type === "list" ? (
+            {values.type === "list" ? (
               <>
                 <option value="0">Top 3</option>
                 <option value="1">Top 10</option>
@@ -260,7 +294,7 @@ function SidebarForm({ type }) {
         </p>
         <DragFiles
           name="proof_completion"
-          formats={["jpg", "png", "webp"]}
+          formats={imageFormats}
           limit={1}
           onChange={handleChange}
           value={values.proof_completion}

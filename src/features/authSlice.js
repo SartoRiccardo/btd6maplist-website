@@ -89,6 +89,9 @@ export const selectAuthLevels = createSelector(
     isAdmin:
       maplistProfile &&
       maplistProfile.roles.some((roleId) => adminRoles.includes(roleId)),
+    requiresRecording:
+      maplistProfile &&
+      maplistProfile.roles.includes(process.env.NEXT_PUBLIC_NEEDSREC_ROLES),
   })
 );
 

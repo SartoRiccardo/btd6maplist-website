@@ -180,6 +180,10 @@ export async function editCompletion(token, payload) {
     body.append("proof_completion", payload.lcc.proof_completion);
     delete data.lcc.proof_completion;
   }
+  if (payload?.subm_proof) {
+    body.append("submission_proof", payload.subm_proof);
+    delete data.subm_proof;
+  }
   body.append("data", JSON.stringify(data));
 
   const endpoint = payload.code
@@ -202,6 +206,23 @@ export async function editCompletion(token, payload) {
       return await response.json();
     if (response.status === 413)
       return { errors: { "lcc.proof_file": "File is too large!" } };
+  } catch (exc) {
+    return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
+  }
+}
+
+export async function transferCompletions(token, fromCode, toCode) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/maps/${fromCode}/completions/transfer`,
+      {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ code: toCode }),
+      }
+    );
+    if (response.headers.get("Content-Type")?.includes("application/json"))
+      return await response.json();
   } catch (exc) {
     return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
   }
@@ -230,6 +251,22 @@ export async function insertUser(token, payload) {
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
     });
+    if (response.headers.get("Content-Type")?.includes("application/json"))
+      return await response.json();
+  } catch (exc) {
+    return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
+  }
+}
+
+export async function rejectMapSubmission(token, code) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/maps/submit/${code}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     if (response.headers.get("Content-Type")?.includes("application/json"))
       return await response.json();
   } catch (exc) {

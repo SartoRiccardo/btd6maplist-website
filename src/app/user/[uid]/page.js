@@ -10,6 +10,7 @@ import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
 import { Suspense } from "react";
 import { UserRole, WebsiteCreatorRole } from "./page.client";
+import ProfileMedal from "@/components/users/ProfileMedal";
 
 const btnSize = 50;
 
@@ -32,40 +33,53 @@ export default async function PageUser({ params, searchParams }) {
     requirement({ user: userData })
   );
 
+  const medals = [];
+  for (const mdl of Object.keys(userData.medals))
+    if (userData.medals[mdl] > 0)
+      medals.push(<ProfileMedal medal={mdl} count={userData.medals[mdl]} />);
+
   return (
     <>
-      <div
-        className={`panel d-flex mb-3 py-3 ${styles.profileViewContainer}`}
-        style={{
-          backgroundImage: `url(${
-            userData.bannerURL || initialBtd6Profile.bannerURL
-          })`,
-        }}
-      >
-        <img
-          src={userData.avatarURL || initialBtd6Profile.avatarURL}
-          className={styles.profilePfp}
-        />
-        <div className="ps-3 d-flex flex-column">
-          <h1 className={`${styles.title} font-border`}>
-            {userData.name} <EditProfilePencil userId={userData.id} />
-          </h1>
+      <div className={`panel ${styles.profileContainer}`}>
+        <div
+          className={`d-flex py-3 ${styles.profileBannerContainer}`}
+          style={{
+            backgroundImage: `url(${
+              userData.bannerURL || initialBtd6Profile.bannerURL
+            })`,
+          }}
+        >
+          <img
+            src={userData.avatarURL || initialBtd6Profile.avatarURL}
+            className={styles.profilePfp}
+          />
+          <div className="ps-3 d-flex flex-column">
+            <h1 className={`${styles.title} font-border`}>
+              {userData.name} <EditProfilePencil userId={userData.id} />
+            </h1>
 
-          {(grantedRoles.length > 0 || uid === "1077309729942024302") && (
-            <div className={styles.rolesContainer}>
-              {uid === "1077309729942024302" && <WebsiteCreatorRole />}
-              {grantedRoles.map(({ name, color, borderColor, description }) => (
-                <UserRole
-                  key={name}
-                  name={name}
-                  color={color}
-                  borderColor={borderColor}
-                  description={description}
-                />
-              ))}
-            </div>
-          )}
+            {(grantedRoles.length > 0 || uid === "1077309729942024302") && (
+              <div className={styles.rolesContainer}>
+                {uid === "1077309729942024302" && <WebsiteCreatorRole />}
+                {grantedRoles.map(
+                  ({ name, color, borderColor, description }) => (
+                    <UserRole
+                      key={name}
+                      name={name}
+                      color={color}
+                      borderColor={borderColor}
+                      description={description}
+                    />
+                  )
+                )}
+              </div>
+            )}
+          </div>
         </div>
+
+        {medals.length > 0 && (
+          <div className={styles.medals_container}>{medals}</div>
+        )}
       </div>
 
       <h2 className="text-center">Overview</h2>

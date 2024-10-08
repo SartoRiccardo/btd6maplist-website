@@ -6,6 +6,8 @@ import MaplistPoints from "./MaplistPoints";
 import RowMedals from "./RowMedals";
 import { useAuthLevels } from "@/utils/hooks";
 import Link from "next/link";
+import ZoomedImage from "../utils/ZoomedImage";
+import { useState } from "react";
 
 export default function CompletionColumn({
   completion,
@@ -14,17 +16,25 @@ export default function CompletionColumn({
   onlyIcon,
 }) {
   const authLevels = useAuthLevels();
+  const [shownCompletion, setShownCompletion] = useState(null);
 
   return (
     completion
       // .sort((c1, c2) => c1.format - c2.format)
       .map((compl, i) => {
-        const { id, black_border, no_geraldo, current_lcc, format } = compl;
+        const {
+          id,
+          black_border,
+          no_geraldo,
+          current_lcc,
+          format,
+          subm_proof_img,
+        } = compl;
         const runFormat = allFormats.find(({ value }) => value === format);
         if (!runFormat) return null;
 
         const fmtIcon = (
-          <SelectorButton text={runFormat.short} active>
+          <SelectorButton text={runFormat.short} className="ms-3" active>
             <img src={runFormat.image} width={35} height={35} />
           </SelectorButton>
         );
@@ -44,7 +54,7 @@ export default function CompletionColumn({
                 </div>
               </div>
             </div>
-            <div className={`col-${isAdmin ? "5" : "6"}`}>
+            <div className={`col-5`}>
               <div className="d-flex justify-content-end justify-content-lg-start h-100">
                 <div className="align-self-center">
                   {onlyIcon ? (
@@ -60,7 +70,7 @@ export default function CompletionColumn({
                           <img src={runFormat.image} width={35} height={35} />
                         </SelectorButton>
                       }
-                      className={"ms-3"}
+                      className="ms-3"
                     />
                   ) : (
                     fmtIcon
@@ -68,19 +78,36 @@ export default function CompletionColumn({
                 </div>
               </div>
             </div>
-            {isAdmin && (
-              <div className="col-1 flex-vcenter">
+            <div className="col-1 flex-vcenter">
+              {isAdmin ? (
                 <Link
                   className={`${stylesComp.completion_link} align-self-center no-underline`}
-                  key={id}
                   href={`/completions/${id}`}
                 >
                   <p className="text-center mb-0">
-                    <i className="bi bi-three-dots" />
+                    <i className="bi bi-pencil-fill" />
                   </p>
                 </Link>
-              </div>
-            )}
+              ) : (
+                subm_proof_img && (
+                  <>
+                    <span
+                      className={`${stylesComp.completion_link} align-self-center no-underline`}
+                      onClick={() => setShownCompletion(id)}
+                    >
+                      <p className="text-center mb-0">
+                        <i className="bi bi-search" />
+                      </p>
+                    </span>
+                    <ZoomedImage
+                      show={shownCompletion === id}
+                      onHide={() => setShownCompletion(null)}
+                      src={subm_proof_img}
+                    />
+                  </>
+                )
+              )}
+            </div>
           </div>
         );
       })

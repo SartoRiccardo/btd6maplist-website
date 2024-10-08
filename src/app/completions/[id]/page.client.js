@@ -15,6 +15,7 @@ export default function EditCompletion_C({ completion }) {
   const accessToken = useDiscordToken();
 
   const handleSubmit = async (payload) => {
+    delete payload.subm_proof;
     const resp = await editCompletion(accessToken.access_token, {
       id: completion.id,
       accept: !completion.accepted_by,

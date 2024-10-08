@@ -1,0 +1,5 @@
+.danger_zone {
+  border: 1px solid var(--bs-danger);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}

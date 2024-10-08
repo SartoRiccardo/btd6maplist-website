@@ -41,6 +41,11 @@ export default function ProtectedLinks({
               label="Legacy List"
               onNavigate={onNavigate}
             />
+            <LinkItem
+              href="/map-submissions"
+              label="Map Submissions"
+              onNavigate={onNavigate}
+            />
           </ul>
         </li>
       )}
@@ -74,6 +79,11 @@ export default function ProtectedLinks({
                 <LinkItem
                   href="/list/legacy"
                   label="Legacy List"
+                  onNavigate={onNavigate}
+                />
+                <LinkItem
+                  href="/map-submissions"
+                  label="Map Submissions"
                   onNavigate={onNavigate}
                 />
               </ul>

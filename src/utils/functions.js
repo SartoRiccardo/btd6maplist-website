@@ -53,7 +53,7 @@ export const groupCompsByUser = (completions) => {
   let keyOrder = [];
   for (const run of completions) {
     const key = hashCode(
-      run.users.reduce((agg, uid) => agg + uid, "")
+      run.users.reduce((agg, user) => agg + (user?.id || user), "")
     ).toString();
     if (!keyOrder.includes(key)) {
       keyOrder.push(key);

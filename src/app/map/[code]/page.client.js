@@ -6,6 +6,7 @@ import ZoomedImage from "@/components/utils/ZoomedImage";
 import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
 import { getOwnMapCompletions } from "@/server/maplistRequests.client";
+import { imageFormats } from "@/utils/file-formats";
 import { groupCompsByUser } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
@@ -114,7 +115,7 @@ export function Round6Start({ r6Start }) {
         </div>
       </div>
     );
-  } else if (["jpg", "webp", "png"].some((ext) => r6Start.endsWith(ext))) {
+  } else if (imageFormats.some((ext) => r6Start.endsWith(ext))) {
     dropComponent = (
       <>
         <img

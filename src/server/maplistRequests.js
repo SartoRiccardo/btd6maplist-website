@@ -122,3 +122,12 @@ export async function getRecentCompletions(qparams) {
   if (response.status !== 200) return null;
   return await response.json();
 }
+
+export async function getMapSubmissions(pending, page) {
+  const response = await fetch(
+    `${process.env.API_URL}/maps/submit?pending=${pending}&page=${page}`,
+    { next: { tags: ["map_submissions"], revalidate }, cache }
+  );
+  if (!response.ok) return { total: 0, pages: 0, entries: [] };
+  return await response.json();
+}

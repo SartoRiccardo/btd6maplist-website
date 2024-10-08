@@ -7,6 +7,7 @@ const matcher = [
   "/map/.+?/edit",
   "/completions/.*",
   "/list/legacy",
+  "/map-submissions",
 ];
 
 /**

@@ -5,7 +5,10 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
 import { isFloat, removeFieldCode } from "@/utils/functions";
-import { revalidateMap } from "@/server/revalidations";
+import {
+  revalidateMap,
+  revalidateMapSubmissions,
+} from "@/server/revalidations";
 import { useRouter } from "next/navigation";
 import {
   useAuthLevels,
@@ -22,11 +25,12 @@ import DragFiles from "./DragFiles";
 import ErrorToast from "./ErrorToast";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import Input from "./bootstrap/Input";
+import { imageFormats } from "@/utils/file-formats";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
 const MAX_TEXT_LEN = 100;
-const MAX_ALIAS_LENGTH = 20;
+const MAX_ALIAS_LENGTH = 255;
 
 const randomAliases = ["ouch", "bluddles", "muddles", "ws", "wshop"];
 
@@ -213,7 +217,11 @@ export default function MapForm({
     const fileFields = ["r6_start_file", "map_preview_file"];
     for (const ff of fileFields) {
       const fsize = values[ff]?.[0]?.file?.size || 0;
-      if (fsize > 1024 ** 2 * 3) errors[ff] = "Can upload maximum 2MB";
+      if (fsize > 1024 ** 2 * 3)
+        errors[ff] = `Can upload maximum 3MB (yours is ${(
+          fsize /
+          1024 ** 2
+        ).toFixed(2)}MB)`;
     }
 
     return errors;
@@ -281,6 +289,7 @@ export default function MapForm({
     }
 
     setIsRedirecting(true);
+    if (!isEditing) revalidateMapSubmissions();
     revalidateMap(code).then(() => router.push(`/map/${code}`));
   };
 
@@ -392,7 +401,7 @@ export default function MapForm({
 
                         <DragFiles
                           name="map_preview_file"
-                          formats={["jpg", "png", "webp"]}
+                          formats={imageFormats}
                           limit={1}
                           onChange={handleChange}
                           value={values.map_preview_file}
@@ -478,14 +487,14 @@ export default function MapForm({
                           <div className="px-3">
                             <DragFiles
                               name="r6_start_file"
-                              formats={["jpg", "png", "webp"]}
+                              formats={imageFormats}
                               limit={1}
                               onChange={handleChange}
                               value={values.r6_start_file}
                               className="w-100"
                               showChildren={
                                 !!initialValues?.r6_start &&
-                                ["jpg", "png", "webp"].some((ext) =>
+                                imageFormats.some((ext) =>
                                   initialValues.r6_start.endsWith(ext)
                                 )
                               }

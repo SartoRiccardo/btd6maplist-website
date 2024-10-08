@@ -1,5 +1,6 @@
 .mapcode_input {
   width: 15rem;
+  max-width: 100%;
   margin: 0 auto 0.5rem auto;
 }
 

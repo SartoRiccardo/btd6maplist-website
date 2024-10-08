@@ -86,7 +86,7 @@ export default function DragFiles({
           />
         </div>
       )}
-      {isValid && (
+      {!!isValid && (
         <div className={stylesDrgF.dragfiles_validity}>
           <i className={`bi bi-check-circle-fill ${stylesDrgF.valid}`} />
         </div>

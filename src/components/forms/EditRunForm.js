@@ -14,6 +14,7 @@ import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import Input from "./bootstrap/Input";
 import CheckBox from "./bootstrap/CheckBox";
 import Select from "./bootstrap/Select";
+import { imageFormats } from "@/utils/file-formats";
 
 const defaultValues = {
   black_border: false,
@@ -21,6 +22,8 @@ const defaultValues = {
   user_ids: [{ uid: "", count: -1 }],
   is_lcc: false,
   format: "1",
+  has_no_image: false,
+  subm_proof: [],
   lcc: {
     leftover: "",
     proof_url: "",
@@ -38,6 +41,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
 
   const initialValues = completion
     ? {
+        ...defaultValues,
         black_border: completion.black_border,
         no_geraldo: completion.no_geraldo,
         user_ids: completion.users.map(({ name }, i) => ({
@@ -72,9 +76,22 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
       }
     }
 
-    const fsize = values.lcc.proof_file?.[0]?.file?.size || 0;
-    if (fsize > 1024 ** 2 * 3)
-      errors["lcc.proof_file"] = "Can upload maximum 2MB";
+    if (!completion && !values.has_no_image && !values.subm_proof.length) {
+      errors["subm_proof"] = "Must upload an image";
+    }
+
+    const fileFields = {
+      "lcc.proof_file": values.lcc.proof_file,
+      subm_proof: values.subm_proof,
+    };
+    for (const field of Object.keys(fileFields)) {
+      const fsize = values[field]?.[0]?.file?.size || 0;
+      if (fsize > 1024 ** 2 * 3)
+        errors[field] = `Can upload maximum 3MB (yours is ${(
+          fsize /
+          1024 ** 2
+        ).toFixed(2)}MB)`;
+    }
 
     return errors;
   };
@@ -91,8 +108,10 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
               values.lcc.proof_url || values.lcc.proof_file[0].file,
           }
         : null,
+      subm_proof: values.has_no_image ? null : values.subm_proof?.[0]?.file,
     };
     delete payload.is_lcc;
+    delete payload.has_no_image;
 
     const result = await onSubmit(payload);
     if (result && Object.keys(result.errors).length) {
@@ -136,7 +155,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
             >
               <div className="row">
                 <SubmissionData completion={completion} />
-                <RunProperties />
+                <RunProperties isNew={!completion} />
                 <LCCProperties />
               </div>
 
@@ -218,7 +237,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
   );
 }
 
-function RunProperties() {
+function RunProperties({ isNew }) {
   const formikProps = useContext(FormikContext);
   const {
     handleChange,
@@ -340,6 +359,53 @@ function RunProperties() {
             </div>
           ))}
         </AddableField>
+
+        {isNew && (
+          <>
+            <h3 className="text-center mt-3">Completion Image</h3>
+            <Form.Check
+              type="checkbox"
+              name="has_no_image"
+              onChange={handleChange}
+              value={values.has_no_image}
+              checked={values.has_no_image}
+              disabled={disableInputs}
+              label="This completion doesn't have an image"
+            />
+            {values.has_no_image && (
+              <p className="muted">
+                To guarantee integrity, submission images can't be added or
+                edited after a completion has been submitted or inserted. If you
+                don't add an image now, you won't be able to later.
+              </p>
+            )}
+
+            <DragFiles
+              name="subm_proof"
+              formats={imageFormats}
+              limit={1}
+              onChange={handleChange}
+              value={values.subm_proof}
+              isValid={!("subm_proof" in errors) && values.subm_proof.length}
+              disabled={disableInputs || values.has_no_image}
+              className="w-100 mt-3"
+            >
+              {values.subm_proof.length > 0 && (
+                <div className="d-flex justify-content-center">
+                  <img
+                    style={{ maxWidth: "100%" }}
+                    src={values.subm_proof[0].objectUrl}
+                  />
+                </div>
+              )}
+            </DragFiles>
+            {"subm_proof" in errors && (
+              <p className="text-danger text-center my-1">
+                {errors["subm_proof"]}
+              </p>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
@@ -419,7 +485,7 @@ function LCCProperties() {
 
         <DragFiles
           name="lcc.proof_file"
-          formats={["jpg", "png", "webp"]}
+          formats={imageFormats}
           limit={1}
           onChange={(evt) => {
             setFieldValue("lcc.proof_url", "");

@@ -11,6 +11,7 @@ export async function revalidateLeaderboard() {
 
 export async function revalidateMap(code) {
   revalidatePath(`/map/${code}`);
+  revalidatePath(`/map/${code}/edit`);
   revalidateTag("leaderboard");
   revalidateTag("experts");
   revalidateTag("list");
@@ -26,4 +27,8 @@ export async function revalidateCompletion(
   revalidatePath(`/map/${mapCode}`);
   revalidateTag("leaderboard");
   if (refreshUnapproved) revalidateTag("unapproved");
+}
+
+export async function revalidateMapSubmissions() {
+  revalidateTag("map_submissions");
 }

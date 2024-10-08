@@ -2,8 +2,12 @@
 import stylesMedals from "../maps/Medals.module.css";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { Fade } from "react-bootstrap";
-import { useDiscordToken, useMaplistConfig } from "@/utils/hooks";
+import Fade from "react-bootstrap/Fade";
+import {
+  useAuthLevels,
+  useDiscordToken,
+  useMaplistConfig,
+} from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import DragFiles from "./DragFiles";
 import { listVersions } from "@/utils/maplistUtils";
@@ -12,6 +16,7 @@ import Link from "next/link";
 import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
+import { imageFormats } from "@/utils/file-formats";
 
 const MAX_TEXT_LEN = 500;
 
@@ -23,6 +28,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   const [success, setSuccess] = useState(false);
   const [openRules, setOpenRules] = useState(false);
   const accessToken = useDiscordToken();
+  const authLevels = useAuthLevels();
 
   const formats = [];
   if (
@@ -49,7 +55,9 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   if (!accessToken) return null;
 
   const requiresVideoProof = ({ black_border, no_geraldo, current_lcc }) => {
-    return black_border || no_geraldo || current_lcc;
+    return (
+      authLevels.requiresRecording || black_border || no_geraldo || current_lcc
+    );
   };
 
   const validate = (values) => {
@@ -59,6 +67,13 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
 
     if (!values.proof_completion.length)
       errors.proof_completion = "Upload proof of completion";
+
+    const fsize = values.proof_completion?.[0]?.file?.size || 0;
+    if (fsize > 1024 ** 2 * 3)
+      errors.proof_completion = `Can upload maximum 3MB (yours is ${(
+        fsize /
+        1024 ** 2
+      ).toFixed(2)}MB)`;
 
     if (requiresVideoProof(values) && !values.video_proof_url?.length)
       errors.video_proof_url = "Submit a valid video proof of your run!";
@@ -137,7 +152,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                       <h2 className="text-center">Proof of Completion</h2>
                       <DragFiles
                         name="proof_completion"
-                        formats={["jpg", "png", "webp"]}
+                        formats={imageFormats}
                         limit={1}
                         onChange={handleChange}
                         value={values.proof_completion}
@@ -346,6 +361,10 @@ function SidebarForm({ formats }) {
             onBlur={handleBlur}
           />
           <div className="invalid-feedback">{errors.video_proof_url}</div>
+          <p className="muted">
+            Only <u>one</u> URL can go here. If you have multiple, put the rest
+            in the Notes field.
+          </p>
         </div>
       )}
 
