@@ -3,11 +3,10 @@ import UserEntry from "@/components/users/UserEntry";
 import { getListLeaderboard } from "@/server/maplistRequests";
 import Link from "next/link";
 import { getPositionColor } from "@/utils/functions";
-import { listVersions } from "@/utils/maplistUtils";
+import { allFormats, listVersions } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import PaginateElement from "@/components/buttons/PaginateElement";
 import Image from "next/image";
-import PointCalcFormula from "@/components/layout/maplists/PointCalcFormula";
 import { PointCalcFade } from "./page.client";
 
 export async function generateMetadata({ searchParams }) {
@@ -30,7 +29,8 @@ const leaderboards = [
 
 export default async function ListLeaderboard({ searchParams }) {
   let version = searchParams?.format || "current";
-  if (!["current", "all"].includes(version.toLowerCase())) version = "current";
+  if (!["current", "all", "experts"].includes(version.toLowerCase()))
+    version = "current";
   let value = searchParams?.value || "points";
   if (!["points", "lccs"].includes(value.toLowerCase())) value = "points";
   let page = searchParams?.page || "1";
@@ -40,7 +40,7 @@ export default async function ListLeaderboard({ searchParams }) {
   const leaderboard = await getListLeaderboard(version, value, page);
 
   let curFormat =
-    listVersions.find(({ query }) => version === query) || listVersions[0];
+    allFormats.find(({ query }) => version === query) || allFormats[0];
 
   return (
     <>
@@ -48,7 +48,7 @@ export default async function ListLeaderboard({ searchParams }) {
 
       <DifficultySelector
         value={curFormat.value}
-        difficulties={listVersions}
+        difficulties={allFormats}
         href={
           `/list/leaderboard?` +
           new URLSearchParams({
@@ -83,7 +83,7 @@ export default async function ListLeaderboard({ searchParams }) {
         })}
       </div>
 
-      {value === "points" && <PointCalcFade />}
+      {value === "points" && <PointCalcFade format={version} />}
 
       <div className="my-4">
         <PaginateElement qname="page" page={page} total={leaderboard.pages}>
