@@ -364,7 +364,7 @@ function RunProperties({ isNew }) {
         {isNew && (
           <>
             <h3 className="text-center mt-3">Completion Image</h3>
-            <Form.Check
+            <CheckBox
               type="checkbox"
               name="has_no_image"
               onChange={handleChange}
