@@ -19,7 +19,7 @@ export async function getAccessToken(code) {
     headers,
   });
 
-  if (response.status === 200) return await response.json();
+  if (response.ok) return await response.json();
   return null;
 }
 
@@ -74,7 +74,7 @@ export async function isInMaplist(accessToken) {
 
   const response = await fetch(`${API_BASE_URL}/users/@me/guilds`, {
     headers,
-    next: { revalidate: 60 * 5, tags: ["discord"] },
+    next: { revalidate: 60 * 60, tags: ["discord"] },
   });
 
   if (response.status !== 200) return false;
@@ -92,7 +92,7 @@ export async function getDiscordUser(accessToken) {
 
   const response = await fetch(`${API_BASE_URL}/users/@me`, {
     headers,
-    next: { revalidate: 60 * 5, tags: ["discord"] },
+    next: { revalidate: 60 * 60, tags: ["discord"] },
   });
 
   if (response.status !== 200) return null;
@@ -108,7 +108,7 @@ export async function getMaplistRoles(accessToken) {
     `${API_BASE_URL}/users/@me/guilds/${process.env.NEXT_PUBLIC_MLIST_GUILD}/member`,
     {
       headers,
-      next: { revalidate: 60 * 5, tags: ["discord"] },
+      next: { revalidate: 60 * 60, tags: ["discord"] },
     }
   );
 
