@@ -19,6 +19,7 @@ function setResponseCookies(newCookies, response) {
     else
       response.cookies.set(ck, newCookies[ck], {
         path: "/",
+        maxAge: 60 * 60 * 24 * 7,
       });
   }
   return response;

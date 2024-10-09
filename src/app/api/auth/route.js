@@ -24,7 +24,7 @@ export async function GET(request) {
     cookies().set(
       "accessToken",
       JSON.stringify({ ...accessToken, expires_at }),
-      { path: "/" }
+      { path: "/", maxAge: 60 * 60 * 24 * 7 }
     );
 
   return NextResponse.redirect(redirectUrl);
