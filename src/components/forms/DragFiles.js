@@ -60,44 +60,58 @@ export default function DragFiles({
   };
 
   return (
-    <div
-      className={`${stylesDrgF.dragfiles} ${
-        disabled ? stylesDrgF.disabled : ""
-      } ${dragging ? stylesDrgF.dragging : ""} ${className}`}
-      style={style}
-      name={name}
-      onDrop={handleDrop}
-      onClick={handleClick}
-      onDragOver={(evt) => evt.preventDefault()}
-    >
-      <input
-        type="file"
-        ref={inputRef}
-        hidden
-        onChange={handleChangeFromFS}
-        accept={formats.map((f) => `.${f}`).join(",")}
-      />
-      {value.length || showChildren ? (
-        children
-      ) : (
-        <div className="d-flex justify-content-center">
-          <i
-            className={`bi ${icon} align-self-center ${stylesDrgF.dragfile_icon}`}
-          />
-        </div>
-      )}
-      {!!isValid && (
-        <div className={stylesDrgF.dragfiles_validity}>
-          <i className={`bi bi-check-circle-fill ${stylesDrgF.valid}`} />
-        </div>
-      )}
+    <div className="p-relative">
       <div
-        className={stylesDrgF.dragdetector}
-        onDragEnter={(_e) => setDragging(true)}
-        onDragLeave={(_e) => setDragging(false)}
-        onDragEnd={(_e) => setDragging(false)}
-        onDrop={(_e) => setDragging(false)}
-      />
+        className={`${stylesDrgF.dragfiles} ${
+          disabled ? stylesDrgF.disabled : ""
+        } ${dragging ? stylesDrgF.dragging : ""} ${className}`}
+        style={style}
+        name={name}
+        onDrop={handleDrop}
+        onClick={handleClick}
+        onDragOver={(evt) => evt.preventDefault()}
+      >
+        <input
+          type="file"
+          ref={inputRef}
+          hidden
+          onChange={handleChangeFromFS}
+          accept={formats.map((f) => `.${f}`).join(",")}
+        />
+        {value.length || showChildren ? (
+          children
+        ) : (
+          <div className="d-flex justify-content-center">
+            <i
+              className={`bi ${icon} align-self-center ${stylesDrgF.dragfile_icon}`}
+            />
+          </div>
+        )}
+        {!!isValid && (
+          <div className={stylesDrgF.dragfiles_validity}>
+            <i className={`bi bi-check-circle-fill ${stylesDrgF.valid}`} />
+          </div>
+        )}
+
+        <div
+          className={stylesDrgF.dragdetector}
+          onDragEnter={(_e) => setDragging(true)}
+          onDragLeave={(_e) => setDragging(false)}
+          onDragEnd={(_e) => setDragging(false)}
+          onDrop={(_e) => setDragging(false)}
+        />
+      </div>
+
+      {value.length > 0 && (
+        <button
+          name={name}
+          type="button"
+          className={`btn btn-danger big ${stylesDrgF.reset}`}
+          onClick={(evt) => processFiles(evt, [])}
+        >
+          <i className="bi bi-trash3" />
+        </button>
+      )}
     </div>
   );
 }
