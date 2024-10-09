@@ -119,10 +119,12 @@ export const difficulties = [
     query: "extreme",
     value: 4,
     image: "/format_icons/icon_extreme.webp",
+    points_cfg: "exp_points_extreme",
     description: (
       <>
-        The absolute hardest this community has to offer. Many strategies are
-        forced, don't hesitate to go all out on beating these maps.
+        Some of the toughest challenges CHIMPS has to offer, each being much
+        harder than any official map made by Ninja Kiwi. This difficulty often
+        contains forced strategies and maps that have fallen off The Maplist.
         <br />
         <i>Good luck...</i>
       </>
