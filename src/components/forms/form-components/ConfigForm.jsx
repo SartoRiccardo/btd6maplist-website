@@ -60,32 +60,28 @@ export default function ConfigForm({
           <form onSubmit={handleSubmit}>
             <div className="panel panel-container">
               <div className="row flex-row-space">
-                {Object.keys(configNames)
-                  .sort()
-                  .map((key) => (
-                    <Fragment key={key}>
-                      <div className="col-5 col-sm-6">
-                        <p>{configNames[key]}</p>
+                {Object.keys(configNames).map((key) => (
+                  <Fragment key={key}>
+                    <div className="col-5 col-sm-6">
+                      <p>{configNames[key]}</p>
+                    </div>
+                    <div className="col-7 col-sm-6">
+                      <div>
+                        <Input
+                          name={key}
+                          type="text"
+                          placeholder={initialValues[key]}
+                          value={values[key]}
+                          onChange={handleChange}
+                          isInvalid={values[key].length === 0 || key in errors}
+                          disabled={isSubmitting}
+                          autoComplete="off"
+                        />
+                        <div className="invalid-feedback">{errors[key]}</div>
                       </div>
-                      <div className="col-7 col-sm-6">
-                        <div>
-                          <Input
-                            name={key}
-                            type="text"
-                            placeholder={initialValues[key]}
-                            value={values[key]}
-                            onChange={handleChange}
-                            isInvalid={
-                              values[key].length === 0 || key in errors
-                            }
-                            disabled={isSubmitting}
-                            autoComplete="off"
-                          />
-                          <div className="invalid-feedback">{errors[key]}</div>
-                        </div>
-                      </div>
-                    </Fragment>
-                  ))}
+                    </div>
+                  </Fragment>
+                ))}
               </div>
             </div>
 
