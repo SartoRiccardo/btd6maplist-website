@@ -89,7 +89,7 @@ export default function CompletionColumn({
                   </p>
                 </Link>
               ) : (
-                subm_proof_img && (
+                subm_proof_img.length > 0 && (
                   <>
                     <span
                       className={`${stylesComp.completion_link} align-self-center no-underline`}

@@ -1,4 +1,5 @@
 "use client";
+import cssZoomedImg from "../utils/ZoomedImage.module.css";
 import stylesMedals from "../maps/Medals.module.css";
 import { FormikContext } from "@/contexts";
 import { Formik } from "formik";
@@ -522,6 +523,7 @@ function LCCProperties() {
 
 function SubmissionData({ completion }) {
   const [isProofZoomed, setProofZoomed] = useState(false);
+  const [imgIdx, setImgIdx] = useState(0);
 
   if (
     !completion ||
@@ -540,25 +542,56 @@ function SubmissionData({ completion }) {
         {completion.subm_notes && (
           <p className="text-justify">{completion.subm_notes}</p>
         )}
-        {(completion.subm_proof_img || completion.subm_proof_vid) && (
+        {(completion.subm_proof_img.length > 0 ||
+          completion.subm_proof_vid.length > 0) && (
           <>
             <h3 className="text-center">Submitted Proof</h3>
-            {completion.subm_proof_vid && (
-              <p>
-                Video Proof URL:{" "}
-                <a href={completion.subm_proof_vid} target="_blank">
-                  {completion.subm_proof_vid}
-                </a>
-              </p>
-            )}
-            {completion.subm_proof_img && (
+
+            {completion.subm_proof_vid.length > 0 && (
               <>
-                <img
-                  src={completion.subm_proof_img}
-                  className="w-100 zoomable"
-                  onClick={() => setProofZoomed(true)}
-                />
+                <p className="mb-0">Video Proof URLs:</p>
+
+                <ol>
+                  {completion.subm_proof_vid.map((url) => (
+                    <li key={url}>
+                      <a href={url} target="_blank">
+                        {url}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )}
+
+            {completion.subm_proof_img.length > 0 && (
+              <>
+                <div className="p-relative">
+                  <div
+                    onClick={() =>
+                      setImgIdx((imgIdx + 1) % completion.subm_proof_img.length)
+                    }
+                    className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.left}`}
+                  >
+                    <i className="bi bi-chevron-left" />
+                  </div>
+                  <img
+                    src={completion.subm_proof_img[imgIdx]}
+                    className="w-100 zoomable"
+                    onClick={() => setProofZoomed(true)}
+                  />
+                  <div
+                    onClick={() =>
+                      setImgIdx((imgIdx + 1) % completion.subm_proof_img.length)
+                    }
+                    className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.right}`}
+                  >
+                    <i className="bi bi-chevron-right" />
+                  </div>
+                </div>
+
                 <ZoomedImage
+                  key={imgIdx}
+                  startIdx={imgIdx}
                   src={completion.subm_proof_img}
                   show={isProofZoomed}
                   onHide={() => setProofZoomed(false)}
