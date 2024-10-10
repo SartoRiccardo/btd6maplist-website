@@ -1,4 +1,5 @@
 "use client";
+import cssDragF from "./DragFiles.module.css";
 import stylesMedals from "../maps/Medals.module.css";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
@@ -17,6 +18,8 @@ import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
 import LazyFade from "../transitions/LazyFade";
+import AddableField from "./AddableField";
+import { removeFieldCode } from "@/utils/functions";
 
 const MAX_TEXT_LEN = 500;
 
@@ -65,18 +68,27 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     if (values.notes.length > MAX_TEXT_LEN)
       errors.notes = `Keep it under ${MAX_TEXT_LEN} characters!`;
 
-    if (!values.proof_completion.length)
-      errors.proof_completion = "Upload proof of completion";
+    for (let i = 0; i < values.proof_completion.length; i++) {
+      const file = values.proof_completion[i].file;
+      if (!file.length)
+        errors[`proof_completion[${i}]`] = "Upload proof of completion";
 
-    const fsize = values.proof_completion?.[0]?.file?.size || 0;
-    if (fsize > 1024 ** 2 * 3)
-      errors.proof_completion = `Can upload maximum 3MB (yours is ${(
-        fsize /
-        1024 ** 2
-      ).toFixed(2)}MB)`;
+      const fsize = file?.[0]?.file?.size || 0;
+      if (fsize > 1024 ** 2 * 3)
+        errors[`proof_completion[${i}]`] = `Can upload maximum 3MB (yours is ${(
+          fsize /
+          1024 ** 2
+        ).toFixed(2)}MB)`;
+    }
 
-    if (requiresVideoProof(values) && !values.video_proof_url?.length)
-      errors.video_proof_url = "Submit a valid video proof of your run!";
+    if (requiresVideoProof(values)) {
+      // TODO check dupes
+      for (let i = 0; i < values.video_proof_url.length; i++) {
+        const url = values.video_proof_url[i].url;
+        if (!url.length)
+          errors[`video_proof_url[${i}]`] = "Please insert an URL!";
+      }
+    }
 
     if (values.current_lcc && (values.leftover === "" || values.leftover < 0))
       errors.leftover = "Must be a positive number";
@@ -89,7 +101,12 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
       ...values,
       format: parseInt(values.format),
       code: mapData.code,
-      proof_completion: values.proof_completion[0].file,
+      proof_completion: removeFieldCode(values.proof_completion)
+        .filter(({ file }) => file.length)
+        .map(({ file }) => file[0].file),
+      video_proof_url: removeFieldCode(values.video_proof_url).map(
+        ({ url }) => url
+      ),
     };
     if (!requiresVideoProof(values)) delete payload.video_proof_url;
 
@@ -105,13 +122,13 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     <Formik
       validate={validate}
       initialValues={{
-        proof_completion: [],
+        proof_completion: [{ count: -1, file: [] }],
         format: formats[0].toString(),
         notes: "",
         black_border: false,
         no_geraldo: false,
         current_lcc: false,
-        video_proof_url: "",
+        video_proof_url: [{ count: -1, url: "" }],
         leftover: "",
       }}
       onSubmit={handleSubmit}
@@ -122,6 +139,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
           handleChange,
           touched,
           values,
+          setFieldValue,
           errors,
           isSubmitting,
         } = formikProps;
@@ -150,28 +168,67 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                   ) : (
                     <div className="panel py-3">
                       <h2 className="text-center">Proof of Completion</h2>
-                      <DragFiles
+
+                      <AddableField
+                        disabled={disableInputs}
                         name="proof_completion"
-                        formats={imageFormats}
-                        limit={1}
-                        onChange={handleChange}
-                        value={values.proof_completion}
-                        className="w-100"
+                        defaultValue={{ file: [] }}
+                        maxAmount={4}
+                        currentAmount={values.proof_completion.length}
+                        w100
                       >
-                        {values.proof_completion.length > 0 && (
-                          <div className="d-flex justify-content-center">
-                            <img
-                              style={{ maxWidth: "100%" }}
-                              src={values.proof_completion[0].objectUrl}
-                            />
+                        {values.proof_completion.map(({ count, file }, i) => (
+                          <div
+                            className={`p-relative ${i > 0 ? "mt-4" : ""}`}
+                            key={count}
+                          >
+                            <DragFiles
+                              name={`proof_completion[${i}].file`}
+                              formats={imageFormats}
+                              limit={1}
+                              onChange={handleChange}
+                              value={file}
+                              className="w-100"
+                            >
+                              {file.length > 0 && (
+                                <div className="d-flex justify-content-center">
+                                  <img
+                                    style={{ maxWidth: "100%" }}
+                                    src={file[0].objectUrl}
+                                  />
+                                </div>
+                              )}
+                            </DragFiles>
+
+                            {values.proof_completion.length > 1 && (
+                              <div className={cssDragF.remove}>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger"
+                                  disabled={disableInputs}
+                                  onClick={(_e) =>
+                                    setFieldValue(
+                                      "proof_completion",
+                                      values.proof_completion.filter(
+                                        (_v, idx) => idx !== i
+                                      )
+                                    )
+                                  }
+                                >
+                                  <i className="bi bi-dash" />
+                                </button>
+                              </div>
+                            )}
+
+                            {touched.proof_completion &&
+                              errors[`proof_completion[${i}]`] && (
+                                <p className="text-danger text-center">
+                                  {errors[`proof_completion[${i}]`]}
+                                </p>
+                              )}
                           </div>
-                        )}
-                      </DragFiles>
-                      {touched.proof_completion && errors.proof_completion && (
-                        <p className="text-danger text-center">
-                          {errors.proof_completion}
-                        </p>
-                      )}
+                        ))}
+                      </AddableField>
                     </div>
                   )}
                 </div>
@@ -249,6 +306,7 @@ function SidebarForm({ formats }) {
     errors,
     disableInputs,
     requiresVideoProof,
+    setFieldValue,
   } = formikProps;
   const validFormats = formats
     .map((frm) => listVersions.find(({ value }) => value === frm))
@@ -352,19 +410,55 @@ function SidebarForm({ formats }) {
       {requiresVideoProof(values) && (
         <div className="mt-2">
           <label className="form-label">Video Proof URL</label>
-          <Input
-            type="text"
+          <AddableField
+            disabled={disableInputs}
             name="video_proof_url"
-            value={values.video_proof_url}
-            isInvalid={touched.video_proof_url && "video_proof_url" in errors}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <div className="invalid-feedback">{errors.video_proof_url}</div>
-          <p className="muted">
-            Only <u>one</u> URL can go here. If you have multiple, put the rest
-            in the Notes field.
-          </p>
+            defaultValue={{ url: "" }}
+            maxAmount={5}
+            currentAmount={values.video_proof_url.length}
+          >
+            {values.video_proof_url.map(({ count, url }, i) => (
+              <div key={count} className="d-flex flex-col-space px-0 mb-2">
+                <div className="w-100">
+                  <Input
+                    name={`video_proof_url[${i}].url`}
+                    type="url"
+                    placeholder="https://youtube.com/..."
+                    value={url}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isInvalid={
+                      touched.video_proof_url &&
+                      `video_proof_url[${i}]` in errors
+                    }
+                    disabled={disableInputs}
+                    autoComplete="off"
+                  />
+                  <div className="invalid-feedback">
+                    {errors[`video_proof_url[${i}]`]}
+                  </div>
+                </div>
+
+                {values.video_proof_url.length > 1 && (
+                  <div>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      disabled={disableInputs}
+                      onClick={(_e) =>
+                        setFieldValue(
+                          "video_proof_url",
+                          values.video_proof_url.filter((_v, idx) => idx !== i)
+                        )
+                      }
+                    >
+                      <i className="bi bi-dash" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </AddableField>
         </div>
       )}
 
