@@ -8,7 +8,7 @@
   position: absolute;
   width: 80vw;
   height: 90vh;
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
   border-radius: 0.5rem;
   padding: 1rem;
   top: 0;
@@ -24,7 +24,7 @@
   font-size: 2rem;
   width: 1.5em;
   height: 1.5em;
-  border-radius: 50%;
+  border-radius: 35%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,8 +32,7 @@
 }
 
 .switch_image.in_modal {
-  font-size: 3rem;
-  background-color: var(--color-primary);
+  font-size: 2.5rem;
 }
 
 .switch_image:hover {
@@ -49,13 +48,13 @@
   left: 0.2em;
 }
 
-.switch_image.in_modal.right {
+/* .switch_image.in_modal.right {
   right: 0.1em;
 }
 
 .switch_image.in_modal.left {
   left: 0.1em;
-}
+} */
 
 /* <=sm */
 @media only screen and (max-width: 767.98px) {

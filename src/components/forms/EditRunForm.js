@@ -566,27 +566,37 @@ function SubmissionData({ completion }) {
             {completion.subm_proof_img.length > 0 && (
               <>
                 <div className="p-relative">
-                  <div
-                    onClick={() =>
-                      setImgIdx((imgIdx + 1) % completion.subm_proof_img.length)
-                    }
-                    className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.left}`}
-                  >
-                    <i className="bi bi-chevron-left" />
-                  </div>
+                  {completion.subm_proof_img.length > 1 && (
+                    <div
+                      onClick={() =>
+                        setImgIdx(
+                          (imgIdx + 1) % completion.subm_proof_img.length
+                        )
+                      }
+                      className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.left}`}
+                    >
+                      <i className="bi bi-chevron-left" />
+                    </div>
+                  )}
+
                   <img
                     src={completion.subm_proof_img[imgIdx]}
                     className="w-100 zoomable"
                     onClick={() => setProofZoomed(true)}
                   />
-                  <div
-                    onClick={() =>
-                      setImgIdx((imgIdx + 1) % completion.subm_proof_img.length)
-                    }
-                    className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.right}`}
-                  >
-                    <i className="bi bi-chevron-right" />
-                  </div>
+
+                  {completion.subm_proof_img.length > 1 && (
+                    <div
+                      onClick={() =>
+                        setImgIdx(
+                          (imgIdx + 1) % completion.subm_proof_img.length
+                        )
+                      }
+                      className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.right}`}
+                    >
+                      <i className="bi bi-chevron-right" />
+                    </div>
+                  )}
                 </div>
 
                 <ZoomedImage

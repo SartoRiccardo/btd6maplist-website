@@ -108,7 +108,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         ({ url }) => url
       ),
     };
-    if (!requiresVideoProof(values)) delete payload.video_proof_url;
+    if (!requiresVideoProof(values)) payload.video_proof_url = [];
 
     const result = await onSubmit(accessToken.access_token, payload);
     if (result && Object.keys(result.errors).length) {

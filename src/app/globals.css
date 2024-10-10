@@ -109,7 +109,7 @@ a > .panel:hover {
 }
 
 .modal-panel .modal-content {
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
 }
 
 .p-relative {
