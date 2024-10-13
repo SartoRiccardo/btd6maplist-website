@@ -22,7 +22,7 @@ export default function AddableField({
   return (
     <>
       {children}
-      {maxAmount > 0 && currentAmount < maxAmount && (
+      {(maxAmount === 0 || currentAmount < maxAmount) && (
         <div className={`flex-hcenter mt-3 ${w100 ? "w-100" : ""}`}>
           <button
             type="button"
