@@ -75,7 +75,7 @@ export default function TwoFieldEntry({
                 autoComplete="off"
                 {...secondProps}
               />
-              <input className="invalid-feedback">{errors[realField2]}</input>
+              <div className="invalid-feedback">{errors[realField2]}</div>
             </div>
           )}
         </div>
