@@ -529,8 +529,8 @@ function SubmissionData({ completion }) {
     !completion ||
     !(
       completion.subm_notes ||
-      completion.subm_proof_img ||
-      completion.subm_proof_vid
+      completion.subm_proof_img.length ||
+      completion.subm_proof_vid.length
     )
   )
     return null;
