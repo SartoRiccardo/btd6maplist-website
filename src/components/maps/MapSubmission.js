@@ -70,7 +70,7 @@ export default async function MapSubmission({
         {rejected_by === null && (
           <BtnDeleteSubmission
             className="ps-3"
-            name={btd6Map.name}
+            name={btd6Map?.name}
             code={code}
           />
         )}
