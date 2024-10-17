@@ -40,12 +40,17 @@ export default async function MapSubmission({
     >
       <div className="col-12 col-md-6">
         <div className="d-flex align-self-center">
-          <div className={cssMap.btd6map_image}>
-            <img className="w-100" loading="lazy" src={btd6Map.mapURL} />
-          </div>
+          {!btd6Map?.mapURL ? (
+            <div className={cssMap.btd6map_image}>
+              <img className="w-100" loading="lazy" src={btd6Map.mapURL} />
+            </div>
+          ) : (
+            <div className={`${cssMap.btd6map_image} ${cssMap.empty}`} />
+          )}
+
           <div className="d-flex flex-column justify-content-center ps-3">
             <p className={`mb-0 ${btd6Font.className} font-border fs-5`}>
-              {btd6Map.name}
+              {btd6Map?.name || <span className="muted">Deleted map?</span>}
             </p>
             <p className="mb-0">
               <b>{code}</b> | {fromNow(created_on)}
