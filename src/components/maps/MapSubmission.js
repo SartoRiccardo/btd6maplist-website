@@ -40,7 +40,7 @@ export default async function MapSubmission({
     >
       <div className="col-12 col-md-6">
         <div className="d-flex align-self-center">
-          {!btd6Map?.mapURL ? (
+          {btd6Map?.mapURL ? (
             <div className={cssMap.btd6map_image}>
               <img className="w-100" loading="lazy" src={btd6Map.mapURL} />
             </div>
