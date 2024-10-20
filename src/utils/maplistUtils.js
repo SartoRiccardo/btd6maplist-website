@@ -202,45 +202,54 @@ export const userRoles = [
 
   {
     name: "Beginner",
-    color: "#00695c",
+    color: "#004d40",
     borderColor: "#00bfa5",
-    description: "1+ points on the leaderboard",
+    description: "10+ points on the leaderboard",
     requirement: ({ user }) =>
-      user.maplist.current.points > 0 && user.maplist.current.points < 100,
-    // || (user.maplist.all.points > 0 && user.maplist.all.points < 100),
+      user.maplist.current.points >= 10 && user.maplist.current.points < 150,
+    // || (user.maplist.all.points >= 10 && user.maplist.all.points < 150),
   },
   {
     name: "Intermediate",
-    color: "#00897b",
+    color: "#00796b",
     borderColor: "#00bfa5",
-    description: "100+ points on the leaderboard",
+    description: "150+ points on the leaderboard",
     requirement: ({ user }) =>
-      user.maplist.current.points >= 100 && user.maplist.current.points < 350,
-    // ||(user.maplist.all.points >= 100 && user.maplist.all.points < 350),
+      user.maplist.current.points >= 150 && user.maplist.current.points < 400,
+    // ||(user.maplist.all.points >= 150 && user.maplist.all.points < 400),
   },
   {
     name: "Advanced",
-    color: "#26a69a",
+    color: "#009688",
     borderColor: "#00bfa5",
-    description: "350+ points on the leaderboard",
+    description: "400+ points on the leaderboard",
     requirement: ({ user }) =>
-      user.maplist.current.points >= 350 && user.maplist.current.points < 1000,
-    // || (user.maplist.all.points >= 350 && user.maplist.all.points < 1000),
+      user.maplist.current.points >= 400 && user.maplist.current.points < 750,
+    // || (user.maplist.all.points >= 400 && user.maplist.all.points < 750),
   },
   {
     name: "Expert",
-    color: "#80cbc4",
-    borderColor: "#00bfa5",
-    description: "1000+ points on the leaderboard",
+    color: "#4db6ac",
+    borderColor: "#1de9b6",
+    description: "750+ points on the leaderboard",
     requirement: ({ user }) =>
-      user.maplist.current.points >= 1000 &&
+      user.maplist.current.points >= 750 && user.maplist.current.points < 1250,
+    // || (user.maplist.all.points >= 750 && user.maplist.all.points < 1250),
+  },
+  {
+    name: "True Expert",
+    color: "#80cbc4",
+    borderColor: "#1de9b6",
+    description: "1250+ points on the leaderboard",
+    requirement: ({ user }) =>
+      user.maplist.current.points >= 1250 &&
       user.maplist.current.pts_placement > 1,
     // || (user.maplist.all.points >= 1000 && user.maplist.all.pts_placement > 1),
   },
   {
     name: "The GOAT",
     color: "#b2dfdb",
-    borderColor: "#00bfa5",
+    borderColor: "#1de9b6",
     description: "#1 on the points leaderboard",
     requirement: ({ user }) => user.maplist.current.pts_placement === 1,
     // || user.maplist.all.pts_placement === 1,
