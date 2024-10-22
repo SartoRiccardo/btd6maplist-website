@@ -1,4 +1,5 @@
-const API_BASE_URL = "https://discord.com/api/v10";
+const API_BASE_URL =
+  process.env.DISCORD_BASE_URL || "https://discord.com/api/v10";
 
 export async function getAccessToken(code) {
   const body = new URLSearchParams({
@@ -13,7 +14,7 @@ export async function getAccessToken(code) {
     "Content-Type": "application/x-www-form-urlencoded",
   };
 
-  const response = await fetch("https://discord.com/api/v10/oauth2/token", {
+  const response = await fetch(`${API_BASE_URL}/oauth2/token`, {
     method: "POST",
     body,
     headers,
