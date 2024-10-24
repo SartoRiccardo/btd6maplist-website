@@ -114,6 +114,24 @@ export const difficulties = [
     meta_desc:
       "Many strategies will not work. If you're asking for one of the best, you'd better be one of the best.",
   },
+  {
+    name: "Extreme",
+    query: "extreme",
+    value: 4,
+    image: "/format_icons/icon_extreme.webp",
+    points_cfg: "exp_points_extreme",
+    description: (
+      <>
+        Some of the toughest challenges CHIMPS has to offer, each being much
+        harder than any official map made by Ninja Kiwi. This difficulty often
+        contains forced strategies and maps that have fallen off The Maplist.
+        <br />
+        <i>Good luck...</i>
+      </>
+    ),
+    meta_desc:
+      "The absolute hardest this community has to offer. Many strategies are forced. Good luck...",
+  },
 ];
 
 export const filterCompletionFormats = (completions, formats) => {

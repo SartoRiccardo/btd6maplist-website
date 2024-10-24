@@ -11,7 +11,7 @@ function DifficultySelector({ onChange, value, difficulties, href }) {
       {difficulties.map((diff) => (
         <div
           key={diff.value}
-          className="col-6 col-md-auto d-flex justify-content-center"
+          className="col-6 col-md-4 col-lg-auto d-flex justify-content-center"
         >
           <Difficulty
             difficulty={diff}
