@@ -18,13 +18,21 @@ npm ci
 
 ## Testing
 
-This project uses Cypress for its automated tests. Copy `.env.test` to `.env.test.local` and compile it accordingly
-
-To run the suite, you will need:
+This project uses Cypress for its automated tests. To run the suite, you will need:
 
 - A [test version](https://github.com/SartoRiccardo/btd6maplist-api/tree/main-test) of the BTD6 Maplist API up and running
-- An instance of [Sorry Cypress](https://docs.sorry-cypress.dev/guide/get-started) running
-  - You can run `docker run -p 1234:1234 agoldis/sorry-cypress-director` as per the guide
-  - You will need to update the `cloudServiceUrl` in `currents.config.js` to point to your instance
 
-To run the testing suite, build and start the website and run `npm run cypress:open`
+To start the tests:
+
+1. Copy `.env.test` to `.env.test.local` and fill it out accordingly
+2. (Optional) Change the environment variables in `cypress.env.json`
+3. Build the website with `npm run build`
+4. Start a test version of the website with `npm run start:test`
+5. Now you can run the suite with `npm run cypress:start`
+
+Note that this stack mocks the Discord API but does not mock the NinjaKiwi Open Data API.
+
+If you want to use Cypress Cloud, you can use [Sorry Cypress](https://docs.sorry-cypress.dev/guide/get-started).
+
+1. Run `docker run -p 1234:1234 agoldis/sorry-cypress-director` as per the guide linked above
+2. Update the `cloudServiceUrl` in `currents.config.js` to point to your instance
