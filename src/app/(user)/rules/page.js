@@ -18,18 +18,18 @@ export default function RulePage() {
       <p className="muted text-center">
         Rules differ slightly depending on the format
       </p>
-      <div className="flex-hcenter flex-col-space">
+      <div className="flex-hcenter flex-col-space" data-cy="btn-rules">
         <button
           className={`btn btn-primary ${on === "list" ? "active" : ""}`}
           onClick={() => setOn("list")}
         >
-          List
+          Maplist
         </button>
         <button
           className={`btn btn-primary ${on === "experts" ? "active" : ""}`}
           onClick={() => setOn("experts")}
         >
-          Experts
+          Expert List
         </button>
       </div>
 
