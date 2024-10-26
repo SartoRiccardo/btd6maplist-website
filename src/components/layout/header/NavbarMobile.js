@@ -27,6 +27,7 @@ export function NavbarMobile() {
           className="bi bi-list"
           tabIndex={0}
           onClick={(_e) => setIsMenuOpen(true)}
+          data-cy="navbar-mobile-open"
         />
       </p>
 
@@ -44,7 +45,7 @@ export function NavbarMobile() {
           />
         </div>
 
-        <div className="offcanvas-body">
+        <div className="offcanvas-body" data-cy="navbar-mobile-content">
           <ul className={`${styles.navbar} ${styles.mobile}`}>
             <NavLogin onNavigate={(_e) => setIsMenuOpen(false)} />
 

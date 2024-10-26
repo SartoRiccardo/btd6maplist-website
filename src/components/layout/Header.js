@@ -31,7 +31,7 @@ export default function Header() {
         </div>
         <div className="col d-flex justify-content-end">
           <nav>
-            <div className="d-none d-md-block">
+            <div className="d-none d-md-block" data-cy="navbar-desktop">
               <ul className={`${stylesNav.navbar}`}>
                 <ProtectedLinks />
 
@@ -62,7 +62,7 @@ export default function Header() {
               </ul>
             </div>
 
-            <div className="d-block d-md-none">
+            <div className="d-block d-md-none" data-cy="navbar-mobile">
               <NavbarMobile />
             </div>
           </nav>
