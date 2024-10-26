@@ -41,7 +41,7 @@ export default function CompletionColumn({
 
         const isAdmin = authLevels.loaded && authLevels.hasPerms;
         return (
-          <div key={id} className="row gx-0">
+          <div key={id} className="row gx-0" data-cy="single-completion">
             <div className="col-6">
               <div className="d-flex justify-content-start h-100">
                 <div className="align-self-center">

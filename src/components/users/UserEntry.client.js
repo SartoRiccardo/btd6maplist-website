@@ -31,6 +31,7 @@ export default function UserEntry_C({
         className={`${stylesUsrE.user_entry} ${
           inline ? stylesUsrE.inline : ""
         }`}
+        data-cy="user-entry"
       >
         <img
           loading="lazy"
@@ -65,9 +66,11 @@ export default function UserEntry_C({
   );
 }
 
-export function UserEntry_Plc() {
+export function UserEntry_Plc({ inline }) {
   return (
-    <div className={stylesUsrE.user_entry}>
+    <div
+      className={`${stylesUsrE.user_entry} ${inline ? stylesUsrE.inline : ""}`}
+    >
       <img className={stylesUsrE.pfp} src={initialBtd6Profile.avatarURL} />
     </div>
   );

@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <div className="text-center">
       <h1> Bloons TD 6 Maplist</h1>
-      <div className="text-center fs-5 mb-3">
+      <div className="text-center fs-5 mb-3" data-cy="project-description">
         The BTD6 Maplist is a ranking of the best and hardest custom maps in the
         game. It was started by
         <span className="d-inline-block mx-2">
@@ -128,7 +128,7 @@ export default async function Home() {
 
       <hr className="my-5" />
 
-      <div className="text-start">
+      <div className="text-start" data-cy="project-credits">
         <p>Special thanks to:</p>
         <ul>
           <li>

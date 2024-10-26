@@ -8,7 +8,11 @@ import Link from "next/link";
 
 export default function FullCompletionInfoRow({ completion }) {
   return (
-    <div className="panel my-2 py-2">
+    <div
+      className="panel my-2 py-2"
+      data-cy="completion"
+      data-completion-id={completion.id.toString()}
+    >
       <div className="row gx-0 gy-2 text-start">
         <div className={`col-12 col-md-6 ${stylesMap.btd6map_row}`}>
           <Link
