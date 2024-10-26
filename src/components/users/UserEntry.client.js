@@ -22,11 +22,7 @@ export default function UserEntry_C({
   );
 
   return (
-    <Link
-      scroll={false}
-      href={`/user/${profile.id}`}
-      className={stylesUsrE.pfp_link}
-    >
+    <Link href={`/user/${profile.id}`} className={stylesUsrE.pfp_link}>
       <div
         className={`${stylesUsrE.user_entry} ${
           inline ? stylesUsrE.inline : ""

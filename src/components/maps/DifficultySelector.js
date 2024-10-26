@@ -46,6 +46,7 @@ function Difficulty({ difficulty, onClick, active, href }) {
         .replace("{queryval}", difficulty.query)
         .replace("%7Bqueryval%7D", difficulty.query)}
       className="white-text"
+      scroll={false}
     >
       {cmp}
     </Link>

@@ -18,7 +18,6 @@ export default function FullCompletionInfoRow({ completion }) {
           <Link
             href={`/map/${completion.map.code}`}
             className={stylesMap.btd6map_clickable}
-            scroll={false}
           >
             <div className="d-flex align-self-center">
               <img

@@ -32,8 +32,6 @@ export default async function Experts({ searchParams }) {
 
   return (
     <>
-      <title>{}</title>
-
       <h1 className="text-center">Expert Maplist</h1>
 
       <div>

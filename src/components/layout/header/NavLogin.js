@@ -51,7 +51,6 @@ export default function NavLogin({ onNavigate }) {
           <ul className={`${stylesNav.submenu} shadow`}>
             <li>
               <Link
-                scroll={false}
                 href={`/user/${maplistProfile.id}`}
                 onClick={(_e) => onNavigate && onNavigate(_e)}
               >
@@ -81,10 +80,12 @@ export default function NavLogin({ onNavigate }) {
         {maplistProfile && (
           <LazyCollapse in={mobileSubmenuOpen}>
             <div>
-              <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
+              <ul
+                className={`${stylesNav.submenu} ${stylesNav.mobile}`}
+                data-cy="nav-dropdown"
+              >
                 <li>
                   <Link
-                    scroll={false}
                     href={`/user/${maplistProfile.id}`}
                     onClick={(_e) => onNavigate && onNavigate(_e)}
                   >

@@ -25,7 +25,11 @@ export default function ProtectedLinks({
             Admin <i className="bi bi-caret-down-fill" />
           </a>
 
-          <ul className={`${stylesNav.submenu} shadow`} tabIndex={0}>
+          <ul
+            className={`${stylesNav.submenu} shadow`}
+            tabIndex={0}
+            data-cy="nav-dropdown"
+          >
             <LinkItem
               href="/config"
               label="List Config"
@@ -65,7 +69,10 @@ export default function ProtectedLinks({
 
           <LazyCollapse in={openSubmenus.includes(100)}>
             <div>
-              <ul className={`${styles.submenu} ${styles.mobile}`}>
+              <ul
+                className={`${styles.submenu} ${styles.mobile}`}
+                data-cy="nav-dropdown"
+              >
                 <LinkItem
                   href="/config"
                   label="List Config"
@@ -98,11 +105,7 @@ export default function ProtectedLinks({
 function LinkItem({ href, label, onNavigate }) {
   return (
     <li>
-      <Link
-        scroll={false}
-        href={href}
-        onClick={(e) => onNavigate && onNavigate(e)}
-      >
+      <Link href={href} onClick={(e) => onNavigate && onNavigate(e)}>
         {label}
       </Link>
     </li>

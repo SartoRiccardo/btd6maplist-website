@@ -193,7 +193,7 @@ export default function EditSelf_C() {
                 className="btn btn-primary"
                 disabled={isSubmitting}
                 onClick={(_e) =>
-                  router.push(`/user/${maplistProfile.id}`, { scroll: false })
+                  router.push(`/user/${maplistProfile.id}`, { scroll: true })
                 }
               >
                 Back

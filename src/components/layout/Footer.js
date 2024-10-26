@@ -11,9 +11,7 @@ export default function Footer() {
           BTD6 Maplist Discord!
         </a>
         &nbsp;|&nbsp;
-        <Link href="/rules" scroll={false}>
-          Submission Rules
-        </Link>
+        <Link href="/rules">Submission Rules</Link>
       </p>
     </footer>
   );

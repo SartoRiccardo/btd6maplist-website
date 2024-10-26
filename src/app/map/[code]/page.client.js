@@ -69,7 +69,7 @@ export function EditPencilAdmin({ href }) {
   if (!authLevels.loaded || !authLevels.hasPerms) return null;
 
   return (
-    <Link href={href} scroll={false}>
+    <Link href={href}>
       <i className="bi bi-pencil-square ms-3" />
     </Link>
   );

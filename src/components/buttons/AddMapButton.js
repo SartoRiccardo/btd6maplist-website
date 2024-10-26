@@ -40,7 +40,6 @@ export default function AddMapButton({
     <Link
       className={stylesMap.btd6map_clickable}
       href={href}
-      scroll={false}
       prefetch={!!token}
     >
       {component}

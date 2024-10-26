@@ -136,11 +136,7 @@ export default function Btd6Map({
   );
 
   return hrefBase ? (
-    <Link
-      scroll={false}
-      className={stylesMap.btd6map_clickable}
-      href={`${hrefBase}/${code}`}
-    >
+    <Link className={stylesMap.btd6map_clickable} href={`${hrefBase}/${code}`}>
       {cmpMap}
     </Link>
   ) : (

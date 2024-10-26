@@ -8,7 +8,7 @@ export default function EditProfilePencil({ userId }) {
   if (!maplistProfile || maplistProfile.id !== userId) return null;
 
   return (
-    <Link href="/user/edit" scroll={false}>
+    <Link href="/user/edit">
       <i className="bi bi-pencil-square" />
     </Link>
   );

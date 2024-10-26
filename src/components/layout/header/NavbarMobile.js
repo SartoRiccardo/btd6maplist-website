@@ -69,10 +69,12 @@ export function NavbarMobile() {
 
               <LazyCollapse in={openSubmenus.includes(0)}>
                 <div>
-                  <ul className={`${styles.submenu} ${styles.mobile}`}>
+                  <ul
+                    className={`${styles.submenu} ${styles.mobile}`}
+                    data-cy="nav-dropdown"
+                  >
                     <li>
                       <Link
-                        scroll={false}
                         href="/experts"
                         onClick={(_e) => setIsMenuOpen(false)}
                       >
@@ -80,11 +82,7 @@ export function NavbarMobile() {
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        scroll={false}
-                        href="/list"
-                        onClick={(_e) => setIsMenuOpen(false)}
-                      >
+                      <Link href="/list" onClick={(_e) => setIsMenuOpen(false)}>
                         The List
                       </Link>
                     </li>
@@ -95,7 +93,6 @@ export function NavbarMobile() {
 
             <li>
               <Link
-                scroll={false}
                 href="/list/leaderboard"
                 onClick={(_e) => setIsMenuOpen(false)}
               >
