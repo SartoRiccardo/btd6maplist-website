@@ -5,13 +5,6 @@
 **/public/sw.js*
 **/public/worker-*.js*
 
-# deploying
-compose.yaml
-.env.production
-
-# misc
-src/app/api/experts/exmapsdatadummy.js
-
 # dependencies
 /node_modules
 /.pnp
