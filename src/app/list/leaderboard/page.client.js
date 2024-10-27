@@ -7,7 +7,11 @@ export function PointCalcFade() {
   const [show, setShow] = useState(false);
   return (
     <div className="d-flex flex-column align-items-center">
-      <button className="btn btn-primary fs-6" onClick={() => setShow(!show)}>
+      <button
+        className="btn btn-primary fs-6"
+        onClick={() => setShow(!show)}
+        data-cy="btn-points-explanation"
+      >
         How are points calculated?
       </button>
 

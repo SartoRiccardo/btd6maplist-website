@@ -3,6 +3,16 @@ describe("Leaderboard", () => {
     cy.visit(`${Cypress.env("base_url")}/list/leaderboard`);
   });
 
+  it("should show how points are calculated", () => {
+    cy.get('[data-cy="points-explanation"]').should("not.exist");
+
+    cy.get('[data-cy="btn-points-explanation"]').click();
+    cy.get('[data-cy="points-explanation"]');
+
+    cy.get('[data-cy="btn-points-explanation"]').click();
+    cy.get('[data-cy="points-explanation"]').should("not.exist");
+  });
+
   it("should display the Maplist points leaderboard", () => {
     cy.request(`${Cypress.env("maplist_api_url")}/maps/leaderboard`).then(
       ({ body }) => {
