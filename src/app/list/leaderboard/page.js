@@ -7,7 +7,6 @@ import { listVersions } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import PaginateElement from "@/components/buttons/PaginateElement";
 import Image from "next/image";
-import PointCalcFormula from "@/components/layout/maplists/PointCalcFormula";
 import { PointCalcFade } from "./page.client";
 
 export async function generateMetadata({ searchParams }) {
@@ -99,6 +98,7 @@ export default async function ListLeaderboard({ searchParams }) {
                   position <= 3 ? "font-border" : ""
                 }`}
                 style={style}
+                data-cy="leaderboard-entry"
               >
                 <div className="col-1 d-flex flex-column justify-content-center">
                   <p className="fs-4 lb-position text-center mb-0">
