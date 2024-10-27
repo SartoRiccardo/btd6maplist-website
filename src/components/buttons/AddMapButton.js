@@ -23,6 +23,7 @@ export default function AddMapButton({
       }`}
       onClick={(evt) => onClick && onClick(evt)}
       tabIndex={0}
+      data-cy="btn-custom-map"
     >
       <p className={`${stylesMap.map_title} ${btd6Font.className} font-border`}>
         {title}

@@ -35,6 +35,7 @@ export default function Btd6Map({
       className={`shadow ${stylesMap.btd6map} pb-3 ${
         className ? className : ""
       }`}
+      data-cy="custom-map"
     >
       <p className={`${stylesMap.map_title} ${btd6Font.className} font-border`}>
         {name}
