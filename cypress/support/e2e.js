@@ -14,7 +14,12 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// https://github.com/cypress-io/cypress/issues/702#issuecomment-587127275
+Cypress.on("window:before:load", (win) => {
+  delete win.navigator.__proto__.serviceWorker;
+});
