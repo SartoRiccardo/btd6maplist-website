@@ -42,13 +42,13 @@ export default function NavLogin({ onNavigate }) {
   const cmpLoggedIn = (
     <>
       <li className="d-none d-md-inline-block">
-        <a href="#" className={styles.profileContainer}>
+        <a href="#" className={styles.profileContainer} data-cy="user-tab">
           <img className={`${styles.pfp}`} src={btd6Profile.avatarURL} />
           <span>{maplistProfile ? maplistProfile.name : "..."}</span>
         </a>
 
         {maplistProfile && (
-          <ul className={`${stylesNav.submenu} shadow`}>
+          <ul className={`${stylesNav.submenu} shadow`} data-cy="nav-dropdown">
             <li>
               <Link
                 href={`/user/${maplistProfile.id}`}
@@ -69,6 +69,7 @@ export default function NavLogin({ onNavigate }) {
           href="#"
           className={`${styles.profileContainer} ${styles.mobile}`}
           onClick={(_e) => setMobileSubmenuOpen(!mobileSubmenuOpen)}
+          data-cy="user-tab"
         >
           <img
             className={`${styles.pfp} ${styles.mobile}`}
