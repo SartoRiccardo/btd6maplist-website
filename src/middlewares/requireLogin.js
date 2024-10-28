@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const matcher = ["/map/submit", "/map/.+?/submit"];
+const matcher = ["/map/submit", "/map/.+?/submit", "/user/edit"];
 
 /**
  * Redirect to Discord Login, if attempting to fetch a resource that requires

@@ -28,3 +28,8 @@
 Cypress.Commands.add("clickOutside", () => {
   return cy.get("body").click(0, 0);
 });
+
+// https://stackoverflow.com/a/68871590/13033269
+Cypress.Commands.add("clipboard", () => {
+  return cy.window().then((win) => cy.wrap(win.navigator.clipboard.readText()));
+});

@@ -31,10 +31,10 @@ describe("User page", () => {
   it("should display the user's completions", () => {
     cy.visit(`/user/42`);
 
-    cy.get("[data-cy=completion]").should("have.length.lte", 50);
+    cy.get("[data-cy=single-completion]").should("have.length.lte", 50);
 
     cy.get("[data-cy=btn-paginate-next]").first().click();
-    cy.get("[data-cy=completion]").should("have.length.lte", 50);
+    cy.get("[data-cy=single-completion]").should("have.length.lte", 50);
 
     cy.get("[data-cy=btn-paginate-back]").first().click();
     cy.get("[data-cy=single-completion]")
@@ -65,5 +65,9 @@ describe("User page", () => {
   it("should display the user's created maps", () => {
     cy.visit(`/user/42`);
     cy.get("[data-cy=created-maps]").find("[data-cy=custom-map]");
+  });
+
+  it("cannot access the edit page", () => {
+    cy.visit("/user/edit");
   });
 });

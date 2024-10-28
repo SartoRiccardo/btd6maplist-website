@@ -156,6 +156,7 @@ function PlayBtn({ code, displayCode, className }) {
         href={`https://join.btd6.com/Map/${code}`}
         target="_blank"
         className={`shadow font-border`}
+        data-cy="btn-custom-map-play"
       >
         <p>{displayCode ? code : "Play"}</p>
       </a>

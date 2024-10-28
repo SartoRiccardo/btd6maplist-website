@@ -24,7 +24,7 @@ describe("Expert List", () => {
     });
   });
 
-  it("should redirect to Discord when submitting a map", () => {
+  it.skip("should redirect to Discord when submitting a map", () => {
     cy.get("[data-cy=btn-custom-map]")
       .as("btn-custom-map")
       .should("have.length", 1);

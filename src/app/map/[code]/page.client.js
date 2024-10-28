@@ -95,7 +95,9 @@ export function SubmitRunButton({ code }) {
 
   return (
     <Link href={`/map/${code}/submit`} prefetch={!!token}>
-      <button className="btn btn-primary active">Submit a Run</button>
+      <button className="btn btn-primary active" data-cy="btn-submit-run">
+        Submit a Run
+      </button>
     </Link>
   );
 }
@@ -133,8 +135,13 @@ export function Round6Start({ r6Start }) {
   }
 
   return dropComponent ? (
-    <>
-      <h3 className="c-pointer mb-1" onClick={() => setOpen(!open)}>
+    <div data-cy="r6-start-dropdown">
+      <h3
+        className="c-pointer mb-1"
+        onClick={() => setOpen(!open)}
+        tabIndex={0}
+        data-cy="btn-r6-start-dropdown"
+      >
         <i
           className={`bi ${
             open ? "bi-caret-down-fill" : "bi-caret-right-fill"
@@ -145,7 +152,7 @@ export function Round6Start({ r6Start }) {
       <LazyFade in={open} mountOnEnter={true} unmountOnExit={true}>
         <div>{dropComponent}</div>
       </LazyFade>
-    </>
+    </div>
   ) : (
     <a href={r6Start} target="_blank">
       <h3 className="mb-1">

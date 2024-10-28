@@ -15,7 +15,10 @@ export default function CompletionRow({
   if (!completion.length) return null;
 
   return (
-    <div className={`panel my-2 overflow-hidden ${className || ""}`}>
+    <div
+      className={`panel my-2 overflow-hidden ${className || ""}`}
+      data-cy="completion"
+    >
       <div className="row">
         <div className="col-12 col-md-5 col-lg-7 align-self-center">
           {userEntry}
