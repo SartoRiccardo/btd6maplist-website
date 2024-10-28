@@ -6,8 +6,7 @@ import MaplistPoints from "./MaplistPoints";
 import RowMedals from "./RowMedals";
 import { useAuthLevels } from "@/utils/hooks";
 import Link from "next/link";
-import ZoomedImage from "../utils/ZoomedImage";
-import { useState } from "react";
+import BtnShowCompletion from "../buttons/BtnShowCompletion";
 
 export default function CompletionColumn({
   completion,
@@ -16,7 +15,6 @@ export default function CompletionColumn({
   onlyIcon,
 }) {
   const authLevels = useAuthLevels();
-  const [shownCompletion, setShownCompletion] = useState(null);
 
   return (
     completion
@@ -90,21 +88,7 @@ export default function CompletionColumn({
                 </Link>
               ) : (
                 subm_proof_img.length > 0 && (
-                  <>
-                    <span
-                      className={`${stylesComp.completion_link} align-self-center no-underline`}
-                      onClick={() => setShownCompletion(id)}
-                    >
-                      <p className="text-center mb-0">
-                        <i className="bi bi-search" />
-                      </p>
-                    </span>
-                    <ZoomedImage
-                      show={shownCompletion === id}
-                      onHide={() => setShownCompletion(null)}
-                      src={subm_proof_img}
-                    />
-                  </>
+                  <BtnShowCompletion src={subm_proof_img} />
                 )
               )}
             </div>

@@ -59,7 +59,7 @@ export default async function PageUser({ params, searchParams }) {
             </h1>
 
             {(grantedRoles.length > 0 || uid === "1077309729942024302") && (
-              <div className={styles.rolesContainer}>
+              <div className={styles.rolesContainer} data-cy="user-roles">
                 {uid === "1077309729942024302" && <WebsiteCreatorRole />}
                 {grantedRoles.map(
                   ({ name, color, borderColor, description }) => (
@@ -102,7 +102,7 @@ export default async function PageUser({ params, searchParams }) {
       </Suspense>
 
       <h2 className="text-center mt-4">Created Maps</h2>
-      <div className="row">
+      <div className="row" data-cy="created-maps">
         {userData.created_maps.length ? (
           userData.created_maps.map((mapData) => (
             <div

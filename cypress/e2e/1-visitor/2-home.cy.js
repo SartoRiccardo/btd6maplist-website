@@ -4,12 +4,12 @@ describe("Home Page", () => {
   });
 
   beforeEach(() => {
-    cy.visit(Cypress.env("base_url"));
+    cy.visit("/");
   });
 
   it("renders the featured users", () => {
-    cy.get('[data-cy="project-description"]')
-      .find('[data-cy="user-entry"]')
+    cy.get("[data-cy=project-description]")
+      .find("[data-cy=user-entry]")
       .should("have.length", 3);
 
     cy.get('[data-cy="project-credits"]')
@@ -30,7 +30,7 @@ describe("Home Page", () => {
             .as("current-comp")
             .should("have.attr", "data-completion-id", compData.id.toString());
           cy.get("@current-comp")
-            .find('[data-cy="user-entry"]')
+            .find("[data-cy=user-entry]")
             .should("have.length", compData.users.length);
         });
       }

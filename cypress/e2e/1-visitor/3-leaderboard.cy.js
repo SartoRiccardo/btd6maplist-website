@@ -1,6 +1,10 @@
 describe("Leaderboard", () => {
+  before(() => {
+    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+  });
+
   beforeEach(() => {
-    cy.visit(`${Cypress.env("base_url")}/list/leaderboard`);
+    cy.visit(`/list/leaderboard`);
   });
 
   it("should show how points are calculated", () => {
@@ -16,8 +20,8 @@ describe("Leaderboard", () => {
   it("should display the Maplist points leaderboard", () => {
     cy.request(`${Cypress.env("maplist_api_url")}/maps/leaderboard`).then(
       ({ body }) => {
-        cy.get('[data-cy="leaderboard-entry"]').should("have.length.lte", 50);
-        cy.get('[data-cy="leaderboard-entry"]')
+        cy.get("[data-cy=leaderboard-entry]").should("have.length.lte", 50);
+        cy.get("[data-cy=leaderboard-entry]")
           .first()
           .contains(`${body.entries[0].score}pt`);
       }

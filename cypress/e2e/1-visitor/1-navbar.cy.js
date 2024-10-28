@@ -1,18 +1,22 @@
 describe("Navbar for visitors", () => {
+  before(() => {
+    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+  });
+
   beforeEach(() => {
-    cy.visit(Cypress.env("base_url"));
+    cy.visit("/");
   });
 
   it("should show and navigate on desktop", () => {
-    cy.get('[data-cy="navbar-mobile"]').should("not.be.visible");
-    cy.get('[data-cy="navbar-desktop"]')
+    cy.get("[data-cy=navbar-mobile]").should("not.be.visible");
+    cy.get("[data-cy=navbar-desktop]")
       .as("nav")
       .contains("Leaderboard")
       .click();
     cy.url().should("include", "/leaderboard");
 
     cy.get("@nav").contains("Maps").click();
-    cy.get('[data-cy="nav-dropdown"]').as("dropdown").should("be.visible");
+    cy.get("[data-cy=nav-dropdown]").as("dropdown").should("be.visible");
 
     cy.get("@dropdown").contains("Expert").click();
     cy.url().should("include", "/expert");
@@ -23,10 +27,10 @@ describe("Navbar for visitors", () => {
   it("should show and navigate on mobile", () => {
     cy.viewport("iphone-se2");
 
-    cy.get('[data-cy="navbar-desktop"]').should("not.be.visible");
-    cy.get('[data-cy="navbar-mobile-open"]').as("btn-nav").click();
+    cy.get("[data-cy=navbar-desktop]").should("not.be.visible");
+    cy.get("[data-cy=navbar-mobile-open]").as("btn-nav").click();
 
-    cy.get('[data-cy="navbar-mobile-content"]')
+    cy.get("[data-cy=navbar-mobile-content]")
       .as("nav")
       .contains("Login")
       .should("be.visible");
@@ -37,7 +41,7 @@ describe("Navbar for visitors", () => {
     cy.get("@btn-nav").click();
     cy.get("@nav").contains("Maps").click();
     cy.get("@nav")
-      .find('[data-cy="nav-dropdown"]')
+      .find("[data-cy=nav-dropdown]")
       .as("dropdown")
       .should("be.visible");
     cy.get("@dropdown").contains("Expert").click();

@@ -12,6 +12,7 @@ export default function BtnShowCompletion({ src }) {
         <span
           className={`${stylesComp.completion_link} align-self-center no-underline`}
           onClick={() => setShow(true)}
+          data-cy="btn-completion-proof"
         >
           <i className="bi bi-search" />
         </span>

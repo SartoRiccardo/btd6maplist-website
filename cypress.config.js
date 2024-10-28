@@ -6,5 +6,6 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       return cloudPlugin(on, config);
     },
+    baseUrl: "http://localhost:3000",
   },
 });

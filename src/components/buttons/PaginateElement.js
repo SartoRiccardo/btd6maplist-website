@@ -27,6 +27,7 @@ export default function PaginateElement({
             { scroll: false }
           )
         }
+        data-cy="btn-paginate-back"
       >
         &laquo;
       </button>
@@ -46,6 +47,7 @@ export default function PaginateElement({
             { scroll: false }
           )
         }
+        data-cy="btn-paginate-next"
       >
         &raquo;
       </button>
