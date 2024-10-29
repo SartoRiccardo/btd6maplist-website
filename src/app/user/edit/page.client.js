@@ -32,7 +32,7 @@ export default function EditSelf_C() {
     if (!values.name.length) errors.name = "Name cannot be blank";
     else if (values.name.length > MAX_NAME_LEN)
       errors.name = "Name is too long";
-    else if (!/^[a-zA-Z0-9\._-]+$/.test(values.name))
+    else if (!/^[a-zA-Z0-9 \._-]+$/.test(values.name))
       errors.name = 'Name can only have alphanumeric characters or "_-."';
 
     if (values.oak.length) {
@@ -50,7 +50,11 @@ export default function EditSelf_C() {
   };
 
   const handleSubmit = async (values, { setErrors }) => {
-    const result = await editProfile(access_token, maplistProfile.id, values);
+    const profile = {
+      ...values,
+      oak: values.oak.length ? values.oak : null,
+    };
+    const result = await editProfile(access_token, profile);
 
     if (Object.keys(result.errors).length) {
       setErrors(result.errors);
@@ -79,7 +83,7 @@ export default function EditSelf_C() {
         }}
       >
         {({ handleSubmit, handleChange, values, errors, isSubmitting }) => (
-          <form noValidate onSubmit={handleSubmit}>
+          <form noValidate onSubmit={handleSubmit} data-cy="form-edit-user">
             <div className="panel panel-container">
               <div className="row flex-row-space">
                 <div className="col-5 col-sm-6">
@@ -196,6 +200,7 @@ export default function EditSelf_C() {
                 onClick={(_e) =>
                   router.push(`/user/${maplistProfile.id}`, { scroll: true })
                 }
+                type="button"
               >
                 Back
               </button>
@@ -219,7 +224,9 @@ export default function EditSelf_C() {
         delay={4000}
         autohide
       >
-        <div className="toast-body">Profile changed successfully!</div>
+        <div className="toast-body" data-cy="toast-success">
+          Profile changed successfully!
+        </div>
       </LazyToast>
     </>
   );

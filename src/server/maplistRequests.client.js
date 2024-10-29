@@ -1,10 +1,10 @@
 const SRV_ERROR_MESSAGE =
   "Something went wrong on the server - please take a screenshot of the form and report it so I can fix it 🥺";
 
-export async function editProfile(token, userId, profile) {
+export async function editProfile(token, profile) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/users/@me`,
       {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
