@@ -136,6 +136,7 @@ export default function EditSelf_C() {
                     <button
                       onClick={(_e) => setShowOakHelp(!showOakHelp)}
                       className="btn btn-primary fs-6 mb-3"
+                      type="button"
                     >
                       How do I get mine?
                     </button>
