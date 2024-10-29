@@ -42,8 +42,6 @@ export default function EditSelf_C() {
             OAK must start with <span className="mono">oak_...</span>
           </>
         );
-      else if (values.oak.length !== 24)
-        errors.oak = `OAK must be exactly 24 characters long (yours is ${values.oak.length})`;
     }
 
     return errors;
@@ -90,7 +88,7 @@ export default function EditSelf_C() {
                   <p>Username</p>
                 </div>
                 <div className="col-7 col-sm-6">
-                  <div>
+                  <div data-cy="fgroup-name">
                     <Input
                       name="name"
                       type="text"
@@ -109,7 +107,7 @@ export default function EditSelf_C() {
                   <p>NinjaKiwi OAK</p>
                 </div>
                 <div className="col-7 col-sm-6">
-                  <div>
+                  <div data-cy="fgroup-oak">
                     <Input
                       type="text"
                       name="oak"
