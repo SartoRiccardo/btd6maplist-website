@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "start:test": "NODE_ENV=test next start",
     "lint": "next lint",
+    "build:test": "NODE_ENV=test next build",
+    "start:test": "NODE_ENV=test next start",
     "cypress:start": "npx cypress run"
   },
   "dependencies": {

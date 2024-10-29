@@ -26,7 +26,7 @@ To start the tests:
 
 1. Copy `.env.test` to `.env.test.local` and fill it out accordingly
 2. (Optional) Change the environment variables in `cypress.env.json`
-3. Build the website with `npm run build`
+3. Build the website that points to the test API with `npm run build:test`
 4. Start a test version of the website with `npm run start:test`
 5. Now you can run the suite with `npm run cypress:start`
 
