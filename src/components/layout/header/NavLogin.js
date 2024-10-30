@@ -58,7 +58,7 @@ export default function NavLogin({ onNavigate }) {
               </Link>
             </li>
             <li>
-              <a href={`/api/auth/revoke`}>Logout</a>
+              <a href="/api/auth/revoke">Logout</a>
             </li>
           </ul>
         )}
@@ -94,9 +94,7 @@ export default function NavLogin({ onNavigate }) {
                   </Link>
                 </li>
                 <li>
-                  <a href="#" onClick={(_e) => logout()}>
-                    Logout
-                  </a>
+                  <a href="/api/auth/revoke">Logout</a>
                 </li>
               </ul>
             </div>
