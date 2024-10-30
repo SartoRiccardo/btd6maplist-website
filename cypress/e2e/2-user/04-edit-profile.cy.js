@@ -42,6 +42,10 @@ describe("Edit Profile", () => {
       .as("err-name")
       .should("not.be.empty");
 
+    cy.get("@in-name").type(`{selectAll}{del}invalid character &`);
+    cy.shouldFailSubmit();
+    cy.get("@err-name").should("not.be.empty");
+
     cy.get("@in-name").type(`{selectAll}{del}`);
     cy.get("@err-name").should("not.be.empty");
     cy.shouldFailSubmit();
