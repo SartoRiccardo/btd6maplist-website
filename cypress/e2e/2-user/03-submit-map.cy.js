@@ -21,7 +21,7 @@ describe("Submit Map", () => {
   it("doesn't show the code if the code is invalid", () => {
     cy.get("input[name=code]").as("in-code").type("MLXXXAA");
     cy.get("@in-code")
-      .parent("[data-cy=fgroup-map-code]")
+      .parents("[data-cy=fgroup-map-code]")
       .find(".invalid-feedback")
       .as("err-code")
       .should("not.be.empty");

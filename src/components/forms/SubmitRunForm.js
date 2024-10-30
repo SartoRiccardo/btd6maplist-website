@@ -99,6 +99,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   const handleSubmit = async (values, { setErrors }) => {
     const payload = {
       ...values,
+      notes: values.notes.length ? values.notes : null,
       format: parseInt(values.format),
       code: mapData.code,
       proof_completion: removeFieldCode(values.proof_completion)
@@ -158,6 +159,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                 setShowErrorCount(true);
                 handleSubmit(evt);
               }}
+              data-cy="form-submit-completion"
             >
               <div className="row flex-row-space mt-5">
                 <div className="col-12 col-lg-6">
@@ -214,6 +216,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                                       )
                                     )
                                   }
+                                  data-cy="btn-remove-field"
                                 >
                                   <i className="bi bi-dash" />
                                 </button>
@@ -451,6 +454,7 @@ function SidebarForm({ formats }) {
                           values.video_proof_url.filter((_v, idx) => idx !== i)
                         )
                       }
+                      data-cy="btn-remove-field"
                     >
                       <i className="bi bi-dash" />
                     </button>

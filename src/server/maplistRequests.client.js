@@ -151,7 +151,7 @@ export async function submitRun(token, payload) {
   delete data.code;
   body.append("data", JSON.stringify(data));
   for (let i = 0; i < payload.proof_completion.length; i++)
-    body.append(`proof_completion[${i}]`, payload.proof_completion[i]);
+    body.append(`proof_completion`, payload.proof_completion[i]);
 
   try {
     const response = await fetch(
