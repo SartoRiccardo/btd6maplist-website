@@ -1,7 +1,15 @@
 describe("Submit Completion", () => {
   Cypress.Commands.add("shouldFailSubmit", () => {
-    cy.get("[data-cy=form-submit-map]").submit();
+    cy.get("[data-cy=form-submit-completion]").submit();
     cy.get("[data-cy=sidebar-success]").should("not.exist");
+  });
+
+  Cypress.Commands.add("fillCompletionImages", () => {
+    cy.get("[name^=proof_completion]").each(($proof) =>
+      cy
+        .wrap($proof)
+        .selectFile("public/heros/hero_ezili.webp", { action: "drag-drop" })
+    );
   });
 
   const uid = 30;
@@ -18,6 +26,47 @@ describe("Submit Completion", () => {
 
   it("doesn't let you submit if some fields are invalid", () => {});
 
+  describe("Banned and restricted users", () => {
+    it("forces requires recording users to submit video proof", () => {
+      cy.visit(`/api/auth?code=mock_discord_code_${uid}_4`);
+      cy.visit("/map/MLXXXAA/submit");
+      cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
+        "req-comp-submission"
+      );
+
+      cy.fillCompletionImages();
+      cy.shouldFailSubmit();
+
+      cy.get("[name^=video_proof_url]")
+        .first()
+        .as("in-vproof")
+        .parents("[data-cy=addable-field]")
+        .find(".invalid-feedback")
+        .should("not.be.empty");
+
+      cy.get("@in-vproof").type("https://youtu.be/rickroll");
+      cy.get("[data-cy=form-submit-completion]").submit();
+      cy.wait("@req-comp-submission")
+        .its("response.statusCode")
+        .should("equal", 201);
+    });
+
+    it("prevents banned users from submitting", () => {
+      cy.visit(`/api/auth?code=mock_discord_code_${uid}_8`);
+      cy.visit("/map/MLXXXAA/submit");
+      cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
+        "req-comp-submission"
+      );
+
+      cy.fillCompletionImages();
+      cy.shouldFailSubmit();
+      cy.get("[data-cy=toast-error]");
+      cy.wait("@req-comp-submission")
+        .its("response.statusCode")
+        .should("equal", 403);
+    });
+  });
+
   describe("Submits succcessfully", () => {
     it("submits a basic completion", () => {
       cy.visit("/map/MLXXXAA");
@@ -28,10 +77,7 @@ describe("Submit Completion", () => {
       cy.get("[data-cy=btn-submit-run]").click();
       cy.location("pathname").should("equal", "/map/MLXXXAA/submit");
 
-      cy.get('[name="proof_completion[0].file"]').selectFile(
-        "public/heros/hero_ezili.webp",
-        { action: "drag-drop" }
-      );
+      cy.fillCompletionImages();
       cy.get("[data-cy=form-submit-completion]").submit();
       cy.wait("@req-comp-submission")
         .its("response.statusCode")
@@ -58,11 +104,7 @@ describe("Submit Completion", () => {
         .find("[data-cy=btn-remove-field]")
         .should("have.length", 4);
       cy.get("@fgroup-proof").find("[data-cy=btn-remove-field]").eq(2).click();
-      cy.get("[name^=proof_completion]").each(($proof) =>
-        cy
-          .wrap($proof)
-          .selectFile("public/heros/hero_ezili.webp", { action: "drag-drop" })
-      );
+      cy.fillCompletionImages();
 
       cy.get("[name=notes]").type("This completion was very hard!!!");
 
