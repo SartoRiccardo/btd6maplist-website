@@ -55,7 +55,7 @@ export default function MapCodeController({
 
   return (
     <>
-      <div className={stylesFrmMap.mapcode_input}>
+      <div className={stylesFrmMap.mapcode_input} data-cy="fgroup-map-code">
         {!noLabels && <label className="form-label">Map Code</label>}
         <Input
           name={name}

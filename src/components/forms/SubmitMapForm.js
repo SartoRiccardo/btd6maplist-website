@@ -104,6 +104,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
                 handleSubmit(evt);
               }}
               className="addmap"
+              data-cy="form-submit-map"
             >
               <MapCodeController
                 name="code"
@@ -151,7 +152,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
               </LazyFade>
 
               {currentMap && currentMap.valid && (
-                <>
+                <div data-cy="submit-map-fields">
                   <hr className="mb-5" />
 
                   <div className="row flex-row-space mt-5">
@@ -193,7 +194,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
                       )}
                     </>
                   )}
-                </>
+                </div>
               )}
             </form>
 
@@ -207,18 +208,11 @@ export default function SubmitMapForm({ onSubmit, type }) {
 
 function SidebarForm({ type }) {
   const formikProps = useContext(FormikContext);
-  const {
-    handleChange,
-    handleBlur,
-    values,
-    setFieldValue,
-    touched,
-    errors,
-    disableInputs,
-  } = formikProps;
+  const { handleChange, handleBlur, values, touched, errors, disableInputs } =
+    formikProps;
 
   return (
-    <div className="my-2">
+    <div className="my-2" data-cy="sidebar-form">
       <div>
         <label className="form-label">Notes</label>
         <Input
@@ -322,7 +316,7 @@ function SidebarForm({ type }) {
 
 function SidebarSuccess({ type }) {
   return (
-    <div className="h-100 flex-vcenter">
+    <div className="h-100 flex-vcenter" data-cy="sidebar-success">
       <p className="text-center mb-0">
         <span className="lead">Your map has been submitted!</span>
         <br />
