@@ -20,7 +20,7 @@ export default function ProtectedLinks({
   return (
     <>
       {!mobile && (
-        <li>
+        <li data-cy="admin-tab">
           <a href="#" tabIndex={0}>
             Admin <i className="bi bi-caret-down-fill" />
           </a>
@@ -41,7 +41,7 @@ export default function ProtectedLinks({
               onNavigate={onNavigate}
             />
             <LinkItem
-              href="/list/legacy"
+              href="/hidden-maps"
               label="Legacy List"
               onNavigate={onNavigate}
             />
@@ -55,7 +55,7 @@ export default function ProtectedLinks({
       )}
 
       {mobile && (
-        <li>
+        <li data-cy="admin-tab">
           <a href="#" onClick={toggleSubmenu(100, openSubmenus.includes(100))}>
             <i
               className={`bi ${
@@ -84,7 +84,7 @@ export default function ProtectedLinks({
                   onNavigate={onNavigate}
                 />
                 <LinkItem
-                  href="/list/legacy"
+                  href="/hidden-maps"
                   label="Legacy List"
                   onNavigate={onNavigate}
                 />

@@ -42,6 +42,7 @@ export function NavbarMobile() {
           <i
             className={`${styles.closeButton} bi bi-x-lg text-5`}
             onClick={(_e) => setIsMenuOpen(false)}
+            data-cy="navbar-mobile-close"
           />
         </div>
 
