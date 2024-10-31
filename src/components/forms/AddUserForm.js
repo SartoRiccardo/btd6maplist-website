@@ -64,7 +64,7 @@ export default function AddUserForm() {
               <div className="panel panel-container">
                 <div className="row flex-row-space">
                   <div className="col-6">
-                    <div>
+                    <div data-cy="form-group">
                       <label className="form-label">Discord ID</label>
                       <Input
                         name="discord_id"
@@ -88,7 +88,7 @@ export default function AddUserForm() {
                   </div>
 
                   <div className="col-6">
-                    <div>
+                    <div data-cy="form-group">
                       <label className="form-label">Username</label>
                       <Input
                         name="name"
@@ -132,7 +132,9 @@ export default function AddUserForm() {
         delay={4000}
         autohide
       >
-        <div className="toast-body">User inserted!</div>
+        <div className="toast-body" data-cy="toast-success">
+          User inserted!
+        </div>
       </LazyToast>
     </>
   );
