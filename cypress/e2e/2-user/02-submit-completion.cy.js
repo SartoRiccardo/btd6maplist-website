@@ -1,4 +1,6 @@
 describe("Submit Completion", () => {
+  const uid = 30;
+
   Cypress.Commands.add("shouldFailSubmit", () => {
     cy.get("[data-cy=form-submit-completion]").submit();
     cy.get("[data-cy=sidebar-success]").should("not.exist");
@@ -25,8 +27,6 @@ describe("Submit Completion", () => {
       });
     }
   });
-
-  const uid = 30;
 
   before(() => {
     cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);

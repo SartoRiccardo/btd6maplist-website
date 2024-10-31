@@ -1,6 +1,10 @@
 describe("Logged in user navbar", () => {
   const uid = 30;
 
+  before(() => {
+    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+  });
+
   beforeEach(() => {
     cy.visit(`/api/auth?code=mock_discord_code_${uid}_0`);
   });

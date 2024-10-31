@@ -1,10 +1,10 @@
 describe("Submit Map", () => {
+  const uid = 30;
+
   Cypress.Commands.add("shouldFailSubmit", () => {
     cy.get("[data-cy=form-submit-map]").submit();
     cy.get("[data-cy=sidebar-success]").should("not.exist");
   });
-
-  const uid = 30;
 
   beforeEach(() => {
     cy.request("https://data.ninjakiwi.com/btd6/maps/filter/newest").then(

@@ -1,10 +1,10 @@
 describe("Edit Profile", () => {
+  const uid = 30;
+
   Cypress.Commands.add("shouldFailSubmit", () => {
     cy.get("[data-cy=form-edit-user]").submit();
     cy.get("[data-cy=toast-success]").should("not.exist");
   });
-
-  const uid = 30;
 
   beforeEach(() => {
     cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);

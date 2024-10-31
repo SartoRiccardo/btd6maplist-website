@@ -7,6 +7,10 @@ describe("Admin user navbar", () => {
     { content: "Map", url: "/map-submissions" },
   ];
 
+  before(() => {
+    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+  });
+
   beforeEach(() => {
     cy.visit(`/api/auth?code=mock_discord_code_${uid}_64`);
     cy.visit("/");
