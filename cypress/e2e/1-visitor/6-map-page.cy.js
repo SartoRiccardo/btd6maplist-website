@@ -4,7 +4,10 @@ describe("Map page", () => {
   });
 
   it("shows a not found when a map doesn't exist", () => {
-    cy.visit(`/map/DOESNOTEXIST`);
+    cy.visit("/map/DOESNOTEXIST", { failOnStatusCode: false });
+    cy.request({ url: "/map/DOESNOTEXIST", failOnStatusCode: false })
+      .its("status")
+      .should("equal", 404);
   });
 
   it("displays the map's information", () => {

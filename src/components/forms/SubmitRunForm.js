@@ -225,7 +225,10 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
 
                             {touched.proof_completion &&
                               errors[`proof_completion[${i}]`] && (
-                                <p className="text-danger text-center">
+                                <p
+                                  className="text-danger text-center"
+                                  data-cy="invalid-feedback"
+                                >
                                   {errors[`proof_completion[${i}]`]}
                                 </p>
                               )}
@@ -338,7 +341,7 @@ function SidebarForm({ formats }) {
         </div>
       )}
 
-      <div>
+      <div data-cy="fgroup-notes">
         <label className="form-label">Notes</label>
         <Input
           name="notes"
@@ -467,7 +470,7 @@ function SidebarForm({ formats }) {
       )}
 
       {values.current_lcc && (
-        <div className="mt-2">
+        <div className="mt-2" data-cy="fgroup-leftover">
           <label className="form-label">LCC Saveup</label>
           <Input
             type="number"

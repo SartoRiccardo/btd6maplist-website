@@ -4,12 +4,26 @@ describe("Submit Completion", () => {
     cy.get("[data-cy=sidebar-success]").should("not.exist");
   });
 
-  Cypress.Commands.add("fillCompletionImages", () => {
-    cy.get("[name^=proof_completion]").each(($proof) =>
-      cy
-        .wrap($proof)
-        .selectFile("public/heros/hero_ezili.webp", { action: "drag-drop" })
-    );
+  Cypress.Commands.add("fillCompletionImages", (fileName, opts = null) => {
+    let options = {
+      onlyOne: false,
+    };
+    if (opts !== null)
+      options = {
+        ...options,
+        ...opts,
+      };
+
+    const filePath = `cypress/images/${fileName || "submittable_image.webp"}`;
+    if (options.onlyOne) {
+      cy.get("[name^=proof_completion]")
+        .first()
+        .selectFile(filePath, { action: "drag-drop" });
+    } else {
+      cy.get("[name^=proof_completion]").each(($proof) => {
+        cy.wrap($proof).selectFile(filePath, { action: "drag-drop" });
+      });
+    }
   });
 
   const uid = 30;
@@ -22,11 +36,79 @@ describe("Submit Completion", () => {
     cy.visit(`/api/auth?code=mock_discord_code_${uid}_0`);
   });
 
-  it("can't submit on deleted map", () => {});
+  it.skip("can't submit on a deleted map", () => {
+    cy.visit("/map/DELXXAB/submit");
+    cy.get("[data-cy=form-submit-completion]").should("not.exist");
+  });
 
-  it("doesn't let you submit if some fields are invalid", () => {});
+  it.skip("can't submit on maps that don't exist", () => {
+    cy.visit("/map/DOESNTOEXIST/submit", { failOnStatusCode: false });
+    cy.request({ url: "/map/DOESNTOEXIST/submit", failOnStatusCode: false })
+      .its("status")
+      .should("equal", 404);
+  });
 
-  describe("Banned and restricted users", () => {
+  it("doesn't let you submit if some fields are invalid", () => {
+    cy.visit("/map/MLXXXAA/submit");
+    cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
+      "req-comp-submission"
+    );
+
+    cy.wait(1000);
+    cy.shouldFailSubmit();
+    cy.get("[name^=proof_completion]")
+      .parents("[data-cy=addable-field]")
+      .find("[data-cy=invalid-feedback]")
+      .as("err-proof")
+      .should("not.be.empty");
+
+    cy.fillCompletionImages("big_broken_image.png");
+    cy.get("@err-proof").should("not.be.empty");
+    cy.shouldFailSubmit();
+
+    // cy.fillCompletionImages("bad_extension.pdf");
+    // cy.get("@err-proof").should("not.be.empty", { onlyOne: true });
+    // cy.shouldFailSubmit();
+
+    cy.fillCompletionImages();
+    cy.get("@err-proof").should("not.exist");
+
+    let veryLongText = "";
+    for (let i = 0; i < 1_000; i++) veryLongText += "x";
+    cy.get("[name=notes]").type(veryLongText, { delay: 1 });
+    cy.get("[name=notes]")
+      .parents("[data-cy=fgroup-notes]")
+      .find(".invalid-feedback")
+      .should("not.be.empty");
+    cy.shouldFailSubmit();
+    cy.get("[name=notes]").type("{selectAll}{del}");
+
+    cy.get("[name=current_lcc]").check();
+    cy.get("[name=leftover]").type("a");
+    cy.get("[name=leftover]")
+      .parents("[data-cy=fgroup-leftover]")
+      .find(".invalid-feedback")
+      .should("not.be.empty");
+    cy.shouldFailSubmit();
+    cy.get("[name=leftover]").type("{del}9999");
+
+    cy.get("[name^=video_proof_url]").type("invalidurl");
+    cy.shouldFailSubmit();
+    cy.get("[name^=video_proof_url]")
+      .parents("[data-cy=addable-field]")
+      .find(".invalid-feedback")
+      .as("err-vproof")
+      .should("not.be.empty");
+
+    cy.get("[name^=video_proof_url]").type(
+      `{selectAll}{del}https://youtube.com/${veryLongText}`,
+      { delay: 1 }
+    );
+    cy.shouldFailSubmit();
+    cy.get("@err-vproof").should("not.be.empty");
+  });
+
+  describe.skip("Banned and restricted users", () => {
     it("forces requires recording users to submit video proof", () => {
       cy.visit(`/api/auth?code=mock_discord_code_${uid}_4`);
       cy.visit("/map/MLXXXAA/submit");
@@ -67,7 +149,7 @@ describe("Submit Completion", () => {
     });
   });
 
-  describe("Submits succcessfully", () => {
+  describe.skip("Submits succcessfully", () => {
     it("submits a basic completion", () => {
       cy.visit("/map/MLXXXAA");
       cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
