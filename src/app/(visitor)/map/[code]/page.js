@@ -6,7 +6,6 @@ import UserEntry from "@/components/users/UserEntry";
 import { getMap } from "@/server/maplistRequests";
 import { numberWithCommas } from "@/utils/functions";
 import { Fragment, Suspense } from "react";
-import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { allFormats } from "@/utils/maplistUtils";
 import {
@@ -18,6 +17,7 @@ import {
 } from "./page.client";
 import CopyButton from "@/components/forms/CopyButton";
 import BtnShowCompletion from "@/components/buttons/BtnShowCompletion";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const mapData = await getMap(params.code);
@@ -33,7 +33,7 @@ export default async function MapOverview({ params, searchParams }) {
   let page = parseInt(searchParams?.comp_page || "1");
   page = isNaN(page) ? 1 : page;
 
-  if (!mapData) return <ResourceNotFound label="map" />;
+  if (mapData === null) notFound();
 
   return (
     <>

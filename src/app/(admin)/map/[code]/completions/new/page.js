@@ -1,5 +1,7 @@
+import { getMap } from "@/server/maplistRequests";
 import NewCompletion_C from "./page.client";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "New Completion | BTD6 Maplist",
@@ -7,6 +9,9 @@ export const metadata = {
 
 export default async function NewCompletion({ params }) {
   const { code } = params;
+  const mapData = await getMap(code);
+
+  if (mapData === null) notFound();
 
   return (
     <>

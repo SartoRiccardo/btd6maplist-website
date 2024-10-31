@@ -1,7 +1,6 @@
 import styles from "./userpage.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
 import SelectorButton from "@/components/buttons/SelectorButton";
-import ResourceNotFound from "@/components/layout/ResourceNotFound";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
 import { difficulties, listVersions, userRoles } from "@/utils/maplistUtils";
@@ -11,6 +10,7 @@ import UserCompletions from "@/components/users/UserCompletions";
 import { Suspense } from "react";
 import { UserRole, WebsiteCreatorRole } from "./page.client";
 import ProfileMedal from "@/components/users/ProfileMedal";
+import { notFound } from "next/navigation";
 
 const btnSize = 50;
 
@@ -27,7 +27,7 @@ export default async function PageUser({ params, searchParams }) {
   let page = parseInt(searchParams?.comp_page || "1");
   page = isNaN(page) ? 1 : page;
 
-  if (!userData) return <ResourceNotFound label="user" />;
+  if (userData === null) notFound();
 
   const grantedRoles = userRoles.filter(({ requirement }) =>
     requirement({ user: userData })

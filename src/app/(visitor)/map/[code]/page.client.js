@@ -1,6 +1,6 @@
 "use client";
 import LazyFade from "@/components/transitions/LazyFade";
-import stylesLoader from "../../../components/utils/Loader.module.css";
+import stylesLoader from "@/components/utils/Loader.module.css";
 import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry_C from "@/components/users/UserEntry.client";
 import ZoomedImage from "@/components/utils/ZoomedImage";
