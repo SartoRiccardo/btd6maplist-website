@@ -16,8 +16,7 @@ import { useDiscordToken } from "@/utils/hooks";
 import Input from "@/components/forms/bootstrap/Input";
 import LazyCollapse from "@/components/transitions/LazyCollapse";
 import LazyToast from "@/components/transitions/LazyToast";
-
-const MAX_NAME_LEN = 100;
+import { validateUsername } from "@/utils/validators";
 
 export default function EditSelf_C() {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
@@ -29,11 +28,8 @@ export default function EditSelf_C() {
 
   const validate = async (values) => {
     const errors = {};
-    if (!values.name.length) errors.name = "Name cannot be blank";
-    else if (values.name.length > MAX_NAME_LEN)
-      errors.name = "Name is too long";
-    else if (!/^[a-zA-Z0-9 \._-]+$/.test(values.name))
-      errors.name = 'Name can only have alphanumeric characters or "_-."';
+    const nameError = validateUsername(values.name);
+    if (nameError) errors.name = nameError;
 
     if (values.oak.length) {
       if (!values.oak.startsWith("oak_"))
