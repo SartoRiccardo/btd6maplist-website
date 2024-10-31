@@ -36,12 +36,12 @@ describe("Submit Completion", () => {
     cy.visit(`/api/auth?code=mock_discord_code_${uid}_0`);
   });
 
-  it.skip("can't submit on a deleted map", () => {
+  it("can't submit on a deleted map", () => {
     cy.visit("/map/DELXXAB/submit");
     cy.get("[data-cy=form-submit-completion]").should("not.exist");
   });
 
-  it.skip("can't submit on maps that don't exist", () => {
+  it("can't submit on maps that don't exist", () => {
     cy.visit("/map/DOESNTOEXIST/submit", { failOnStatusCode: false });
     cy.request({ url: "/map/DOESNTOEXIST/submit", failOnStatusCode: false })
       .its("status")
@@ -108,7 +108,7 @@ describe("Submit Completion", () => {
     cy.get("@err-vproof").should("not.be.empty");
   });
 
-  describe.skip("Banned and restricted users", () => {
+  describe("Banned and restricted users", () => {
     it("forces requires recording users to submit video proof", () => {
       cy.visit(`/api/auth?code=mock_discord_code_${uid}_4`);
       cy.visit("/map/MLXXXAA/submit");
@@ -149,7 +149,7 @@ describe("Submit Completion", () => {
     });
   });
 
-  describe.skip("Submits succcessfully", () => {
+  describe("Submits succcessfully", () => {
     it("submits a basic completion", () => {
       cy.visit("/map/MLXXXAA");
       cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
@@ -184,8 +184,9 @@ describe("Submit Completion", () => {
         .should("not.exist");
       cy.get("@fgroup-proof")
         .find("[data-cy=btn-remove-field]")
-        .should("have.length", 4);
+        .as("btn-remove-proofs");
       cy.get("@fgroup-proof").find("[data-cy=btn-remove-field]").eq(2).click();
+      cy.get("@fgroup-proof").find("[data-cy=btn-addable-field]");
       cy.fillCompletionImages();
 
       cy.get("[name=notes]").type("This completion was very hard!!!");
@@ -215,7 +216,10 @@ describe("Submit Completion", () => {
         .should("not.exist");
       cy.get("@fgroup-vproof")
         .find("[data-cy=btn-remove-field]")
+        .as("btn-remove-vproof")
         .should("have.length", 5);
+      cy.get("@btn-remove-vproof").eq(3).click();
+      cy.get("@fgroup-vproof").find("[data-cy=btn-addable-field]");
       cy.get("[name^=video_proof_url]").each(($vproof, i) =>
         cy.wrap($vproof).type(`https://youtu.be/aefhu${i}`)
       );
