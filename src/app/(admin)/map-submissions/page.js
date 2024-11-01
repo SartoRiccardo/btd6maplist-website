@@ -25,6 +25,7 @@ export default async function MapSubmissionList({ searchParams }) {
               show: show === "pending" ? "all" : "pending",
             }).toString()
           }
+          data-cy="btn-toggle-deleted"
         >
           <span className="btn btn-primary fs-6">
             {show === "pending" ? "Show" : "Hide"} Rejected

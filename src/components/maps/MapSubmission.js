@@ -37,8 +37,9 @@ export default async function MapSubmission({
   return (
     <div
       className={`row panel ${cssMap.btd6map_row} my-3 gy-2 ${
-        rejected_by !== null && cssMapSubm.rejected
+        rejected_by !== null ? cssMapSubm.rejected : ""
       }`}
+      data-cy={`map-submission${rejected_by !== null ? "-deleted" : ""}`}
     >
       <div className="col-12 col-md-6">
         <div className="d-flex align-self-center">

@@ -28,6 +28,7 @@ export default function BtnDeleteSubmission({ name, code, className }) {
         <span
           className={`${stylesComp.completion_link} align-self-center no-underline`}
           onClick={() => setShow(true)}
+          data-cy="btn-delete-submission"
         >
           <i className="bi bi-trash3" />
         </span>
@@ -50,7 +51,11 @@ export default function BtnDeleteSubmission({ name, code, className }) {
               >
                 Cancel
               </button>
-              <button className="btn btn-danger big" onClick={reject}>
+              <button
+                className="btn btn-danger big"
+                onClick={reject}
+                data-cy="btn-delete-submission-confirm"
+              >
                 Reject
               </button>
             </div>
