@@ -36,7 +36,7 @@ export default function ProtectedLinks({
               onNavigate={onNavigate}
             />
             <LinkItem
-              href="/completions/unconfirmed"
+              href="/completions/pending"
               label="Pending Runs"
               onNavigate={onNavigate}
             />
@@ -79,7 +79,7 @@ export default function ProtectedLinks({
                   onNavigate={onNavigate}
                 />
                 <LinkItem
-                  href="/completions/unconfirmed"
+                  href="/completions/pending"
                   label="Pending Runs"
                   onNavigate={onNavigate}
                 />

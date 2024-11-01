@@ -498,7 +498,7 @@ function SidebarSuccess() {
           approved.
         </span>
         <br />
-        <Link href="/list">&laquo; Back to the list</Link>
+        <Link href="/maplist">&laquo; Back to the list</Link>
       </p>
     </div>
   );

@@ -52,7 +52,7 @@ export default async function Home() {
       </p>
       <div className="row justify-content-center mb-3 font-border">
         <div className="col-6 col-md-4 col-lg-3">
-          <Link scroll={true} className="no-underline" href="/list">
+          <Link scroll={true} className="no-underline" href="/maplist">
             <div className="panel bg-list shadow pt-3 h-100 no-border">
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
@@ -77,7 +77,7 @@ export default async function Home() {
           </Link>
         </div>
         <div className="col-6 col-md-4 col-lg-3">
-          <Link scroll={true} className="no-underline" href="/experts">
+          <Link scroll={true} className="no-underline" href="/expert-list">
             <div className="panel bg-experts shadow pt-3 h-100 no-border">
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">

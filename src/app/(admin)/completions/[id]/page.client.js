@@ -42,7 +42,7 @@ export default function EditCompletion_C({ completion }) {
 
         const navigateTo = completion.accepted_by
           ? `/map/${completion.map}`
-          : "/completions/unconfirmed";
+          : "/completions/pending";
 
         await new Promise((resolve) => {
           revalidateCompletion(completion.map, completion.users, {

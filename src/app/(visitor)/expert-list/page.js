@@ -38,7 +38,7 @@ export default async function Experts({ searchParams }) {
         <DifficultySelector
           value={curDifficulty.value}
           difficulties={difficulties}
-          href="/experts?difficulty={queryval}"
+          href="/expert-list?difficulty={queryval}"
         />
         <p className={`${styles.diffDesc}`}>{curDifficulty.description}</p>
 

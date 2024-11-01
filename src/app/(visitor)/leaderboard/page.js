@@ -49,7 +49,7 @@ export default async function ListLeaderboard({ searchParams }) {
         value={curFormat.value}
         difficulties={listVersions}
         href={
-          `/list/leaderboard?` +
+          `/leaderboard?` +
           new URLSearchParams({
             ...searchParams,
             format: "{queryval}",
@@ -69,7 +69,7 @@ export default async function ListLeaderboard({ searchParams }) {
               key={key}
               scroll={false}
               href={
-                `/list/leaderboard?` +
+                `/leaderboard?` +
                 new URLSearchParams({ ...searchParams, value: key }).toString()
               }
               className={`${

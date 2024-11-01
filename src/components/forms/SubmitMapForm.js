@@ -325,7 +325,7 @@ function SidebarSuccess({ type }) {
           approved.
         </span>
         <br />
-        <Link href={type === "list" ? "/list" : "/experts"}>
+        <Link href={type === "list" ? "/maplist" : "/expert-list"}>
           &laquo; Back to the list
         </Link>
       </p>

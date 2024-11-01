@@ -77,14 +77,17 @@ export function NavbarMobile() {
                   >
                     <li>
                       <Link
-                        href="/experts"
+                        href="/expert-list"
                         onClick={(_e) => setIsMenuOpen(false)}
                       >
                         Experts
                       </Link>
                     </li>
                     <li>
-                      <Link href="/list" onClick={(_e) => setIsMenuOpen(false)}>
+                      <Link
+                        href="/maplist"
+                        onClick={(_e) => setIsMenuOpen(false)}
+                      >
                         The List
                       </Link>
                     </li>
@@ -94,10 +97,7 @@ export function NavbarMobile() {
             </li>
 
             <li>
-              <Link
-                href="/list/leaderboard"
-                onClick={(_e) => setIsMenuOpen(false)}
-              >
+              <Link href="/leaderboard" onClick={(_e) => setIsMenuOpen(false)}>
                 Leaderboard
               </Link>
             </li>

@@ -46,16 +46,16 @@ export default function Header() {
                     data-cy="nav-dropdown"
                   >
                     <li>
-                      <Link href="/experts">Experts</Link>
+                      <Link href="/expert-list">Experts</Link>
                     </li>
                     <li>
-                      <Link href="/list">The List</Link>
+                      <Link href="/maplist">The List</Link>
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <Link href="/list/leaderboard">Leaderboard</Link>
+                  <Link href="/leaderboard">Leaderboard</Link>
                 </li>
 
                 <NavLogin />

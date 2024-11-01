@@ -133,7 +133,7 @@ export default function MapForm({
       await deleteMap(access_token, code);
       await new Promise((resolve) => {
         revalidateMap(code)
-          .then(() => router.push("/list"))
+          .then(() => router.push("/maplist"))
           .then(resolve);
       });
     });
