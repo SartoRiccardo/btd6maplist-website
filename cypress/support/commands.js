@@ -38,3 +38,11 @@ Cypress.Commands.add("failSubmit", { prevSubject: "element" }, (subject) => {
   cy.wrap(subject).submit();
   cy.get("[data-cy=toast-success]").should("not.exist");
 });
+
+Cypress.Commands.add("resetApi", () => {
+  return cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+});
+
+Cypress.Commands.add("login", (userId, perms) => {
+  return cy.visit(`/api/auth?code=mock_discord_code_${userId}_${perms}`);
+});
