@@ -18,7 +18,7 @@ describe("Pending Maps", () => {
     cy.get("[data-cy=map-submission-deleted]");
   });
 
-  it("can delete pending maps", () => {
+  it("can delete and check pending maps", () => {
     cy.visit("/map-submissions?show=all");
     cy.intercept("DELETE", "/maps/submit/*").as("req-reject-subm");
 
@@ -29,6 +29,7 @@ describe("Pending Maps", () => {
         .find("[data-cy=btn-delete-submission]")
         .first()
         .click();
+      cy.get("[data-cy=btn-completion-proof]");
       cy.get("[data-cy=btn-delete-submission-confirm]").click();
       cy.wait("@req-reject-subm")
         .its("response.statusCode")
