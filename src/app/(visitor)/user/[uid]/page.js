@@ -82,7 +82,7 @@ export default async function PageUser({ params, searchParams }) {
         )}
       </div>
 
-      <h2 className="text-center">Overview</h2>
+      <h2 className="text-center mt-3">Overview</h2>
       <div className="row justify-content-center">
         {!!listVersions.find(({ value }) => value === 1) && (
           <div className="col-6 col-md-5 col-lg-4 col-xl-3">
