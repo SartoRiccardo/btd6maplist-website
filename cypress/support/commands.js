@@ -33,3 +33,8 @@ Cypress.Commands.add("clickOutside", () => {
 Cypress.Commands.add("clipboard", () => {
   return cy.window().then((win) => cy.wrap(win.navigator.clipboard.readText()));
 });
+
+Cypress.Commands.add("failSubmit", { prevSubject: "element" }, (subject) => {
+  cy.wrap(subject).submit();
+  cy.get("[data-cy=toast-success]").should("not.exist");
+});
