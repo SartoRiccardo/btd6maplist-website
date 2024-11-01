@@ -66,7 +66,7 @@ export default function Btd6Map({
       />
 
       {showMedals && (
-        <div className={`${stylesMap.btd6map_medals} d-flex`}>
+        <div className={`${stylesMap.btd6map_medals} d-flex`} data-cy="medals">
           <img
             src={
               completion && completion.black_border

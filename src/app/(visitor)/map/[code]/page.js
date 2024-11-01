@@ -144,7 +144,7 @@ export default async function MapOverview({ params, searchParams }) {
 
       <h2 className="text-center">Completions</h2>
 
-      <div className="mb-4">
+      <div className="mb-4" data-cy="user-completions">
         <h3 className="text-center">Your Runs</h3>
         <LoggedUserRun mapData={mapData} />
         <div className="flex-hcenter">
