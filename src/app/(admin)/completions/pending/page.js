@@ -5,7 +5,7 @@ import { getUnapprovedRuns } from "@/server/maplistRequests";
 import { groupCompsByMap, groupCompsByUser } from "@/utils/functions";
 
 export default async function UnconfirmedList({ searchParams }) {
-  let page = parseInt(searchParams?.page || "1");
+  let page = parseInt(searchParams?.comp_page || "1");
   page = isNaN(page) ? 1 : page;
 
   const completions = await getUnapprovedRuns({ page });
