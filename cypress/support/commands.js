@@ -46,3 +46,27 @@ Cypress.Commands.add("resetApi", () => {
 Cypress.Commands.add("login", (userId, perms) => {
   return cy.visit(`/api/auth?code=mock_discord_code_${userId}_${perms}`);
 });
+
+Cypress.Commands.add(
+  "fillImages",
+  { prevSubject: "element" },
+  ($elements, fileName = null, opts = null) => {
+    let options = {
+      onlyOne: false,
+    };
+    if (opts !== null)
+      options = {
+        ...options,
+        ...opts,
+      };
+
+    const filePath = `cypress/images/${fileName || "submittable_image.webp"}`;
+    if (options.onlyOne) {
+      cy.wrap($elements).first().selectFile(filePath, { action: "drag-drop" });
+    } else {
+      cy.wrap($elements).each(($proof) => {
+        cy.wrap($proof).selectFile(filePath, { action: "drag-drop" });
+      });
+    }
+  }
+);

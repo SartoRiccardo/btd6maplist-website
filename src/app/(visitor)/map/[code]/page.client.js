@@ -82,7 +82,10 @@ export function AdminRunOptions({ code }) {
   return (
     <>
       <div className="flex-hcenter mb-4">
-        <Link href={`/map/${code}/completions/new`}>
+        <Link
+          href={`/map/${code}/completions/new`}
+          data-cy="btn-insert-completion"
+        >
           <button className="btn btn-primary">Insert a Run</button>
         </Link>
       </div>

@@ -341,6 +341,7 @@ function RunProperties({ isNew }) {
                         ),
                       })
                     }
+                    data-cy="btn-remove-field"
                   >
                     <i className="bi bi-dash" />
                   </button>
@@ -390,7 +391,10 @@ function RunProperties({ isNew }) {
               )}
             </DragFiles>
             {"subm_proof" in errors && (
-              <p className="text-danger text-center my-1">
+              <p
+                className="text-danger text-center my-1"
+                data-cy="invalid-feedback"
+              >
                 {errors["subm_proof"]}
               </p>
             )}

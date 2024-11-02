@@ -8,11 +8,11 @@ describe("Admin user navbar", () => {
   ];
 
   before(() => {
-    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+    cy.resetApi();
   });
 
   beforeEach(() => {
-    cy.visit(`/api/auth?code=mock_discord_code_${uid}_64`);
+    cy.login(uid, 64);
     cy.visit("/");
   });
 
