@@ -126,6 +126,21 @@ describe("Edit/Add Completions", () => {
         .should("equal", 403);
       cy.get("[data-cy=toast-error]");
     });
+
+    it("autofills", () => {
+      cy.visit("/completions/108");
+      cy.get("[name=black_border]").should("be.checked");
+      cy.get("[name=no_geraldo]").should("be.checked");
+      cy.get('[name="lcc.leftover"]')
+        .should("not.be.disabled")
+        .and("have.value", "10177");
+      cy.get("[name^=user_ids]").should("have.length", 3);
+      const expectedUsers = [45, 11, 1];
+      for (let i = 0; i < expectedUsers.length; i++)
+        cy.get("[name^=user_ids]")
+          .eq(i)
+          .should("have.value", `usr${expectedUsers[i]}`);
+    });
   });
 
   describe("Accept completions", () => {
