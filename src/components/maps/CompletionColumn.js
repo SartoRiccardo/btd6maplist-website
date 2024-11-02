@@ -81,6 +81,7 @@ export default function CompletionColumn({
                 <Link
                   className={`${stylesComp.completion_link} align-self-center no-underline`}
                   href={`/completions/${id}`}
+                  data-cy="btn-completion-edit"
                 >
                   <p className="text-center mb-0">
                     <i className="bi bi-pencil-fill" />

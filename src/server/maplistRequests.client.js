@@ -177,10 +177,6 @@ export async function editCompletion(token, payload) {
   delete data.id;
   delete data.code;
   delete data.accepted_by;
-  if (payload.lcc?.proof_completion instanceof File) {
-    body.append("proof_completion", payload.lcc.proof_completion);
-    delete data.lcc.proof_completion;
-  }
   if (payload?.subm_proof) {
     body.append("submission_proof", payload.subm_proof);
     delete data.subm_proof;
@@ -192,7 +188,7 @@ export async function editCompletion(token, payload) {
     : payload.accept
     ? `/completions/${payload.id}/accept`
     : `/completions/${payload.id}`;
-  const method = payload.code ? "POST" : payload.accept ? "POST" : "PUT";
+  const method = payload.code ? "POST" : "PUT";
 
   try {
     const response = await fetch(
