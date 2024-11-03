@@ -129,7 +129,25 @@ describe("Edit/Add Completions", () => {
 
     it("autofills", () => {
       cy.visit("/completions/108");
-      cy.get("[data-cy=submission-data]");
+
+      cy.get("[data-cy=submission-data]")
+        .find("[data-cy=subm-proof]")
+        .first()
+        .then(($image) => {
+          cy.get("[data-cy=subm-proof-next]").click();
+          cy.get("[data-cy=subm-proof]")
+            .should("have.attr", "src")
+            .and("not.equal", $image.source);
+
+          cy.get("[data-cy=subm-proof-prev]").click();
+          cy.get("[data-cy=subm-proof]")
+            .should("have.attr", "src")
+            .and("not.equal", $image.source);
+          cy.wrap($image);
+        })
+        .click();
+      cy.get("[data-cy=zoomed-image]").clickOutside();
+
       cy.get("[name=black_border]").should("be.checked");
       cy.get("[name=no_geraldo]").should("be.checked");
       cy.get('[name="lcc.leftover"]')

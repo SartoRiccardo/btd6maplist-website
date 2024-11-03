@@ -507,6 +507,7 @@ function SubmissionData({ completion }) {
                         )
                       }
                       className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.left}`}
+                      data-cy="subm-proof-prev"
                     >
                       <i className="bi bi-chevron-left" />
                     </div>
@@ -516,6 +517,7 @@ function SubmissionData({ completion }) {
                     src={completion.subm_proof_img[imgIdx]}
                     className="w-100 zoomable"
                     onClick={() => setProofZoomed(true)}
+                    data-cy="subm-proof"
                   />
 
                   {completion.subm_proof_img.length > 1 && (
@@ -526,6 +528,7 @@ function SubmissionData({ completion }) {
                         )
                       }
                       className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.right}`}
+                      data-cy="subm-proof-next"
                     >
                       <i className="bi bi-chevron-right" />
                     </div>
