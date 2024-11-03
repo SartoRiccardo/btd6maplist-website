@@ -129,6 +129,7 @@ describe("Edit/Add Completions", () => {
 
     it("autofills", () => {
       cy.visit("/completions/108");
+      cy.get("[data-cy=submission-data]");
       cy.get("[name=black_border]").should("be.checked");
       cy.get("[name=no_geraldo]").should("be.checked");
       cy.get('[name="lcc.leftover"]')

@@ -469,7 +469,7 @@ function SubmissionData({ completion }) {
     return null;
 
   return (
-    <div className="col-12 col-lg-6 mb-3">
+    <div className="col-12 col-lg-6 mb-3" data-cy="submission-data">
       <div className="panel pt-2 pb-3">
         <h2 className="text-center">Submission Info</h2>
         {completion.subm_notes && (
