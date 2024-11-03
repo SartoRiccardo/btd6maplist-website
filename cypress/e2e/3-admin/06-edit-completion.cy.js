@@ -137,12 +137,12 @@ describe("Edit/Add Completions", () => {
           cy.get("[data-cy=subm-proof-next]").click();
           cy.get("[data-cy=subm-proof]")
             .should("have.attr", "src")
-            .and("not.equal", $image.source);
+            .and("not.equal", $image.attr("src"));
 
           cy.get("[data-cy=subm-proof-prev]").click();
           cy.get("[data-cy=subm-proof]")
             .should("have.attr", "src")
-            .and("not.equal", $image.source);
+            .and("equal", $image.attr("src"));
           cy.wrap($image);
         })
         .click();

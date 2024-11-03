@@ -338,6 +338,7 @@ export default function MapForm({
                 handleSubmit(evt);
               }}
               className={stylesFrmMap.addmap}
+              data-cy="form-edit-map"
             >
               {!code && (
                 <MapCodeController
@@ -399,37 +400,39 @@ export default function MapForm({
                           </div>
                         </div>
 
-                        <DragFiles
-                          name="map_preview_file"
-                          formats={imageFormats}
-                          limit={1}
-                          onChange={handleChange}
-                          value={values.map_preview_file}
-                          className="w-100 mt-4"
-                          showChildren
-                        >
-                          <div className="d-flex justify-content-center">
-                            {values.map_preview_file.length > 0 ? (
-                              <img
-                                style={{ maxWidth: "100%" }}
-                                src={values.map_preview_file[0].objectUrl}
-                              />
-                            ) : (
-                              <img
-                                style={{ maxWidth: "100%" }}
-                                src={
-                                  values.map_preview_url ||
-                                  `https://data.ninjakiwi.com/btd6/maps/map/${values.code}/preview`
-                                }
-                              />
-                            )}
-                          </div>
-                        </DragFiles>
-                        {"map_preview_file" in errors && (
-                          <p className="text-danger text-center my-1">
-                            {errors.map_preview_file}
-                          </p>
-                        )}
+                        <div data-cy="form-group">
+                          <DragFiles
+                            name="map_preview_file"
+                            formats={imageFormats}
+                            limit={1}
+                            onChange={handleChange}
+                            value={values.map_preview_file}
+                            className="w-100 mt-4"
+                            showChildren
+                          >
+                            <div className="d-flex justify-content-center">
+                              {values.map_preview_file.length > 0 ? (
+                                <img
+                                  style={{ maxWidth: "100%" }}
+                                  src={values.map_preview_file[0].objectUrl}
+                                />
+                              ) : (
+                                <img
+                                  style={{ maxWidth: "100%" }}
+                                  src={
+                                    values.map_preview_url ||
+                                    `https://data.ninjakiwi.com/btd6/maps/map/${values.code}/preview`
+                                  }
+                                />
+                              )}
+                            </div>
+                          </DragFiles>
+                          {"map_preview_file" in errors && (
+                            <p className="text-danger text-center my-1">
+                              {errors.map_preview_file}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
 
@@ -484,7 +487,7 @@ export default function MapForm({
                             invalidFeedback
                           />
 
-                          <div className="px-3">
+                          <div className="px-3" data-cy="form-group">
                             <DragFiles
                               name="r6_start_file"
                               formats={imageFormats}
@@ -541,6 +544,10 @@ export default function MapForm({
                                 h,
                               ]);
                           }}
+                          data-cy="btn-hero"
+                          data-cy-active={values.optimal_heros
+                            .includes(h)
+                            .toString()}
                         >
                           <img src={`/heros/hero_${h}.webp`} alt={h} />
                         </button>
@@ -564,6 +571,7 @@ export default function MapForm({
                         <div
                           key={count || -1}
                           className="col-4 col-md-3 col-xl-2"
+                          data-cy="form-group"
                         >
                           <div>
                             <Input
@@ -662,7 +670,11 @@ export default function MapForm({
                                 className={stylesFrmMap.vcompat}
                               >
                                 <p>Since v&nbsp;</p>
-                                <div className={stylesFrmMap.vcompat_input}>
+
+                                <div
+                                  className={stylesFrmMap.vcompat_input}
+                                  data-cy="form-group"
+                                >
                                   <Input
                                     name={`version_compatibilities[${i}].version`}
                                     type="text"
@@ -690,8 +702,13 @@ export default function MapForm({
                                     }
                                   </div>
                                 </div>
+
                                 <p>&nbsp;the map&nbsp;</p>
-                                <div className={stylesFrmMap.vcompat_select}>
+
+                                <div
+                                  className={stylesFrmMap.vcompat_select}
+                                  data-cy="form-group"
+                                >
                                   <select
                                     className="form-select"
                                     name={`version_compatibilities[${i}].status`}
@@ -702,13 +719,14 @@ export default function MapForm({
                                     <option value="0">is playable</option>
                                     <option value="3">crashes</option>
                                     <option value="1">
-                                      has only visal diffs
+                                      has only visual differences
                                     </option>
                                     <option value="2">
                                       runs, but isn't recommended
                                     </option>
                                   </select>
                                 </div>
+
                                 <div>
                                   <div className="d-flex flex-column w-100">
                                     <button
@@ -752,11 +770,7 @@ export default function MapForm({
                       type="submit"
                       disabled={isSubmitting || disableInputs}
                     >
-                      {isEditing
-                        ? currentMap?.isDeleted
-                          ? "Restore"
-                          : "Save"
-                        : "Insert"}
+                      {isEditing ? "Save" : "Insert"}
                     </button>
                   </div>
 

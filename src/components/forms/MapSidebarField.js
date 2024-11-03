@@ -31,7 +31,7 @@ export default function MapSidebarField({
       <div className="col-6 col-lg-7">
         <p>{title}</p>
       </div>
-      <div className="col-6 col-lg-5">
+      <div className="col-6 col-lg-5" data-cy="form-group">
         {children && !appendChildren ? (
           children
         ) : (
