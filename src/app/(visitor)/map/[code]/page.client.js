@@ -37,13 +37,13 @@ export function LoggedUserRun({ mapData }) {
 
   useEffect(() => {
     const getData = async () => {
-      if (!maplistProfile.oak) return;
+      if (!maplistProfile?.oak) return;
       const btd6Data = await getBtd6User(maplistProfile.oak);
       if (btd6Data) setUserData({ avatarURL: btd6Data.avatarURL });
       else setUserData({});
     };
     getData();
-  }, [maplistProfile.oak]);
+  }, [maplistProfile?.oak]);
 
   let runsBySameUsr = {};
   let keyOrder = [];
