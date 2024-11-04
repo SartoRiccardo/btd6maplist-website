@@ -421,11 +421,47 @@ describe("Edit Maps", () => {
   });
 
   describe("Transfer a map's completions", () => {
-    it("can transfer completions", () => {});
+    it("can transfer completions", () => {
+      cy.intercept("PUT", "/maps/DELXXAH/completions/transfer").as(
+        "req-transfer"
+      );
 
-    it("validates the map to be transferred to", () => {});
+      cy.visit("/map/DELXXAH/edit");
+      cy.get("[data-cy=form-transfer-completions]")
+        .as("form")
+        .find("[name=code]")
+        .type("MLXXXAA");
+      cy.get("@form").find("[data-cy=btn-transfer]").click();
+      cy.get("[data-cy=btn-cancel]").click();
+      cy.get("@form").find("[data-cy=btn-transfer]").click();
+      cy.get("[data-cy=btn-transfer-confirm]").click();
 
-    it("doesn't diplay on non-deleted maps", () => {});
+      cy.wait("@req-transfer").its("response.statusCode").should("equal", 204);
+    });
+
+    it("validates the map to be transferred to", () => {
+      cy.visit("/map/DELXXAD/edit");
+      cy.get("[data-cy=form-transfer-completions]")
+        .as("form")
+        .find("[name=code]")
+        .as("in-code")
+        .type("XXXXXXX");
+      cy.get("@form").failSubmit();
+      cy.get("@in-code")
+        .parents("[data-cy=fgroup-map-code]")
+        .find(".invalid-feedback")
+        .as("err-code")
+        .should("not.be.empty");
+
+      cy.get("@in-code").type("X");
+      cy.get("@err-code").should("not.be.empty");
+      cy.get("@form").failSubmit();
+    });
+
+    it("doesn't diplay on non-deleted maps", () => {
+      cy.visit("/map/MLXXXAA/edit");
+      cy.get("[data-cy=form-transfer-completions]").should("not.exist");
+    });
   });
 
   describe("Add a map", () => {
