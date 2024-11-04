@@ -13,13 +13,13 @@ describe("Navbar for visitors", () => {
       .as("nav")
       .contains("Leaderboard")
       .click();
-    cy.url().should("include", "/leaderboard");
+    cy.url().should("equal", "/leaderboard");
 
     cy.get("@nav").contains("Maps").click();
     cy.get("[data-cy=nav-dropdown]").as("dropdown").should("be.visible");
 
     cy.get("@dropdown").contains("Expert").click();
-    cy.url().should("include", "/expert");
+    cy.url().should("equal", "/expert-list");
 
     cy.get("@nav").contains("Login").should("be.visible");
   });
@@ -36,7 +36,7 @@ describe("Navbar for visitors", () => {
       .should("be.visible");
     cy.get("@nav").contains("Leaderboard").as("leaderboard-link").click();
     cy.get("@leaderboard-link").should("not.be.visible");
-    cy.url().should("include", "/leaderboard");
+    cy.url().should("equal", "/leaderboard");
 
     cy.get("@btn-nav").click();
     cy.get("@nav").contains("Maps").click();
@@ -46,6 +46,6 @@ describe("Navbar for visitors", () => {
       .should("be.visible");
     cy.get("@dropdown").contains("Expert").click();
     cy.get("@nav").should("not.be.visible");
-    cy.url().should("include", "/expert");
+    cy.url().should("equal", "/expert-list");
   });
 });

@@ -54,7 +54,7 @@ const textFields = [
 const getRepeatedIndexes = (list) => {
   const sortedList = list
     .map((val, i) => ({ val, i }))
-    .toSorted((a, b) => (a.val > b.val ? 1 : -1));
+    .toSorted((a, b) => (a.val === b.val ? a.i - b.i : a.val > b.val ? 1 : -1));
   const repeated = [];
   for (let i = 1; i < sortedList.length; i++)
     if (sortedList[i].val === sortedList[i - 1].val)
@@ -230,6 +230,16 @@ export default function MapForm({
   const handleSubmit = async (values, { setErrors }) => {
     const code = values.code.match(codeRegex)[1].toUpperCase();
 
+    const additionalCodes = values.additional_codes.filter(
+      ({ code }) => code.length > 0
+    );
+    const versionCompat = values.version_compatibilities.filter(
+      ({ version }) => version.length > 0
+    );
+    const creators = values.creators.filter(({ id }) => id.length > 0);
+    const verifiers = values.verifiers.filter(({ id }) => id.length > 0);
+    const aliases = values.aliases.filter((a) => a.alias.length > 0);
+
     const payload = {
       ...values,
       placement_curver:
@@ -237,45 +247,31 @@ export default function MapForm({
       placement_allver:
         values.placement_allver === "" ? -1 : parseInt(values.placement_allver),
       difficulty: parseInt(values.difficulty),
-      map_data: values.map_data_req_permission
-        ? "a"
-        : values.map_data.length
-        ? values.map_data
-        : null,
-      r6_start: values.r6_start.length ? values.r6_start : null,
-      aliases: values.aliases
-        .map(({ alias }) => alias)
-        .filter((a) => a.length > 0),
-      additional_codes: removeFieldCode(values.additional_codes)
-        .filter(({ code }) => code.length > 0)
-        .map(({ code, description }) => ({
-          code,
-          description: description.length ? description : null,
-        })),
-      version_compatibilities: removeFieldCode(values.version_compatibilities)
-        .filter(({ version }) => version.length > 0)
-        .map(({ version, status }) => ({
-          version: parseFloat(version),
-          status: parseInt(status),
-        })),
-      creators: removeFieldCode(values.creators)
-        .filter(({ id }) => id.length > 0)
-        .map(({ id, role }) => ({
-          id,
-          role: role.length ? role : null,
-        })),
-      verifiers: removeFieldCode(values.verifiers)
-        .filter(({ id }) => id.length > 0)
-        .map(({ id, version }) => ({
-          id,
-          version: version.length ? parseFloat(version) * 10 : null,
-        })),
+      map_data: null,
       r6_start: values.r6_start_file.length
         ? values.r6_start_file[0].file
         : values.r6_start || null,
       map_preview_url: values.map_preview_file.length
         ? values.map_preview_file[0].file
         : values.map_preview_url || null,
+
+      aliases: aliases.map(({ alias }) => alias),
+      additional_codes: additionalCodes.map(({ code, description }) => ({
+        code,
+        description: description.length ? description : null,
+      })),
+      version_compatibilities: versionCompat.map(({ version, status }) => ({
+        version: parseFloat(version),
+        status: parseInt(status),
+      })),
+      creators: creators.map(({ id, role }) => ({
+        id,
+        role: role.length ? role : null,
+      })),
+      verifiers: verifiers.map(({ id, version }) => ({
+        id,
+        version: version.length ? parseFloat(version) * 10 : null,
+      })),
     };
     delete payload.map_data_req_permission;
     delete payload.r6_start_file;
@@ -284,6 +280,31 @@ export default function MapForm({
     const onSubmit = isEditing ? onEdit : onAdd;
     const result = await onSubmit(accessToken.access_token, payload);
     if (result && Object.keys(result.errors).length) {
+      const mtmFields = {
+        creators,
+        version_compatibilities: versionCompat,
+        additional_codes: additionalCodes,
+        aliases,
+        verifiers,
+      };
+      const mtmFieldKeys = Object.keys(mtmFields);
+      const aggrErrorKeys = Object.keys(result.errors)
+        .filter((key) => mtmFieldKeys.includes(key.split("[")[0]))
+        .sort()
+        .reverse();
+      for (const field of aggrErrorKeys) {
+        const idx = parseInt(field.match(/\[(\d+)]/)[1]);
+        const mtmName = field.split("[")[0];
+        const sentValue = mtmFields[mtmName][idx];
+        const actualIdx = values[mtmName].findIndex(
+          ({ count }) => count === sentValue.count
+        );
+        const actualKey = field.replace(/\[\d+]/, `[${actualIdx}]`);
+        if (actualKey === field) continue;
+        result.errors[actualKey] = result.errors[field];
+        delete result.errors[field];
+      }
+
       setErrors(result.errors);
       return;
     }
@@ -481,6 +502,7 @@ export default function MapForm({
 
                           <h3 className="text-center">Round 6 Start</h3>
                           <SidebarField
+                            type="url"
                             title="R6 Start URL"
                             name="r6_start"
                             placeholder="https://youtube.com/watch?v=..."
@@ -522,7 +544,7 @@ export default function MapForm({
                     </div>
                   </div>
 
-                  <h2 className="mt-3">Optimal Heros</h2>
+                  <h2 className="mt-4">Optimal Heros</h2>
                   <div className={stylesFrmMap.herobtn_container}>
                     {heros.map((h) => (
                       <button
@@ -560,7 +582,7 @@ export default function MapForm({
                     </p>
                   )}
 
-                  <h2 className="mt-3">Aliases</h2>
+                  <h2 className="mt-4">Aliases</h2>
                   <AddableField name="aliases" defaultValue={{ alias: "" }}>
                     {values.aliases.length > 0 && (
                       <p className="muted text-center">
@@ -601,7 +623,7 @@ export default function MapForm({
                     </div>
                   </AddableField>
 
-                  <h2 className="mt-3">Creators</h2>
+                  <h2 className="mt-4">Creators</h2>
                   <AddableField
                     name="creators"
                     defaultValue={{ id: "", role: "" }}
@@ -618,7 +640,7 @@ export default function MapForm({
                     </div>
                   </AddableField>
 
-                  <h2 className="mt-3">Verifications</h2>
+                  <h2 className="mt-4">Verifications</h2>
                   <p className="muted text-center">
                     Verifications that aren't in the current update don't get
                     shown in the map's info page.
@@ -642,7 +664,7 @@ export default function MapForm({
                     </AddableField>
                   </div>
 
-                  <h2 className="mt-3">Additional Codes</h2>
+                  <h2 className="mt-4">Additional Codes</h2>
                   <div data-cy="fgroup-additional-codes">
                     <AddableField
                       name="additional_codes"
@@ -665,7 +687,7 @@ export default function MapForm({
                     </AddableField>
                   </div>
 
-                  <h2 className="mt-3">Version Compatibility</h2>
+                  <h2 className="mt-4">Version Compatibility</h2>
                   <p className="muted text-center">
                     By default, it assumes the map is unplayable since v39.0
                     onwards.
@@ -707,7 +729,7 @@ export default function MapForm({
                                   disabled={isSubmitting || disableInputs}
                                   autoComplete="off"
                                 />
-                                <div className="feedback-invalid">
+                                <div className="invalid-feedback">
                                   {
                                     errors[
                                       `version_compatibilities[${i}].version`
@@ -773,6 +795,7 @@ export default function MapForm({
                         disabled={isSubmitting || disableInputs}
                         onClick={() => setShowDeleting(true)}
                         className="btn btn-danger big"
+                        data-cy="btn-delete"
                       >
                         Delete
                       </button>

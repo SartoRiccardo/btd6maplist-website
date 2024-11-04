@@ -35,7 +35,7 @@ export default function MapSidebarField({
         {children && !appendChildren ? (
           children
         ) : (
-          <div>
+          <div data-cy="form-group">
             <Input
               name={name}
               type={type || "text"}

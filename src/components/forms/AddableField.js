@@ -20,7 +20,7 @@ export default function AddableField({
   const { setValues, values } = formikProps;
 
   return (
-    <div data-cy="addable-field">
+    <div data-cy="addable-field" data-cy-name={name}>
       {children}
       {(maxAmount === 0 || currentAmount < maxAmount) && (
         <div className={`flex-hcenter mt-3 ${w100 ? "w-100" : ""}`}>
