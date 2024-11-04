@@ -136,6 +136,10 @@ export function MapSubmissionRules({ on }) {
       <p>
         You may not replace a current list map with an updated version unless
         that map falls of the list or if the map has identical gameplay.
+        <br />
+        Once a map is on list it may not be removed unless both the creators and
+        victors of the map agree with removing the map, or unless other removal
+        rules apply.
       </p>
       <h2 className="text-center">List Map Quality Standards</h2>
       {on === "list" ? (
