@@ -3,7 +3,7 @@ describe("Admin user navbar", () => {
   const adminUrls = [
     { content: "Legacy", url: "/hidden-maps" },
     { content: "Config", url: "/config" },
-    { content: "Pending", url: "/completions/unconfirmed" },
+    { content: "Pending", url: "/completions/pending" },
     { content: "Map", url: "/map-submissions" },
   ];
 
@@ -16,7 +16,7 @@ describe("Admin user navbar", () => {
     cy.visit("/");
   });
 
-  it.skip("shows the admin panel on desktop", () => {
+  it("shows the admin panel on desktop", () => {
     cy.get("[data-cy=navbar-desktop]")
       .as("nav")
       .find("[data-cy=admin-tab]:visible")
