@@ -147,9 +147,11 @@ export default async function MapOverview({ params, searchParams }) {
       <div className="mb-4" data-cy="user-completions">
         <h3 className="text-center">Your Runs</h3>
         <LoggedUserRun mapData={mapData} />
-        <div className="flex-hcenter">
-          <SubmitRunButton code={code} />
-        </div>
+        {mapData.deleted_on === null && (
+          <div className="flex-hcenter">
+            <SubmitRunButton code={code} />
+          </div>
+        )}
       </div>
 
       {mapData.lccs.length ? (
@@ -165,7 +167,7 @@ export default async function MapOverview({ params, searchParams }) {
       ) : null}
 
       <h3 className="text-center mt-3">List Completions</h3>
-      <AdminRunOptions code={code} />
+      {mapData.deleted_on === null && <AdminRunOptions code={code} />}
 
       <Suspense fallback={null}>
         <MaplistCompletions
