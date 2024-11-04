@@ -12,6 +12,7 @@ import { groupCompsByUser } from "@/utils/functions";
 import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getBtd6User } from "@/server/ninjakiwiRequests";
 
 // https://stackoverflow.com/a/37704433/13033269
 const youtubeRe =
@@ -21,6 +22,7 @@ export function LoggedUserRun({ mapData }) {
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
   const token = useDiscordToken();
   const [completions, setCompletions] = useState(null);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     const getData = async () => {
@@ -32,6 +34,16 @@ export function LoggedUserRun({ mapData }) {
     };
     if (token) getData();
   }, [mapData.code]);
+
+  useEffect(() => {
+    const getData = async () => {
+      if (!maplistProfile.oak) return;
+      const btd6Data = await getBtd6User(maplistProfile.oak);
+      if (btd6Data) setUserData({ avatarURL: btd6Data.avatarURL });
+      else setUserData({});
+    };
+    getData();
+  }, [maplistProfile.oak]);
 
   let runsBySameUsr = {};
   let keyOrder = [];
@@ -54,7 +66,11 @@ export function LoggedUserRun({ mapData }) {
           mapIdxCurver={mapData.placement_cur}
           mapIdxAllver={mapData.placement_all}
           userEntry={
-            <UserEntry_C profile={maplistProfile} centered lead="sm" />
+            <UserEntry_C
+              profile={{ ...maplistProfile, ...userData }}
+              centered
+              lead="sm"
+            />
           }
         />
       ))
