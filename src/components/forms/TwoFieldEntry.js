@@ -93,6 +93,7 @@ export default function TwoFieldEntry({
                     [name]: values[name].filter((_v, idx) => idx !== i),
                   })
                 }
+                data-cy="btn-remove-field"
               >
                 <i className="bi bi-dash" />
               </button>

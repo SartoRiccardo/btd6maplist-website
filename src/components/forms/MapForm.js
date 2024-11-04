@@ -520,53 +520,55 @@ export default function MapForm({
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <h2 className="mt-3">Optimal Heros</h2>
-                    <div className={stylesFrmMap.herobtn_container}>
-                      {heros.map((h) => (
-                        <button
-                          type="button"
-                          key={h}
-                          className={`btn btn-primary ${stylesFrmMap.herobtn} ${
-                            values.optimal_heros.includes(h)
-                              ? `${stylesFrmMap.active} active`
-                              : ""
-                          }`}
-                          onClick={(_e) => {
-                            if (values.optimal_heros.includes(h))
-                              setFieldValue(
-                                "optimal_heros",
-                                values.optimal_heros.filter((h1) => h1 !== h)
-                              );
-                            else
-                              setFieldValue("optimal_heros", [
-                                ...values.optimal_heros,
-                                h,
-                              ]);
-                          }}
-                          data-cy="btn-hero"
-                          data-cy-active={values.optimal_heros
-                            .includes(h)
-                            .toString()}
-                        >
-                          <img src={`/heros/hero_${h}.webp`} alt={h} />
-                        </button>
-                      ))}
-                    </div>
-                    {errors.optimal_heros && (
-                      <p className="text-center mb-0 text-danger">
-                        {errors.optimal_heros}
+                  <h2 className="mt-3">Optimal Heros</h2>
+                  <div className={stylesFrmMap.herobtn_container}>
+                    {heros.map((h) => (
+                      <button
+                        type="button"
+                        key={h}
+                        className={`btn btn-primary ${stylesFrmMap.herobtn} ${
+                          values.optimal_heros.includes(h)
+                            ? `${stylesFrmMap.active} active`
+                            : ""
+                        }`}
+                        onClick={(_e) => {
+                          if (values.optimal_heros.includes(h))
+                            setFieldValue(
+                              "optimal_heros",
+                              values.optimal_heros.filter((h1) => h1 !== h)
+                            );
+                          else
+                            setFieldValue("optimal_heros", [
+                              ...values.optimal_heros,
+                              h,
+                            ]);
+                        }}
+                        data-cy="btn-hero"
+                        data-cy-active={values.optimal_heros
+                          .includes(h)
+                          .toString()}
+                      >
+                        <img src={`/heros/hero_${h}.webp`} alt={h} />
+                      </button>
+                    ))}
+                  </div>
+                  {errors.optimal_heros && (
+                    <p className="text-center mb-0 text-danger">
+                      {errors.optimal_heros}
+                    </p>
+                  )}
+
+                  <h2 className="mt-3">Aliases</h2>
+                  <AddableField name="aliases" defaultValue={{ alias: "" }}>
+                    {values.aliases.length > 0 && (
+                      <p className="muted text-center">
+                        Leave an alias field blank to delete it.
                       </p>
                     )}
 
-                    <h2 className="mt-3">Aliases</h2>
-                    <AddableField name="aliases" defaultValue={{ alias: "" }}>
-                      {values.aliases.length > 0 && (
-                        <p className="muted text-center">
-                          Leave an alias field blank to delete it.
-                        </p>
-                      )}
-
+                    <div className="row gy-2">
                       {values.aliases.map(({ alias, count }, i) => (
                         <div
                           key={count || -1}
@@ -596,13 +598,15 @@ export default function MapForm({
                           </div>
                         </div>
                       ))}
-                    </AddableField>
+                    </div>
+                  </AddableField>
 
-                    <h2 className="mt-3">Creators</h2>
-                    <AddableField
-                      name="creators"
-                      defaultValue={{ id: "", role: "" }}
-                    >
+                  <h2 className="mt-3">Creators</h2>
+                  <AddableField
+                    name="creators"
+                    defaultValue={{ id: "", role: "" }}
+                  >
+                    <div className="row gy-2">
                       <TwoFieldEntry
                         name="creators"
                         labels={["Creator", "Role?"]}
@@ -611,148 +615,156 @@ export default function MapForm({
                           placeholder: "Gameplay",
                         }}
                       />
-                    </AddableField>
+                    </div>
+                  </AddableField>
 
-                    <h2 className="mt-3">Verifications</h2>
-                    <p className="muted text-center">
-                      Verifications that aren't in the current update don't get
-                      shown in the map's info page.
-                    </p>
+                  <h2 className="mt-3">Verifications</h2>
+                  <p className="muted text-center">
+                    Verifications that aren't in the current update don't get
+                    shown in the map's info page.
+                  </p>
+                  <div data-cy="fgroup-verifiers">
                     <AddableField
                       name="verifiers"
                       defaultValue={{ id: "", version: "" }}
                     >
-                      <TwoFieldEntry
-                        name="verifiers"
-                        labels={["Verifier", "Version?"]}
-                        fields={["verifiers[i].id", "verifiers[i].version"]}
-                        secondProps={{
-                          placeholder: "Leave blank if first verification",
-                        }}
-                        omitFirstOptional
-                      />
+                      <div className="row gy-2">
+                        <TwoFieldEntry
+                          name="verifiers"
+                          labels={["Verifier", "Version?"]}
+                          fields={["verifiers[i].id", "verifiers[i].version"]}
+                          secondProps={{
+                            placeholder: "Leave blank if first verification",
+                          }}
+                          omitFirstOptional
+                        />
+                      </div>
                     </AddableField>
+                  </div>
 
-                    <h2 className="mt-3">Additional Codes</h2>
+                  <h2 className="mt-3">Additional Codes</h2>
+                  <div data-cy="fgroup-additional-codes">
                     <AddableField
                       name="additional_codes"
                       defaultValue={{ code: "", description: "" }}
                     >
-                      <TwoFieldEntry
-                        name="additional_codes"
-                        labels={["Code", "Description?"]}
-                        fields={[
-                          "additional_codes[i].code",
-                          "additional_codes[i].description",
-                        ]}
-                        secondProps={{
-                          placeholder: "Small niche gameplay difference",
-                        }}
-                        optional
-                      />
-                    </AddableField>
-
-                    <h2 className="mt-3">Version Compatibility</h2>
-                    <p className="muted text-center">
-                      By default, it assumes the map is unplayable since v39.0
-                      onwards.
-                    </p>
-                    <AddableField
-                      name="version_compatibilities"
-                      defaultValue={{ version: "", status: "0" }}
-                    >
-                      <div className="flex-hcenter">
-                        <div>
-                          {values.version_compatibilities.map(
-                            ({ version, status, count }, i) => (
-                              <div
-                                key={count || -1}
-                                className={stylesFrmMap.vcompat}
-                              >
-                                <p>Since v&nbsp;</p>
-
-                                <div
-                                  className={stylesFrmMap.vcompat_input}
-                                  data-cy="form-group"
-                                >
-                                  <Input
-                                    name={`version_compatibilities[${i}].version`}
-                                    type="text"
-                                    value={version}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    isInvalid={
-                                      touched.version_compatibilities &&
-                                      `version_compatibilities[${i}].version` in
-                                        errors
-                                    }
-                                    isValid={
-                                      values[
-                                        `version_compatibilities[${i}].version`
-                                      ]
-                                    }
-                                    disabled={isSubmitting || disableInputs}
-                                    autoComplete="off"
-                                  />
-                                  <div className="feedback-invalid">
-                                    {
-                                      errors[
-                                        `version_compatibilities[${i}].version`
-                                      ]
-                                    }
-                                  </div>
-                                </div>
-
-                                <p>&nbsp;the map&nbsp;</p>
-
-                                <div
-                                  className={stylesFrmMap.vcompat_select}
-                                  data-cy="form-group"
-                                >
-                                  <select
-                                    className="form-select"
-                                    name={`version_compatibilities[${i}].status`}
-                                    value={status}
-                                    onChange={handleChange}
-                                    disabled={isSubmitting || disableInputs}
-                                  >
-                                    <option value="0">is playable</option>
-                                    <option value="3">crashes</option>
-                                    <option value="1">
-                                      has only visual differences
-                                    </option>
-                                    <option value="2">
-                                      runs, but isn't recommended
-                                    </option>
-                                  </select>
-                                </div>
-
-                                <div>
-                                  <div className="d-flex flex-column w-100">
-                                    <button
-                                      type="button"
-                                      className="btn btn-danger"
-                                      onClick={(_e) =>
-                                        setValues({
-                                          ...values,
-                                          version_compatibilities:
-                                            values.version_compatibilities.filter(
-                                              (_v, idx) => idx !== i
-                                            ),
-                                        })
-                                      }
-                                    >
-                                      <i className="bi bi-dash" />
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          )}
-                        </div>
+                      <div className="row gy-2">
+                        <TwoFieldEntry
+                          name="additional_codes"
+                          labels={["Code", "Description?"]}
+                          fields={[
+                            "additional_codes[i].code",
+                            "additional_codes[i].description",
+                          ]}
+                          secondProps={{
+                            placeholder: "Small niche gameplay difference",
+                          }}
+                          optional
+                        />
                       </div>
                     </AddableField>
                   </div>
+
+                  <h2 className="mt-3">Version Compatibility</h2>
+                  <p className="muted text-center">
+                    By default, it assumes the map is unplayable since v39.0
+                    onwards.
+                  </p>
+                  <AddableField
+                    name="version_compatibilities"
+                    defaultValue={{ version: "", status: "0" }}
+                  >
+                    <div className="flex-hcenter">
+                      <div>
+                        {values.version_compatibilities.map(
+                          ({ version, status, count }, i) => (
+                            <div
+                              key={count || -1}
+                              className={stylesFrmMap.vcompat}
+                            >
+                              <p>Since v&nbsp;</p>
+
+                              <div
+                                className={stylesFrmMap.vcompat_input}
+                                data-cy="form-group"
+                              >
+                                <Input
+                                  name={`version_compatibilities[${i}].version`}
+                                  type="text"
+                                  value={version}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  isInvalid={
+                                    touched.version_compatibilities &&
+                                    `version_compatibilities[${i}].version` in
+                                      errors
+                                  }
+                                  isValid={
+                                    values[
+                                      `version_compatibilities[${i}].version`
+                                    ]
+                                  }
+                                  disabled={isSubmitting || disableInputs}
+                                  autoComplete="off"
+                                />
+                                <div className="feedback-invalid">
+                                  {
+                                    errors[
+                                      `version_compatibilities[${i}].version`
+                                    ]
+                                  }
+                                </div>
+                              </div>
+
+                              <p>&nbsp;the map&nbsp;</p>
+
+                              <div
+                                className={stylesFrmMap.vcompat_select}
+                                data-cy="form-group"
+                              >
+                                <select
+                                  className="form-select"
+                                  name={`version_compatibilities[${i}].status`}
+                                  value={status}
+                                  onChange={handleChange}
+                                  disabled={isSubmitting || disableInputs}
+                                >
+                                  <option value="0">is playable</option>
+                                  <option value="3">crashes</option>
+                                  <option value="1">
+                                    has only visual differences
+                                  </option>
+                                  <option value="2">
+                                    runs, but isn't recommended
+                                  </option>
+                                </select>
+                              </div>
+
+                              <div>
+                                <div className="d-flex flex-column w-100">
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={(_e) =>
+                                      setValues({
+                                        ...values,
+                                        version_compatibilities:
+                                          values.version_compatibilities.filter(
+                                            (_v, idx) => idx !== i
+                                          ),
+                                      })
+                                    }
+                                  >
+                                    <i className="bi bi-dash" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </AddableField>
 
                   <div className="flex-hcenter flex-col-space mt-5">
                     {isEditing && !currentMap?.isDeleted && (

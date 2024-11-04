@@ -10,6 +10,31 @@ describe("Edit Maps", () => {
     return false;
   };
 
+  Cypress.Commands.add(
+    "fillFields",
+    { prevSubject: "element" },
+    ($selector, values) => {
+      cy.wrap($selector).then(($inputs) => {
+        for (let i = 0; i < values.length; i++) {
+          if (values[i])
+            cy.wrap($inputs)
+              .eq($inputs.length - values.length + i)
+              .type(values[i] || "");
+        }
+      });
+    }
+  );
+
+  Cypress.Commands.add(
+    "addRemoveField",
+    { prevSubject: "element" },
+    ($selector, amount) => {
+      for (let i = 0; i < amount + 1; i++)
+        cy.wrap($selector).find("[data-cy=btn-addable-field]").click();
+      cy.wrap($selector).find("[data-cy=btn-remove-field]").last().click();
+    }
+  );
+
   before(() => {
     cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
   });
@@ -83,7 +108,75 @@ describe("Edit Maps", () => {
       });
     });
 
-    it("can edit a map", () => {});
+    it("can edit a map", () => {
+      cy.request("https://data.ninjakiwi.com/btd6/maps/filter/newest").then(
+        (response) => {
+          cy.wrap(response.body.body.map(({ id }) => id)).as("test-codes");
+        }
+      );
+
+      cy.intercept("PUT", /maps\/.+?/).as("req-edit-map");
+      cy.visit("/map/MLXXXAG");
+      cy.get("[data-cy=btn-edit-map]").click();
+      cy.location("pathname").should("equal", "/map/MLXXXAG/edit");
+
+      cy.wait(1000);
+      cy.get("[data-cy=form-edit-map]").as("form").submit();
+      cy.wait("@req-edit-map").its("response.statusCode").should("equal", 204);
+
+      cy.visit("/map/MLXXXBC/edit");
+      cy.get("[name=difficulty]").select(2);
+      cy.get("[name=placement_curver]").type("{selectAll}{del}1");
+      cy.get("[name=placement_allver]").type("{selectAll}{del}1");
+      cy.get("[data-cy=btn-hero][data-cy-active=true]").as("hero-active");
+      cy.get("[data-cy=btn-hero][data-cy-active=false]").then(
+        ($allInactive) => {
+          cy.get("[data-cy=btn-hero][data-cy-active=true]").each(($active) =>
+            cy.wrap($active).click()
+          );
+          cy.wrap($allInactive).each(($inactive) => cy.wrap($inactive).click());
+        }
+      );
+
+      cy.get("[name^=aliases]")
+        .parents("[data-cy=addable-field]")
+        .as("fgroup-aliases");
+      for (let i = 0; i < 4; i++)
+        cy.get("@fgroup-aliases").find("[data-cy=btn-addable-field]").click();
+      cy.get("[name^=aliases]").then(($aliases) => {
+        cy.wrap($aliases).each(($alias, i) => {
+          if (i <= $aliases.length - 4 || i >= $aliases.length - 1) return;
+          cy.wrap($alias).type(`{selectAll}{del}new_alias${i + 1}`);
+        });
+      });
+
+      cy.get("[name^=creators]")
+        .parents("[data-cy=addable-field]")
+        .as("fgroup-creators");
+      cy.get("@fgroup-creators").addRemoveField(2);
+      cy.get("[name^=creators]").fillFields([
+        "usr13",
+        null,
+        "usr11",
+        "Playtesting",
+      ]);
+
+      cy.get("[data-cy=fgroup-additional-codes]").as("fgroup-addcodes");
+      cy.get("@fgroup-addcodes").addRemoveField(1);
+      cy.get("@test-codes").then((codes) => {
+        cy.get("[name^=additional_codes]").fillFields([
+          codes[0],
+          "Playtesting",
+        ]);
+      });
+
+      cy.get("[data-cy=fgroup-verifiers]").as("fgroup-verifiers");
+      cy.get("@fgroup-verifiers").addRemoveField(2);
+      cy.get("[name^=verifiers]").fillFields(["usr13", null, "usr11", "44.1"]);
+
+      cy.get("@form").submit();
+      cy.wait("@req-edit-map").its("response.statusCode").should("equal", 204);
+    });
 
     it("doesn't submit if some fields are invalid", () => {});
 

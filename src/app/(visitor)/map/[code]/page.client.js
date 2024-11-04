@@ -69,7 +69,7 @@ export function EditPencilAdmin({ href }) {
   if (!authLevels.loaded || !authLevels.hasPerms) return null;
 
   return (
-    <Link href={href}>
+    <Link href={href} data-cy="btn-edit-map">
       <i className="bi bi-pencil-square ms-3" />
     </Link>
   );
