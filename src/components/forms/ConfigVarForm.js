@@ -1,11 +1,6 @@
 "use client";
-import {
-  useAuthLevels,
-  useDiscordToken,
-  useMaplistConfig,
-} from "@/utils/hooks";
+import { useAuthLevels, useMaplistConfig } from "@/utils/hooks";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import ConfigForm from "./form-components/ConfigForm";
 
 const configNames = {
@@ -44,7 +39,7 @@ export default function ConfigVarForm() {
   };
 
   return (
-    <div>
+    <div data-cy="form-maplist-config">
       <h2 className="text-center">Maplist Config Variables</h2>
       <ConfigForm
         getValues={getValues}

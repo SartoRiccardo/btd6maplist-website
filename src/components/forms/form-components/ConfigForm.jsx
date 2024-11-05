@@ -66,7 +66,7 @@ export default function ConfigForm({
                       <p>{configNames[key]}</p>
                     </div>
                     <div className="col-7 col-sm-6">
-                      <div>
+                      <div data-cy="form-group">
                         <Input
                           name={key}
                           type="text"
@@ -106,7 +106,7 @@ export default function ConfigForm({
         delay={4000}
         autohide
       >
-        <div className="toast-body">
+        <div className="toast-body" data-cy="toast-success">
           Config variables modified successfully!
         </div>
       </LazyToast>

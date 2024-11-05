@@ -15,7 +15,7 @@ export default function Header() {
       <div className="row">
         <div className="col-auto">
           <div className="d-flex flex-column justify-content-center h-100">
-            <Link scroll={false} href="/" className={btd6Font.className}>
+            <Link href="/" className={btd6Font.className}>
               <p className="p-relative">
                 <img src="/maplist.webp" className={stylesHeader.maplistLogo} />
                 <span
@@ -31,7 +31,7 @@ export default function Header() {
         </div>
         <div className="col d-flex justify-content-end">
           <nav>
-            <div className="d-none d-md-block">
+            <div className="d-none d-md-block" data-cy="navbar-desktop">
               <ul className={`${stylesNav.navbar}`}>
                 <ProtectedLinks />
 
@@ -40,46 +40,29 @@ export default function Header() {
                     Maps <i className="bi bi-caret-down-fill" />
                   </a>
 
-                  <ul className={`${stylesNav.submenu} shadow`} tabIndex={0}>
+                  <ul
+                    className={`${stylesNav.submenu} shadow`}
+                    tabIndex={0}
+                    data-cy="nav-dropdown"
+                  >
                     <li>
-                      <Link scroll={false} href="/experts">
-                        Experts
-                      </Link>
+                      <Link href="/expert-list">Experts</Link>
                     </li>
                     <li>
-                      <Link scroll={false} href="/list">
-                        The List
-                      </Link>
+                      <Link href="/maplist">The List</Link>
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <Link scroll={false} href="/list/leaderboard">
-                    Leaderboard
-                  </Link>
+                  <Link href="/leaderboard">Leaderboard</Link>
                 </li>
-
-                {/* <li>
-                  <a href="#">
-                    Leaderboard <i className="bi bi-caret-down-fill" />
-                  </a>
-
-                  <ul className={`${stylesNav.submenu} shadow`}>
-                    <li>
-                      <Link scroll={false} href="/experts">Experts</Link>
-                    </li>
-                    <li>
-                      <Link scroll={false} href="/list">The List</Link>
-                    </li>
-                  </ul>
-                </li> */}
 
                 <NavLogin />
               </ul>
             </div>
 
-            <div className="d-block d-md-none">
+            <div className="d-block d-md-none" data-cy="navbar-mobile">
               <NavbarMobile />
             </div>
           </nav>

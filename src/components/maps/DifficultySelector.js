@@ -12,6 +12,8 @@ function DifficultySelector({ onChange, value, difficulties, href }) {
         <div
           key={diff.value}
           className="col-6 col-md-4 col-lg-auto d-flex justify-content-center"
+          data-cy="difficulty-selector"
+          data-difficulty={diff.value.toString()}
         >
           <Difficulty
             difficulty={diff}
@@ -46,6 +48,7 @@ function Difficulty({ difficulty, onClick, active, href }) {
         .replace("{queryval}", difficulty.query)
         .replace("%7Bqueryval%7D", difficulty.query)}
       className="white-text"
+      scroll={false}
     >
       {cmp}
     </Link>

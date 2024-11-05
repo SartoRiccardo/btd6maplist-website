@@ -2,7 +2,7 @@ export function RunSubmissionRules({ on }) {
   on = on || "list";
 
   return (
-    <div className="panel pt-3 px-3">
+    <div className="panel pt-3 px-3" data-cy={`rules-for-${on}`}>
       <h2 className="text-center">How to Submit</h2>
       <p>
         To submit a run, you must submit a valid screenshot after Round 100 is
@@ -119,7 +119,7 @@ export function MapSubmissionRules({ on }) {
   on = on || "list";
 
   return (
-    <div className="panel pt-3 px-3">
+    <div className="panel pt-3 px-3" data-cy={`rules-for-${on}`}>
       <h2 className="text-center">Verify maps in the current update only</h2>
       <p>
         Your map must be verified in the current update in order to be accepted,
@@ -136,6 +136,10 @@ export function MapSubmissionRules({ on }) {
       <p>
         You may not replace a current list map with an updated version unless
         that map falls of the list or if the map has identical gameplay.
+        <br />
+        Once a map is on list it may not be removed unless both the creators and
+        victors of the map agree with removing the map, or unless other removal
+        rules apply.
       </p>
       <h2 className="text-center">List Map Quality Standards</h2>
       {on === "list" ? (

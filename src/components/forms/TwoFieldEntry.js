@@ -38,7 +38,7 @@ export default function TwoFieldEntry({
     return (
       <Fragment key={count || -1}>
         <div className="col-12 col-md-5 col-lg-6">
-          <div>
+          <div data-cy="form-group">
             {labels && labels.length > 0 && (
               <label className="form-label">{labels[0]}</label>
             )}
@@ -57,9 +57,10 @@ export default function TwoFieldEntry({
             <div className="invalid-feedback">{errors[realField1]}</div>
           </div>
         </div>
+
         <div className="col-9 col-md-5 col-lg-5">
           {!(omitFirstOptional && i === 0) && (
-            <div>
+            <div data-cy="form-group">
               {labels && labels.length > 1 && (
                 <label className="form-label">{labels[1]}</label>
               )}
@@ -92,6 +93,7 @@ export default function TwoFieldEntry({
                     [name]: values[name].filter((_v, idx) => idx !== i),
                   })
                 }
+                data-cy="btn-remove-field"
               >
                 <i className="bi bi-dash" />
               </button>

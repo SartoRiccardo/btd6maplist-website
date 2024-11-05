@@ -99,6 +99,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   const handleSubmit = async (values, { setErrors }) => {
     const payload = {
       ...values,
+      notes: values.notes.length ? values.notes : null,
       format: parseInt(values.format),
       code: mapData.code,
       proof_completion: removeFieldCode(values.proof_completion)
@@ -158,6 +159,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                 setShowErrorCount(true);
                 handleSubmit(evt);
               }}
+              data-cy="form-submit-completion"
             >
               <div className="row flex-row-space mt-5">
                 <div className="col-12 col-lg-6">
@@ -214,6 +216,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                                       )
                                     )
                                   }
+                                  data-cy="btn-remove-field"
                                 >
                                   <i className="bi bi-dash" />
                                 </button>
@@ -222,7 +225,10 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
 
                             {touched.proof_completion &&
                               errors[`proof_completion[${i}]`] && (
-                                <p className="text-danger text-center">
+                                <p
+                                  className="text-danger text-center"
+                                  data-cy="invalid-feedback"
+                                >
                                   {errors[`proof_completion[${i}]`]}
                                 </p>
                               )}
@@ -335,7 +341,7 @@ function SidebarForm({ formats }) {
         </div>
       )}
 
-      <div>
+      <div data-cy="fgroup-notes">
         <label className="form-label">Notes</label>
         <Input
           name="notes"
@@ -451,6 +457,7 @@ function SidebarForm({ formats }) {
                           values.video_proof_url.filter((_v, idx) => idx !== i)
                         )
                       }
+                      data-cy="btn-remove-field"
                     >
                       <i className="bi bi-dash" />
                     </button>
@@ -463,7 +470,7 @@ function SidebarForm({ formats }) {
       )}
 
       {values.current_lcc && (
-        <div className="mt-2">
+        <div className="mt-2" data-cy="fgroup-leftover">
           <label className="form-label">LCC Saveup</label>
           <Input
             type="number"
@@ -491,7 +498,7 @@ function SidebarSuccess() {
           approved.
         </span>
         <br />
-        <Link href="/list">&laquo; Back to the list</Link>
+        <Link href="/maplist">&laquo; Back to the list</Link>
       </p>
     </div>
   );

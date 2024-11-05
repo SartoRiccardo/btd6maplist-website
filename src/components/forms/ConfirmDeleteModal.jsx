@@ -26,6 +26,7 @@ export default function ConfirmDeleteModal({
             className="btn btn-danger big"
             onClick={onDelete}
             disabled={disabled}
+            data-cy="btn-delete-confirm"
           >
             Yes, Delete
           </button>

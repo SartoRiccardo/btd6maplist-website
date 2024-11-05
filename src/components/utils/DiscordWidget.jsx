@@ -5,6 +5,7 @@ export default function DiscordWidget() {
       width="350"
       height="300"
       allowtransparency="true"
+      loading="lazy"
       //   frameBorder="0"
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
     />

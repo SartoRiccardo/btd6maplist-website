@@ -1,10 +1,10 @@
 const SRV_ERROR_MESSAGE =
   "Something went wrong on the server - please take a screenshot of the form and report it so I can fix it 🥺";
 
-export async function editProfile(token, userId, profile) {
+export async function editProfile(token, profile) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/users/@me`,
       {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
@@ -151,7 +151,7 @@ export async function submitRun(token, payload) {
   delete data.code;
   body.append("data", JSON.stringify(data));
   for (let i = 0; i < payload.proof_completion.length; i++)
-    body.append(`proof_completion[${i}]`, payload.proof_completion[i]);
+    body.append(`proof_completion`, payload.proof_completion[i]);
 
   try {
     const response = await fetch(
@@ -177,10 +177,6 @@ export async function editCompletion(token, payload) {
   delete data.id;
   delete data.code;
   delete data.accepted_by;
-  if (payload.lcc?.proof_completion instanceof File) {
-    body.append("proof_completion", payload.lcc.proof_completion);
-    delete data.lcc.proof_completion;
-  }
   if (payload?.subm_proof) {
     body.append("submission_proof", payload.subm_proof);
     delete data.subm_proof;
@@ -192,7 +188,7 @@ export async function editCompletion(token, payload) {
     : payload.accept
     ? `/completions/${payload.id}/accept`
     : `/completions/${payload.id}`;
-  const method = payload.code ? "POST" : payload.accept ? "POST" : "PUT";
+  const method = payload.code ? "POST" : "PUT";
 
   try {
     const response = await fetch(

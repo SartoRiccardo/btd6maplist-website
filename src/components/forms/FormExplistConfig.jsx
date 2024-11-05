@@ -35,7 +35,7 @@ export default function FormExplistConfig() {
   };
 
   return (
-    <div>
+    <div data-cy="form-experts-config">
       <h2 className="text-center">Experts Config Variables</h2>
       <ConfigForm
         getValues={getValues}

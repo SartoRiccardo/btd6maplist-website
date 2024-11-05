@@ -5,8 +5,7 @@ import { Formik } from "formik";
 import { useState } from "react";
 import Input from "./bootstrap/Input";
 import LazyToast from "../transitions/LazyToast";
-
-const MAX_NAME_LEN = 100;
+import { validateUsername } from "@/utils/validators";
 
 const defaultVals = {
   discord_id: "",
@@ -25,11 +24,8 @@ export default function AddUserForm() {
     else if (!/^\d+$/.test(values.discord_id))
       errors.discord_id = "Must be numeric";
 
-    if (!values.name.length) errors.name = "Name cannot be blank";
-    else if (values.name.length > MAX_NAME_LEN)
-      errors.name = "Name is too long";
-    else if (!/^[a-zA-Z0-9\._-]+$/.test(values.name))
-      errors.name = 'Name can only have alphanumeric characters or "_-."';
+    const nameError = validateUsername(values.name);
+    if (nameError) errors.name = nameError;
 
     return errors;
   };
@@ -64,11 +60,11 @@ export default function AddUserForm() {
           } = formikProps;
 
           return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} data-cy="form-add-user">
               <div className="panel panel-container">
                 <div className="row flex-row-space">
                   <div className="col-6">
-                    <div>
+                    <div data-cy="form-group">
                       <label className="form-label">Discord ID</label>
                       <Input
                         name="discord_id"
@@ -92,7 +88,7 @@ export default function AddUserForm() {
                   </div>
 
                   <div className="col-6">
-                    <div>
+                    <div data-cy="form-group">
                       <label className="form-label">Username</label>
                       <Input
                         name="name"
@@ -136,7 +132,9 @@ export default function AddUserForm() {
         delay={4000}
         autohide
       >
-        <div className="toast-body">User inserted!</div>
+        <div className="toast-body" data-cy="toast-success">
+          User inserted!
+        </div>
       </LazyToast>
     </>
   );

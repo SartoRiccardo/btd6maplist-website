@@ -60,7 +60,7 @@ export default function DragFiles({
   };
 
   return (
-    <div className="p-relative">
+    <div className="p-relative" data-cy="fgroup-drag-file">
       <div
         className={`${stylesDrgF.dragfiles} ${
           disabled ? stylesDrgF.disabled : ""

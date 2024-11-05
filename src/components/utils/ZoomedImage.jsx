@@ -10,11 +10,12 @@ export default function ZoomedImage({ show, onHide, src, startIdx }) {
   return (
     <LazyModal show={show} onHide={onHide} centered>
       <div className="modal-body p-0 p-relative">
-        <div className={styles.zoomedImageContainer}>
+        <div className={styles.zoomedImageContainer} data-cy="zoomed-image">
           {src.length > 1 && (
             <div
               onClick={() => setImgIdx((imgIdx + 1) % src.length)}
               className={`shadow font-border ${styles.switch_image} ${styles.left} ${styles.in_modal}`}
+              data-cy="image-back"
             >
               <i className="bi bi-chevron-left" />
             </div>
@@ -26,6 +27,7 @@ export default function ZoomedImage({ show, onHide, src, startIdx }) {
             <div
               onClick={() => setImgIdx((imgIdx + 1) % src.length)}
               className={`shadow font-border ${styles.switch_image} ${styles.right} ${styles.in_modal}`}
+              data-cy="image-next"
             >
               <i className="bi bi-chevron-right" />
             </div>

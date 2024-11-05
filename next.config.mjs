@@ -4,6 +4,25 @@ import withPWAInit from "@ducanh2912/next-pwa";
 
 const nextConfig = {
   output: "standalone",
+  async redirects() {
+    return [
+      {
+        source: "/list",
+        destination: "/maplist",
+        permanent: true,
+      },
+      {
+        source: "/experts",
+        destination: "/expert-list",
+        permanent: true,
+      },
+      {
+        source: "/list/leaderboard",
+        destination: "/leaderboard",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const runtimeCaching = [
