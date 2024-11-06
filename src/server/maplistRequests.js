@@ -88,7 +88,7 @@ export async function getUserCompletions(id, qparams) {
 
 export async function getListLeaderboard(format, value, page) {
   if (!allFormats.map(({ value }) => value).includes(format)) {
-    allFormats.find(({ query }) => query === format).value;
+    format = allFormats.find(({ query }) => query === format).value;
   }
 
   const response = await fetch(

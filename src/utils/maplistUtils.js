@@ -146,9 +146,9 @@ export const filterCompletionFormats = (completions, formats) => {
 
 export const listVersions = [
   {
-    name: "Current",
-    diffPanelName: "Current",
-    short: "Cur",
+    name: "Maplist",
+    diffPanelName: "Maplist",
+    short: "List",
     query: "current",
     value: 1,
     image: "/format_icons/icon_curver.webp",
