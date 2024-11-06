@@ -42,16 +42,6 @@ describe("Leaderboard", () => {
     assertFirstLbEntry("format=51");
   });
 
-  // it("should keep the same leaderboard type between navigations", () => {
-  //   cy.get("[data-cy=difficulty-selector][data-difficulty=51]").click();
-  //   cy.location("search").should("include", "format=experts");
-
-  //   cy.get("button").contains("LCCs").click();
-  //   cy.location("search")
-  //     .should("include", "format=experts")
-  //     .and("include", "value=lccs");
-  // });
-
   it("can display all leaderboards", () => {
     const values = [
       { name: "LCCs", value: "lccs" },
