@@ -80,6 +80,15 @@
   color: white;
 }
 
+.placement {
+  min-width: 3rem;
+  text-align: center;
+}
+
+.no_score {
+  opacity: 0.6;
+}
+
 @keyframes create-rainbow-gradient-shift {
   0% {
     background-position: 0% 50%;

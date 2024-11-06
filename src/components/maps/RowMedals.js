@@ -15,13 +15,15 @@ export default function RowMedals({
       <OverlayTrigger
         overlay={(props) => (
           <Tooltip {...props}>
-            CHIMPS completion{" "}
-            {black_border && (
-              <>
-                <br />
-                (Black Border)
-              </>
-            )}
+            <>
+              CHIMPS completion{" "}
+              {black_border && (
+                <>
+                  <br />
+                  (Black Border)
+                </>
+              )}
+            </>
           </Tooltip>
         )}
       >
