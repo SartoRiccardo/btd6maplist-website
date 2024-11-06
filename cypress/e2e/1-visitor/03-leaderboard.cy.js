@@ -1,4 +1,15 @@
 describe("Leaderboard", () => {
+  const assertFirstLbEntry = (lbQuery) => {
+    cy.request(
+      `${Cypress.env("maplist_api_url")}/maps/leaderboard?${lbQuery}`
+    ).then(({ body }) => {
+      cy.get('[data-cy="leaderboard-entry"]').should("have.length.lte", 50);
+      cy.get('[data-cy="leaderboard-entry"]')
+        .first()
+        .contains(`${body.entries[0].score}`);
+    });
+  };
+
   before(() => {
     cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
   });
@@ -18,30 +29,57 @@ describe("Leaderboard", () => {
   });
 
   it("should display the Maplist points leaderboard", () => {
-    cy.request(`${Cypress.env("maplist_api_url")}/maps/leaderboard`).then(
-      ({ body }) => {
-        cy.get("[data-cy=leaderboard-entry]").should("have.length.lte", 50);
-        cy.get("[data-cy=leaderboard-entry]")
-          .first()
-          .contains(`${body.entries[0].score}pt`);
-      }
-    );
+    assertFirstLbEntry("");
   });
 
   it("can display the LCC leaderboard", () => {
     cy.get("button").contains("LCCs").click();
-
-    cy.request(
-      `${Cypress.env("maplist_api_url")}/maps/leaderboard?value=lccs`
-    ).then(({ body }) => {
-      cy.get('[data-cy="leaderboard-entry"]').should("have.length.lte", 51);
-      cy.get('[data-cy="leaderboard-entry"]')
-        .first()
-        .contains(`${body.entries[0].score}`);
-    });
+    assertFirstLbEntry("value=lccs");
   });
 
-  //   it("can display the Expert List points leaderboard", () => {});
+  it("can display the Expert List points leaderboard", () => {
+    cy.get("[data-cy=difficulty-selector][data-difficulty=51]").click();
+    assertFirstLbEntry("format=51");
+  });
 
-  //   it("should keep the same leaderboard type between navigations", () => {});
+  // it("should keep the same leaderboard type between navigations", () => {
+  //   cy.get("[data-cy=difficulty-selector][data-difficulty=51]").click();
+  //   cy.location("search").should("include", "format=experts");
+
+  //   cy.get("button").contains("LCCs").click();
+  //   cy.location("search")
+  //     .should("include", "format=experts")
+  //     .and("include", "value=lccs");
+  // });
+
+  it("can display all leaderboards", () => {
+    const values = [
+      { name: "LCCs", value: "lccs" },
+      { name: "Points", value: "points" },
+      { name: "Optimal", value: "no_optimal_hero", valueApi: "no_geraldo" },
+      { name: "Black", value: "black_border" },
+    ];
+    const formats = [
+      { formatNum: "51", formatQuery: "experts" },
+      { formatNum: "1", formatQuery: "current" },
+    ];
+
+    for (const { formatNum, formatQuery } of formats) {
+      cy.get(
+        `[data-cy=difficulty-selector][data-difficulty=${formatNum}]`
+      ).click();
+      cy.location("search").should("include", `format=${formatQuery}`);
+
+      for (const valueInfo of values) {
+        cy.get("button").contains(valueInfo.name).click();
+        cy.location("search")
+          .should("include", `format=${formatQuery}`)
+          .and("include", `value=${valueInfo.value}`);
+
+        assertFirstLbEntry(
+          `format=${formatNum}&value=${valueInfo?.valueApi || valueInfo.value}`
+        );
+      }
+    }
+  });
 });
