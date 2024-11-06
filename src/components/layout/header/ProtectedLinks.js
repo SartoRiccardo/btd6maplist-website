@@ -20,24 +20,28 @@ export default function ProtectedLinks({
   return (
     <>
       {!mobile && (
-        <li>
+        <li data-cy="admin-tab">
           <a href="#" tabIndex={0}>
             Admin <i className="bi bi-caret-down-fill" />
           </a>
 
-          <ul className={`${stylesNav.submenu} shadow`} tabIndex={0}>
+          <ul
+            className={`${stylesNav.submenu} shadow`}
+            tabIndex={0}
+            data-cy="nav-dropdown"
+          >
             <LinkItem
               href="/config"
               label="List Config"
               onNavigate={onNavigate}
             />
             <LinkItem
-              href="/completions/unconfirmed"
+              href="/completions/pending"
               label="Pending Runs"
               onNavigate={onNavigate}
             />
             <LinkItem
-              href="/list/legacy"
+              href="/hidden-maps"
               label="Legacy List"
               onNavigate={onNavigate}
             />
@@ -51,7 +55,7 @@ export default function ProtectedLinks({
       )}
 
       {mobile && (
-        <li>
+        <li data-cy="admin-tab">
           <a href="#" onClick={toggleSubmenu(100, openSubmenus.includes(100))}>
             <i
               className={`bi ${
@@ -65,19 +69,22 @@ export default function ProtectedLinks({
 
           <LazyCollapse in={openSubmenus.includes(100)}>
             <div>
-              <ul className={`${styles.submenu} ${styles.mobile}`}>
+              <ul
+                className={`${styles.submenu} ${styles.mobile}`}
+                data-cy="nav-dropdown"
+              >
                 <LinkItem
                   href="/config"
                   label="List Config"
                   onNavigate={onNavigate}
                 />
                 <LinkItem
-                  href="/completions/unconfirmed"
+                  href="/completions/pending"
                   label="Pending Runs"
                   onNavigate={onNavigate}
                 />
                 <LinkItem
-                  href="/list/legacy"
+                  href="/hidden-maps"
                   label="Legacy List"
                   onNavigate={onNavigate}
                 />
@@ -98,11 +105,7 @@ export default function ProtectedLinks({
 function LinkItem({ href, label, onNavigate }) {
   return (
     <li>
-      <Link
-        scroll={false}
-        href={href}
-        onClick={(e) => onNavigate && onNavigate(e)}
-      >
+      <Link href={href} onClick={(e) => onNavigate && onNavigate(e)}>
         {label}
       </Link>
     </li>

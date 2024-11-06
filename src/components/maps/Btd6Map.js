@@ -35,6 +35,7 @@ export default function Btd6Map({
       className={`shadow ${stylesMap.btd6map} pb-3 ${
         className ? className : ""
       }`}
+      data-cy="custom-map"
     >
       <p className={`${stylesMap.map_title} ${btd6Font.className} font-border`}>
         {name}
@@ -65,7 +66,7 @@ export default function Btd6Map({
       />
 
       {showMedals && (
-        <div className={`${stylesMap.btd6map_medals} d-flex`}>
+        <div className={`${stylesMap.btd6map_medals} d-flex`} data-cy="medals">
           <img
             src={
               completion && completion.black_border
@@ -136,11 +137,7 @@ export default function Btd6Map({
   );
 
   return hrefBase ? (
-    <Link
-      scroll={false}
-      className={stylesMap.btd6map_clickable}
-      href={`${hrefBase}/${code}`}
-    >
+    <Link className={stylesMap.btd6map_clickable} href={`${hrefBase}/${code}`}>
       {cmpMap}
     </Link>
   ) : (
@@ -159,6 +156,7 @@ function PlayBtn({ code, displayCode, className }) {
         href={`https://join.btd6.com/Map/${code}`}
         target="_blank"
         className={`shadow font-border`}
+        data-cy="btn-custom-map-play"
       >
         <p>{displayCode ? code : "Play"}</p>
       </a>

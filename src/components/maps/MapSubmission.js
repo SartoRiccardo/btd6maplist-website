@@ -17,6 +17,8 @@ const proposed = {
     "High Expert",
     "High/True",
     "True Expert",
+    "True/Extreme",
+    "Extreme Expert",
   ],
 };
 
@@ -35,17 +37,23 @@ export default async function MapSubmission({
   return (
     <div
       className={`row panel ${cssMap.btd6map_row} my-3 gy-2 ${
-        rejected_by !== null && cssMapSubm.rejected
+        rejected_by !== null ? cssMapSubm.rejected : ""
       }`}
+      data-cy={`map-submission${rejected_by !== null ? "-deleted" : ""}`}
     >
       <div className="col-12 col-md-6">
         <div className="d-flex align-self-center">
-          <div className={cssMap.btd6map_image}>
-            <img className="w-100" loading="lazy" src={btd6Map.mapURL} />
-          </div>
+          {btd6Map?.mapURL ? (
+            <div className={cssMap.btd6map_image}>
+              <img className="w-100" loading="lazy" src={btd6Map.mapURL} />
+            </div>
+          ) : (
+            <div className={`${cssMap.btd6map_image} ${cssMap.empty}`} />
+          )}
+
           <div className="d-flex flex-column justify-content-center ps-3">
             <p className={`mb-0 ${btd6Font.className} font-border fs-5`}>
-              {btd6Map.name}
+              {btd6Map?.name || <span className="muted">Deleted map?</span>}
             </p>
             <p className="mb-0">
               <b>{code}</b> | {fromNow(created_on)}
@@ -65,7 +73,7 @@ export default async function MapSubmission({
         {rejected_by === null && (
           <BtnDeleteSubmission
             className="ps-3"
-            name={btd6Map.name}
+            name={btd6Map?.name}
             code={code}
           />
         )}

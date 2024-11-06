@@ -80,7 +80,7 @@ export default async function RootLayout({ children }) {
 
   if (authState) initReduxState.auth = authState;
   initReduxState.maplist = {};
-  for (const cfg of maplistCfg) initReduxState.maplist[cfg.name] = cfg.value;
+  initReduxState.maplist = maplistCfg;
 
   return (
     <html lang="en">

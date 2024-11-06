@@ -1,4 +1,5 @@
 "use client";
+import cssZoomedImg from "../utils/ZoomedImage.module.css";
 import stylesMedals from "../maps/Medals.module.css";
 import { FormikContext } from "@/contexts";
 import { Formik } from "formik";
@@ -26,8 +27,6 @@ const defaultValues = {
   subm_proof: [],
   lcc: {
     leftover: "",
-    proof_url: "",
-    proof_file: [],
   },
 };
 
@@ -54,8 +53,6 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
           leftover: completion.lcc?.leftover
             ? completion.lcc.leftover.toString()
             : "",
-          proof_url: completion.lcc?.proof || "",
-          proof_file: [],
         },
       }
     : { ...defaultValues };
@@ -70,10 +67,6 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
     if (values.is_lcc) {
       if (!isInt(values.lcc.leftover) || parseInt(values.lcc.leftover) < 0)
         errors["lcc.leftover"] = "Must be a positive number";
-      if (!values.lcc.proof_file.length && !values.lcc.proof_url.length) {
-        errors["lcc.proof_file"] = "Must either upload image or URL";
-        errors["lcc.proof_url"] = "Must either upload image or URL";
-      }
     }
 
     if (!completion && !values.has_no_image && !values.subm_proof.length) {
@@ -81,7 +74,6 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
     }
 
     const fileFields = {
-      "lcc.proof_file": values.lcc.proof_file,
       subm_proof: values.subm_proof,
     };
     for (const field of Object.keys(fileFields)) {
@@ -101,13 +93,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
       ...values,
       user_ids: removeFieldCode(values.user_ids).map(({ uid }) => uid),
       format: parseInt(values.format),
-      lcc: values.is_lcc
-        ? {
-            leftover: parseInt(values.lcc.leftover),
-            proof_completion:
-              values.lcc.proof_url || values.lcc.proof_file[0].file,
-          }
-        : null,
+      lcc: values.is_lcc ? { leftover: parseInt(values.lcc.leftover) } : null,
       subm_proof: values.has_no_image ? null : values.subm_proof?.[0]?.file,
     };
     delete payload.is_lcc;
@@ -153,6 +139,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
                 setShowErrorCount(true);
                 handleSubmit(evt);
               }}
+              data-cy="form-edit-completion"
             >
               <div className="row">
                 <SubmissionData completion={completion} />
@@ -174,6 +161,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
                         className="btn btn-danger big"
                         onClick={() => setShowDeleting(true)}
                         type="button"
+                        data-cy="btn-delete"
                       >
                         {completion.accepted_by ? "Delete" : "Reject"}
                       </button>
@@ -230,7 +218,7 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
         delay={4000}
         autohide
       >
-        <div className="toast-body">
+        <div className="toast-body" data-cy="toast-success">
           Completion {completion ? "modified" : "submitted"} successfully!
         </div>
       </LazyToast>
@@ -321,6 +309,7 @@ function RunProperties({ isNew }) {
             <div
               key={count}
               className="flex-hcenter flex-col-space px-0 px-md-5 mb-2"
+              data-cy="form-group"
             >
               <div className="w-100">
                 <Input
@@ -352,6 +341,7 @@ function RunProperties({ isNew }) {
                         ),
                       })
                     }
+                    data-cy="btn-remove-field"
                   >
                     <i className="bi bi-dash" />
                   </button>
@@ -362,7 +352,7 @@ function RunProperties({ isNew }) {
         </AddableField>
 
         {isNew && (
-          <>
+          <div data-cy="form-group">
             <h3 className="text-center mt-3">Completion Image</h3>
             <CheckBox
               type="checkbox"
@@ -401,11 +391,14 @@ function RunProperties({ isNew }) {
               )}
             </DragFiles>
             {"subm_proof" in errors && (
-              <p className="text-danger text-center my-1">
+              <p
+                className="text-danger text-center my-1"
+                data-cy="invalid-feedback"
+              >
                 {errors["subm_proof"]}
               </p>
             )}
-          </>
+          </div>
         )}
       </div>
     </div>
@@ -433,6 +426,7 @@ function LCCProperties() {
             type="button"
             onClick={() => setFieldValue("is_lcc", !values.is_lcc)}
             className={`btn btn-primary ${values.is_lcc ? "active" : ""}`}
+            data-cy="btn-toggle-lcc"
           >
             LCC Properties
           </button>
@@ -440,7 +434,7 @@ function LCCProperties() {
 
         <div className="d-flex justify-content-between mt-4 mb-3 w-100">
           <p className="mb-0 mt-1">Saveup</p>
-          <div>
+          <div data-cy="form-group">
             <Input
               name="lcc.leftover"
               type="text"
@@ -455,66 +449,6 @@ function LCCProperties() {
             <div className="invalid-feedback">{errors["lcc.leftover"]}</div>
           </div>
         </div>
-
-        <h3 className="text-center mb-1">Proof</h3>
-        <p className="text-center muted">
-          Insert either an image URL or upload an image
-        </p>
-
-        <div className="d-flex justify-content-between my-3 w-100">
-          <p className="mb-0 mt-1">Proof URL</p>
-          <div>
-            <Input
-              name="lcc.proof_url"
-              type="url"
-              placeholder="https://drive.com/..."
-              value={values.lcc.proof_url}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={touched.lcc && "lcc.proof_url" in errors}
-              isValid={
-                values.is_lcc &&
-                !("lcc.proof_url" in errors) &&
-                values.lcc.proof_url.length > 0
-              }
-              disabled={disableLccInputs}
-              autoComplete="off"
-            />
-            <div className="invalid-feedback">{errors["lcc.proof_url"]}</div>
-          </div>
-        </div>
-
-        <DragFiles
-          name="lcc.proof_file"
-          formats={imageFormats}
-          limit={1}
-          onChange={(evt) => {
-            setFieldValue("lcc.proof_url", "");
-            handleChange(evt);
-          }}
-          value={values.lcc.proof_file}
-          isValid={
-            values.is_lcc &&
-            !("lcc.proof_file" in errors) &&
-            !values.lcc.proof_url.length
-          }
-          disabled={disableLccInputs}
-          className="w-100"
-        >
-          {values.lcc.proof_file.length > 0 && (
-            <div className="d-flex justify-content-center">
-              <img
-                style={{ maxWidth: "100%" }}
-                src={values.lcc.proof_file[0].objectUrl}
-              />
-            </div>
-          )}
-        </DragFiles>
-        {"lcc.proof_file" in errors && (
-          <p className="text-danger text-center my-1">
-            {errors["lcc.proof_file"]}
-          </p>
-        )}
       </div>
     </div>
   );
@@ -522,43 +456,88 @@ function LCCProperties() {
 
 function SubmissionData({ completion }) {
   const [isProofZoomed, setProofZoomed] = useState(false);
+  const [imgIdx, setImgIdx] = useState(0);
 
   if (
     !completion ||
     !(
       completion.subm_notes ||
-      completion.subm_proof_img ||
-      completion.subm_proof_vid
+      completion.subm_proof_img.length ||
+      completion.subm_proof_vid.length
     )
   )
     return null;
 
   return (
-    <div className="col-12 col-lg-6 mb-3">
+    <div className="col-12 col-lg-6 mb-3" data-cy="submission-data">
       <div className="panel pt-2 pb-3">
         <h2 className="text-center">Submission Info</h2>
         {completion.subm_notes && (
           <p className="text-justify">{completion.subm_notes}</p>
         )}
-        {(completion.subm_proof_img || completion.subm_proof_vid) && (
+        {(completion.subm_proof_img.length > 0 ||
+          completion.subm_proof_vid.length > 0) && (
           <>
             <h3 className="text-center">Submitted Proof</h3>
-            {completion.subm_proof_vid && (
-              <p>
-                Video Proof URL:{" "}
-                <a href={completion.subm_proof_vid} target="_blank">
-                  {completion.subm_proof_vid}
-                </a>
-              </p>
-            )}
-            {completion.subm_proof_img && (
+
+            {completion.subm_proof_vid.length > 0 && (
               <>
-                <img
-                  src={completion.subm_proof_img}
-                  className="w-100 zoomable"
-                  onClick={() => setProofZoomed(true)}
-                />
+                <p className="mb-0">Video Proof URLs:</p>
+
+                <ol>
+                  {completion.subm_proof_vid.map((url) => (
+                    <li key={url}>
+                      <a href={url} target="_blank">
+                        {url}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )}
+
+            {completion.subm_proof_img.length > 0 && (
+              <>
+                <div className="p-relative">
+                  {completion.subm_proof_img.length > 1 && (
+                    <div
+                      onClick={() =>
+                        setImgIdx(
+                          (imgIdx + 1) % completion.subm_proof_img.length
+                        )
+                      }
+                      className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.left}`}
+                      data-cy="subm-proof-prev"
+                    >
+                      <i className="bi bi-chevron-left" />
+                    </div>
+                  )}
+
+                  <img
+                    src={completion.subm_proof_img[imgIdx]}
+                    className="w-100 zoomable"
+                    onClick={() => setProofZoomed(true)}
+                    data-cy="subm-proof"
+                  />
+
+                  {completion.subm_proof_img.length > 1 && (
+                    <div
+                      onClick={() =>
+                        setImgIdx(
+                          (imgIdx + 1) % completion.subm_proof_img.length
+                        )
+                      }
+                      className={`shadow font-border ${cssZoomedImg.switch_image} ${cssZoomedImg.right}`}
+                      data-cy="subm-proof-next"
+                    >
+                      <i className="bi bi-chevron-right" />
+                    </div>
+                  )}
+                </div>
+
                 <ZoomedImage
+                  key={imgIdx}
+                  startIdx={imgIdx}
                   src={completion.subm_proof_img}
                   show={isProofZoomed}
                   onHide={() => setProofZoomed(false)}

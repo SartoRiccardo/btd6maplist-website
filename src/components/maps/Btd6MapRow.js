@@ -31,7 +31,6 @@ export default function Btd6MapRow({ map, hrefBase, completion }) {
         <div className="col-12 col-md-5 col-lg-7 d-flex pb-3 pb-md-0">
           {hrefBase ? (
             <Link
-              scroll={false}
               className={stylesMap.btd6map_clickable}
               href={`${hrefBase}/${map.code}`}
             >

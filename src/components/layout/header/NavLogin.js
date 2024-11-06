@@ -42,16 +42,15 @@ export default function NavLogin({ onNavigate }) {
   const cmpLoggedIn = (
     <>
       <li className="d-none d-md-inline-block">
-        <a href="#" className={styles.profileContainer}>
+        <a href="#" className={styles.profileContainer} data-cy="user-tab">
           <img className={`${styles.pfp}`} src={btd6Profile.avatarURL} />
           <span>{maplistProfile ? maplistProfile.name : "..."}</span>
         </a>
 
         {maplistProfile && (
-          <ul className={`${stylesNav.submenu} shadow`}>
+          <ul className={`${stylesNav.submenu} shadow`} data-cy="nav-dropdown">
             <li>
               <Link
-                scroll={false}
                 href={`/user/${maplistProfile.id}`}
                 onClick={(_e) => onNavigate && onNavigate(_e)}
               >
@@ -59,7 +58,7 @@ export default function NavLogin({ onNavigate }) {
               </Link>
             </li>
             <li>
-              <a href={`/api/auth/revoke`}>Logout</a>
+              <a href="/api/auth/revoke">Logout</a>
             </li>
           </ul>
         )}
@@ -70,6 +69,7 @@ export default function NavLogin({ onNavigate }) {
           href="#"
           className={`${styles.profileContainer} ${styles.mobile}`}
           onClick={(_e) => setMobileSubmenuOpen(!mobileSubmenuOpen)}
+          data-cy="user-tab"
         >
           <img
             className={`${styles.pfp} ${styles.mobile}`}
@@ -81,10 +81,12 @@ export default function NavLogin({ onNavigate }) {
         {maplistProfile && (
           <LazyCollapse in={mobileSubmenuOpen}>
             <div>
-              <ul className={`${stylesNav.submenu} ${stylesNav.mobile}`}>
+              <ul
+                className={`${stylesNav.submenu} ${stylesNav.mobile}`}
+                data-cy="nav-dropdown"
+              >
                 <li>
                   <Link
-                    scroll={false}
                     href={`/user/${maplistProfile.id}`}
                     onClick={(_e) => onNavigate && onNavigate(_e)}
                   >
@@ -92,9 +94,7 @@ export default function NavLogin({ onNavigate }) {
                   </Link>
                 </li>
                 <li>
-                  <a href="#" onClick={(_e) => logout()}>
-                    Logout
-                  </a>
+                  <a href="/api/auth/revoke">Logout</a>
                 </li>
               </ul>
             </div>

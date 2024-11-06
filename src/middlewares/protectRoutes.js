@@ -6,7 +6,7 @@ const matcher = [
   "/map/add.*",
   "/map/.+?/edit",
   "/completions/.*",
-  "/list/legacy",
+  "/hidden-maps",
   "/map-submissions",
 ];
 

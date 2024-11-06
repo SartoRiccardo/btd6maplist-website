@@ -4,6 +4,25 @@ import withPWAInit from "@ducanh2912/next-pwa";
 
 const nextConfig = {
   output: "standalone",
+  async redirects() {
+    return [
+      {
+        source: "/list",
+        destination: "/maplist",
+        permanent: true,
+      },
+      {
+        source: "/experts",
+        destination: "/expert-list",
+        permanent: true,
+      },
+      {
+        source: "/list/leaderboard",
+        destination: "/leaderboard",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const runtimeCaching = [
@@ -116,11 +135,11 @@ const runtimeCaching = [
   },
 
   {
-    urlPattern: ({ url }) => {
+    urlPattern: ({ event, url }) => {
       const isSameOrigin = self.origin === url.origin;
-      const { searchParams, pathname } = url;
+      const { pathname } = url;
       return (
-        !searchParams.get("_rsc") &&
+        !event.request.headers.get("Next-Router-Prefetch") &&
         isSameOrigin &&
         !pathname.startsWith("/api/")
       );
@@ -137,11 +156,11 @@ const runtimeCaching = [
   },
 
   {
-    urlPattern: ({ url }) => {
+    urlPattern: ({ url, event }) => {
       const isSameOrigin = self.origin === url.origin;
-      const { searchParams, pathname } = url;
+      const { pathname } = url;
       return (
-        searchParams.get("_rsc") &&
+        event.request.headers.get("Next-Router-Prefetch") &&
         isSameOrigin &&
         !pathname.startsWith("/api/")
       );
@@ -151,10 +170,11 @@ const runtimeCaching = [
       cacheName: "others-prefetch",
       expiration: {
         maxEntries: 128,
-        maxAgeSeconds: 7 * 24 * 60 * 60,
+        maxAgeSeconds: 60,
       },
     },
   },
+
   {
     urlPattern:
       /^https:\/\/data\.ninjakiwi\.com\/btd6\/maps\/map\/[A-Z]{7}\/preview$/i,

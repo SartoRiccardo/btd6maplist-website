@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <div className="text-center">
       <h1> Bloons TD 6 Maplist</h1>
-      <div className="text-center fs-5 mb-3">
+      <div className="text-center fs-5 mb-3" data-cy="project-description">
         The BTD6 Maplist is a ranking of the best and hardest custom maps in the
         game. It was started by
         <span className="d-inline-block mx-2">
@@ -52,7 +52,7 @@ export default async function Home() {
       </p>
       <div className="row justify-content-center mb-3 font-border">
         <div className="col-6 col-md-4 col-lg-3">
-          <Link className="no-underline" href="/list" scroll={false}>
+          <Link scroll={true} className="no-underline" href="/maplist">
             <div className="panel bg-list shadow pt-3 h-100 no-border">
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
@@ -77,7 +77,7 @@ export default async function Home() {
           </Link>
         </div>
         <div className="col-6 col-md-4 col-lg-3">
-          <Link className="no-underline" href="/experts" scroll={false}>
+          <Link scroll={true} className="no-underline" href="/expert-list">
             <div className="panel bg-experts shadow pt-3 h-100 no-border">
               <div className="flex-hcenter mb-2">
                 <div className="flex-vcenter">
@@ -128,7 +128,7 @@ export default async function Home() {
 
       <hr className="my-5" />
 
-      <div className="text-start">
+      <div className="text-start" data-cy="project-credits">
         <p>Special thanks to:</p>
         <ul>
           <li>

@@ -13,7 +13,7 @@ export default function CopyButton({ content }) {
   };
 
   return (
-    <a href="#" onClick={handleCopy}>
+    <a href="#" onClick={handleCopy} data-cy="btn-copy">
       <i className={`bi ${isCheck ? "bi-check2" : "bi-copy"}`} />
     </a>
   );

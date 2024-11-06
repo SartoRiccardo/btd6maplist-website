@@ -6,7 +6,7 @@ export async function revalidateUser(userId) {
 }
 
 export async function revalidateLeaderboard() {
-  revalidatePath("/list/leaderboard");
+  revalidatePath("/leaderboard");
 }
 
 export async function revalidateMap(code) {

@@ -61,7 +61,7 @@ export default function FormTransferCompletion({ from }) {
           const disableInputs = isSubmitting;
           return (
             <FormikContext.Provider value={{ ...formikProps, disableInputs }}>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} data-cy="form-transfer-completions">
                 <div
                   className={`${cssDangerZone.danger_zone} mt-5 text-center`}
                 >
@@ -125,6 +125,7 @@ export default function FormTransferCompletion({ from }) {
                           !values.isMaplist ||
                           errors.code
                         }
+                        data-cy="btn-transfer"
                       >
                         Transfer
                       </button>
@@ -157,6 +158,7 @@ export default function FormTransferCompletion({ from }) {
                         className="btn btn-primary"
                         onClick={handleHide}
                         disabled={disableInputs}
+                        data-cy="btn-cancel"
                       >
                         Cancel
                       </button>
@@ -179,6 +181,7 @@ export default function FormTransferCompletion({ from }) {
                           revalidateMap(from);
                           handleHide();
                         }}
+                        data-cy="btn-transfer-confirm"
                       >
                         Transfer
                       </button>

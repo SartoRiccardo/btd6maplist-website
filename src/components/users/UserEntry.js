@@ -18,7 +18,7 @@ export default async function UserEntry({ id, label, centered, lead, inline }) {
 
 async function UserEntry_S({ id, label, centered, lead, inline }) {
   const profile = await getUser(id);
-  if (!profile) return <UserEntry_Plc />;
+  if (!profile) return <UserEntry_Plc inline={inline} />;
   return (
     <UserEntry_C
       profile={profile}

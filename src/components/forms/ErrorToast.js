@@ -32,7 +32,9 @@ export default function ErrorToast() {
       delay={7000}
       autohide
     >
-      <div className="toast-body">{errors[""] || currentErr}</div>
+      <div className="toast-body" data-cy="toast-error">
+        {errors[""] || currentErr}
+      </div>
     </LazyToast>
   );
 }

@@ -14,6 +14,7 @@ export default function CheckBox({
   const props = {
     name,
     value,
+    checked: value,
     onChange,
     onBlur,
     isInvalid,

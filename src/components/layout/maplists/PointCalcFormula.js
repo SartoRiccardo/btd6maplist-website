@@ -7,7 +7,7 @@ export default function PointCalcFormula() {
   const maplistCfg = useMaplistConfig();
 
   return (
-    <div className="panel pt-3 px-3">
+    <div className="panel pt-3 px-3" data-cy="points-explanation">
       <h2 className="text-center">Points Assigned per Run</h2>
       <p>
         Once you beat a map, you will be assigned its points. If your run

@@ -27,6 +27,7 @@ export function NavbarMobile() {
           className="bi bi-list"
           tabIndex={0}
           onClick={(_e) => setIsMenuOpen(true)}
+          data-cy="navbar-mobile-open"
         />
       </p>
 
@@ -41,10 +42,11 @@ export function NavbarMobile() {
           <i
             className={`${styles.closeButton} bi bi-x-lg text-5`}
             onClick={(_e) => setIsMenuOpen(false)}
+            data-cy="navbar-mobile-close"
           />
         </div>
 
-        <div className="offcanvas-body">
+        <div className="offcanvas-body" data-cy="navbar-mobile-content">
           <ul className={`${styles.navbar} ${styles.mobile}`}>
             <NavLogin onNavigate={(_e) => setIsMenuOpen(false)} />
 
@@ -69,11 +71,13 @@ export function NavbarMobile() {
 
               <LazyCollapse in={openSubmenus.includes(0)}>
                 <div>
-                  <ul className={`${styles.submenu} ${styles.mobile}`}>
+                  <ul
+                    className={`${styles.submenu} ${styles.mobile}`}
+                    data-cy="nav-dropdown"
+                  >
                     <li>
                       <Link
-                        scroll={false}
-                        href="/experts"
+                        href="/expert-list"
                         onClick={(_e) => setIsMenuOpen(false)}
                       >
                         Experts
@@ -81,8 +85,7 @@ export function NavbarMobile() {
                     </li>
                     <li>
                       <Link
-                        scroll={false}
-                        href="/list"
+                        href="/maplist"
                         onClick={(_e) => setIsMenuOpen(false)}
                       >
                         The List
@@ -94,11 +97,7 @@ export function NavbarMobile() {
             </li>
 
             <li>
-              <Link
-                scroll={false}
-                href="/list/leaderboard"
-                onClick={(_e) => setIsMenuOpen(false)}
-              >
+              <Link href="/leaderboard" onClick={(_e) => setIsMenuOpen(false)}>
                 Leaderboard
               </Link>
             </li>

@@ -19,6 +19,7 @@ function setResponseCookies(newCookies, response) {
     else
       response.cookies.set(ck, newCookies[ck], {
         path: "/",
+        maxAge: 60 * 60 * 24 * 7,
       });
   }
   return response;
@@ -47,7 +48,16 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - sitemap.xml
+     * - robots.txt
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*?.webp|.*?.png).*)",
+    {
+      source:
+        "/((?!api|_next/static|_next/image|favicon.ico|.*?.webp|.*?.png|sitemap.xml|robots.txt).*)",
+      missing: [
+        { type: "header", key: "next-router-prefetch" },
+        { type: "header", key: "purpose", value: "prefetch" },
+      ],
+    },
   ],
 };

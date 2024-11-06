@@ -42,10 +42,6 @@ a:hover {
   flex: 1;
 }
 
-.h-100 {
-  height: 100%;
-}
-
 body,
 footer {
   font-family: var(--font-p);
@@ -109,7 +105,7 @@ a > .panel:hover {
 }
 
 .modal-panel .modal-content {
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary);
 }
 
 .p-relative {
@@ -248,5 +244,12 @@ img.zoomable:hover {
 @media only screen and (max-width: 767.98px) {
   .lb-position {
     margin-left: -0.5rem;
+  }
+}
+
+/* >sm */
+@media only screen and (min-width: 767.98px) {
+  .w-md-auto {
+    width: auto !important;
   }
 }

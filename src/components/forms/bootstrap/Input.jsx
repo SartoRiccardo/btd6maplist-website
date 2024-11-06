@@ -1,6 +1,7 @@
 export default function Input({
   name,
   type,
+  checked,
   placeholder,
   value,
   onChange,
@@ -27,5 +28,6 @@ export default function Input({
       isValid ? "is-valid" : ""
     } ${className || ""}`,
   };
+  if (type === "checkbox") props.checked = checked;
   return type === "textarea" ? <textarea {...props} /> : <input {...props} />;
 }
