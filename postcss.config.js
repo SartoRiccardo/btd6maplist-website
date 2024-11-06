@@ -65,6 +65,6 @@ module.exports = {
         },
       },
     ],
-    ...purgeCssConf,
+    purgeCssConf,
   ],
 };
