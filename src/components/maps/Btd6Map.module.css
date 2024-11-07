@@ -37,6 +37,7 @@
   width: 100%;
   height: auto;
   aspect-ratio: 3/2;
+  background-color: var(--color-primary);
 }
 
 .btd6map_image.empty {

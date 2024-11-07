@@ -21,14 +21,17 @@ export default function Btd6Map({
   completion,
   showMedals,
   hidePoints,
+  placeholder,
 }) {
-  code = code || mapData.code;
+  code = code || mapData?.code || "";
+  otherCodes = otherCodes || [];
 
   const isWindows = useIsWindows();
   const maplistCfg = useMaplistConfig();
-  const previewUrl =
-    mapData?.map_preview_url ||
-    `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
+  const previewUrl = placeholder
+    ? "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+    : mapData?.map_preview_url ||
+      `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
 
   const cmpMap = (
     <div
@@ -153,7 +156,7 @@ function PlayBtn({ code, displayCode, className }) {
       }`}
     >
       <a
-        href={`https://join.btd6.com/Map/${code}`}
+        href={code ? `https://join.btd6.com/Map/${code}` : "#"}
         target="_blank"
         className={`shadow font-border`}
         data-cy="btn-custom-map-play"
