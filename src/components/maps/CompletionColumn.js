@@ -7,6 +7,7 @@ import RowMedals from "./RowMedals";
 import { useAuthLevels } from "@/utils/hooks";
 import Link from "next/link";
 import BtnShowCompletion from "../buttons/BtnShowCompletion";
+import { Fragment } from "react";
 
 export default function CompletionColumn({
   completion,
@@ -36,7 +37,7 @@ export default function CompletionColumn({
         subm_proof_img,
       } = compl;
       const runFormat = allFormats.find(({ value }) => value === format);
-      if (!runFormat) return null;
+      if (!runFormat) return <Fragment key={id} />;
 
       const fmtIcon = (
         <SelectorButton text={runFormat.short} className="ms-3" active>
@@ -54,12 +55,12 @@ export default function CompletionColumn({
                   black_border={black_border}
                   no_geraldo={no_geraldo}
                   current_lcc={current_lcc}
-                  hideNoGeraldo={runFormat.value > 50}
                 />
               </div>
             </div>
           </div>
-          <div className={`col-5`}>
+
+          <div className="col-5">
             <div className="d-flex justify-content-end justify-content-lg-start h-100">
               <div className="align-self-center">
                 {onlyIcon ? (
@@ -83,6 +84,7 @@ export default function CompletionColumn({
               </div>
             </div>
           </div>
+
           <div className="col-1 flex-vcenter">
             {isAdmin ? (
               <Link

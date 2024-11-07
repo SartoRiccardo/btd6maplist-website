@@ -1,9 +1,10 @@
 import styles from "./userpage.module.css";
+import cssMedals from "@/components/maps/Medals.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
-import { difficulties, listVersions, userRoles } from "@/utils/maplistUtils";
+import { allFormats, difficulties, userRoles } from "@/utils/maplistUtils";
 import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
@@ -83,17 +84,10 @@ export default async function PageUser({ params, searchParams }) {
       </div>
 
       <h2 className="text-center mt-3">Overview</h2>
-      <div className="row justify-content-center">
-        {!!listVersions.find(({ value }) => value === 1) && (
-          <div className="col-6 col-md-5 col-lg-4 col-xl-3">
-            <MaplistOverview stats={userData.maplist.current} />
-          </div>
-        )}
-        {!!listVersions.find(({ value }) => value === 2) && (
-          <div className="col-6 col-md-5 col-lg-4 col-xl-3">
-            <MaplistOverview stats={userData.maplist.all} all />
-          </div>
-        )}
+      <div className="row gx-3 justify-content-center">
+        <MaplistOverview stats={userData.maplist.current} format={1} />
+        <MaplistOverview stats={userData.maplist.all} format={2} />
+        <MaplistOverview stats={userData.maplist.experts} format={51} />
       </div>
 
       <h2 className="text-center">Completions</h2>
@@ -159,62 +153,95 @@ export default async function PageUser({ params, searchParams }) {
   );
 }
 
-function MaplistOverview({ stats, all }) {
-  const { points, pts_placement, lccs, lccs_placement } = stats;
+function MaplistOverview({ stats, format }) {
+  const formatData = allFormats.find(({ value }) => value === format);
+  if (!formatData) return null;
 
-  const fontBorder =
-    pts_placement === null && lccs_placement === null ? "" : "font-border";
+  const placements = [
+    {
+      plc: stats.lccs_placement,
+      score: stats.lccs,
+      prefix: (
+        <img
+          src="/medals/medal_lcc.webp"
+          className={`${cssMedals.inline_medal} me-1`}
+        />
+      ),
+    },
+    {
+      plc: stats.no_geraldo_placement,
+      score: stats.no_geraldo,
+      prefix: (
+        <img
+          src="/medals/medal_nogerry.webp"
+          className={`${cssMedals.inline_medal} me-1`}
+        />
+      ),
+    },
+    {
+      plc: stats.black_border_placement,
+      score: stats.black_border,
+      prefix: (
+        <img
+          src="/medals/medal_bb.webp"
+          className={`${cssMedals.inline_medal} me-1`}
+        />
+      ),
+    },
+  ].sort((a, b) => b.plc - a.plc);
 
   return (
-    <div className="panel my-3">
-      <div className="d-flex justify-content-center my-2">
-        <SelectorButton active>
-          <img
-            src={
-              all
-                ? "/format_icons/icon_allver.webp"
-                : "/format_icons/icon_curver.webp"
-            }
-            alt="Cur"
-            width={50}
-            height={50}
-          />
-        </SelectorButton>
-        <div className="d-flex flex-column justify-content-center">
-          <h3 className="mb-0 ms-3">{all ? "All Versions" : "Maplist"}</h3>
+    <div className="col-6 col-md-4 col-lg-3 col-xl-3">
+      <div className="panel my-3">
+        <div className="d-flex justify-content-center my-2">
+          <SelectorButton active>
+            <img src={formatData.image} width={50} height={50} />
+          </SelectorButton>
+          <div className="d-flex flex-column justify-content-center">
+            <h3 className="mb-0 ms-3">{formatData.name}</h3>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <p className="fs-2 text-center my-3">
-          <span
-            className={`p-2 ${fontBorder} rounded-3`}
-            style={{
-              backgroundColor: pts_placement
-                ? getPositionColor(pts_placement) || "#7191AD"
-                : null,
-            }}
-          >
-            #{pts_placement || "--"}
-          </span>{" "}
-          {points}pt
-        </p>
+        <PlacementRow
+          placement={stats.pts_placement}
+          score={stats.points}
+          suffix="pt"
+          large
+        />
+        {placements.map(({ plc, score, prefix }, i) => (
+          <PlacementRow key={i} placement={plc} score={score} prefix={prefix} />
+        ))}
       </div>
+    </div>
+  );
+}
 
-      <div>
-        <p className="fs-2 text-center my-3">
-          <span
-            className={`p-2 ${fontBorder} rounded-3`}
-            style={{
-              backgroundColor: lccs_placement
-                ? getPositionColor(lccs_placement) || "#7191AD"
-                : null,
-            }}
-          >
-            #{lccs_placement || "--"}
-          </span>{" "}
-          {lccs} LCCs
-        </p>
+function PlacementRow({ placement, score, suffix, prefix, large }) {
+  return (
+    <div className={placement === null ? styles.no_score : ""}>
+      <div
+        className={`px-0 px-lg-4 ${
+          large ? "fs-2 my-3" : "fs-5 my-2"
+        } d-flex justify-content-between`}
+      >
+        <div
+          className={`${large ? "px-3" : "px-2"} py-1 font-border rounded-3 ${
+            styles.placement
+          }`}
+          style={{
+            backgroundColor: placement
+              ? getPositionColor(placement) || "#7191AD"
+              : null,
+            border: placement ? null : "1px solid var(--color-primary)",
+          }}
+        >
+          #{placement || "-"}
+        </div>
+        <div>
+          {prefix}
+          {score}
+          {suffix}
+        </div>
       </div>
     </div>
   );

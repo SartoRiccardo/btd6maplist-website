@@ -2,8 +2,9 @@
 import { useState } from "react";
 import PointCalcFormula from "@/components/layout/maplists/PointCalcFormula";
 import LazyFade from "@/components/transitions/LazyFade";
+import PointCalcExperts from "@/components/layout/maplists/PointCalcExperts";
 
-export function PointCalcFade() {
+export function PointCalcFade({ format }) {
   const [show, setShow] = useState(false);
   return (
     <div className="d-flex flex-column align-items-center">
@@ -18,7 +19,7 @@ export function PointCalcFade() {
       <LazyFade in={show} mountOnEnter={true} unmountOnExit={true}>
         <div>
           <br />
-          <PointCalcFormula />
+          {format === "experts" ? <PointCalcExperts /> : <PointCalcFormula />}
         </div>
       </LazyFade>
     </div>

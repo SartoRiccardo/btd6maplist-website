@@ -3,7 +3,7 @@ import UserEntry from "@/components/users/UserEntry";
 import { getListLeaderboard } from "@/server/maplistRequests";
 import Link from "next/link";
 import { getPositionColor } from "@/utils/functions";
-import { listVersions } from "@/utils/maplistUtils";
+import { allFormats, listVersions } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import PaginateElement from "@/components/buttons/PaginateElement";
 import Image from "next/image";
@@ -23,23 +23,63 @@ export async function generateMetadata({ searchParams }) {
 }
 
 const leaderboards = [
-  { key: "points", title: "Points" },
-  { key: "lccs", title: "LCCs" },
+  { key: "points", title: "Points", suffix: "pt" },
+  {
+    key: "lccs",
+    title: "LCCs",
+    suffix: (
+      <Image
+        src="/medals/medal_lcc.webp"
+        alt=""
+        className="ms-2"
+        width={30}
+        height={30}
+      />
+    ),
+  },
+  {
+    key: "no_optimal_hero",
+    title: "No Optimal Hero",
+    suffix: (
+      <Image
+        src="/medals/medal_nogerry.webp"
+        alt=""
+        className="ms-2"
+        width={30}
+        height={30}
+      />
+    ),
+  },
+  {
+    key: "black_border",
+    title: "Black Border",
+    suffix: (
+      <Image
+        src="/medals/medal_bb.webp"
+        alt=""
+        className="ms-2"
+        width={30}
+        height={30}
+      />
+    ),
+  },
 ];
 
 export default async function ListLeaderboard({ searchParams }) {
   let version = searchParams?.format || "current";
-  if (!["current", "all"].includes(version.toLowerCase())) version = "current";
+  if (!["current", "all", "experts"].includes(version.toLowerCase()))
+    version = "current";
   let value = searchParams?.value || "points";
-  if (!["points", "lccs"].includes(value.toLowerCase())) value = "points";
+  let lbType = leaderboards.find(({ key }) => key == value.toLowerCase());
+  if (!lbType) lbType = leaderboards[0];
   let page = searchParams?.page || "1";
   if (!/^\d+$/.test(page)) page = "1";
   page = parseInt(page);
 
-  const leaderboard = await getListLeaderboard(version, value, page);
+  const leaderboard = await getListLeaderboard(version, lbType.key, page);
 
   let curFormat =
-    listVersions.find(({ query }) => version === query) || listVersions[0];
+    allFormats.find(({ query }) => version === query) || allFormats[0];
 
   return (
     <>
@@ -47,7 +87,7 @@ export default async function ListLeaderboard({ searchParams }) {
 
       <DifficultySelector
         value={curFormat.value}
-        difficulties={listVersions}
+        difficulties={allFormats}
         href={
           `/leaderboard?` +
           new URLSearchParams({
@@ -59,7 +99,7 @@ export default async function ListLeaderboard({ searchParams }) {
 
       <div className={`d-flex justify-content-center ${styles.lbValueChooser}`}>
         {leaderboards.map(({ key, title }) => {
-          const isActive = key === value;
+          const isActive = key === lbType.key;
           return isActive ? (
             <button className="btn btn-primary active" key={key}>
               {title}
@@ -73,7 +113,7 @@ export default async function ListLeaderboard({ searchParams }) {
                 new URLSearchParams({ ...searchParams, value: key }).toString()
               }
               className={`${
-                key === value ? styles.lbValueActive : ""
+                key === lbType.key ? styles.lbValueActive : ""
               } font-border`}
             >
               <button className="btn btn-primary">{title}</button>
@@ -82,51 +122,45 @@ export default async function ListLeaderboard({ searchParams }) {
         })}
       </div>
 
-      {value === "points" && <PointCalcFade />}
+      {lbType.key === "points" && <PointCalcFade format={version} />}
 
       <div className="my-4">
         <PaginateElement qname="page" page={page} total={leaderboard.pages}>
-          {leaderboard.entries.map(({ user, score, position }) => {
-            let style = {};
-            const posColor = getPositionColor(position);
-            if (posColor !== null) style.backgroundColor = posColor;
+          {leaderboard.entries.length === 0 ? (
+            <p className="text-center muted lead mt-5">Nobody's here...</p>
+          ) : (
+            leaderboard.entries.map(({ user, score, position }) => {
+              let style = {};
+              const posColor = getPositionColor(position);
+              if (posColor !== null) style.backgroundColor = posColor;
 
-            return (
-              <div
-                key={user.id}
-                className={`panel my-2 row ${
-                  position <= 3 ? "font-border" : ""
-                }`}
-                style={style}
-                data-cy="leaderboard-entry"
-              >
-                <div className="col-1 d-flex flex-column justify-content-center">
-                  <p className="fs-4 lb-position text-center mb-0">
-                    #{position}
-                  </p>
+              return (
+                <div
+                  key={user.id}
+                  className={`panel my-2 row ${
+                    position <= 3 ? "font-border" : ""
+                  }`}
+                  style={style}
+                  data-cy="leaderboard-entry"
+                >
+                  <div className="col-1 d-flex flex-column justify-content-center">
+                    <p className="fs-4 lb-position text-center mb-0">
+                      #{position}
+                    </p>
+                  </div>
+                  <div className="col-8">
+                    <UserEntry id={user.id} centered lead="sm" />
+                  </div>
+                  <div className="col-3 d-flex flex-column justify-content-center">
+                    <p className="fs-4 text-end mb-0">
+                      {score}
+                      {lbType.suffix}
+                    </p>
+                  </div>
                 </div>
-                <div className="col-8">
-                  <UserEntry id={user.id} centered lead="sm" />
-                </div>
-                <div className="col-3 d-flex flex-column justify-content-center">
-                  <p className="fs-4 text-end mb-0">
-                    {score}
-                    {value === "points" ? (
-                      "pt"
-                    ) : (
-                      <Image
-                        src="/medals/medal_lcc.webp"
-                        alt=""
-                        className="ms-2"
-                        width={30}
-                        height={30}
-                      />
-                    )}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </PaginateElement>
       </div>
     </>

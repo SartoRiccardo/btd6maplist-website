@@ -79,6 +79,7 @@ export const difficulties = [
     query: "casual",
     value: 0,
     image: "/format_icons/icon_casual.webp",
+    points_cfg: "exp_points_casual",
     description:
       "Easy and enjoyable, yet not brainless maps. Expect a game where many towers are viable. Comparable difficulty to maps like Workshop and Muddy Puddles.",
     meta_desc:
@@ -89,6 +90,7 @@ export const difficulties = [
     query: "medium",
     value: 1,
     image: "/format_icons/icon_medium.webp",
+    points_cfg: "exp_points_medium",
     description:
       "Challenging, but not frustrating or intense difficulty. May have complications at any point. Comparable difficulty to maps like Sanctuary and Flooded Valley.",
     meta_desc:
@@ -99,6 +101,7 @@ export const difficulties = [
     query: "hard",
     value: 2,
     image: "/format_icons/icon_hard.webp",
+    points_cfg: "exp_points_high",
     description:
       "Has at least one phase of the game that is very tough, usually a hard lategame at minimum. Comparable difficulty to maps like Dark Dungeons and Quad.",
     meta_desc:
@@ -109,6 +112,7 @@ export const difficulties = [
     query: "true",
     value: 3,
     image: "/format_icons/icon_true.webp",
+    points_cfg: "exp_points_true",
     description:
       "If you're asking for one of the best, you'd better be one of the best. Many strategies will not work. Comparable to, or even greater difficulty than maps like Bloody Puddles and Ouch.",
     meta_desc:
@@ -142,9 +146,9 @@ export const filterCompletionFormats = (completions, formats) => {
 
 export const listVersions = [
   {
-    name: "Current",
-    diffPanelName: "Current",
-    short: "Cur",
+    name: "Maplist",
+    diffPanelName: "Maplist",
+    short: "List",
     query: "current",
     value: 1,
     image: "/format_icons/icon_curver.webp",
@@ -180,9 +184,9 @@ export const listVersions = [
 const explistVersions = [
   {
     name: "Expert List",
-    // diffPanelName: "Current",
-    // short: "Cur",
-    // query: "current",
+    // diffPanelName: "Experts",
+    short: "Exp",
+    query: "experts",
     value: 51,
     image: "/format_icons/icon_hard.webp",
     // plcKey: "placement_cur",
