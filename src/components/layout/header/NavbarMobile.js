@@ -80,7 +80,7 @@ export function NavbarMobile() {
                         href="/expert-list"
                         onClick={(_e) => setIsMenuOpen(false)}
                       >
-                        Experts
+                        Expert List
                       </Link>
                     </li>
                     <li>
@@ -88,7 +88,7 @@ export function NavbarMobile() {
                         href="/maplist"
                         onClick={(_e) => setIsMenuOpen(false)}
                       >
-                        The List
+                        The Maplist
                       </Link>
                     </li>
                   </ul>

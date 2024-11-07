@@ -4,22 +4,22 @@ import { selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
 import AddMapListEntry from "./AddMapListEntry";
 
-export default function TheList({ maps, format, legacy }) {
+export default function MapList({ maps, format, legacy, listName }) {
+  listName = listName || "list";
+
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
 
   return (
     <div className="row">
-      {!legacy && <AddMapListEntry on="list" />}
+      {!legacy && <AddMapListEntry on={listName} />}
 
       {maps.map((mapData) => {
         const { code, placement, name, verified } = mapData;
-        let completion = null;
-        if (maplistProfile) {
-          let compIdx = maplistProfile.completions.findIndex(
-            (comp) => comp.map === code && comp.format === format
-          );
-          if (compIdx > -1) completion = maplistProfile.completions[compIdx];
-        }
+        let completion = maplistProfile
+          ? maplistProfile.completions.find(
+              (comp) => comp.map === code && comp.format === format
+            )
+          : null;
 
         return (
           <div key={code} className="col-12 col-sm-6 col-lg-4">

@@ -33,9 +33,15 @@ export default function Btd6Map({
     : mapData?.map_preview_url ||
       `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
 
+  let borderClass = "";
+  if (showMedals && completion?.no_geraldo) {
+    borderClass = stylesMap.gold_border;
+    if (completion.black_border) borderClass = stylesMap.black_border;
+  }
+
   const cmpMap = (
     <div
-      className={`shadow ${stylesMap.btd6map} pb-3 ${
+      className={`shadow ${stylesMap.btd6map} ${borderClass} pb-3 ${
         className ? className : ""
       }`}
       data-cy="custom-map"

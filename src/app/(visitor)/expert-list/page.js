@@ -5,6 +5,7 @@ import { difficulties } from "@/utils/maplistUtils";
 import { getExpertMaplist } from "@/server/maplistRequests";
 import AddMapListEntry from "@/components/layout/maplists/AddMapListEntry";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
+import MapList from "@/components/layout/maplists/MapList";
 
 export async function generateMetadata({ searchParams }) {
   let difficulty = searchParams.difficulty || "casual";
@@ -32,7 +33,7 @@ export default async function Experts({ searchParams }) {
 
   return (
     <>
-      <h1 className="text-center">Expert Maplist</h1>
+      <h1 className="text-center">Expert List</h1>
 
       <div>
         <DifficultySelector
@@ -44,17 +45,11 @@ export default async function Experts({ searchParams }) {
 
         <SubmissionRules on="experts" />
 
-        <div className="row">
-          <AddMapListEntry on="experts" />
-
-          {maplist
-            .filter((map) => map.difficulty === curDifficulty.value)
-            .map((map) => (
-              <div key={map.code} className="col-12 col-sm-6 col-lg-4">
-                <Btd6Map mapData={map} name={map.name} hrefBase="/map" />
-              </div>
-            ))}
-        </div>
+        <MapList
+          maps={maplist.filter((map) => map.difficulty === curDifficulty.value)}
+          format={51}
+          listName="experts"
+        />
       </div>
     </>
   );

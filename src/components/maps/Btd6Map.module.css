@@ -167,6 +167,16 @@
   background-color: #fbc02d;
 }
 
+.btd6map.black_border {
+  background-color: #080808;
+  box-shadow: 0rem 0rem 0.4rem 0 #d3d3d3 !important;
+}
+
+.btd6map.gold_border {
+  background-color: #ddbc00;
+  box-shadow: 0rem 0rem 0.5rem 0 #e65100 !important;
+}
+
 /* <lg */
 @media only screen and (max-width: 991.98px) {
 }

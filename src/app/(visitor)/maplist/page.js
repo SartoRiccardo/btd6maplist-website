@@ -1,6 +1,6 @@
 import styles from "../expert-list/maplist.module.css";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
-import TheList from "@/components/layout/maplists/TheList";
+import MapList from "@/components/layout/maplists/MapList";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { getTheList } from "@/server/maplistRequests";
 import { listVersions } from "@/utils/maplistUtils";
@@ -30,7 +30,7 @@ export default async function TheListPage({ searchParams }) {
 
   return (
     <>
-      <h1 className="text-center">The List</h1>
+      <h1 className="text-center">The Maplist</h1>
 
       <DifficultySelector
         value={curFormat.value}
@@ -41,7 +41,7 @@ export default async function TheListPage({ searchParams }) {
 
       <SubmissionRules on="list" />
 
-      <TheList maps={maps} format={curFormat.value} />
+      <MapList maps={maps} format={curFormat.value} />
     </>
   );
 }
