@@ -13,6 +13,11 @@
   border-radius: 0.7rem;
 }
 
+.profilePfp.placeholder {
+  border-color: var(--color-secondary);
+  background-color: var(--color-secondary);
+}
+
 .rolesContainer {
   display: flex;
   column-gap: 0.5rem;
@@ -40,6 +45,10 @@
   background-position: center;
   border-radius: 0.5rem;
   padding: 1rem 0.5rem;
+}
+
+.profileBannerContainer.placeholder {
+  background-color: var(--color-primary);
 }
 
 .medals_container {
