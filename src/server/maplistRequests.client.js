@@ -1,3 +1,5 @@
+import { cache, revalidate } from "./cacheOptions";
+
 const SRV_ERROR_MESSAGE =
   "Something went wrong on the server - please take a screenshot of the form and report it so I can fix it 🥺";
 
@@ -269,4 +271,23 @@ export async function rejectMapSubmission(token, code) {
   } catch (exc) {
     return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
   }
+}
+
+export async function search(query, type, limit, options = null) {
+  const baseUrl = options?.server
+    ? process.env.API_URL
+    : process.env.NEXT_PUBLIC_API_URL;
+  const fetchOpts = options?.server
+    ? {
+        next: { tags: ["list"], revalidate },
+        cache,
+      }
+    : {};
+
+  const urlParams = new URLSearchParams({ q: query, type, limit });
+  const response = await fetch(
+    `${baseUrl}/search?${urlParams.toString()}`,
+    fetchOpts
+  );
+  return await response.json();
 }

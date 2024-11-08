@@ -1,3 +1,4 @@
+"use client";
 import { btd6Font, titleFont } from "@/lib/fonts";
 import stylesHeader from "./header.module.css";
 import stylesNav from "./header/navbar.module.css";
@@ -6,8 +7,12 @@ import { NavbarMobile } from "./header/NavbarMobile";
 import NavLogin from "./header/NavLogin";
 import ProtectedLinks from "./header/ProtectedLinks";
 import { SiteTitle } from "./Header.client";
+import SearchTab from "./header/SearchTab";
+import { useState } from "react";
 
 export default function Header() {
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
     <header
       className={`${titleFont.className} font-border ${stylesHeader.header} shadow`}
@@ -33,11 +38,13 @@ export default function Header() {
           <nav>
             <div className="d-none d-md-block" data-cy="navbar-desktop">
               <ul className={`${stylesNav.navbar}`}>
-                <ProtectedLinks />
+                <ProtectedLinks
+                  className={searchOpen ? stylesNav.hidden : ""}
+                />
 
-                <li>
+                <li className={searchOpen ? stylesNav.hidden : ""}>
                   <a href="#" tabIndex={0}>
-                    Maps <i className="bi bi-caret-down-fill" />
+                    Maps
                   </a>
 
                   <ul
@@ -54,9 +61,14 @@ export default function Header() {
                   </ul>
                 </li>
 
-                <li>
+                <li className={searchOpen ? stylesNav.hidden : ""}>
                   <Link href="/leaderboard">Leaderboard</Link>
                 </li>
+
+                <SearchTab
+                  onClick={() => setSearchOpen(!searchOpen)}
+                  open={searchOpen}
+                />
 
                 <NavLogin />
               </ul>

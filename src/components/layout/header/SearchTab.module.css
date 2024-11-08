@@ -1,0 +1,27 @@
+.search {
+  --form-width: 15rem;
+  position: relative;
+}
+
+.search form {
+  position: absolute;
+  top: 0;
+  left: -1rem;
+  transform: translateX(-100%);
+  width: var(--form-width);
+  font-family: var(--font-p);
+  z-index: 999;
+}
+
+.search form.hidden {
+  pointer-events: none;
+}
+
+.search form > div {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.search form.hidden > div {
+  opacity: 0;
+}
