@@ -39,13 +39,16 @@ export function AutoComplete({
 
     const autocItems = [...completionsRef.current.children];
     if (evt.keyCode === KEY_UP) {
+      evt.preventDefault();
       const newFocus = autocItems.indexOf(document.activeElement) - 1;
       if (newFocus >= 0) autocItems[newFocus].focus();
       else wrapperRef.current.children[0].focus();
     } else if (evt.keyCode === KEY_DOWN) {
+      evt.preventDefault();
       const newFocus = autocItems.indexOf(document.activeElement) + 1;
       if (newFocus < autocItems.length) autocItems[newFocus].focus();
     } else if ([KEY_SPACE, KEY_ENTER].includes(evt.keyCode)) {
+      evt.preventDefault();
       handleAutocomplete(document.activeElement.attributes["data-value"].value);
     }
   };

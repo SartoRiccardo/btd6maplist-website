@@ -23,6 +23,7 @@ export default function SearchTab({ onClick, open }) {
     if (evt) evt.preventDefault();
     const params = new URLSearchParams({ q: search });
     router.push(`/search?${params.toString()}`);
+    // setForceSubmit(false);
   };
 
   useEffect(() => {

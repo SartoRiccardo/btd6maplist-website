@@ -12,8 +12,7 @@ import { Fragment, Suspense } from "react";
 import { UserRole, WebsiteCreatorRole } from "./page.client";
 import ProfileMedal from "@/components/users/ProfileMedal";
 import { notFound } from "next/navigation";
-
-const btnSize = 50;
+import MapList from "@/components/layout/maplists/MapList";
 
 export async function generateMetadata({ params }) {
   const userData = await getUser(params.uid);
@@ -38,80 +37,6 @@ export default async function PageUser({ params, searchParams }) {
   for (const mdl of Object.keys(userData.medals))
     if (userData.medals[mdl] > 0)
       medals.push(<ProfileMedal medal={mdl} count={userData.medals[mdl]} />);
-
-  const sections = [];
-
-  sections.push(
-    <Fragment key="overview">
-      <h2 className="text-center mt-3">Overview</h2>
-      <div className="row gx-3 justify-content-center">
-        <MaplistOverview stats={userData.maplist.current} format={1} />
-        <MaplistOverview stats={userData.maplist.all} format={2} />
-        <MaplistOverview stats={userData.maplist.experts} format={51} />
-      </div>
-    </Fragment>
-  );
-
-  sections.push(
-    <Suspense fallback={null} key="completions">
-      <UserCompletions userId={uid} page={page} />
-    </Suspense>
-  );
-
-  if (userData.created_maps.length) {
-    sections.push(
-      <Fragment key="created-maps">
-        <h2 className="text-center mt-4">Created Maps</h2>
-        <div className="row" data-cy="created-maps">
-          {userData.created_maps.map((mapData) => (
-            <div
-              key={mapData.code}
-              className="col-12 col-sm-6 col-lg-4 p-relative"
-            >
-              <Btd6Map mapData={mapData} name={mapData.name} hrefBase="/map" />
-              <div
-                className={`${styles.difficulties} d-flex justify-content-center`}
-              >
-                {mapData.placement_cur > -1 && (
-                  <SelectorButton text={`#${mapData.placement_cur}`} active>
-                    <img
-                      src="/format_icons/icon_curver.webp"
-                      alt="Cur"
-                      width={btnSize}
-                      height={btnSize}
-                    />
-                  </SelectorButton>
-                )}
-
-                {/* ALLVER UCOMMENT */}
-                {/* {mapData.placement_all > -1 && (
-                  <SelectorButton text={`#${mapData.placement_all}`} active>
-                    <img
-                      src="/format_icons/icon_allver.webp"
-                      alt="All"
-                      width={btnSize}
-                      height={btnSize}
-                    />
-                  </SelectorButton>
-                )} */}
-
-                {mapData.difficulty > -1 && (
-                  <SelectorButton active>
-                    <img
-                      src={difficulties[mapData.difficulty].image}
-                      alt="Diff"
-                      width={btnSize}
-                      height={btnSize}
-                    />
-                  </SelectorButton>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </Fragment>
-    );
-  }
 
   return (
     <>
@@ -172,55 +97,12 @@ export default async function PageUser({ params, searchParams }) {
         <>
           <h2 className="text-center mt-4">Created Maps</h2>
           <div className="row" data-cy="created-maps">
-            {userData.created_maps.map((mapData) => (
-              <div
-                key={mapData.code}
-                className="col-12 col-sm-6 col-lg-4 p-relative"
-              >
-                <Btd6Map
-                  mapData={mapData}
-                  name={mapData.name}
-                  hrefBase="/map"
-                />
-                <div
-                  className={`${styles.difficulties} d-flex justify-content-center`}
-                >
-                  {mapData.placement_cur > -1 && (
-                    <SelectorButton text={`#${mapData.placement_cur}`} active>
-                      <img
-                        src="/format_icons/icon_curver.webp"
-                        alt="Cur"
-                        width={btnSize}
-                        height={btnSize}
-                      />
-                    </SelectorButton>
-                  )}
-
-                  {/* ALLVER UCOMMENT */}
-                  {/* {mapData.placement_all > -1 && (
-                  <SelectorButton text={`#${mapData.placement_all}`} active>
-                    <img
-                      src="/format_icons/icon_allver.webp"
-                      alt="All"
-                      width={btnSize}
-                      height={btnSize}
-                    />
-                  </SelectorButton>
-                )} */}
-
-                  {mapData.difficulty > -1 && (
-                    <SelectorButton active>
-                      <img
-                        src={difficulties[mapData.difficulty].image}
-                        alt="Diff"
-                        width={btnSize}
-                        height={btnSize}
-                      />
-                    </SelectorButton>
-                  )}
-                </div>
-              </div>
-            ))}
+            <MapList
+              maps={userData.created_maps}
+              noSubmit
+              noMedals
+              bottomInfo
+            />
           </div>
         </>
       )}

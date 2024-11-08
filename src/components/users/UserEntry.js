@@ -2,9 +2,27 @@ import { getUser } from "@/server/maplistRequests";
 import { Suspense } from "react";
 import UserEntry_C, { UserEntry_Plc } from "./UserEntry.client";
 
-export default async function UserEntry({ id, label, centered, lead, inline }) {
+export default async function UserEntry({
+  id,
+  label,
+  centered,
+  lead,
+  inline,
+  placeholderProfile,
+}) {
+  const placeholder = placeholderProfile ? (
+    <UserEntry_C
+      lead={lead}
+      centered={centered}
+      inline={inline}
+      profile={placeholderProfile}
+    />
+  ) : (
+    <UserEntry_Plc />
+  );
+
   return (
-    <Suspense fallback={<UserEntry_Plc />}>
+    <Suspense fallback={placeholder}>
       <UserEntry_S
         id={id}
         label={label}
