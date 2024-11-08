@@ -636,6 +636,7 @@ export default function MapForm({
                         secondProps={{
                           placeholder: "Gameplay",
                         }}
+                        firstIsUser
                       />
                     </div>
                   </AddableField>
@@ -659,6 +660,7 @@ export default function MapForm({
                             placeholder: "Leave blank if first verification",
                           }}
                           omitFirstOptional
+                          firstIsUser
                         />
                       </div>
                     </AddableField>
