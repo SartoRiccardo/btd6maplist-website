@@ -49,7 +49,8 @@ export function AutoComplete({
       if (newFocus < autocItems.length) autocItems[newFocus].focus();
     } else if ([KEY_SPACE, KEY_ENTER].includes(evt.keyCode)) {
       evt.preventDefault();
-      handleAutocomplete(document.activeElement.attributes["data-value"].value);
+      const selectedIdx = autocItems.indexOf(document.activeElement);
+      handleAutocomplete(searchResults[selectedIdx]);
     }
   };
 
@@ -82,7 +83,8 @@ export function AutoComplete({
         query.length >= minLength && (
           <div className={cssAutoC.autocomplete}>
             <ul ref={completionsRef}>
-              {searchResults.map(({ type, data }) => {
+              {searchResults.map((result) => {
+                const { type, data } = result;
                 let key, content;
                 if (type === "user") {
                   key = `usr-${data.id}`;
@@ -95,7 +97,7 @@ export function AutoComplete({
                   <li
                     data-value={content}
                     key={key}
-                    onClick={() => handleAutocomplete(content)}
+                    onClick={() => handleAutocomplete(result)}
                     tabIndex={0}
                   >
                     {content}

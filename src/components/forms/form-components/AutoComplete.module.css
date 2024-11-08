@@ -13,6 +13,7 @@
   right: 0;
   background-color: white;
   box-shadow: 0 0.2rem 0.2rem 0.1rem rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .autocomplete ul {
@@ -23,12 +24,13 @@
 .autocomplete ul li {
   font-size: 1rem;
   display: block;
-  margin: 0;
-  padding: 0.3rem 0.7rem;
+  margin: 0 !important;
+  padding: 0.3rem 0.7rem !important;
   background-color: white;
   color: black;
   transition: background-color 0.2s ease;
   text-shadow: none;
+  border: none !important;
 }
 
 .autocomplete ul li:hover {

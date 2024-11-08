@@ -67,6 +67,7 @@ export default function Header() {
 
                 <SearchTab
                   onClick={() => setSearchOpen(!searchOpen)}
+                  onHide={() => setSearchOpen(false)}
                   open={searchOpen}
                 />
 

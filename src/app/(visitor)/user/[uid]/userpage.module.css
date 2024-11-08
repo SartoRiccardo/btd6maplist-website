@@ -6,8 +6,8 @@
 }
 
 .profilePfp.placeholder {
-  border-color: var(--color-secondary);
-  background-color: var(--color-secondary);
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
 }
 
 .rolesContainer {
@@ -37,10 +37,6 @@
   background-position: center;
   border-radius: 0.5rem;
   padding: 1rem 0.5rem;
-}
-
-.profileBannerContainer.placeholder {
-  background-color: var(--color-primary);
 }
 
 .medals_container {

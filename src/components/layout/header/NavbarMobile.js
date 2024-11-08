@@ -7,6 +7,7 @@ import NavLogin from "../header/NavLogin";
 import ProtectedLinks from "./ProtectedLinks";
 import LazyOffcanvas from "@/components/transitions/LazyOffcanvas";
 import LazyCollapse from "@/components/transitions/LazyCollapse";
+import SearchTab from "./SearchTab";
 
 export function NavbarMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,6 +49,8 @@ export function NavbarMobile() {
 
         <div className="offcanvas-body" data-cy="navbar-mobile-content">
           <ul className={`${styles.navbar} ${styles.mobile}`}>
+            <SearchTab mobile onNavigate={(_e) => setIsMenuOpen(false)} />
+
             <NavLogin onNavigate={(_e) => setIsMenuOpen(false)} />
 
             <ProtectedLinks

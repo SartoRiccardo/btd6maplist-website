@@ -4,22 +4,32 @@
 }
 
 .search form {
+  font-family: var(--font-p);
+  display: flex;
+}
+
+.search:not(.mobile) form {
   position: absolute;
   top: 0;
   left: -1rem;
   transform: translateX(-100%);
   width: var(--form-width);
-  font-family: var(--font-p);
   z-index: 999;
+}
+
+li.search.mobile {
+  margin-bottom: 1.5rem;
+  border-bottom-width: 0px !important;
 }
 
 .search form.hidden {
   pointer-events: none;
 }
 
-.search form > div {
+.search form > div:first-child {
   opacity: 1;
   transition: opacity 0.3s ease;
+  flex: 1;
 }
 
 .search form.hidden > div {
