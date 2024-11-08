@@ -1,6 +1,5 @@
 import styles from "./userpage.module.css";
 import cssMedals from "@/components/maps/Medals.module.css";
-import Btd6Map from "@/components/maps/Btd6Map";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";

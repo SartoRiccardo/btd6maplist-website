@@ -1,5 +1,6 @@
 "use client";
 import cssAutoC from "./AutoComplete.module.css";
+import cssMedals from "@/components/maps/Medals.module.css";
 import { search } from "@/server/maplistRequests.client";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,6 +12,7 @@ export function AutoComplete({
   children,
   onAutocomplete,
   minLength,
+  typeIcons,
 }) {
   type = type || ["user"];
   limit = limit || 5;
@@ -100,6 +102,12 @@ export function AutoComplete({
                     onClick={() => handleAutocomplete(result)}
                     tabIndex={0}
                   >
+                    {typeIcons && (
+                      <img
+                        src={`/misc/icon_autocomplete_${type}.webp`}
+                        className={`${cssMedals.inline_medal} me-1`}
+                      />
+                    )}
                     {content}
                   </li>
                 );

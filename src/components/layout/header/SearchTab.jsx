@@ -76,6 +76,7 @@ const SearchInput = forwardRef(function (
             if (onHide) onHide();
             if (onNavigate) onNavigate(null);
           }}
+          typeIcons
         >
           <Input
             type="text"
