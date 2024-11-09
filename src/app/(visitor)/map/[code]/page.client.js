@@ -1,10 +1,11 @@
 "use client";
-import LazyFade from "@/components/transitions/LazyFade";
+import cssMapInfo from "./mapinfo.module.css";
 import stylesLoader from "@/components/utils/Loader.module.css";
+import LazyFade from "@/components/transitions/LazyFade";
 import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry_C from "@/components/users/UserEntry.client";
 import ZoomedImage from "@/components/utils/ZoomedImage";
-import { selectMaplistProfile } from "@/features/authSlice";
+import { initialBtd6Profile, selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
 import { getOwnMapCompletions } from "@/server/maplistRequests.client";
 import { imageFormats } from "@/utils/file-formats";
@@ -45,39 +46,30 @@ export function LoggedUserRun({ mapData }) {
     getData();
   }, [maplistProfile?.oak]);
 
-  let runsBySameUsr = {};
-  let keyOrder = [];
-  if (completions !== null) {
-    const groupedComps = groupCompsByUser(completions);
-    runsBySameUsr = groupedComps.runsBySameUsr;
-    keyOrder = groupedComps.keyOrder;
-  }
+  const userProfile = maplistProfile
+    ? { ...maplistProfile, ...userData }
+    : {
+        name: "Your Runs",
+        avatarURL: initialBtd6Profile.avatarURL,
+      };
 
-  return maplistProfile ? (
-    completions === null ? (
-      <div className="flex-hcenter mb-4">
-        <div className={stylesLoader.loader} />
+  const extraColumns = [];
+  if (mapData.deleted_on === null) {
+    extraColumns.push(
+      <div key="subm-run" className={`pt-0 ${cssMapInfo.submit_wrapper}`}>
+        <SubmitRunButton code={mapData.code} />
       </div>
-    ) : completions.length ? (
-      keyOrder.map((key) => (
-        <CompletionRow
-          key={key}
-          completion={runsBySameUsr[key]}
-          mapIdxCurver={mapData.placement_cur}
-          mapIdxAllver={mapData.placement_all}
-          userEntry={
-            <UserEntry_C
-              profile={{ ...maplistProfile, ...userData }}
-              centered
-              lead="sm"
-            />
-          }
-        />
-      ))
-    ) : (
-      <p className="fs-5 muted text-center">You haven't beaten this map yet!</p>
-    )
-  ) : null;
+    );
+  }
+  return (
+    <CompletionRow
+      completion={completions || []}
+      mapIdxCurver={mapData.placement_cur}
+      mapIdxAllver={mapData.placement_all}
+      userEntry={<UserEntry_C profile={userProfile} centered lead="sm" />}
+      extraColumns={extraColumns}
+    />
+  );
 }
 
 export function EditPencilAdmin({ href }) {
@@ -114,7 +106,10 @@ export function SubmitRunButton({ code }) {
 
   return (
     <Link href={`/map/${code}/submit`} prefetch={!!token}>
-      <button className="btn btn-primary active" data-cy="btn-submit-run">
+      <button
+        className={`btn btn-primary active ${cssMapInfo.submit}`}
+        data-cy="btn-submit-run"
+      >
         Submit a Run
       </button>
     </Link>

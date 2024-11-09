@@ -21,44 +21,46 @@ export default function UserEntry_C({
     profile.name
   );
 
-  return (
-    <Link href={`/user/${profile.id}`} className={stylesUsrE.pfp_link}>
+  const component = (
+    <div
+      className={`${stylesUsrE.user_entry} ${inline ? stylesUsrE.inline : ""}`}
+      data-cy="user-entry"
+    >
+      <img
+        loading="lazy"
+        className={`${stylesUsrE.pfp} ${inline ? stylesUsrE.inline : ""}`}
+        src={profile.avatarURL || initialBtd6Profile.avatarURL}
+      />
+
       <div
-        className={`${stylesUsrE.user_entry} ${
-          inline ? stylesUsrE.inline : ""
+        className={`${stylesUsrE.name_container} ${
+          centered ? "d-flex flex-column justify-content-center" : ""
         }`}
-        data-cy="user-entry"
       >
-        <img
-          loading="lazy"
-          className={`${stylesUsrE.pfp} ${inline ? stylesUsrE.inline : ""}`}
-          src={profile.avatarURL || initialBtd6Profile.avatarURL}
-        />
+        {leadClass && leadClass !== "fs-4" ? (
+          <>
+            <p className={`${stylesUsrE.pfp_name} d-none d-${lead}-block fs-4`}>
+              {nameCmp}
+            </p>
+            <p className={`${stylesUsrE.pfp_name} d-block d-${lead}-none`}>
+              {nameCmp}
+            </p>
+          </>
+        ) : (
+          <p className={`${stylesUsrE.pfp_name} ${leadClass}`}>{nameCmp}</p>
+        )}
 
-        <div
-          className={`${stylesUsrE.name_container} ${
-            centered ? "d-flex flex-column justify-content-center" : ""
-          }`}
-        >
-          {leadClass && leadClass !== "fs-4" ? (
-            <>
-              <p
-                className={`${stylesUsrE.pfp_name} d-none d-${lead}-block fs-4`}
-              >
-                {nameCmp}
-              </p>
-              <p className={`${stylesUsrE.pfp_name} d-block d-${lead}-none`}>
-                {nameCmp}
-              </p>
-            </>
-          ) : (
-            <p className={`${stylesUsrE.pfp_name} ${leadClass}`}>{nameCmp}</p>
-          )}
-
-          <p className={`text-start ${stylesUsrE.pfp_small}`}>{label}</p>
-        </div>
+        <p className={`text-start ${stylesUsrE.pfp_small}`}>{label}</p>
       </div>
+    </div>
+  );
+
+  return profile?.id ? (
+    <Link href={`/user/${profile.id}`} className={stylesUsrE.pfp_link}>
+      {component}
     </Link>
+  ) : (
+    component
   );
 }
 

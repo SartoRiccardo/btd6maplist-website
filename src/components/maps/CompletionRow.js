@@ -9,10 +9,12 @@ export default function CompletionRow({
   className,
   userEntry,
   onlyIcon,
+  extraColumns,
 }) {
+  extraColumns = extraColumns || [];
   completion = completion instanceof Array ? completion : [completion];
   completion = filterCompletionFormats(completion, allFormats);
-  if (!completion.length) return null;
+  if (!(completion.length + extraColumns.length)) return null;
 
   return (
     <div
@@ -33,6 +35,7 @@ export default function CompletionRow({
             mapIdxAllver={mapIdxAllver}
             onlyIcon={onlyIcon}
           />
+          {extraColumns}
         </div>
       </div>
     </div>

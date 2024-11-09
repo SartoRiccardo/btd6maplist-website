@@ -13,7 +13,6 @@ import {
   EditPencilAdmin,
   LoggedUserRun,
   Round6Start,
-  SubmitRunButton,
 } from "./page.client";
 import CopyButton from "@/components/forms/CopyButton";
 import BtnShowCompletion from "@/components/buttons/BtnShowCompletion";
@@ -147,11 +146,6 @@ export default async function MapOverview({ params, searchParams }) {
       <div className="mb-4" data-cy="user-completions">
         <h3 className="text-center">Your Runs</h3>
         <LoggedUserRun mapData={mapData} />
-        {mapData.deleted_on === null && (
-          <div className="flex-hcenter">
-            <SubmitRunButton code={code} />
-          </div>
-        )}
       </div>
 
       {mapData.lccs.length ? (
