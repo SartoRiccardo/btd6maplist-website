@@ -242,7 +242,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                 <div className="col-12 col-lg-6">
                   <div className="panel h-100">
                     {success ? (
-                      <SidebarSuccess />
+                      <SidebarSuccess formats={formats} />
                     ) : (
                       <SidebarForm formats={formats} />
                     )}
@@ -487,7 +487,12 @@ function SidebarForm({ formats }) {
   );
 }
 
-function SidebarSuccess() {
+function SidebarSuccess({ formats }) {
+  let href = "/maplist";
+  for (const fmt of formats) {
+    if (fmt >= 50) href = "/expert-list";
+  }
+
   return (
     <div className="h-100 flex-vcenter py-4">
       <p className="text-center mb-0">
@@ -498,7 +503,7 @@ function SidebarSuccess() {
           approved.
         </span>
         <br />
-        <Link href="/maplist">&laquo; Back to the list</Link>
+        <Link href={href}>&laquo; Back to the list</Link>
       </p>
     </div>
   );
