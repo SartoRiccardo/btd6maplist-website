@@ -11,7 +11,7 @@ const BOTTOM_BTN_SIZE = 50;
 
 export default function MapList({
   maps,
-  format,
+  formats,
   legacy,
   listName,
   // Flags to show/hide extra content
@@ -31,7 +31,7 @@ export default function MapList({
         const { code, placement, name, verified } = mapData;
         let completion = maplistProfile
           ? maplistProfile.completions.find(
-              (comp) => comp.map === code && comp.format === format
+              (comp) => comp.map === code && formats.includes(comp.format)
             )
           : null;
 
