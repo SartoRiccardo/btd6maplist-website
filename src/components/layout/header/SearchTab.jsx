@@ -27,7 +27,7 @@ export default function SearchTab({
     </li>
   ) : (
     <li className={cssSearch.search}>
-      <a onClick={handleClick} className="pe-2" href="#">
+      <a onClick={handleClick} className="pe-2" href="#" data-cy="btn-search">
         <i className={`bi ${icon}`} />
       </a>
 
@@ -61,7 +61,11 @@ const SearchInput = forwardRef(function (
   };
 
   return (
-    <form className={open ? "" : cssSearch.hidden} onSubmit={handleSubmit}>
+    <form
+      className={open ? "" : cssSearch.hidden}
+      onSubmit={handleSubmit}
+      data-cy="form-search"
+    >
       <div>
         <AutoComplete
           query={search}

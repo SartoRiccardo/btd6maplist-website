@@ -78,6 +78,7 @@ export function AutoComplete({
       className={cssAutoC.autocomplete_wrapper}
       onKeyDown={handleKeyDown}
       ref={wrapperRef}
+      data-cy="autocomplete"
     >
       {children}
       {searchResults.length > 0 &&
@@ -97,7 +98,7 @@ export function AutoComplete({
                 }
                 return (
                   <li
-                    data-value={content}
+                    data-cy="autocomplete-item"
                     key={key}
                     onClick={() => handleAutocomplete(result)}
                     tabIndex={0}

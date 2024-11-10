@@ -6,6 +6,12 @@
 .search form {
   font-family: var(--font-p);
   display: flex;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.search form.hidden {
+  opacity: 0;
 }
 
 .search:not(.mobile) form {
@@ -27,11 +33,5 @@ li.search.mobile {
 }
 
 .search form > div:first-child {
-  opacity: 1;
-  transition: opacity 0.3s ease;
   flex: 1;
-}
-
-.search form.hidden > div {
-  opacity: 0;
 }
