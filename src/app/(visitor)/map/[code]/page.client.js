@@ -68,6 +68,7 @@ export function LoggedUserRun({ mapData }) {
       mapIdxAllver={mapData.placement_all}
       userEntry={<UserEntry_C profile={userProfile} centered lead="sm" />}
       extraColumns={extraColumns}
+      cy_excludeData
     />
   );
 }

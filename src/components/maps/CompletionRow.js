@@ -10,6 +10,7 @@ export default function CompletionRow({
   userEntry,
   onlyIcon,
   extraColumns,
+  cy_excludeData,
 }) {
   extraColumns = extraColumns || [];
   completion = completion instanceof Array ? completion : [completion];
@@ -19,7 +20,7 @@ export default function CompletionRow({
   return (
     <div
       className={`panel my-2 overflow-hidden ${className || ""}`}
-      data-cy="completion"
+      data-cy={cy_excludeData ? undefined : "completion"}
     >
       <div className="row">
         <div className="col-12 col-md-5 col-lg-7 align-self-center">
