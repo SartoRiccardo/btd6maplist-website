@@ -44,7 +44,7 @@ describe("Navbar for visitors", () => {
         .as("in-query-ac")
         .find("[data-cy=autocomplete-item]")
         .should("have.length", 5);
-      cy.get("@in-query").type("{selectAll}{del}Maplist");
+      cy.get("@in-query").type("{selectAll}{del}Maplist Map 1");
 
       cy.wait(2_000);
       cy.get("@in-query-ac")
@@ -52,6 +52,15 @@ describe("Navbar for visitors", () => {
         .first()
         .click();
       cy.location("pathname").should("match", /\/map\/[A-Z]{7}/);
+
+      cy.get("@btn-search").click();
+      cy.get("@form-search")
+        .find("[name=q]")
+        .as("in-query")
+        .type("{selectAll}{del}Test");
+      cy.get("@form-search").submit();
+      cy.location("pathname").should("equal", "/search");
+      cy.location("search").should("include", "?q=Test");
     });
   });
 
@@ -87,6 +96,7 @@ describe("Navbar for visitors", () => {
       cy.get("[data-cy=navbar-mobile-open]").as("btn-nav").click();
 
       cy.get("[data-cy=form-search]:visible")
+        .as("form-search")
         .find("[name=q]")
         .as("in-query")
         .type("usr");
@@ -95,14 +105,21 @@ describe("Navbar for visitors", () => {
         .as("in-query-ac")
         .find("[data-cy=autocomplete-item]")
         .should("have.length", 5);
-      cy.get("@in-query").type("{selectAll}{del}Maplist");
 
+      cy.get("@in-query").type("{selectAll}{del}Maplist Map 1");
       cy.wait(2_000);
       cy.get("@in-query-ac")
         .find("[data-cy=autocomplete-item]")
         .first()
         .click();
       cy.location("pathname").should("match", /\/map\/[A-Z]{7}/);
+
+      cy.get("@btn-nav").click();
+      cy.get("@form-search")
+        .find("[name=q]")
+        .as("in-query")
+        .type("{selectAll}{del}Test");
+      cy.get("@form-search").submit();
     });
   });
 });
