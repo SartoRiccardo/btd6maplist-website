@@ -50,9 +50,11 @@ export function AutoComplete({
       const newFocus = autocItems.indexOf(document.activeElement) + 1;
       if (newFocus < autocItems.length) autocItems[newFocus].focus();
     } else if ([KEY_SPACE, KEY_ENTER].includes(evt.keyCode)) {
-      evt.preventDefault();
-      const selectedIdx = autocItems.indexOf(document.activeElement);
-      handleAutocomplete(searchResults[selectedIdx]);
+      if (document.activeElement.parentElement === completionsRef.current) {
+        evt.preventDefault();
+        const selectedIdx = autocItems.indexOf(document.activeElement);
+        handleAutocomplete(searchResults[selectedIdx]);
+      }
     }
   };
 
