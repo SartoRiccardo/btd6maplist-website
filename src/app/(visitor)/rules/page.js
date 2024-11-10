@@ -3,7 +3,6 @@ import {
   MapSubmissionRules,
   RunSubmissionRules,
 } from "@/components/layout/maplists/MaplistRules";
-import MustBeInDiscord from "@/components/utils/MustBeInDiscord";
 import { useState } from "react";
 
 export default function RulePage() {
@@ -12,8 +11,6 @@ export default function RulePage() {
   return (
     <>
       <h1 className="text-center">Submission Rules</h1>
-
-      <MustBeInDiscord />
 
       <p className="muted text-center">
         Rules differ slightly depending on the format

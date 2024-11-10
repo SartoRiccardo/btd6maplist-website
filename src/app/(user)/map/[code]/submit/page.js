@@ -1,5 +1,4 @@
 import SubmitRunForm from "@/components/forms/SubmitRunForm";
-import MustBeInDiscord from "@/components/utils/MustBeInDiscord";
 import { getMap } from "@/server/maplistRequests";
 import { notFound } from "next/navigation";
 
@@ -16,8 +15,6 @@ export default async function SubmitRun({ params }) {
     <>
       <h1 className="text-center mb-2">Submit Run</h1>
       <p className="lead text-center">{mapData.name}</p>
-
-      <MustBeInDiscord />
 
       <SubmitRunForm mapData={mapData} />
     </>

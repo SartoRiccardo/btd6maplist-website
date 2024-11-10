@@ -2,13 +2,12 @@ import { allFormats } from "@/utils/maplistUtils";
 import { revalidate, cache } from "./cacheOptions";
 
 export async function maplistAuthenticate(token) {
-  const response = await fetch(
-    `${process.env.API_URL}/auth?discord_token=${token}`,
-    { method: "POST", cache: "no-store" }
-  );
-  if (response.status === 400) return null;
-  else if (response.status !== 200)
-    return { discord_profile: null, maplist_profile: null };
+  const response = await fetch(`${process.env.API_URL}/auth`, {
+    method: "POST",
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok === 400) return null;
   return await response.json();
 }
 
@@ -64,6 +63,15 @@ export async function getConfig() {
     next: { revalidate },
   });
   if (response.status !== 200) return {};
+  return await response.json();
+}
+
+export async function getMaplistRoles() {
+  const response = await fetch(`${process.env.API_URL}/roles`, {
+    cache,
+    next: { revalidate },
+  });
+  if (response.status !== 200) return [];
   return await response.json();
 }
 

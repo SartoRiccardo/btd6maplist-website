@@ -8,7 +8,6 @@ import Btd6Map from "../maps/Btd6Map";
 import DragFiles from "./DragFiles";
 import Link from "next/link";
 import { submitMap } from "@/server/maplistRequests.client";
-import MustBeInDiscord from "../utils/MustBeInDiscord";
 import { MapSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
@@ -131,8 +130,6 @@ export default function SubmitMapForm({ onSubmit, type }) {
                   })
                 }
               />
-
-              <MustBeInDiscord />
 
               <div className="flex-hcenter">
                 <button

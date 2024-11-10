@@ -4,6 +4,7 @@ export const maplistSlice = createSlice({
   name: "maplist",
   initialState: {
     config: {},
+    roles: {},
   },
   reducers: {
     setConfig: (state, { payload }) => {
@@ -12,10 +13,13 @@ export const maplistSlice = createSlice({
         ...payload.config,
       };
     },
+    setRoles: (state, { payload }) => {
+      state.roles = payload.roles;
+    },
   },
 });
 
 export const selectMaplistConfig = ({ maplist }) => maplist.config;
 
-export const { setConfig } = maplistSlice.actions;
+export const { setConfig, setRoles } = maplistSlice.actions;
 export default maplistSlice.reducer;

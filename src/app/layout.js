@@ -6,9 +6,12 @@ import Footer from "@/components/layout/Footer";
 import { titleFont, pFont, btd6Font } from "@/lib/fonts";
 import StoreProvider from "@/components/StoreProvider";
 import { cookies } from "next/headers";
-import { getMaplistRoles } from "@/server/discordRequests";
 import Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader";
-import { getConfig, maplistAuthenticate } from "@/server/maplistRequests";
+import {
+  getConfig,
+  getMaplistRoles,
+  maplistAuthenticate,
+} from "@/server/maplistRequests";
 import RulesFirstTimePopup from "@/components/appcontrol/RulesFirstTimePopup";
 
 export const metadata = {
@@ -30,15 +33,6 @@ export const viewport = {
   themeColor: "#00897b",
 };
 
-const getUserInfo = async (accessToken) => {
-  const profile = await maplistAuthenticate(accessToken);
-  if (profile === null) return null;
-  return {
-    discordProfile: profile.discord_profile,
-    maplistProfile: profile.maplist_profile,
-  };
-};
-
 const authenticate = async (cookieStore) => {
   if (!cookieStore.has("accessToken")) return null;
 
@@ -50,21 +44,12 @@ const authenticate = async (cookieStore) => {
   }
 
   if (accessToken && accessToken.access_token) {
-    const [userInfo, maplistRoles] = await Promise.all([
-      getUserInfo(accessToken.access_token),
-      getMaplistRoles(accessToken.access_token),
-    ]);
-
+    const userInfo = await maplistAuthenticate(accessToken.access_token);
     if (userInfo === null) return null;
 
     return {
       discordAccessToken: accessToken,
-      discordProfile: userInfo.discordProfile,
-      maplistProfile: {
-        roles: maplistRoles || [],
-        isInServer: maplistRoles !== null,
-        ...userInfo.maplistProfile,
-      },
+      maplistProfile: userInfo,
     };
   }
 };
@@ -73,14 +58,17 @@ export default async function RootLayout({ children }) {
   const initReduxState = {};
   const cookieStore = cookies();
 
-  const [maplistCfg, authState] = await Promise.all([
+  const [maplistCfg, maplistRoles, authState] = await Promise.all([
     getConfig(),
+    getMaplistRoles(),
     authenticate(cookieStore),
   ]);
 
   if (authState) initReduxState.auth = authState;
-  initReduxState.maplist = {};
-  initReduxState.maplist = maplistCfg;
+  initReduxState.maplist = {
+    config: maplistCfg,
+    roles: maplistRoles,
+  };
 
   return (
     <html lang="en">
