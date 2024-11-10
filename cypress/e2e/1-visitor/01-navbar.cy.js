@@ -7,7 +7,7 @@ describe("Navbar for visitors", () => {
     cy.visit("/");
   });
 
-  describe.skip("Desktop navbar", () => {
+  describe("Desktop navbar", () => {
     it("should show and navigate on desktop", () => {
       cy.get("[data-cy=navbar-mobile]").should("not.be.visible");
       cy.get("[data-cy=navbar-desktop]")
