@@ -1,16 +1,13 @@
-.difficulties {
-  column-gap: 0.7rem;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-}
-
 .profilePfp {
   width: 6rem;
   height: 6rem;
   border: 2px solid white;
   border-radius: 0.7rem;
+}
+
+.profilePfp.placeholder {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
 }
 
 .rolesContainer {

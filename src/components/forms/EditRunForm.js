@@ -16,6 +16,7 @@ import CheckBox from "./bootstrap/CheckBox";
 import Select from "./bootstrap/Select";
 import { imageFormats } from "@/utils/file-formats";
 import LazyToast from "../transitions/LazyToast";
+import { AutoComplete } from "./form-components/AutoComplete";
 
 const defaultValues = {
   black_border: false,
@@ -233,6 +234,7 @@ function RunProperties({ isNew }) {
     handleBlur,
     values,
     setValues,
+    setFieldValue,
     touched,
     errors,
     disableInputs,
@@ -312,17 +314,25 @@ function RunProperties({ isNew }) {
               data-cy="form-group"
             >
               <div className="w-100">
-                <Input
-                  name={`user_ids[${i}].uid`}
-                  type="text"
-                  placeholder="Maplist Username or Discord ID"
-                  value={uid}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  isInvalid={touched.user_ids && `user_ids[${i}]` in errors}
-                  disabled={disableInputs}
-                  autoComplete="off"
-                />
+                <AutoComplete
+                  type={["user"]}
+                  query={uid}
+                  onAutocomplete={({ data }) =>
+                    setFieldValue(`user_ids[${i}].uid`, data.name)
+                  }
+                >
+                  <Input
+                    name={`user_ids[${i}].uid`}
+                    type="text"
+                    placeholder="Maplist Username or Discord ID"
+                    value={uid}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isInvalid={touched.user_ids && `user_ids[${i}]` in errors}
+                    disabled={disableInputs}
+                    autoComplete="off"
+                  />
+                </AutoComplete>
                 <div className="invalid-feedback">
                   {errors[`user_ids[${i}]`]}
                 </div>

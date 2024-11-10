@@ -10,6 +10,7 @@ export default function ProtectedLinks({
   toggleSubmenu,
   openSubmenus,
   mobile,
+  className,
 }) {
   openSubmenus = openSubmenus || [];
   toggleSubmenu = toggleSubmenu || (() => {});
@@ -20,9 +21,9 @@ export default function ProtectedLinks({
   return (
     <>
       {!mobile && (
-        <li data-cy="admin-tab">
+        <li data-cy="admin-tab" className={className || ""}>
           <a href="#" tabIndex={0}>
-            Admin <i className="bi bi-caret-down-fill" />
+            Admin
           </a>
 
           <ul

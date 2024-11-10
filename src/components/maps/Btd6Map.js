@@ -21,18 +21,27 @@ export default function Btd6Map({
   completion,
   showMedals,
   hidePoints,
+  placeholder,
 }) {
-  code = code || mapData.code;
+  code = code || mapData?.code || "";
+  otherCodes = otherCodes || [];
 
   const isWindows = useIsWindows();
   const maplistCfg = useMaplistConfig();
-  const previewUrl =
-    mapData?.map_preview_url ||
-    `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
+  const previewUrl = placeholder
+    ? "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+    : mapData?.map_preview_url ||
+      `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
+
+  let borderClass = "";
+  if (showMedals && completion?.no_geraldo) {
+    borderClass = stylesMap.gold_border;
+    if (completion.black_border) borderClass = stylesMap.black_border;
+  }
 
   const cmpMap = (
     <div
-      className={`shadow ${stylesMap.btd6map} pb-3 ${
+      className={`shadow ${stylesMap.btd6map} ${borderClass} pb-3 ${
         className ? className : ""
       }`}
       data-cy="custom-map"
@@ -153,7 +162,7 @@ function PlayBtn({ code, displayCode, className }) {
       }`}
     >
       <a
-        href={`https://join.btd6.com/Map/${code}`}
+        href={code ? `https://join.btd6.com/Map/${code}` : "#"}
         target="_blank"
         className={`shadow font-border`}
         data-cy="btn-custom-map-play"

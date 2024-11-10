@@ -1,6 +1,5 @@
 import styles from "./userpage.module.css";
 import cssMedals from "@/components/maps/Medals.module.css";
-import Btd6Map from "@/components/maps/Btd6Map";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
@@ -8,12 +7,11 @@ import { allFormats, difficulties, userRoles } from "@/utils/maplistUtils";
 import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
-import { Suspense } from "react";
+import { Fragment, Suspense } from "react";
 import { UserRole, WebsiteCreatorRole } from "./page.client";
 import ProfileMedal from "@/components/users/ProfileMedal";
 import { notFound } from "next/navigation";
-
-const btnSize = 50;
+import MapList from "@/components/layout/maplists/MapList";
 
 export async function generateMetadata({ params }) {
   const userData = await getUser(params.uid);
@@ -90,65 +88,23 @@ export default async function PageUser({ params, searchParams }) {
         <MaplistOverview stats={userData.maplist.experts} format={51} />
       </div>
 
-      <h2 className="text-center">Completions</h2>
-      <Suspense fallback={null}>
+      <Suspense fallback={null} key="completions">
         <UserCompletions userId={uid} page={page} />
       </Suspense>
 
-      <h2 className="text-center mt-4">Created Maps</h2>
-      <div className="row" data-cy="created-maps">
-        {userData.created_maps.length ? (
-          userData.created_maps.map((mapData) => (
-            <div
-              key={mapData.code}
-              className="col-12 col-sm-6 col-lg-4 p-relative"
-            >
-              <Btd6Map mapData={mapData} name={mapData.name} hrefBase="/map" />
-              <div
-                className={`${styles.difficulties} d-flex justify-content-center`}
-              >
-                {mapData.placement_cur > -1 && (
-                  <SelectorButton text={`#${mapData.placement_cur}`} active>
-                    <img
-                      src="/format_icons/icon_curver.webp"
-                      alt="Cur"
-                      width={btnSize}
-                      height={btnSize}
-                    />
-                  </SelectorButton>
-                )}
-
-                {/* ALLVER UCOMMENT */}
-                {/* {mapData.placement_all > -1 && (
-                  <SelectorButton text={`#${mapData.placement_all}`} active>
-                    <img
-                      src="/format_icons/icon_allver.webp"
-                      alt="All"
-                      width={btnSize}
-                      height={btnSize}
-                    />
-                  </SelectorButton>
-                )} */}
-
-                {mapData.difficulty > -1 && (
-                  <SelectorButton active>
-                    <img
-                      src={difficulties[mapData.difficulty].image}
-                      alt="Diff"
-                      width={btnSize}
-                      height={btnSize}
-                    />
-                  </SelectorButton>
-                )}
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="col">
-            <p className="fs-5 muted text-center">Nothing here yet!</p>
+      {userData.created_maps.length > 0 && (
+        <>
+          <h2 className="text-center mt-4">Created Maps</h2>
+          <div className="row" data-cy="created-maps">
+            <MapList
+              maps={userData.created_maps}
+              noSubmit
+              noMedals
+              bottomInfo
+            />
           </div>
-        )}
-      </div>
+        </>
+      )}
     </>
   );
 }

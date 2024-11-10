@@ -3,6 +3,7 @@ import stylesFrmMap from "./MapForm.module.css";
 import { FormikContext } from "@/contexts";
 import { Fragment, useContext } from "react";
 import Input from "./bootstrap/Input";
+import { AutoComplete } from "./form-components/AutoComplete";
 
 export default function TwoFieldEntry({
   name,
@@ -12,6 +13,7 @@ export default function TwoFieldEntry({
   secondProps,
   omitFirstOptional,
   optional,
+  firstIsUser,
 }) {
   const formikProps = useContext(FormikContext);
   const {
@@ -19,6 +21,7 @@ export default function TwoFieldEntry({
     handleBlur,
     values,
     setValues,
+    setFieldValue,
     touched,
     errors,
     isSubmitting,
@@ -35,6 +38,21 @@ export default function TwoFieldEntry({
     const value1 = values[name][i][fields[0].split(".")[1]];
     const value2 = values[name][i][fields[1].split(".")[1]];
 
+    const firstField = (
+      <Input
+        name={realField1}
+        type="text"
+        value={value1}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        isInvalid={touched[topLevelField1] && realField1 in errors}
+        isValid={values[realField1]}
+        disabled={isSubmitting || disableInputs}
+        autoComplete="off"
+        {...firstProps}
+      />
+    );
+
     return (
       <Fragment key={count || -1}>
         <div className="col-12 col-md-5 col-lg-6">
@@ -42,18 +60,21 @@ export default function TwoFieldEntry({
             {labels && labels.length > 0 && (
               <label className="form-label">{labels[0]}</label>
             )}
-            <Input
-              name={realField1}
-              type="text"
-              value={value1}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={touched[topLevelField1] && realField1 in errors}
-              isValid={values[realField1]}
-              disabled={isSubmitting || disableInputs}
-              autoComplete="off"
-              {...firstProps}
-            />
+
+            {firstIsUser ? (
+              <AutoComplete
+                type={["user"]}
+                query={value1}
+                onAutocomplete={({ data }) =>
+                  setFieldValue(realField1, data.name)
+                }
+              >
+                {firstField}
+              </AutoComplete>
+            ) : (
+              firstField
+            )}
+
             <div className="invalid-feedback">{errors[realField1]}</div>
           </div>
         </div>

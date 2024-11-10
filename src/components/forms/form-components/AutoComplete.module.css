@@ -1,0 +1,39 @@
+.autocomplete_wrapper {
+  position: relative;
+}
+
+.autocomplete_wrapper:not(:focus-within) .autocomplete {
+  display: none;
+}
+
+.autocomplete {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 0.2rem 0.2rem 0.1rem rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.autocomplete ul {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.autocomplete ul li {
+  font-size: 1rem;
+  display: block;
+  margin: 0 !important;
+  padding: 0.3rem 0.7rem !important;
+  background-color: white;
+  color: black;
+  transition: background-color 0.2s ease;
+  text-shadow: none;
+  border: none !important;
+}
+
+.autocomplete ul li:hover {
+  cursor: pointer;
+  background-color: #eee;
+}

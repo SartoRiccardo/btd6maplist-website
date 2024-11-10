@@ -8,6 +8,13 @@
   display: inline;
   position: relative;
   margin: 0 0.7rem;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.navbar li.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .submenu:not(.mobile) {

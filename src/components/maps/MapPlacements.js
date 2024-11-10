@@ -9,14 +9,17 @@ import SelectorButton from "../buttons/SelectorButton";
 import { titleFont } from "@/lib/fonts";
 import { useMaplistConfig } from "@/utils/hooks";
 
-export default function MapPlacements({ mapData }) {
+export default function MapPlacements({ mapData, placeholder }) {
+  mapData = placeholder
+    ? { difficulty: -1, placement_cur: -1, placement_all: -1 }
+    : mapData;
   const maplistCfg = useMaplistConfig();
 
   const expertDiff =
     mapData.difficulty > -1
       ? difficulties.filter((diff) => diff.value === mapData.difficulty)[0]
       : null;
-  listVersions;
+
   return (
     <>
       {listVersions.map(
@@ -41,6 +44,15 @@ export default function MapPlacements({ mapData }) {
           image={expertDiff.image}
           shortLabel={expertDiff.name}
           label={`${expertDiff.name} Expert`}
+        />
+      )}
+
+      {placeholder && (
+        <DifficultyPanel
+          image={"data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="}
+          label={
+            <span style={{ width: "6rem", display: "block" }}>&nbsp;</span>
+          }
         />
       )}
     </>

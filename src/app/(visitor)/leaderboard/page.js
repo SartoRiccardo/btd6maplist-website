@@ -3,7 +3,7 @@ import UserEntry from "@/components/users/UserEntry";
 import { getListLeaderboard } from "@/server/maplistRequests";
 import Link from "next/link";
 import { getPositionColor } from "@/utils/functions";
-import { allFormats, listVersions } from "@/utils/maplistUtils";
+import { allFormats } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import PaginateElement from "@/components/buttons/PaginateElement";
 import Image from "next/image";
@@ -22,7 +22,7 @@ export async function generateMetadata({ searchParams }) {
   };
 }
 
-const leaderboards = [
+export const leaderboards = [
   { key: "points", title: "Points", suffix: "pt" },
   {
     key: "lccs",
