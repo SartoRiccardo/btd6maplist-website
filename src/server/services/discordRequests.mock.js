@@ -9,8 +9,10 @@
  * 2 - Requires recording to submit any run
  * 3 - Banned from submitting
  * 4 - Maplist Moderator
- * 5 - Expert Moderator
- * 6 - Administrator
+ * 5 - Expert List Moderator
+ * 6 - Administrator (deprecated, resolved to Maplist Moderator + Expert List Moderator)
+ * 7 - Maplist Owner
+ * 8 - Expert List Owner
  */
 
 function getMockData(token) {
