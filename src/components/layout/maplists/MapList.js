@@ -19,6 +19,7 @@ export default function MapList({
   noMedals,
   bottomInfo,
 }) {
+  formats = formats || [];
   listName = listName || "list";
 
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
@@ -29,11 +30,26 @@ export default function MapList({
 
       {maps.map((mapData) => {
         const { code, placement, name, verified } = mapData;
-        let completion = maplistProfile
-          ? maplistProfile.completions.find(
+        let completions = maplistProfile
+          ? maplistProfile.completions.filter(
               (comp) => comp.map === code && formats.includes(comp.format)
             )
-          : null;
+          : [];
+        const completion = completions.reduce(
+          (aggr, comp) => ({
+            ...aggr,
+            black_border: aggr.black_border || comp.black_border,
+            no_geraldo: aggr.no_geraldo || comp.no_geraldo,
+            current_lcc: aggr.current_lcc || comp.current_lcc,
+          }),
+          {
+            map: code,
+            black_border: false,
+            no_geraldo: false,
+            current_lcc: false,
+            format: 0,
+          }
+        );
 
         return (
           <div key={code} className="col-12 col-sm-6 col-lg-4 p-relative">
