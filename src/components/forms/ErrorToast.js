@@ -3,8 +3,10 @@ import { FormikContext } from "@/contexts";
 import { useContext, useEffect, useState } from "react";
 import LazyToast from "../transitions/LazyToast";
 
-export default function ErrorToast() {
-  const { errors, setErrors } = useContext(FormikContext);
+export default function ErrorToast({ errors, setErrors }) {
+  const formikContext = useContext(FormikContext);
+  errors = errors === undefined ? formikContext.errors : errors;
+  setErrors = setErrors === undefined ? formikContext.setErrors : setErrors;
   const [currentErr, setCurrentErr] = useState(null);
   const [show, setShow] = useState(false);
   const [key, setKey] = useState(0);

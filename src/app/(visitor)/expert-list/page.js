@@ -47,7 +47,7 @@ export default async function Experts({ searchParams }) {
 
         <MapList
           maps={maplist.filter((map) => map.difficulty === curDifficulty.value)}
-          format={51}
+          formats={[51, 1]}
           listName="experts"
         />
       </div>

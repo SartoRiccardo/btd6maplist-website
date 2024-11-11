@@ -3,12 +3,12 @@ import cssMedals from "@/components/maps/Medals.module.css";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor } from "@/utils/functions";
-import { allFormats, difficulties, userRoles } from "@/utils/maplistUtils";
+import { allFormats, userRoles } from "@/utils/maplistUtils";
 import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
-import { Fragment, Suspense } from "react";
-import { UserRole, WebsiteCreatorRole } from "./page.client";
+import { Suspense } from "react";
+import { ServerRoles, UserRole, WebsiteCreatorRole } from "./page.client";
 import ProfileMedal from "@/components/users/ProfileMedal";
 import { notFound } from "next/navigation";
 import MapList from "@/components/layout/maplists/MapList";
@@ -71,6 +71,7 @@ export default async function PageUser({ params, searchParams }) {
                     />
                   )
                 )}
+                <ServerRoles userId={uid} roles={userData.roles} />
               </div>
             )}
           </div>

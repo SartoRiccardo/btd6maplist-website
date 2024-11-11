@@ -2,7 +2,7 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function revalidateUser(userId) {
-  revalidatePath(`/user/${userId}`);
+  revalidateTag(`usr${userId}`);
 }
 
 export async function revalidateLeaderboard() {

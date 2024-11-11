@@ -8,7 +8,7 @@ describe("Edit Profile", () => {
 
   beforeEach(() => {
     cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
-    cy.visit(`/api/auth?code=mock_discord_code_${uid}_0`);
+    cy.login(uid, 0);
     cy.visit("/user/edit");
   });
 

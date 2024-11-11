@@ -2,13 +2,12 @@ import { allFormats } from "@/utils/maplistUtils";
 import { revalidate, cache } from "./cacheOptions";
 
 export async function maplistAuthenticate(token) {
-  const response = await fetch(
-    `${process.env.API_URL}/auth?discord_token=${token}`,
-    { method: "POST", cache: "no-store" }
-  );
-  if (response.status === 400) return null;
-  else if (response.status !== 200)
-    return { discord_profile: null, maplist_profile: null };
+  const response = await fetch(`${process.env.API_URL}/auth`, {
+    method: "POST",
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok === 400) return null;
   return await response.json();
 }
 
@@ -67,10 +66,19 @@ export async function getConfig() {
   return await response.json();
 }
 
+export async function getMaplistRoles() {
+  const response = await fetch(`${process.env.API_URL}/roles`, {
+    cache,
+    next: { revalidate },
+  });
+  if (response.status !== 200) return [];
+  return await response.json();
+}
+
 export async function getUser(id) {
   const response = await fetch(`${process.env.API_URL}/users/${id}`, {
     cache,
-    next: { revalidate },
+    next: { revalidate, tags: [`usr${id}`] },
   });
   if (response.status !== 200) return null;
   return await response.json();
@@ -80,7 +88,7 @@ export async function getUserCompletions(id, qparams) {
   const response = await fetch(
     `${process.env.API_URL}/users/${id}/completions?` +
       new URLSearchParams(qparams).toString(),
-    { cache, next: { revalidate } }
+    { cache, next: { revalidate, tags: [`usr${id}`] } }
   );
   if (!response.ok) return [];
   return await response.json();

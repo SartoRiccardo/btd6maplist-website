@@ -13,7 +13,7 @@ describe("Add User", () => {
   });
 
   beforeEach(() => {
-    cy.visit(`/api/auth?code=mock_discord_code_${uid}_64`);
+    cy.login(uid, 64);
     cy.visit("/config");
     cy.intercept("POST", "/users").as("req-add-user");
     cy.get("[data-cy=form-add-user]").as("form");

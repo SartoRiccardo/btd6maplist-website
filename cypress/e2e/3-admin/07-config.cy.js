@@ -24,7 +24,7 @@ describe("Edit Config Variables", () => {
   });
 
   beforeEach(() => {
-    cy.visit(`/api/auth?code=mock_discord_code_${uid}_64`);
+    cy.login(uid, 64);
     cy.visit("/config");
     cy.intercept("PUT", "/config").as("req-edit-config");
   });

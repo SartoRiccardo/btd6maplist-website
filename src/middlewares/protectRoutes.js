@@ -1,4 +1,4 @@
-import { sha256 } from "js-sha256";
+import { maplistAuthenticate } from "@/server/maplistRequests";
 import { NextResponse } from "next/server";
 
 const matcher = [
@@ -26,21 +26,14 @@ export default async function protectRoutesMiddleware(request, _rsp) {
 
       const accessToken = JSON.parse(request.cookies.get("accessToken").value);
       const token = accessToken.access_token;
-      const signature = sha256(token + process.env.MW_SALT);
-      const rolesResp = await fetch(
-        `${process.env.HOST}/api/mwcache/uroles?token=${token}&signature=${signature}`
-      );
-      const roles = await rolesResp.json();
-      if (
-        !(
-          roles.includes(process.env.NEXT_PUBLIC_LISTMOD_ROLE) ||
-          roles.includes(process.env.NEXT_PUBLIC_EXPMOD_ROLE) ||
-          process.env.NEXT_PUBLIC_ADMIN_ROLES.split(",").some((rl) =>
-            roles.includes(rl)
-          )
-        )
-      )
-        return resp404;
+      const userProfile = await maplistAuthenticate(token);
+
+      if (userProfile?.roles) {
+        for (const { edit_maplist, edit_experts } of userProfile.roles)
+          if (edit_experts || edit_maplist) return;
+      }
+
+      return resp404;
     }
   }
 }

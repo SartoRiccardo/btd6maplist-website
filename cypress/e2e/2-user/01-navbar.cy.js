@@ -6,7 +6,7 @@ describe("Logged in user navbar", () => {
   });
 
   beforeEach(() => {
-    cy.visit(`/api/auth?code=mock_discord_code_${uid}_0`);
+    cy.login(uid, 0);
   });
 
   it("has a section for one's profile on desktop", () => {

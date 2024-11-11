@@ -11,7 +11,6 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     discordAccessToken: null,
-    discordProfile: null,
     maplistProfile: null,
     btd6Profile: { ...initialBtd6Profile },
   },
@@ -20,7 +19,6 @@ export const authSlice = createSlice({
       state.discordAccessToken = {
         ...payload.discordAccessToken,
       };
-      state.discordProfile = payload.discordProfile;
       state.maplistProfile = payload.maplistProfile;
       if ("btd6profile" in payload) state.btd6Profile = payload.btd6Profile;
     },
@@ -30,9 +28,6 @@ export const authSlice = createSlice({
         expires_at: payload.discordAccessToken.expires_at,
       };
     },
-    setDiscordProfile: (state, { payload }) => {
-      state.discordProfile = payload.discordProfile;
-    },
     setMaplistProfile: (state, { payload }) => {
       state.maplistProfile = payload.maplistProfile;
     },
@@ -41,7 +36,6 @@ export const authSlice = createSlice({
     },
     revokeAuth: (state, _p) => {
       state.discordAccessToken = null;
-      state.discordProfile = null;
       state.maplistProfile = null;
       state.btd6Profile = { ...initialBtd6Profile };
     },
@@ -57,48 +51,52 @@ export const authSlice = createSlice({
 
 export const selectDiscordAccessToken = ({ auth }) => auth.discordAccessToken;
 export const selectMaplistProfile = createSelector(
-  ({ auth }) => auth.discordProfile,
   ({ auth }) => auth.maplistProfile,
   ({ auth }) => auth.btd6Profile,
-  (discordProfile, maplistProfile, btd6Profile) => ({
-    discordProfile,
+  (maplistProfile, btd6Profile) => ({
     maplistProfile,
     btd6Profile,
   })
 );
 
-const adminRoles = process.env.NEXT_PUBLIC_ADMIN_ROLES.split(",");
-const permsRoles = [
-  ...adminRoles,
-  process.env.NEXT_PUBLIC_EXPMOD_ROLE,
-  process.env.NEXT_PUBLIC_LISTMOD_ROLE,
-];
 export const selectAuthLevels = createSelector(
   ({ auth }) => auth.maplistProfile,
-  (maplistProfile) => ({
-    loaded: maplistProfile !== null,
-    isExplistMod:
-      maplistProfile &&
-      maplistProfile.roles.includes(process.env.NEXT_PUBLIC_EXPMOD_ROLE),
-    isListMod:
-      maplistProfile &&
-      maplistProfile.roles.includes(process.env.NEXT_PUBLIC_LISTMOD_ROLE),
-    hasPerms:
-      maplistProfile &&
-      maplistProfile.roles.some((roleId) => permsRoles.includes(roleId)),
-    isAdmin:
-      maplistProfile &&
-      maplistProfile.roles.some((roleId) => adminRoles.includes(roleId)),
-    requiresRecording:
-      maplistProfile &&
-      maplistProfile.roles.includes(process.env.NEXT_PUBLIC_NEEDSREC_ROLES),
-  })
+  (maplistProfile) => {
+    let isExplistMod = false,
+      isListMod = false,
+      isBanned = false,
+      requiresRecording = false;
+
+    const loaded = maplistProfile !== null;
+    if (loaded) {
+      for (const {
+        edit_experts,
+        edit_maplist,
+        cannot_submit,
+        requires_recording,
+      } of maplistProfile.roles) {
+        isExplistMod = isExplistMod || edit_experts;
+        isListMod = isListMod || edit_maplist;
+        isBanned = isBanned || cannot_submit;
+        requiresRecording = requiresRecording || requires_recording;
+      }
+    }
+
+    return {
+      loaded,
+      isExplistMod,
+      isListMod,
+      hasPerms: isExplistMod || isListMod,
+      isAdmin: false,
+      requiresRecording,
+      isBanned,
+    };
+  }
 );
 
 export const {
   initializeAuthSlice,
   setDiscordAccessToken,
-  setDiscordProfile,
   setMaplistProfile,
   setBtd6Profile,
   revokeAuth,

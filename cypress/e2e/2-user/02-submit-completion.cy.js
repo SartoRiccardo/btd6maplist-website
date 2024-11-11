@@ -33,7 +33,7 @@ describe("Submit Completion", () => {
   });
 
   beforeEach(() => {
-    cy.visit(`/api/auth?code=mock_discord_code_${uid}_0`);
+    cy.login(uid, 0);
   });
 
   it("can't submit on a deleted map", () => {
@@ -110,7 +110,7 @@ describe("Submit Completion", () => {
 
   describe("Banned and restricted users", () => {
     it("forces requires recording users to submit video proof", () => {
-      cy.visit(`/api/auth?code=mock_discord_code_${uid}_4`);
+      cy.login(uid, 4);
       cy.visit("/map/MLXXXAA/submit");
       cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
         "req-comp-submission"
@@ -134,7 +134,7 @@ describe("Submit Completion", () => {
     });
 
     it("prevents banned users from submitting", () => {
-      cy.visit(`/api/auth?code=mock_discord_code_${uid}_8`);
+      cy.login(uid, 8);
       cy.visit("/map/MLXXXAA/submit");
       cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
         "req-comp-submission"
