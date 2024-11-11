@@ -35,6 +35,7 @@ export function UserRole({
           className="bi bi-x-lg c-pointer pe-2"
           onClick={onRemove}
           tabIndex={0}
+          data-cy="btn-role-remove"
         />
       )}
       {name}
@@ -178,6 +179,7 @@ export function ServerRoles({ userId, roles }) {
           <div
             className={`font-border ${styles.role} ${styles.btn_add_roles}`}
             tabIndex={0}
+            data-cy="btn-role-grant"
           >
             <i className="bi bi-plus-lg" />
           </div>
@@ -189,6 +191,7 @@ export function ServerRoles({ userId, roles }) {
                 className="font-border"
                 tabIndex={0}
                 onClick={() => addRole(id)}
+                data-cy="role-grant"
               >
                 {name}
               </li>
