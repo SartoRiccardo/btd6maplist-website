@@ -41,7 +41,7 @@ export default async function TheListPage({ searchParams }) {
 
       <SubmissionRules on="list" />
 
-      <MapList maps={maps} format={[curFormat.value]} />
+      <MapList maps={maps} formats={[curFormat.value]} />
     </>
   );
 }

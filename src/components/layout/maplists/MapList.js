@@ -37,18 +37,13 @@ export default function MapList({
           : [];
         const completion = completions.reduce(
           (aggr, comp) => ({
-            ...aggr,
-            black_border: aggr.black_border || comp.black_border,
-            no_geraldo: aggr.no_geraldo || comp.no_geraldo,
-            current_lcc: aggr.current_lcc || comp.current_lcc,
-          }),
-          {
             map: code,
-            black_border: false,
-            no_geraldo: false,
-            current_lcc: false,
+            black_border: aggr?.black_border || comp.black_border,
+            no_geraldo: aggr?.no_geraldo || comp.no_geraldo,
+            current_lcc: aggr?.current_lcc || comp.current_lcc,
             format: 0,
-          }
+          }),
+          null
         );
 
         return (
