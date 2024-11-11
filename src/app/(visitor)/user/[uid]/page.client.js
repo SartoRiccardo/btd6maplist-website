@@ -1,5 +1,10 @@
 "use client";
-import { useAuthLevels, useDiscordToken, useMaplistRoles } from "@/utils/hooks";
+import {
+  useAuthLevels,
+  useDiscordToken,
+  useMaplistProfile,
+  useMaplistRoles,
+} from "@/utils/hooks";
 import styles from "./userpage.module.css";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
@@ -8,7 +13,7 @@ import {
   addRoleToUser,
   removeRoleFromUser,
 } from "@/server/maplistRequests.client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ErrorToast from "@/components/forms/ErrorToast";
 import { revalidateUser } from "@/server/revalidations";
 
@@ -72,6 +77,7 @@ export function WebsiteCreatorRole() {
 export function ServerRoles({ userId, roles }) {
   const [errors, setErrors] = useState({});
   const [pendingChanges, setPendingChanges] = useState([]);
+  const { maplistProfile } = useMaplistProfile();
   const token = useDiscordToken();
   const { hasPerms } = useAuthLevels();
   const maplistRoles = useMaplistRoles();
@@ -131,15 +137,16 @@ export function ServerRoles({ userId, roles }) {
   // Rendering
   const grantableIds = new Set();
   const removableRoles = new Set();
-  for (const role of renderRoles) {
-    const mlRole = maplistRoles.find((mlRole) => mlRole.id === role.id);
-    if (!mlRole) continue;
-    for (const grant of mlRole.can_grant) {
-      if (!hasRoleIds.has(grant)) grantableIds.add(grant);
-      else removableRoles.add(grant);
+  if (maplistProfile?.roles) {
+    for (const role of maplistProfile.roles) {
+      const mlRole = maplistRoles.find((mlRole) => mlRole.id === role.id);
+      if (!mlRole) continue;
+      for (const grant of mlRole.can_grant) {
+        if (!hasRoleIds.has(grant)) grantableIds.add(grant);
+        else removableRoles.add(grant);
+      }
     }
   }
-
   const grantableRoles = [];
   for (const roleId of grantableIds) {
     grantableRoles.push(maplistRoles.find(({ id }) => id === roleId));
@@ -148,7 +155,7 @@ export function ServerRoles({ userId, roles }) {
   const roleComponents = [];
   for (const { id, name } of renderRoles) {
     const roleStyles = serverRoleStyles[id];
-    if (!roleStyles || (roleStyles?.hidden && !hasPerms)) return null;
+    if (!roleStyles || (roleStyles?.hidden && !hasPerms)) continue;
 
     roleComponents.push(
       <UserRole
