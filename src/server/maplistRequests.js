@@ -78,7 +78,7 @@ export async function getMaplistRoles() {
 export async function getUser(id) {
   const response = await fetch(`${process.env.API_URL}/users/${id}`, {
     cache,
-    next: { revalidate },
+    next: { revalidate, tags: [`usr${id}`] },
   });
   if (response.status !== 200) return null;
   return await response.json();
@@ -88,7 +88,7 @@ export async function getUserCompletions(id, qparams) {
   const response = await fetch(
     `${process.env.API_URL}/users/${id}/completions?` +
       new URLSearchParams(qparams).toString(),
-    { cache, next: { revalidate } }
+    { cache, next: { revalidate, tags: [`usr${id}`] } }
   );
   if (!response.ok) return [];
   return await response.json();

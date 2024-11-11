@@ -20,6 +20,7 @@ export const maplistSlice = createSlice({
 });
 
 export const selectMaplistConfig = ({ maplist }) => maplist.config;
+export const selectMaplistRoles = ({ maplist }) => maplist.roles;
 
 export const { setConfig, setRoles } = maplistSlice.actions;
 export default maplistSlice.reducer;

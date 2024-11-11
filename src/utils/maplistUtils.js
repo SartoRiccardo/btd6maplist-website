@@ -277,3 +277,13 @@ export const userRoles = [
     // || user.maplist.all.pts_placement === 1,
   },
 ];
+
+export const serverRoleStyles = {
+  1: { bg: "#000", border: "#fff", hidden: true },
+  2: { bg: "#000", border: "#fff" },
+  3: { bg: "#000", border: "#fff" },
+  4: { bg: "#000", border: "#fff" },
+  5: { bg: "#000", border: "#fff" },
+  6: { bg: "#000", border: "#fff", hidden: true },
+  7: { bg: "#000", border: "#fff", hidden: true },
+};

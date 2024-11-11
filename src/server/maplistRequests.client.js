@@ -291,3 +291,28 @@ export async function search(query, type, limit, options = null) {
   );
   return await response.json();
 }
+
+export async function addRoleToUser(token, userId, roleId) {
+  return await editUserRole(token, userId, roleId, "POST");
+}
+
+export async function removeRoleFromUser(token, userId, roleId) {
+  return await editUserRole(token, userId, roleId, "DELETE");
+}
+
+async function editUserRole(token, userId, roleId, action) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/roles`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ roles: [{ id: roleId, action }] }),
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (response.headers.get("Content-Type")?.includes("application/json"))
+      return await response.json();
+  } catch (exc) {
+    return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
+  }
+}
