@@ -29,8 +29,8 @@ export default async function protectRoutesMiddleware(request, _rsp) {
       const userProfile = await maplistAuthenticate(token);
 
       if (userProfile?.roles) {
-        for (const { edit_maplist, edit_explist } of userProfile.roles)
-          if (edit_explist || edit_maplist) return;
+        for (const { edit_maplist, edit_experts } of userProfile.roles)
+          if (edit_experts || edit_maplist) return;
       }
 
       return resp404;
