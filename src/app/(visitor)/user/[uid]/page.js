@@ -57,10 +57,10 @@ export default async function PageUser({ params, searchParams }) {
               {userData.name} <EditProfilePencil userId={userData.id} />
             </h1>
 
-            {(grantedRoles.length > 0 || uid === "1077309729942024302") && (
-              <div className={styles.rolesContainer} data-cy="user-roles">
-                {uid === "1077309729942024302" && <WebsiteCreatorRole />}
-                {grantedRoles.map(
+            <div className={styles.rolesContainer} data-cy="user-roles">
+              {uid === "1077309729942024302" && <WebsiteCreatorRole />}
+              {grantedRoles.length > 0 &&
+                grantedRoles.map(
                   ({ name, color, borderColor, description }) => (
                     <UserRole
                       key={name}
@@ -71,9 +71,8 @@ export default async function PageUser({ params, searchParams }) {
                     />
                   )
                 )}
-                <ServerRoles userId={uid} roles={userData.roles} />
-              </div>
-            )}
+              <ServerRoles userId={uid} roles={userData.roles} />
+            </div>
           </div>
         </div>
 
