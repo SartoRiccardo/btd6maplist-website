@@ -73,4 +73,9 @@ describe("User page", () => {
   it("cannot access the edit page", () => {
     cy.visit("/user/edit");
   });
+
+  it("cannot edit a user's roles", () => {
+    cy.visit(`/user/42`);
+    cy.get("[data-cy=btn-role-grant]").should("not.exist");
+  });
 });
