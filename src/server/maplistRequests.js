@@ -7,7 +7,7 @@ export async function maplistAuthenticate(token) {
     cache: "no-store",
     headers: { Authorization: `Bearer ${token}` },
   });
-  if (!response.ok === 400) return null;
+  if (!response.ok) return null;
   return await response.json();
 }
 
