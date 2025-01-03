@@ -64,7 +64,6 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     format,
   }) => {
     format = parseInt(format);
-    console.log(format, mapData.difficulty);
     return (
       authLevels.requiresRecording ||
       black_border ||

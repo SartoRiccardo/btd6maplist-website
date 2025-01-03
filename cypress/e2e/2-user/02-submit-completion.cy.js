@@ -230,4 +230,14 @@ describe("Submit Completion", () => {
         .should("equal", 201);
     });
   });
+
+  it("doesn't show video proof url field on No Optimal Hero completions when not needed", () => {
+    cy.visit("/map/ELXXXAA/submit");
+    cy.get("[name=no_geraldo]").check();
+    cy.get("[name^=video_proof_url]").should("not.exist");
+
+    cy.visit("/map/MLXXXFA/submit");
+    cy.get("[name=no_geraldo]").check();
+    cy.get("[name^=video_proof_url]");
+  });
 });

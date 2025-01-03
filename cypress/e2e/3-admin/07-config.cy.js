@@ -87,6 +87,11 @@ describe("Edit Config Variables", () => {
         exp_points_high: "7",
         exp_points_true: "7",
         exp_points_extreme: "7",
+        exp_nogerry_points_casual: "7",
+        exp_nogerry_points_medium: "7",
+        exp_nogerry_points_high: "7",
+        exp_nogerry_points_true: "7",
+        exp_nogerry_points_extreme: "7",
       };
 
       insertTestValues(testValues);
@@ -105,6 +110,11 @@ describe("Edit Config Variables", () => {
         exp_points_high: "7.1",
         exp_points_true: "7.1",
         exp_points_extreme: "7.1",
+        exp_nogerry_points_casual: "7.1",
+        exp_nogerry_points_medium: "7.1",
+        exp_nogerry_points_high: "7.1",
+        exp_nogerry_points_true: "7.1",
+        exp_nogerry_points_extreme: "7.1",
       };
 
       insertTestValues(testValues);
