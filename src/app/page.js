@@ -13,20 +13,10 @@ export default async function Home() {
     <div className="text-center">
       <h1> Bloons TD 6 Maplist</h1>
       <div className="text-center fs-5 mb-3" data-cy="project-description">
-        The BTD6 Maplist is a ranking of the best and hardest custom maps in the
-        game. It was started by
-        <span className="d-inline-block mx-2">
-          <UserEntry id="513869624157405186" centered={true} inline />
-        </span>
-        and
-        <span className="d-inline-block mx-2">
-          <UserEntry id="300761010569216001" centered={true} inline />
-        </span>
-        with
-        <span className="d-inline-block mx-2">
-          <UserEntry id="388338653937532929" centered={true} inline />
-        </span>
-        managing the Expert List.
+        The BTD6 Maplist showcases a collection of challenging custom maps for
+        Bloons TD 6, created by the community. These maps range from cleverly
+        designed to incredibly difficult, offering a variety of experiences for
+        players looking to test their tower defense skills.
         <div className="mt-3 fs-6">
           <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
             Discord
@@ -45,7 +35,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <h2 className="mt-5">Formats</h2>
+      <h2 className="mt-5">Lists</h2>
       <p className="fs-5">
         There are 2 different lists, each divided into separate subcategories
         and leaderboards.

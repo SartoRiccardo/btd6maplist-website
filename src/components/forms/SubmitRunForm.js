@@ -57,9 +57,22 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
 
   if (!accessToken) return null;
 
-  const requiresVideoProof = ({ black_border, no_geraldo, current_lcc }) => {
+  const requiresVideoProof = ({
+    black_border,
+    no_geraldo,
+    current_lcc,
+    format,
+  }) => {
+    format = parseInt(format);
     return (
-      authLevels.requiresRecording || black_border || no_geraldo || current_lcc
+      authLevels.requiresRecording ||
+      black_border ||
+      current_lcc ||
+      (no_geraldo &&
+        (!(50 <= format && format < 100) ||
+          (50 <= format &&
+            format < 100 &&
+            !(0 <= mapData.difficulty && mapData.difficulty <= 1))))
     );
   };
 

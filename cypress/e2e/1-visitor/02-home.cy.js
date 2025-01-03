@@ -8,9 +8,9 @@ describe("Home Page", () => {
   });
 
   it("renders the featured users", () => {
-    cy.get("[data-cy=project-description]")
-      .find("[data-cy=user-entry]")
-      .should("have.length", 3);
+    // cy.get("[data-cy=project-description]")
+    //   .find("[data-cy=user-entry]")
+    //   .should("have.length", 3);
 
     cy.get('[data-cy="project-credits"]')
       .find('[data-cy="user-entry"]')
