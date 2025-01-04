@@ -129,6 +129,10 @@ export default function EditSelf_C() {
                     (OpenData API Keys) are used to give you your in-game
                     profile picture and banner. You can generate one inside of
                     BTD6 very easily.
+                    <br />
+                    They expire after 90 days of not being used, so if you
+                    haven't been here for a while, chances are you need to
+                    generate a new one!
                   </p>
                   <div className="d-flex justify-content-center">
                     <button

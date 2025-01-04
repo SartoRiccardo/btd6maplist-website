@@ -10,7 +10,7 @@ export default function Btd6ProfileLoader({ oak }) {
     const fetchBtd6Profile = async () => {
       if (oak) {
         const btd6Profile = await getBtd6User(oak);
-        dispatch(setBtd6Profile({ btd6Profile }));
+        if (btd6Profile) dispatch(setBtd6Profile({ btd6Profile }));
       }
     };
     fetchBtd6Profile();
