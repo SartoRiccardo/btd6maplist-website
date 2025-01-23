@@ -103,6 +103,7 @@ export function RunSubmissionRules({ on }) {
         <li>Faster Forward Mod</li>
         <li>Auto Nudge Mod</li>
         <li>Time Machine Mod</li>
+        <li>Useful Utilities (only v1.2.0+)</li>
       </ul>
 
       <h2 className="text-center">Game Cosmetics and Secret Modifiers</h2>
