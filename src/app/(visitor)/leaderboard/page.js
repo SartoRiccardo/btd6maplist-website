@@ -93,6 +93,7 @@ export default async function ListLeaderboard({ searchParams }) {
           new URLSearchParams({
             ...searchParams,
             format: "{queryval}",
+            page: 1,
           }).toString()
         }
       />
@@ -110,7 +111,11 @@ export default async function ListLeaderboard({ searchParams }) {
               scroll={false}
               href={
                 `/leaderboard?` +
-                new URLSearchParams({ ...searchParams, value: key }).toString()
+                new URLSearchParams({
+                  ...searchParams,
+                  value: key,
+                  page: 1,
+                }).toString()
               }
               className={`${
                 key === lbType.key ? styles.lbValueActive : ""
