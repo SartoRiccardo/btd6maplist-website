@@ -72,6 +72,18 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        {process.env.NODE_ENV === "production" &&
+          process.env.PLAUSIBLE_DATA_DOMAIN &&
+          process.env.PLAUSIBLE_SCRIPT_SRC && (
+            <script
+              defer
+              data-domain={process.env.PLAUSIBLE_DATA_DOMAIN}
+              src={process.env.PLAUSIBLE_SCRIPT_SRC}
+            />
+          )}
+      </head>
+
       <body
         className={`${btd6Font.variable} ${titleFont.variable} ${pFont.variable}`}
       >
