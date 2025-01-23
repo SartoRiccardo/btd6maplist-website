@@ -83,7 +83,7 @@ export default async function RootLayout({ children }) {
           <div className={`content`}>
             <Header />
             <RulesFirstTimePopup />
-            <div className="container mb-5 mt-3">{children}</div>
+            <main className="container mb-5 mt-3">{children}</main>
             <Footer />
           </div>
         </StoreProvider>

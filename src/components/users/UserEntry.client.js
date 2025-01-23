@@ -1,6 +1,7 @@
 "use client";
 import stylesUsrE from "./UserEntry.module.css";
 import { initialBtd6Profile } from "@/features/authSlice";
+import Image from "../utils/Image";
 import Link from "next/link";
 
 export default function UserEntry_C({
@@ -26,10 +27,13 @@ export default function UserEntry_C({
       className={`${stylesUsrE.user_entry} ${inline ? stylesUsrE.inline : ""}`}
       data-cy="user-entry"
     >
-      <img
+      <Image
         loading="lazy"
         className={`${stylesUsrE.pfp} ${inline ? stylesUsrE.inline : ""}`}
         src={profile.avatarURL || initialBtd6Profile.avatarURL}
+        alt=""
+        width={75}
+        height={75}
       />
 
       <div
@@ -69,7 +73,13 @@ export function UserEntry_Plc({ inline }) {
     <div
       className={`${stylesUsrE.user_entry} ${inline ? stylesUsrE.inline : ""}`}
     >
-      <img className={stylesUsrE.pfp} src={initialBtd6Profile.avatarURL} />
+      <Image
+        className={stylesUsrE.pfp}
+        src={initialBtd6Profile.avatarURL}
+        alt=""
+        width={75}
+        height={75}
+      />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import RowMedals from "./RowMedals";
 import { fromNow } from "@/utils/dates";
 import { UserEntry_Plc } from "../users/UserEntry.client";
 import Link from "next/link";
+import Image from "../utils/Image";
 
 export default function FullCompletionInfoRow({ completion }) {
   return (
@@ -20,10 +21,12 @@ export default function FullCompletionInfoRow({ completion }) {
             className={stylesMap.btd6map_clickable}
           >
             <div className="d-flex align-self-center">
-              <img
-                loading="lazy"
+              <Image
                 className={stylesMap.btd6map_image}
                 src={completion.map.map_preview_url}
+                alt=""
+                width={225}
+                height={150}
               />
               <div className="d-flex flex-column justify-content-center">
                 <p

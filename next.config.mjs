@@ -4,6 +4,22 @@ import withPWAInit from "@ducanh2912/next-pwa";
 
 const nextConfig = {
   output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "static-api.nkstatic.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "data.ninjakiwi.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
   async redirects() {
     return [
       {

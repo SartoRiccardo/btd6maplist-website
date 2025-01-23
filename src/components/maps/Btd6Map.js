@@ -5,6 +5,7 @@ import Link from "next/link";
 import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";
 import { useIsWindows, useMaplistConfig } from "@/utils/hooks";
+import Image from "../utils/Image";
 
 const MEDAL_SIZE = 60;
 
@@ -68,10 +69,12 @@ export default function Btd6Map({
         </div>
       )}
 
-      <img
+      <Image
         className={stylesMap.btd6map_image}
-        loading="lazy"
         src={previewUrl}
+        alt=""
+        width={600}
+        height={400}
       />
 
       {showMedals && (

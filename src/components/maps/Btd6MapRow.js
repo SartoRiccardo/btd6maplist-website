@@ -4,6 +4,7 @@ import { btd6Font } from "@/lib/fonts";
 import Link from "next/link";
 import CompletionColumn from "./CompletionColumn";
 import { allFormats, filterCompletionFormats } from "@/utils/maplistUtils";
+import Image from "../utils/Image";
 
 export default function Btd6MapRow({ map, hrefBase, completion }) {
   completion = completion instanceof Array ? completion : [completion];
@@ -12,10 +13,12 @@ export default function Btd6MapRow({ map, hrefBase, completion }) {
 
   const cmpMap = (
     <div className="d-flex align-self-center">
-      <img
+      <Image
         className={stylesMap.btd6map_image}
-        loading="lazy"
         src={map.map_preview_url}
+        alt=""
+        width={225}
+        height={150}
       />
       <div className="d-flex flex-column justify-content-center">
         <p className={`mb-0 ps-3 ${btd6Font.className} font-border fs-5`}>
