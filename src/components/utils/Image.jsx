@@ -3,6 +3,8 @@ import Image from "next/image";
 const allowedDomains = [
   "https://static-api.nkstatic.com",
   "https://data.ninjakiwi.com",
+  "https://mediabtd6maplist.sarto.dev",
+  "https://media.sarto.dev/btd6maplist",
 ];
 
 /**

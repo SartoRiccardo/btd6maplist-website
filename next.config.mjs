@@ -18,6 +18,18 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "mediabtd6maplist.sarto.dev",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "media.sarto.dev",
+        port: "",
+        pathname: "/btd6maplist/**",
+      },
     ],
   },
   async redirects() {
