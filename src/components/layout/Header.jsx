@@ -37,28 +37,24 @@ export default function Header() {
         <div className="col d-flex justify-content-end">
           <nav>
             <div className="d-none d-md-block" data-cy="navbar-desktop">
-              <ul className={`${stylesNav.navbar}`}>
+              <ul className={stylesNav.navbar}>
                 <ProtectedLinks
                   className={searchOpen ? stylesNav.hidden : ""}
                 />
 
                 <li className={searchOpen ? stylesNav.hidden : ""}>
-                  <a href="#" tabIndex={0}>
-                    Maps
-                  </a>
+                  <span tabIndex={0}>Maps</span>
 
-                  <ul
-                    className={`${stylesNav.submenu} shadow`}
-                    tabIndex={0}
-                    data-cy="nav-dropdown"
-                  >
-                    <li>
-                      <Link href="/expert-list">Expert List</Link>
-                    </li>
-                    <li>
-                      <Link href="/maplist">The Maplist</Link>
-                    </li>
-                  </ul>
+                  <div className={stylesNav.submenu}>
+                    <ul className="shadow" tabIndex={0} data-cy="nav-dropdown">
+                      <li>
+                        <Link href="/expert-list">Expert List</Link>
+                      </li>
+                      <li>
+                        <Link href="/maplist">The Maplist</Link>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
 
                 <li className={searchOpen ? stylesNav.hidden : ""}>

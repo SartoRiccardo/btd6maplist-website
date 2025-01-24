@@ -22,42 +22,39 @@ export default function ProtectedLinks({
     <>
       {!mobile && (
         <li data-cy="admin-tab" className={className || ""}>
-          <a href="#" tabIndex={0}>
-            Admin
-          </a>
+          <span tabIndex={0}>Admin</span>
 
-          <ul
-            className={`${stylesNav.submenu} shadow`}
-            tabIndex={0}
-            data-cy="nav-dropdown"
-          >
-            <LinkItem
-              href="/config"
-              label="List Config"
-              onNavigate={onNavigate}
-            />
-            <LinkItem
-              href="/completions/pending"
-              label="Pending Runs"
-              onNavigate={onNavigate}
-            />
-            <LinkItem
-              href="/hidden-maps"
-              label="Legacy List"
-              onNavigate={onNavigate}
-            />
-            <LinkItem
-              href="/map-submissions"
-              label="Map Submissions"
-              onNavigate={onNavigate}
-            />
-          </ul>
+          <div className={stylesNav.submenu}>
+            <ul className="shadow" tabIndex={0} data-cy="nav-dropdown">
+              <LinkItem
+                href="/config"
+                label="List Config"
+                onNavigate={onNavigate}
+              />
+              <LinkItem
+                href="/completions/pending"
+                label="Pending Runs"
+                onNavigate={onNavigate}
+              />
+              <LinkItem
+                href="/hidden-maps"
+                label="Legacy List"
+                onNavigate={onNavigate}
+              />
+              <LinkItem
+                href="/map-submissions"
+                label="Map Submissions"
+                onNavigate={onNavigate}
+              />
+              <LinkItem href="/roles" label="Roles" onNavigate={onNavigate} />
+            </ul>
+          </div>
         </li>
       )}
 
       {mobile && (
         <li data-cy="admin-tab">
-          <a href="#" onClick={toggleSubmenu(100, openSubmenus.includes(100))}>
+          <span onClick={toggleSubmenu(100, openSubmenus.includes(100))}>
             <i
               className={`bi ${
                 openSubmenus.includes(100)
@@ -66,7 +63,7 @@ export default function ProtectedLinks({
               }`}
             />
             &nbsp;Admin
-          </a>
+          </span>
 
           <LazyCollapse in={openSubmenus.includes(100)}>
             <div>
@@ -94,6 +91,7 @@ export default function ProtectedLinks({
                   label="Map Submissions"
                   onNavigate={onNavigate}
                 />
+                <LinkItem href="/roles" label="Roles" onNavigate={onNavigate} />
               </ul>
             </div>
           </LazyCollapse>
