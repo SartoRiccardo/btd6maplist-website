@@ -23,3 +23,17 @@ export function validateAchievableRole(role) {
 
   return errors;
 }
+
+export function getRepeatedIndexes(list) {
+  const sortedList = list
+    .map((val, i) => ({ val, i }))
+    .toSorted((a, b) => (a.val === b.val ? a.i - b.i : a.val > b.val ? 1 : -1));
+  const repeated = [];
+  for (let i = 1; i < sortedList.length; i++) {
+    if (sortedList[i].val === sortedList[i - 1].val) {
+      if (i - 1 === 0) repeated.push(sortedList[i - 1].i);
+      repeated.push(sortedList[i].i);
+    }
+  }
+  return repeated;
+}

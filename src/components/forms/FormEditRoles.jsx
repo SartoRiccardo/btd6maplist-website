@@ -7,7 +7,7 @@ import { allFormats, leaderboards } from "@/utils/maplistUtils";
 import AddableField from "./AddableField";
 import { FormikContext } from "@/contexts";
 import { useEffect, useState } from "react";
-import { validateAchievableRole } from "@/utils/validators";
+import { getRepeatedIndexes, validateAchievableRole } from "@/utils/validators";
 
 const emptyRole = {
   threshold: 1,
@@ -44,6 +44,12 @@ export default function FormEditRoles({ roles, guilds }) {
       for (const errK of Object.keys(roleErrors)) {
         errors[`${baseKey}.${errK}`] = roleErrors[errK];
       }
+    }
+
+    for (const idx of getRepeatedIndexes(
+      values.roles.map((rl) => rl.threshold)
+    )) {
+      errors[`roles[${idx}].threshold`] = "Duplicate threshold";
     }
 
     return errors;
