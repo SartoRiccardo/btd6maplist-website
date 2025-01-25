@@ -2,12 +2,14 @@
 import { Formik } from "formik";
 import RoleForm from "./form-components/RoleForm";
 import Select from "./bootstrap/Select";
-import { useAuthLevels } from "@/utils/hooks";
+import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import { allFormats, leaderboards } from "@/utils/maplistUtils";
 import AddableField from "./AddableField";
 import { FormikContext } from "@/contexts";
 import { useEffect, useState } from "react";
 import { getRepeatedIndexes, validateAchievableRole } from "@/utils/validators";
+import { updateAchievementRoles } from "@/server/maplistRequests.client";
+import ErrorToast from "./ErrorToast";
 
 const emptyRole = {
   threshold: 1,
@@ -15,18 +17,22 @@ const emptyRole = {
   clr_inner: "#ffffff",
   tooltip_description: "",
   name: "",
-  discord_roles: [],
+  linked_roles: [],
 };
 
 export default function FormEditRoles({ roles, guilds }) {
   const [extraGuilds, setExtraGuilds] = useState({});
   const [guildRoles, setGuildRoles] = useState({});
   const authLevels = useAuthLevels();
+  const accessToken = useDiscordToken();
   const allowedFormats = allFormats.filter(
     ({ value }) =>
       (0 < value < 50 && authLevels.isListMod) ||
       (50 < value < 100 && authLevels.isExplistMod)
   );
+
+  const intToHex = (color) => `#${color.toString(16).padStart(6, "0")}`;
+  const hexToInt = (hex) => parseInt(hex.slice(1), 16);
 
   const validate = (values) => {
     const errors = {};
@@ -55,9 +61,59 @@ export default function FormEditRoles({ roles, guilds }) {
     return errors;
   };
 
-  const handleSubmit = (values) => {};
+  const handleSubmit = async (values, { setErrors }) => {
+    const payloadRoles = values.roles.map((rl) => ({
+      threshold: rl.threshold | 0,
+      for_first: false,
+      tooltip_description: rl.tooltip_description.length
+        ? rl.tooltip_description
+        : null,
+      name: rl.name,
+      clr_border: hexToInt(rl.clr_border),
+      clr_inner: hexToInt(rl.clr_inner),
+      linked_roles: rl.linked_roles,
+    }));
 
-  const intToHex = (color) => `#${color.toString(16).padStart(6, "0")}`;
+    let firstPlaceIdx = null;
+    if (values.firstPlaceRole) {
+      firstPlaceIdx = payloadRoles.length;
+      payloadRoles.push({
+        threshold: values.firstPlaceRole.threshold | 0,
+        for_first: true,
+        tooltip_description: values.firstPlaceRole.tooltip_description.length
+          ? values.firstPlaceRole.tooltip_description
+          : null,
+        name: values.firstPlaceRole.name,
+        clr_border: hexToInt(values.firstPlaceRole.clr_border),
+        clr_inner: hexToInt(values.firstPlaceRole.clr_inner),
+        linked_roles: values.firstPlaceRole.linked_roles,
+      });
+    }
+
+    const result = await updateAchievementRoles(
+      accessToken.access_token,
+      values.lb_format,
+      values.lb_type,
+      payloadRoles
+    );
+    if (result && Object.keys(result.errors).length) {
+      const toDeleteKeys = [];
+      if (firstPlaceIdx !== null) {
+        for (const key of Object.keys(result.errors)) {
+          if (key.startsWith(`roles[${firstPlaceIdx}]`)) {
+            result.errors[
+              key.replace(`roles[${firstPlaceIdx}]`, "firstPlaceRole")
+            ] = result.errors[key];
+            toDeleteKeys.push(key);
+          }
+        }
+      }
+      for (const key of toDeleteKeys) delete result.errors[key];
+      setErrors(result.errors);
+      return;
+    }
+    // revalidateMap(code);
+  };
 
   const selectCurrentRoles = (lbFormat, lbValue) =>
     roles
@@ -98,13 +154,14 @@ export default function FormEditRoles({ roles, guilds }) {
           setErrors,
           isSubmitting,
           setSubmitting,
+          resetForm,
         } = formikProps;
         const disableInputs = isSubmitting;
 
         // const neededGuildIds = values.roles.reduce(
-        //   (accum, { discord_roles }) => [
+        //   (accum, { linked_roles }) => [
         //     ...accum,
-        //     ...discord_roles.map(({ guild_id }) => guild_id),
+        //     ...linked_roles.map(({ guild_id }) => guild_id),
         //   ],
         //   []
         // );
@@ -133,10 +190,14 @@ export default function FormEditRoles({ roles, guilds }) {
                           values.lb_type
                         );
 
-                        setValues({
-                          ...values,
-                          lb_format,
-                          roles,
+                        resetForm({
+                          values: {
+                            ...values,
+                            lb_format,
+                            firstPlaceRole:
+                              roles.find(({ for_first }) => for_first) || null,
+                            roles: roles.filter(({ for_first }) => !for_first),
+                          },
                         });
                       }}
                     >
@@ -155,7 +216,21 @@ export default function FormEditRoles({ roles, guilds }) {
                       name="lb_type"
                       value={values.lb_type}
                       onChange={(evt) => {
-                        setFieldValue("lb_type", evt.target.value);
+                        const lb_type = evt.target.value;
+                        const roles = selectCurrentRoles(
+                          values.lb_format,
+                          lb_type
+                        );
+
+                        resetForm({
+                          values: {
+                            ...values,
+                            lb_type,
+                            firstPlaceRole:
+                              roles.find(({ for_first }) => for_first) || null,
+                            roles: roles.filter(({ for_first }) => !for_first),
+                          },
+                        });
                       }}
                       onBlur={handleBlur}
                     >
@@ -199,34 +274,40 @@ export default function FormEditRoles({ roles, guilds }) {
                 <h2 className="text-center my-4">Threshold Roles</h2>
                 <AddableField name="roles" defaultValue={{ ...emptyRole }}>
                   <div className="row gy-4 mb-5">
-                    {values.roles.map((role, i) => (
-                      <div
-                        key={role.count}
-                        className="col-12 col-md-6 col-lg-4"
-                      >
-                        <RoleForm
-                          name={`roles[${i}]`}
-                          value={role}
-                          threshold
-                          errors={errors}
-                          touched={touched?.roles?.[i]}
-                          onChange={(newVal) =>
-                            setFieldValue(
-                              "roles",
-                              values.roles.map((role, j) =>
-                                i === j ? newVal : role
+                    {values.roles.length === 0 ? (
+                      <p className="muted text-center lead mb-0">
+                        No roles for this leaderboard format/type yet!
+                      </p>
+                    ) : (
+                      values.roles.map((role, i) => (
+                        <div
+                          key={role.count}
+                          className="col-12 col-md-6 col-lg-4"
+                        >
+                          <RoleForm
+                            name={`roles[${i}]`}
+                            value={role}
+                            threshold
+                            errors={errors}
+                            touched={touched?.roles?.[i]}
+                            onChange={(newVal) =>
+                              setFieldValue(
+                                "roles",
+                                values.roles.map((role, j) =>
+                                  i === j ? newVal : role
+                                )
                               )
-                            )
-                          }
-                          onDelete={() =>
-                            setFieldValue(
-                              "roles",
-                              values.roles.filter((_r, j) => i !== j)
-                            )
-                          }
-                        />
-                      </div>
-                    ))}
+                            }
+                            onDelete={() =>
+                              setFieldValue(
+                                "roles",
+                                values.roles.filter((_r, j) => i !== j)
+                              )
+                            }
+                          />
+                        </div>
+                      ))
+                    )}
                   </div>
                 </AddableField>
               </div>
@@ -237,6 +318,8 @@ export default function FormEditRoles({ roles, guilds }) {
                 </button>
               </div>
             </form>
+
+            <ErrorToast />
           </FormikContext.Provider>
         );
       }}
