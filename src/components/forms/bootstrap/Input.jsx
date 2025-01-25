@@ -15,10 +15,16 @@ export default forwardRef(function Input(
     autoComplete,
     className,
     rows,
+    style,
   },
   ref
 ) {
-  const clsTyle = type === "checkbox" ? "form-check-input" : "form-control";
+  const clsTyle =
+    type === "checkbox"
+      ? "form-check-input"
+      : type === "color"
+      ? "form-control form-control-color"
+      : "form-control";
   const props = {
     name,
     type,
@@ -30,6 +36,7 @@ export default forwardRef(function Input(
     disabled,
     autoComplete,
     ref,
+    style,
     className: `${clsTyle} ${isInvalid ? "is-invalid" : ""} ${
       isValid ? "is-valid" : ""
     } ${className || ""}`,

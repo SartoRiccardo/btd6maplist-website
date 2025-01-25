@@ -145,3 +145,11 @@ export async function getMapSubmissions(pending, page) {
   if (!response.ok) return { total: 0, pages: 0, entries: [] };
   return await response.json();
 }
+
+export async function getAchievementRoles() {
+  const response = await fetch(`${process.env.API_URL}/roles/achievement`, {
+    next: { tags: ["achievement_roles"], revalidate },
+    cache,
+  });
+  return await response.json();
+}

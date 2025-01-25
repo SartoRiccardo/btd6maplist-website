@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const mapPointsCache = {};
 export const calcMapPoints = (
   idx,
@@ -287,3 +289,46 @@ export const serverRoleStyles = {
   6: { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true },
   7: { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true },
 };
+
+export const leaderboards = [
+  { key: "points", title: "Points", suffix: "pt" },
+  {
+    key: "lccs",
+    title: "LCCs",
+    suffix: (
+      <Image
+        src="/medals/medal_lcc.webp"
+        alt=""
+        className="ms-2"
+        width={30}
+        height={30}
+      />
+    ),
+  },
+  {
+    key: "no_optimal_hero",
+    title: "No Optimal Hero",
+    suffix: (
+      <Image
+        src="/medals/medal_nogerry.webp"
+        alt=""
+        className="ms-2"
+        width={30}
+        height={30}
+      />
+    ),
+  },
+  {
+    key: "black_border",
+    title: "Black Border",
+    suffix: (
+      <Image
+        src="/medals/medal_bb.webp"
+        alt=""
+        className="ms-2"
+        width={30}
+        height={30}
+      />
+    ),
+  },
+];
