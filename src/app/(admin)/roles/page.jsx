@@ -12,9 +12,7 @@ export default async function RolesPage() {
     <>
       <h1 className="text-center">Roles</h1>
 
-      <div className="panel panel-container">
-        <FormEditRoles roles={roles} guilds={userGuilds} />
-      </div>
+      <FormEditRoles roles={roles} guilds={userGuilds} />
     </>
   );
 }

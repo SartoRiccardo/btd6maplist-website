@@ -1,7 +1,13 @@
 import cssRoleForm from "./RoleForm.module.css";
 import Input from "../bootstrap/Input";
 
-export default function RoleForm({ name, value, onChange }) {
+export default function RoleForm({
+  name,
+  value,
+  onChange,
+  onDelete,
+  threshold,
+}) {
   const handleChange = (evt) => {
     const nameParts = evt.target.name.split(".");
     const newVal = {
@@ -23,7 +29,7 @@ export default function RoleForm({ name, value, onChange }) {
             backgroundColor: value.clr_inner,
             border: `3px solid ${value.clr_border}`,
           }}
-          placeholder="Role name"
+          placeholder="New Role"
         />
         <Input
           name={`${name}.clr_inner`}
@@ -37,18 +43,27 @@ export default function RoleForm({ name, value, onChange }) {
           value={value.clr_border}
           onChange={handleChange}
         />
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => onDelete()}
+        >
+          <i className="bi bi-dash" />
+        </button>
       </div>
 
-      <div>
-        <label className="form-label">Point Threshold</label>
-        <Input
-          name={`${name}.threshold`}
-          type="number"
-          value={value.threshold}
-          onChange={handleChange}
-          placeholder="1000"
-        />
-      </div>
+      {threshold && (
+        <div>
+          <label className="form-label">Point Threshold</label>
+          <Input
+            name={`${name}.threshold`}
+            type="number"
+            value={value.threshold}
+            onChange={handleChange}
+            placeholder="1000"
+          />
+        </div>
+      )}
 
       <div>
         <label className="form-label">Tooltip description (optional)</label>

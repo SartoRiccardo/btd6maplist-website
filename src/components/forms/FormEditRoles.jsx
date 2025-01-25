@@ -7,6 +7,16 @@ import { allFormats, leaderboards } from "@/utils/maplistUtils";
 import AddableField from "./AddableField";
 import { FormikContext } from "@/contexts";
 import { useEffect, useState } from "react";
+import { validateAchievableRole } from "@/utils/validators";
+
+const emptyRole = {
+  threshold: 1,
+  clr_border: "#000000",
+  clr_inner: "#ffffff",
+  tooltip_description: "",
+  name: "",
+  discord_roles: [],
+};
 
 export default function FormEditRoles({ roles, guilds }) {
   const [extraGuilds, setExtraGuilds] = useState({});
@@ -17,12 +27,29 @@ export default function FormEditRoles({ roles, guilds }) {
       (0 < value < 50 && authLevels.isListMod) ||
       (50 < value < 100 && authLevels.isExplistMod)
   );
-  const initialLbformat = (allowedFormats?.[0] || allFormats[0]).value;
 
   const validate = (values) => {
     const errors = {};
+
+    if (values.firstPlaceRole) {
+      const roleErrors = validateAchievableRole(values.roles[i]);
+      for (const errK of Object.keys(roleErrors)) {
+        errors[`firstPlaceRole.${errK}`] = roleErrors[errK];
+      }
+    }
+
+    for (let i = 0; i < values.roles.length; i++) {
+      const baseKey = `roles[${i}]`;
+      const roleErrors = validateAchievableRole(values.roles[i]);
+      for (const errK of Object.keys(roleErrors)) {
+        errors[`${baseKey}.${errK}`] = roleErrors[errK];
+      }
+    }
+
     return errors;
   };
+
+  const handleSubmit = (values) => {};
 
   const intToHex = (color) => `#${color.toString(16).padStart(6, "0")}`;
 
@@ -39,14 +66,18 @@ export default function FormEditRoles({ roles, guilds }) {
         clr_inner: intToHex(rl.clr_inner),
       }));
 
+  const initialLbformat = (allowedFormats?.[0] || allFormats[0]).value;
+  const initRoles = selectCurrentRoles(initialLbformat, "points");
   return (
     <Formik
       initialValues={{
         lb_format: initialLbformat,
         lb_type: "points",
-        roles: selectCurrentRoles(initialLbformat, "points"),
+        firstPlaceRole: initRoles.find(({ for_first }) => for_first) || null,
+        roles: initRoles.filter(({ for_first }) => !for_first),
       }}
       validate={validate}
+      onSubmit={handleSubmit}
     >
       {(formikProps) => {
         const {
@@ -79,90 +110,122 @@ export default function FormEditRoles({ roles, guilds }) {
             key={0}
           >
             <form onSubmit={handleSubmit}>
-              <div className="row gy-2">
-                <div className="col-6 d-flex align-items-center">
-                  <p className="mb-0">Leaderboard Format</p>
-                </div>
-                <div className="col-6">
-                  <Select
-                    name="lb_format"
-                    value={values.lb_format}
-                    onBlur={handleBlur}
-                    onChange={(evt) => {
-                      const lb_format = parseInt(evt.target.value);
-                      const roles = selectCurrentRoles(
-                        lb_format,
-                        values.lb_type
-                      );
+              <div className="panel panel-container">
+                <div className="row gy-2">
+                  <div className="col-6 d-flex align-items-center">
+                    <p className="mb-0">Leaderboard Format</p>
+                  </div>
+                  <div className="col-6">
+                    <Select
+                      name="lb_format"
+                      value={values.lb_format}
+                      onBlur={handleBlur}
+                      onChange={(evt) => {
+                        const lb_format = parseInt(evt.target.value);
+                        const roles = selectCurrentRoles(
+                          lb_format,
+                          values.lb_type
+                        );
 
-                      setValues({
-                        ...values,
-                        lb_format,
-                        roles,
-                      });
-                    }}
-                  >
-                    {allowedFormats.map(({ name, value }) => (
-                      <option key={value} value={value}>
-                        {name}
-                      </option>
+                        setValues({
+                          ...values,
+                          lb_format,
+                          roles,
+                        });
+                      }}
+                    >
+                      {allowedFormats.map(({ name, value }) => (
+                        <option key={value} value={value}>
+                          {name}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                  <div className="col-6 d-flex align-items-center">
+                    <p className="mb-0">Leaderboard Type</p>
+                  </div>
+                  <div className="col-6">
+                    <Select
+                      name="lb_type"
+                      value={values.lb_type}
+                      onChange={(evt) => {
+                        setFieldValue("lb_type", evt.target.value);
+                      }}
+                      onBlur={handleBlur}
+                    >
+                      {leaderboards.map(({ title, key }) => (
+                        <option key={key} value={key}>
+                          {title}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+
+                <h2 className="text-center my-4">First Place Role</h2>
+                <div className="row d-flex justify-content-center">
+                  <div className="col-12 col-md-6 col-lg-4">
+                    {values.firstPlaceRole ? (
+                      <RoleForm
+                        name="firstPlaceRole"
+                        value={values.firstPlaceRole}
+                        onChange={(newVal) =>
+                          setFieldValue("firstPlaceRole", newVal)
+                        }
+                        onDelete={() => setFieldValue("firstPlaceRole", null)}
+                      />
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-success w-100"
+                        onClick={() =>
+                          setFieldValue("firstPlaceRole", { ...emptyRole })
+                        }
+                      >
+                        <i className="bi bi-plus-lg" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <h2 className="text-center my-4">Threshold Roles</h2>
+                <AddableField name="roles" defaultValue={{ ...emptyRole }}>
+                  <div className="row gy-4">
+                    {values.roles.map((role, i) => (
+                      <div
+                        key={role.count}
+                        className="col-12 col-md-6 col-lg-4"
+                      >
+                        <RoleForm
+                          name={`roles[${i}]`}
+                          value={role}
+                          threshold
+                          onChange={(newVal) =>
+                            setFieldValue(
+                              "roles",
+                              values.roles.map((role, j) =>
+                                i === j ? newVal : role
+                              )
+                            )
+                          }
+                          onDelete={() =>
+                            setFieldValue(
+                              "roles",
+                              values.roles.filter((_r, j) => i !== j)
+                            )
+                          }
+                        />
+                      </div>
                     ))}
-                  </Select>
-                </div>
-                <div className="col-6 d-flex align-items-center">
-                  <p className="mb-0">Leaderboard Type</p>
-                </div>
-                <div className="col-6">
-                  <Select
-                    name="lb_type"
-                    value={values.lb_type}
-                    onChange={(evt) => {
-                      setFieldValue("lb_type", evt.target.value);
-                    }}
-                    onBlur={handleBlur}
-                  >
-                    {leaderboards.map(({ title, key }) => (
-                      <option key={key} value={key}>
-                        {title}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
+                  </div>
+                </AddableField>
               </div>
 
-              <h2 className="text-center my-4">First Place Role</h2>
-
-              <h2 className="text-center my-4">Threshold Roles</h2>
-              <AddableField
-                name="roles"
-                defaultValue={{
-                  threshold: 1,
-                  clr_border: "#000000",
-                  clr_inner: "#ffffff",
-                  tooltip_description: "",
-                  name: "",
-                  discord_roles: [],
-                }}
-              >
-                <div className="row gy-4">
-                  {values.roles.map((role, i) => (
-                    <div key={role.count} className="col-12 col-md-6 col-lg-4">
-                      <RoleForm
-                        name={`roles[${i}]`}
-                        value={role}
-                        onChange={(newVal) =>
-                          setFieldValue(
-                            "roles",
-                            values.roles.map((role, j) =>
-                              i === j ? newVal : role
-                            )
-                          )
-                        }
-                      />
-                    </div>
-                  ))}
-                </div>
-              </AddableField>
+              <div className="d-flex justify-content-center">
+                <button type="submit" className="btn btn-primary">
+                  Save
+                </button>
+              </div>
             </form>
           </FormikContext.Provider>
         );
