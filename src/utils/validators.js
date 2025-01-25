@@ -14,8 +14,12 @@ export function validateAchievableRole(role) {
   const errors = {};
   if (role.name.length > MAX_ROLE_NAME_LEN) errors.name = "Name is too long";
   else if (role.name.length === 0) errors.name = "Name cannot be blank";
+
   if (role.tooltip_description.length > MAX_TOOLTIP_LEN)
     errors.tooltip_description = "Tooltip description is too long";
+
+  if (role.threshold.length === 0) errors.threshold = "Must have a threshold";
+  else if (role.threshold <= 0) errors.threshold = "Threshold must be positive";
 
   return errors;
 }

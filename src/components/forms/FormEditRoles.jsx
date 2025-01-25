@@ -32,7 +32,7 @@ export default function FormEditRoles({ roles, guilds }) {
     const errors = {};
 
     if (values.firstPlaceRole) {
-      const roleErrors = validateAchievableRole(values.roles[i]);
+      const roleErrors = validateAchievableRole(values.firstPlaceRole);
       for (const errK of Object.keys(roleErrors)) {
         errors[`firstPlaceRole.${errK}`] = roleErrors[errK];
       }
@@ -173,6 +173,8 @@ export default function FormEditRoles({ roles, guilds }) {
                           setFieldValue("firstPlaceRole", newVal)
                         }
                         onDelete={() => setFieldValue("firstPlaceRole", null)}
+                        errors={errors}
+                        touched={touched?.firstPlaceRole}
                       />
                     ) : (
                       <button
@@ -190,7 +192,7 @@ export default function FormEditRoles({ roles, guilds }) {
 
                 <h2 className="text-center my-4">Threshold Roles</h2>
                 <AddableField name="roles" defaultValue={{ ...emptyRole }}>
-                  <div className="row gy-4">
+                  <div className="row gy-4 mb-5">
                     {values.roles.map((role, i) => (
                       <div
                         key={role.count}
@@ -200,6 +202,8 @@ export default function FormEditRoles({ roles, guilds }) {
                           name={`roles[${i}]`}
                           value={role}
                           threshold
+                          errors={errors}
+                          touched={touched?.roles?.[i]}
                           onChange={(newVal) =>
                             setFieldValue(
                               "roles",
