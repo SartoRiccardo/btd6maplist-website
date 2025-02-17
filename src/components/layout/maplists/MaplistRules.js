@@ -1,4 +1,10 @@
+"use client";
+import cssMedals from "@/components/maps/Medals.module.css";
+import { useMaplistConfig } from "@/utils/hooks";
+import { difficulties } from "@/utils/maplistUtils";
+
 export function RunSubmissionRules({ on }) {
+  const maplistCfg = useMaplistConfig();
   on = on || "list";
 
   return (
@@ -24,32 +30,86 @@ export function RunSubmissionRules({ on }) {
       </h2>
       <h3>Point modifiers</h3>
       <ul>
-        <li>
-          Black Border runs are worth{" "}
-          <b>
-            <u>3x points</u>
-          </b>
-        </li>
-        <li>
-          Alt Hero runs (heroes other than the best hero(s) on the map) are
-          worth{" "}
-          <b>
-            <u>2x points</u>
-          </b>
-        </li>
-        <li>
-          LCCs are worth{" "}
-          <b>
-            <u>+20 points</u>
-          </b>
-        </li>
+        {on === "list" ? (
+          <>
+            <li>
+              Black Border runs are worth{" "}
+              <b>
+                <u>{maplistCfg.points_multi_bb}x points</u>
+              </b>
+            </li>
+            <li>
+              Alt Hero runs (heroes other than the best hero(s) on the map) are
+              worth{" "}
+              <b>
+                <u>{maplistCfg.points_multi_gerry}x points</u>
+              </b>
+            </li>
+            <li>
+              LCCs are worth{" "}
+              <b>
+                <u>+{maplistCfg.points_extra_lcc} points</u>
+              </b>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              Alt Hero runs (heroes other than the best hero(s) on the map) are
+              worth:
+              <ul>
+                {difficulties.map(({ query, value, points_cfg, name }) => {
+                  const pointsNoGerryCfg = points_cfg.replace(
+                    "_points",
+                    "_nogerry_points"
+                  );
+                  return (
+                    maplistCfg[pointsNoGerryCfg] > 0 && (
+                      <li key={value}>
+                        <img
+                          src={`/format_icons/icon_${query}.webp`}
+                          className={`${cssMedals.inline_medal} ${cssMedals.format_border} me-1`}
+                        />
+                        On {name} Expert maps:&nbsp;
+                        <b>
+                          <u>
+                            +{maplistCfg[pointsNoGerryCfg]} point
+                            {maplistCfg[pointsNoGerryCfg] > 1 && "s"}
+                          </u>
+                        </b>
+                      </li>
+                    )
+                  );
+                })}
+              </ul>
+            </li>
+          </>
+        )}
       </ul>
       <h3>Proof Requirements</h3>
       <ul>
         <li>Black Border runs must have completely unedited video proof</li>
         <li>
-          Alt Hero and LCC runs must be streamed with 2 moderators as witnesses,
-          or have video proof following the requirements below.
+          LCC runs must be streamed with 2 moderators as witnesses, or have
+          video proof following the requirements below.
+        </li>
+        <li>
+          <img
+            src="/medals/medal_nogerry.webp"
+            className={`${cssMedals.inline_medal} me-1`}
+          />
+          For No Optimal Hero runs:
+          <ul>
+            <li>
+              No Optimal Hero runs <u>on High, True and Extreme experts</u> must
+              be streamed with 2 moderators as witnesses, or have video proof
+              following the requirements below.
+            </li>
+            <li>
+              Adora runs on Casual and Medium Experts require an additional
+              screenshot at the start of Round 98.
+            </li>
+          </ul>
         </li>
       </ul>
 
@@ -72,7 +132,7 @@ export function RunSubmissionRules({ on }) {
         ) : (
           <li>
             The recording must consist of unedited clips of each round from{" "}
-            <u>98 - 100</u> (unlike The List, which requires 91 - 100).
+            <u>98 - 100</u> (unlike The Maplist, which requires 91 - 100).
           </li>
         )}
 
