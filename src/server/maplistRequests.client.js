@@ -333,3 +333,19 @@ export async function updateAchievementRoles(token, lb_format, lb_type, roles) {
     return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
   }
 }
+
+export async function getValidServerDropdownRoles(token) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/server-roles`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        next: { tags: ["discord"], revalidate },
+        cache,
+      }
+    );
+    return await response.json();
+  } catch (exc) {
+    return [];
+  }
+}

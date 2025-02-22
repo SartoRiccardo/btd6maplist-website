@@ -6,10 +6,13 @@ import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
 import { allFormats, leaderboards } from "@/utils/maplistUtils";
 import AddableField from "./AddableField";
 import { FormikContext } from "@/contexts";
-import { useEffect, useState } from "react";
 import { getRepeatedIndexes, validateAchievableRole } from "@/utils/validators";
-import { updateAchievementRoles } from "@/server/maplistRequests.client";
+import {
+  getValidServerDropdownRoles,
+  updateAchievementRoles,
+} from "@/server/maplistRequests.client";
 import ErrorToast from "./ErrorToast";
+import { useEffect, useState } from "react";
 
 const emptyRole = {
   threshold: 1,
@@ -20,11 +23,10 @@ const emptyRole = {
   linked_roles: [],
 };
 
-export default function FormEditRoles({ roles, guilds }) {
-  const [extraGuilds, setExtraGuilds] = useState({});
-  const [guildRoles, setGuildRoles] = useState({});
+export default function FormEditRoles({ roles }) {
   const authLevels = useAuthLevels();
   const accessToken = useDiscordToken();
+  const [guilds, setGuilds] = useState(null);
   const allowedFormats = allFormats.filter(
     ({ value }) =>
       (0 < value < 50 && authLevels.isListMod) ||
@@ -112,7 +114,6 @@ export default function FormEditRoles({ roles, guilds }) {
       setErrors(result.errors);
       return;
     }
-    // revalidateMap(code);
   };
 
   const selectCurrentRoles = (lbFormat, lbValue) =>
@@ -130,6 +131,14 @@ export default function FormEditRoles({ roles, guilds }) {
 
   const initialLbformat = (allowedFormats?.[0] || allFormats[0]).value;
   const initRoles = selectCurrentRoles(initialLbformat, "points");
+
+  useEffect(() => {
+    const execute = async () => {
+      setGuilds(await getValidServerDropdownRoles(accessToken.access_token));
+    };
+    execute();
+  }, []);
+
   return (
     <Formik
       initialValues={{
@@ -157,15 +166,6 @@ export default function FormEditRoles({ roles, guilds }) {
           resetForm,
         } = formikProps;
         const disableInputs = isSubmitting;
-
-        // const neededGuildIds = values.roles.reduce(
-        //   (accum, { linked_roles }) => [
-        //     ...accum,
-        //     ...linked_roles.map(({ guild_id }) => guild_id),
-        //   ],
-        //   []
-        // );
-        // useEffect(() => {}, [neededGuildIds]);
 
         return (
           <FormikContext.Provider
@@ -256,6 +256,7 @@ export default function FormEditRoles({ roles, guilds }) {
                         onDelete={() => setFieldValue("firstPlaceRole", null)}
                         errors={errors}
                         touched={touched?.firstPlaceRole}
+                        guilds={guilds}
                       />
                     ) : (
                       <button
@@ -290,6 +291,7 @@ export default function FormEditRoles({ roles, guilds }) {
                             threshold
                             errors={errors}
                             touched={touched?.roles?.[i]}
+                            guilds={guilds}
                             onChange={(newVal) =>
                               setFieldValue(
                                 "roles",

@@ -1,18 +1,14 @@
 import FormEditRoles from "@/components/forms/FormEditRoles";
 import { getAchievementRoles } from "@/server/maplistRequests";
-import { getDiscordUserGuilds } from "@/server/discordRequests";
-import { getAccessToken } from "@/utils/cookie-utils";
 
 export default async function RolesPage() {
   const roles = await getAchievementRoles();
-  const accessToken = getAccessToken();
-  const userGuilds = await getDiscordUserGuilds(accessToken);
 
   return (
     <>
       <h1 className="text-center">Roles</h1>
 
-      <FormEditRoles roles={roles} guilds={userGuilds} />
+      <FormEditRoles roles={roles} />
     </>
   );
 }
