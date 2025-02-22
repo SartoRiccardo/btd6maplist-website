@@ -135,6 +135,10 @@ a > .panel:hover {
   column-gap: 0.5rem;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 .mono {
   font-family: Courier;
 }

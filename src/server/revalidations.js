@@ -32,3 +32,7 @@ export async function revalidateCompletion(
 export async function revalidateMapSubmissions() {
   revalidateTag("map_submissions");
 }
+
+export async function revalidateRoles() {
+  revalidateTag("achievement_roles");
+}

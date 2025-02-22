@@ -13,6 +13,8 @@ import {
 } from "@/server/maplistRequests.client";
 import ErrorToast from "./ErrorToast";
 import { useEffect, useState } from "react";
+import { revalidateRoles } from "@/server/revalidations";
+import LazyToast from "../transitions/LazyToast";
 
 const emptyRole = {
   threshold: 1,
@@ -27,6 +29,7 @@ export default function FormEditRoles({ roles }) {
   const authLevels = useAuthLevels();
   const accessToken = useDiscordToken();
   const [guilds, setGuilds] = useState(null);
+  const [success, setSuccess] = useState(false);
   const allowedFormats = allFormats.filter(
     ({ value }) =>
       (0 < value < 50 && authLevels.isListMod) ||
@@ -114,6 +117,9 @@ export default function FormEditRoles({ roles }) {
       setErrors(result.errors);
       return;
     }
+
+    setSuccess(true);
+    revalidateRoles();
   };
 
   const selectCurrentRoles = (lbFormat, lbValue) =>
@@ -125,8 +131,13 @@ export default function FormEditRoles({ roles }) {
       .map((rl, idx) => ({
         ...rl,
         count: -idx,
+        tooltip_description: rl.tooltip_description || "",
         clr_border: intToHex(rl.clr_border),
         clr_inner: intToHex(rl.clr_inner),
+        linked_roles: rl.linked_roles.map((lrl, i) => ({
+          ...lrl,
+          count: -i - 1,
+        })),
       }));
 
   const initialLbformat = (allowedFormats?.[0] || allFormats[0]).value;
@@ -274,7 +285,7 @@ export default function FormEditRoles({ roles }) {
 
                 <h2 className="text-center my-4">Threshold Roles</h2>
                 <AddableField name="roles" defaultValue={{ ...emptyRole }}>
-                  <div className="row gy-4 mb-5">
+                  <div className="row gy-5 mb-5">
                     {values.roles.length === 0 ? (
                       <p className="muted text-center lead mb-0">
                         No roles for this leaderboard format/type yet!
@@ -283,7 +294,7 @@ export default function FormEditRoles({ roles }) {
                       values.roles.map((role, i) => (
                         <div
                           key={role.count}
-                          className="col-12 col-md-6 col-lg-4"
+                          className="col-12 col-md-6 col-lg-6"
                         >
                           <RoleForm
                             name={`roles[${i}]`}
@@ -322,6 +333,18 @@ export default function FormEditRoles({ roles }) {
             </form>
 
             <ErrorToast />
+            <LazyToast
+              bg="success"
+              className="notification"
+              show={success}
+              onClose={() => setSuccess(false)}
+              delay={4000}
+              autohide
+            >
+              <div className="toast-body" data-cy="toast-success">
+                Roles changed!
+              </div>
+            </LazyToast>
           </FormikContext.Provider>
         );
       }}

@@ -2,6 +2,31 @@ import cssRoleForm from "./RoleForm.module.css";
 import Input from "../bootstrap/Input";
 import Select from "../bootstrap/Select";
 import { deepChange } from "@/utils/functions";
+import { useState } from "react";
+
+const AddRoleButton = ({ onChange, value, guilds, count, setCount }) => {
+  return (
+    <div>
+      <button
+        type="button"
+        className="btn btn-success float-end"
+        onClick={() => {
+          const newVal = {
+            ...value,
+            linked_roles: [
+              ...value.linked_roles,
+              { guild_id: guilds[0].id, role_id: guilds[0].roles[0].id, count },
+            ],
+          };
+          setCount(count + 1);
+          onChange(newVal);
+        }}
+      >
+        <i className="bi bi-plus-lg" />
+      </button>
+    </div>
+  );
+};
 
 export default function RoleForm({
   name,
@@ -13,6 +38,8 @@ export default function RoleForm({
   touched,
   guilds,
 }) {
+  const [count, setCount] = useState(0);
+
   const handleChange = (evt, effects = null) => {
     let newVal = deepChange(
       JSON.parse(JSON.stringify(value)),
@@ -28,9 +55,9 @@ export default function RoleForm({
   };
 
   return (
-    <div className={cssRoleForm.role_form}>
-      <div className="d-flex align-items-top flex-col-space">
-        <div>
+    <div className={`row gy-1 gx-2 ${cssRoleForm.role_form}`}>
+      <div className="col-12 d-flex align-items-top flex-col-space">
+        <div className="w-100">
           <Input
             name={`${name}.name`}
             className={`font-border ${cssRoleForm.name}`}
@@ -69,7 +96,7 @@ export default function RoleForm({
       </div>
 
       {threshold && (
-        <div>
+        <div className="col-12 col-lg-4">
           <label className="form-label">Point Threshold</label>
           <Input
             name={`${name}.threshold`}
@@ -85,7 +112,7 @@ export default function RoleForm({
         </div>
       )}
 
-      <div>
+      <div className={`col-12 ${threshold ? "col-lg-8" : ""}`}>
         <label className="form-label">Tooltip description (optional)</label>
         <Input
           name={`${name}.tooltip_description`}
@@ -105,49 +132,91 @@ export default function RoleForm({
 
       <div>
         <label className="form-label">Linked Discord Roles</label>
-        {guilds && guilds.length
-          ? value.linked_roles.map(({ guild_id, role_id }, i) => (
-              <div className="row gx-1" key={`${guild_id}-${role_id}`}>
-                <div className="col-6">
-                  <Select
-                    name={`${name}.linked_roles[${i}].guild_id`}
-                    value={guild_id}
-                    onChange={(evt) => {
-                      handleChange(evt, [
-                        {
-                          field: `linked_roles[${i}].role_id`,
-                          value: guilds.find(
-                            ({ id }) => id === evt.target.value
-                          ).roles[0].id,
-                        },
-                      ]);
-                    }}
-                  >
-                    {guilds.map(({ id, name }) => (
-                      <option key={id} value={id}>
-                        {name}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-                <div className="col-6">
-                  <Select
-                    name={`${name}.linked_roles[${i}].role_id`}
-                    value={role_id}
-                    onChange={handleChange}
-                  >
-                    {guilds
-                      .find(({ id }) => id === guild_id)
-                      .roles.map(({ id, name }) => (
+        {guilds && guilds.length ? (
+          value.linked_roles.length ? (
+            <>
+              {value.linked_roles.map(({ guild_id, role_id, count }, i) => (
+                <div className="d-flex w-100 flex-col-space mb-2" key={count}>
+                  <div className="d-flex flex-1 flex-col-space">
+                    <Select
+                      name={`${name}.linked_roles[${i}].guild_id`}
+                      value={guild_id}
+                      onChange={(evt) => {
+                        handleChange(evt, [
+                          {
+                            field: `linked_roles[${i}].role_id`,
+                            value: guilds.find(
+                              ({ id }) => id === evt.target.value
+                            ).roles[0].id,
+                          },
+                        ]);
+                      }}
+                    >
+                      {guilds.map(({ id, name }) => (
                         <option key={id} value={id}>
                           {name}
                         </option>
                       ))}
-                  </Select>
+                    </Select>
+
+                    <Select
+                      name={`${name}.linked_roles[${i}].role_id`}
+                      value={role_id}
+                      onChange={handleChange}
+                    >
+                      {guilds
+                        .find(({ id }) => id === guild_id)
+                        .roles.map(({ id, name }) => (
+                          <option key={id} value={id}>
+                            {name}
+                          </option>
+                        ))}
+                    </Select>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => {
+                        const newVal = {
+                          ...value,
+                          linked_roles: value.linked_roles.filter(
+                            (rl) => count !== rl.count
+                          ),
+                        };
+                        onChange(newVal);
+                      }}
+                    >
+                      <i className="bi bi-dash" />
+                    </button>
+                  </div>
                 </div>
+              ))}
+              <div className="float-right">
+                <AddRoleButton
+                  onChange={onChange}
+                  value={value}
+                  guilds={guilds}
+                  count={count}
+                  setCount={setCount}
+                />
               </div>
-            ))
-          : null}
+            </>
+          ) : (
+            <div className="d-flex w-100 align-items-center">
+              <p className="flex-1 muted mb-0">No linked roles yet!</p>
+              <AddRoleButton
+                onChange={onChange}
+                value={value}
+                guilds={guilds}
+                count={count}
+                setCount={setCount}
+              />
+            </div>
+          )
+        ) : (
+          <p className="muted mb-0 mt-1">Loading...</p>
+        )}
       </div>
     </div>
   );

@@ -85,7 +85,6 @@ export const deepChange = (obj, path, value) => {
     .substring(0, path.length - lastPathMatch[0].length)
     .split(".")
     .filter((p) => p.length);
-  console.log(paths, lastPath);
   let cur = obj;
   for (let i = 0; i < paths.length; i++) {
     const objPath = paths[i].split("[")[0];
