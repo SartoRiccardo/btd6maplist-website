@@ -23,7 +23,8 @@ export default function CompletionColumn({
         cmp1.format - cmp2.format ||
         cmp1.black_border - cmp2.black_border ||
         cmp1.no_geraldo - cmp2.no_geraldo ||
-        cmp1.current_lcc - cmp2.current_lcc
+        cmp1.current_lcc - cmp2.current_lcc ||
+        cmp1.id - cmp2.id
       );
     })
     .reverse()
