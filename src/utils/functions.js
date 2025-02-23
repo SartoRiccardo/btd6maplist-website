@@ -99,3 +99,6 @@ export const deepChange = (obj, path, value) => {
   cur[lastPath] = value;
   return obj;
 };
+
+export const intToHex = (color) => `#${color.toString(16).padStart(6, "0")}`;
+export const hexToInt = (hex) => parseInt(hex.slice(1), 16);

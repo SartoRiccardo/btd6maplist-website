@@ -135,63 +135,78 @@ export default function RoleForm({
         {guilds && guilds.length ? (
           value.linked_roles.length ? (
             <>
-              {value.linked_roles.map(({ guild_id, role_id, count }, i) => (
-                <div className="d-flex w-100 flex-col-space mb-2" key={count}>
-                  <div className="d-flex flex-1 flex-col-space">
-                    <Select
-                      name={`${name}.linked_roles[${i}].guild_id`}
-                      value={guild_id}
-                      onChange={(evt) => {
-                        handleChange(evt, [
-                          {
-                            field: `linked_roles[${i}].role_id`,
-                            value: guilds.find(
-                              ({ id }) => id === evt.target.value
-                            ).roles[0].id,
-                          },
-                        ]);
-                      }}
-                    >
-                      {guilds.map(({ id, name }) => (
-                        <option key={id} value={id}>
-                          {name}
-                        </option>
-                      ))}
-                    </Select>
+              {value.linked_roles.map(({ guild_id, role_id, count }, i) => {
+                const selectedGuild = guilds.find(({ id }) => id === guild_id);
 
-                    <Select
-                      name={`${name}.linked_roles[${i}].role_id`}
-                      value={role_id}
-                      onChange={handleChange}
-                    >
-                      {guilds
-                        .find(({ id }) => id === guild_id)
-                        .roles.map(({ id, name }) => (
-                          <option key={id} value={id}>
-                            {name}
-                          </option>
-                        ))}
-                    </Select>
+                if (!selectedGuild) return null;
+
+                return (
+                  <div className="mb-2" key={count}>
+                    <div className="d-flex w-100 flex-col-space">
+                      <div className="d-flex flex-1 flex-col-space">
+                        <Select
+                          name={`${name}.linked_roles[${i}].guild_id`}
+                          value={guild_id}
+                          onChange={(evt) => {
+                            handleChange(evt, [
+                              {
+                                field: `linked_roles[${i}].role_id`,
+                                value: guilds.find(
+                                  ({ id }) => id === evt.target.value
+                                ).roles[0].id,
+                              },
+                            ]);
+                          }}
+                        >
+                          {guilds.map(({ id, name }) => (
+                            <option key={id} value={id}>
+                              {name}
+                            </option>
+                          ))}
+                        </Select>
+
+                        <Select
+                          name={`${name}.linked_roles[${i}].role_id`}
+                          value={role_id}
+                          onChange={handleChange}
+                          isInvalid={
+                            errors?.[`${name}.linked_roles[${i}].role_id`]
+                          }
+                        >
+                          {selectedGuild.roles.map(({ id, name }) => (
+                            <option key={id} value={id}>
+                              {name}
+                            </option>
+                          ))}
+                        </Select>
+                      </div>
+                      <div>
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={() => {
+                            const newVal = {
+                              ...value,
+                              linked_roles: value.linked_roles.filter(
+                                (rl) => count !== rl.count
+                              ),
+                            };
+                            onChange(newVal);
+                          }}
+                        >
+                          <i className="bi bi-dash" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {errors?.[`${name}.linked_roles[${i}].role_id`] && (
+                      <div className="invalid-feedback d-block w-100 mb-2 pb-1">
+                        {errors?.[`${name}.linked_roles[${i}].role_id`]}
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => {
-                        const newVal = {
-                          ...value,
-                          linked_roles: value.linked_roles.filter(
-                            (rl) => count !== rl.count
-                          ),
-                        };
-                        onChange(newVal);
-                      }}
-                    >
-                      <i className="bi bi-dash" />
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
               <div className="float-right">
                 <AddRoleButton
                   onChange={onChange}

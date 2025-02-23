@@ -2,8 +2,8 @@ import styles from "./userpage.module.css";
 import cssMedals from "@/components/maps/Medals.module.css";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { getUser } from "@/server/maplistRequests";
-import { getPositionColor } from "@/utils/functions";
-import { allFormats, userRoles } from "@/utils/maplistUtils";
+import { getPositionColor, intToHex } from "@/utils/functions";
+import { allFormats } from "@/utils/maplistUtils";
 import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
@@ -27,10 +27,6 @@ export default async function PageUser({ params, searchParams }) {
   page = isNaN(page) ? 1 : page;
 
   if (userData === null) notFound();
-
-  const grantedRoles = userRoles.filter(({ requirement }) =>
-    requirement({ user: userData })
-  );
 
   const medals = [];
   for (const mdl of Object.keys(userData.medals))
@@ -59,18 +55,17 @@ export default async function PageUser({ params, searchParams }) {
 
             <div className={styles.rolesContainer} data-cy="user-roles">
               {uid === "1077309729942024302" && <WebsiteCreatorRole />}
-              {grantedRoles.length > 0 &&
-                grantedRoles.map(
-                  ({ name, color, borderColor, description }) => (
-                    <UserRole
-                      key={name}
-                      name={name}
-                      color={color}
-                      borderColor={borderColor}
-                      description={description}
-                    />
-                  )
-                )}
+              {userData.achievement_roles.map(
+                ({ name, tooltip_description, clr_border, clr_inner }) => (
+                  <UserRole
+                    key={name}
+                    name={name}
+                    color={intToHex(clr_inner)}
+                    borderColor={intToHex(clr_border)}
+                    description={tooltip_description}
+                  />
+                )
+              )}
               <ServerRoles userId={uid} roles={userData.roles} />
             </div>
           </div>

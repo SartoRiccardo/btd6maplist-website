@@ -15,6 +15,7 @@ import ErrorToast from "./ErrorToast";
 import { useEffect, useState } from "react";
 import { revalidateRoles } from "@/server/revalidations";
 import LazyToast from "../transitions/LazyToast";
+import { hexToInt, intToHex } from "@/utils/functions";
 
 const emptyRole = {
   threshold: 1,
@@ -35,9 +36,6 @@ export default function FormEditRoles({ roles }) {
       (0 < value < 50 && authLevels.isListMod) ||
       (50 < value < 100 && authLevels.isExplistMod)
   );
-
-  const intToHex = (color) => `#${color.toString(16).padStart(6, "0")}`;
-  const hexToInt = (hex) => parseInt(hex.slice(1), 16);
 
   const validate = (values) => {
     const errors = {};
@@ -83,7 +81,7 @@ export default function FormEditRoles({ roles }) {
     if (values.firstPlaceRole) {
       firstPlaceIdx = payloadRoles.length;
       payloadRoles.push({
-        threshold: values.firstPlaceRole.threshold | 0,
+        threshold: 0,
         for_first: true,
         tooltip_description: values.firstPlaceRole.tooltip_description.length
           ? values.firstPlaceRole.tooltip_description
@@ -256,7 +254,7 @@ export default function FormEditRoles({ roles }) {
 
                 <h2 className="text-center my-4">First Place Role</h2>
                 <div className="row d-flex justify-content-center">
-                  <div className="col-12 col-md-6 col-lg-4">
+                  <div className="col-12 col-md-6">
                     {values.firstPlaceRole ? (
                       <RoleForm
                         name="firstPlaceRole"
@@ -292,10 +290,7 @@ export default function FormEditRoles({ roles }) {
                       </p>
                     ) : (
                       values.roles.map((role, i) => (
-                        <div
-                          key={role.count}
-                          className="col-12 col-md-6 col-lg-6"
-                        >
+                        <div key={role.count} className="col-12 col-md-6">
                           <RoleForm
                             name={`roles[${i}]`}
                             value={role}
