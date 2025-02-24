@@ -7,7 +7,7 @@ export function validateUsername(name) {
     return 'Name can only have alphanumeric characters or "_-."';
 }
 
-export function validateAchievableRole(role) {
+export function validateAchievableRole(role, options = null) {
   const MAX_TOOLTIP_LEN = 128;
   const MAX_ROLE_NAME_LEN = 32;
 
@@ -19,7 +19,8 @@ export function validateAchievableRole(role) {
     errors.tooltip_description = "Tooltip description is too long";
 
   if (role.threshold.length === 0) errors.threshold = "Must have a threshold";
-  else if (role.threshold <= 0) errors.threshold = "Threshold must be positive";
+  else if (role.threshold <= 0 && !options?.isFirstPlace)
+    errors.threshold = "Threshold must be positive";
 
   return errors;
 }

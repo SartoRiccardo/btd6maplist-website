@@ -41,7 +41,9 @@ export default function FormEditRoles({ roles }) {
     const errors = {};
 
     if (values.firstPlaceRole) {
-      const roleErrors = validateAchievableRole(values.firstPlaceRole);
+      const roleErrors = validateAchievableRole(values.firstPlaceRole, {
+        isFirstPlace: true,
+      });
       for (const errK of Object.keys(roleErrors)) {
         errors[`firstPlaceRole.${errK}`] = roleErrors[errK];
       }
@@ -162,19 +164,16 @@ export default function FormEditRoles({ roles }) {
       {(formikProps) => {
         const {
           handleSubmit,
-          handleChange,
           handleBlur,
           values,
           setFieldValue,
-          setValues,
           touched,
           errors,
-          setErrors,
           isSubmitting,
-          setSubmitting,
           resetForm,
         } = formikProps;
         const disableInputs = isSubmitting;
+        // TODO disableinputs
 
         return (
           <FormikContext.Provider
@@ -252,7 +251,11 @@ export default function FormEditRoles({ roles }) {
                   </div>
                 </div>
 
-                <h2 className="text-center my-4">First Place Role</h2>
+                <h2 className="text-center mt-4 mb-2">First Place Role</h2>
+                <p className="text-center mb-4">
+                  Role that gets assigned to the user in the first place of this
+                  leaderboard.
+                </p>
                 <div className="row d-flex justify-content-center">
                   <div className="col-12 col-md-6">
                     {values.firstPlaceRole ? (
@@ -281,7 +284,11 @@ export default function FormEditRoles({ roles }) {
                   </div>
                 </div>
 
-                <h2 className="text-center my-4">Threshold Roles</h2>
+                <h2 className="text-center mt-4 mb-2">Point Threshold Roles</h2>
+                <p className="text-center mb-4">
+                  Roles that get assigned when a user goes past a certain point
+                  threshold for this specific leaderboard.
+                </p>
                 <AddableField name="roles" defaultValue={{ ...emptyRole }}>
                   <div className="row gy-5 mb-5">
                     {values.roles.length === 0 ? (
