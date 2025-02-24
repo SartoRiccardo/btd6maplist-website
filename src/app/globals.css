@@ -237,6 +237,10 @@ img.zoomable:hover {
   cursor: pointer;
 }
 
+.invalid-feedback.light {
+  color: #ef5350;
+}
+
 /* xs */
 @media only screen and (max-width: 575.98px) {
   .lb-position {

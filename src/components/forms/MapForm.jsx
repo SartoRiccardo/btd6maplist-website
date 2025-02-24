@@ -528,6 +528,11 @@ export default function MapForm({
                                 )}
                               </div>
                             </DragFiles>
+                            {errors?.r6_start_file && (
+                              <div className="invalid-feedback d-block text-center light">
+                                {errors?.r6_start_file}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
