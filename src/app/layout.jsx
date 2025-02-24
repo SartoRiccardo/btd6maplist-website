@@ -13,6 +13,7 @@ import {
   maplistAuthenticate,
 } from "@/server/maplistRequests";
 import RulesFirstTimePopup from "@/components/appcontrol/RulesFirstTimePopup";
+import Script from "next/script";
 
 export const metadata = {
   title: "Bloons TD 6 Maplist",
@@ -72,17 +73,14 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <head>
-        {process.env.NODE_ENV === "production" &&
-          process.env.PLAUSIBLE_DATA_DOMAIN &&
-          process.env.PLAUSIBLE_SCRIPT_SRC && (
-            <script
-              defer
-              data-domain={process.env.PLAUSIBLE_DATA_DOMAIN}
-              src={process.env.PLAUSIBLE_SCRIPT_SRC}
-            />
-          )}
-      </head>
+      {process.env.NODE_ENV === "production" &&
+        process.env.PLAUSIBLE_DATA_DOMAIN &&
+        process.env.PLAUSIBLE_SCRIPT_SRC && (
+          <Script
+            data-domain={process.env.PLAUSIBLE_DATA_DOMAIN}
+            src={process.env.PLAUSIBLE_SCRIPT_SRC}
+          />
+        )}
 
       <body
         className={`${btd6Font.variable} ${titleFont.variable} ${pFont.variable}`}
