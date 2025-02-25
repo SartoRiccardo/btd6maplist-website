@@ -21,6 +21,7 @@ const AddRoleButton = ({ onChange, value, guilds, count, setCount }) => {
           setCount(count + 1);
           onChange(newVal);
         }}
+        data-cy="btn-linked-role-add"
       >
         <i className="bi bi-plus-lg" />
       </button>
@@ -55,9 +56,12 @@ export default function RoleForm({
   };
 
   return (
-    <div className={`row gy-1 gx-2 ${cssRoleForm.role_form}`}>
+    <div
+      className={`row gy-1 gx-2 ${cssRoleForm.role_form}`}
+      data-cy="fgroup-role"
+    >
       <div className="col-12 d-flex align-items-top flex-col-space">
-        <div className="w-100">
+        <div className="w-100" data-cy="fgroup">
           <Input
             name={`${name}.name`}
             className={`font-border ${cssRoleForm.name}`}
@@ -89,6 +93,7 @@ export default function RoleForm({
             type="button"
             className="btn btn-danger"
             onClick={() => onDelete()}
+            data-cy="btn-role-delete"
           >
             <i className="bi bi-dash" />
           </button>
@@ -96,7 +101,7 @@ export default function RoleForm({
       </div>
 
       {threshold && (
-        <div className="col-12 col-lg-4">
+        <div className="col-12 col-lg-4" data-cy="fgroup">
           <label className="form-label">Point Threshold</label>
           <Input
             name={`${name}.threshold`}
@@ -112,7 +117,7 @@ export default function RoleForm({
         </div>
       )}
 
-      <div className={`col-12 ${threshold ? "col-lg-8" : ""}`}>
+      <div className={`col-12 ${threshold ? "col-lg-8" : ""}`} data-cy="fgroup">
         <label className="form-label">Tooltip description (optional)</label>
         <Input
           name={`${name}.tooltip_description`}
@@ -155,7 +160,7 @@ export default function RoleForm({
               if (!selectedGuild) return null;
 
               return (
-                <div className="mb-2" key={count}>
+                <div className="mb-2" key={count} data-cy="fgroup">
                   <div className="d-flex w-100 flex-col-space">
                     <div className="d-flex flex-1 flex-col-space">
                       <Select
@@ -207,6 +212,7 @@ export default function RoleForm({
                           };
                           onChange(newVal);
                         }}
+                        data-cy="btn-linked-role-delete"
                       >
                         <i className="bi bi-dash" />
                       </button>

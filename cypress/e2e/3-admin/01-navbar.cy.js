@@ -21,7 +21,7 @@ describe("Admin user navbar", () => {
       .as("nav")
       .find("[data-cy=admin-tab]:visible")
       .as("admin-tab")
-      .click();
+      .realHover();
 
     cy.get("@admin-tab")
       .find("[data-cy=nav-dropdown]")

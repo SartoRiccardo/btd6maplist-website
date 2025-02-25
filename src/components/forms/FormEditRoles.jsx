@@ -63,6 +63,21 @@ export default function FormEditRoles({ roles }) {
       errors[`roles[${idx}].threshold`] = "Duplicate threshold";
     }
 
+    const linkedRoles = [];
+    for (let i = 0; i < values.roles.length; i++) {
+      for (let j = 0; j < values.roles[i].linked_roles.length; j++) {
+        linkedRoles.push({
+          i,
+          j,
+          role_id: values.roles[i].linked_roles[j].role_id,
+        });
+      }
+    }
+    for (const idx of getRepeatedIndexes(linkedRoles.map((lr) => lr.role_id))) {
+      const { i, j } = linkedRoles[idx];
+      errors[`roles[${i}].linked_roles[${j}].role_id`] = "Duplicate role";
+    }
+
     return errors;
   };
 
@@ -180,7 +195,7 @@ export default function FormEditRoles({ roles }) {
             value={{ ...formikProps, disableInputs }}
             key={0}
           >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} data-cy="form-edit-roles">
               <div className="panel panel-container">
                 <div className="row gy-2">
                   <div className="col-6 d-flex align-items-center">
@@ -256,7 +271,10 @@ export default function FormEditRoles({ roles }) {
                   Role that gets assigned to the user in the first place of this
                   leaderboard.
                 </p>
-                <div className="row d-flex justify-content-center">
+                <div
+                  className="row d-flex justify-content-center"
+                  data-cy="first-place-role"
+                >
                   <div className="col-12 col-md-6">
                     {values.firstPlaceRole ? (
                       <RoleForm
@@ -277,6 +295,7 @@ export default function FormEditRoles({ roles }) {
                         onClick={() =>
                           setFieldValue("firstPlaceRole", { ...emptyRole })
                         }
+                        data-cy="btn-add-first-place-role"
                       >
                         <i className="bi bi-plus-lg" />
                       </button>
@@ -290,7 +309,7 @@ export default function FormEditRoles({ roles }) {
                   threshold for this specific leaderboard.
                 </p>
                 <AddableField name="roles" defaultValue={{ ...emptyRole }}>
-                  <div className="row gy-5 mb-5">
+                  <div className="row gy-5 mb-5" data-cy="threshold-roles">
                     {values.roles.length === 0 ? (
                       <p className="muted text-center lead mb-0">
                         No roles for this leaderboard format/type yet!

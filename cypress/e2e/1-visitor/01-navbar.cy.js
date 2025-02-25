@@ -16,7 +16,7 @@ describe("Navbar for visitors", () => {
         .click();
       cy.location("pathname").should("equal", "/leaderboard");
 
-      cy.get("@nav").contains("Maps").click();
+      cy.get("@nav").contains("Maps").realHover();
       cy.get("[data-cy=nav-dropdown]").as("dropdown").should("be.visible");
 
       cy.get("@dropdown").contains("Expert").click();

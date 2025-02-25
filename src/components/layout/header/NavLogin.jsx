@@ -42,25 +42,31 @@ export default function NavLogin({ onNavigate }) {
   const cmpLoggedIn = (
     <>
       <li className="d-none d-md-inline-block">
-        <a href="#" className={styles.profileContainer} data-cy="user-tab">
+        <span
+          tabIndex={0}
+          className={styles.profileContainer}
+          data-cy="user-tab"
+        >
           <img className={`${styles.pfp}`} src={btd6Profile.avatarURL} />
           <span>{maplistProfile ? maplistProfile.name : "..."}</span>
-        </a>
+        </span>
 
         {maplistProfile && (
-          <ul className={`${stylesNav.submenu} shadow`} data-cy="nav-dropdown">
-            <li>
-              <Link
-                href={`/user/${maplistProfile.id}`}
-                onClick={(_e) => onNavigate && onNavigate(_e)}
-              >
-                Profile
-              </Link>
-            </li>
-            <li>
-              <a href="/api/auth/revoke">Logout</a>
-            </li>
-          </ul>
+          <div className={stylesNav.submenu}>
+            <ul className="shadow" data-cy="nav-dropdown">
+              <li>
+                <Link
+                  href={`/user/${maplistProfile.id}`}
+                  onClick={(_e) => onNavigate && onNavigate(_e)}
+                >
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <a href="/api/auth/revoke">Logout</a>
+              </li>
+            </ul>
+          </div>
         )}
       </li>
 
