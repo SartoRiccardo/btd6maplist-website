@@ -61,7 +61,7 @@ export function NavbarMobile() {
             />
 
             <li>
-              <a href="#" onClick={toggleSubmenu(0, openSubmenus.includes(0))}>
+              <span onClick={toggleSubmenu(0, openSubmenus.includes(0))}>
                 <i
                   className={`bi ${
                     openSubmenus.includes(0)
@@ -70,7 +70,7 @@ export function NavbarMobile() {
                   }`}
                 />{" "}
                 Maps
-              </a>
+              </span>
 
               <LazyCollapse in={openSubmenus.includes(0)}>
                 <div>

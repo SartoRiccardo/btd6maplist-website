@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "dev:test": "NODE_ENV=test next dev",
     "build:test": "NODE_ENV=test next build",
     "start:test": "NODE_ENV=test next start",
     "cypress:start": "npx cypress run"
@@ -17,6 +18,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "copy-to-clipboard": "^3.3.3",
+    "cypress-real-events": "^1.14.0",
     "formik": "^2.4.6",
     "js-sha256": "^0.11.0",
     "next": "^14.2.13",

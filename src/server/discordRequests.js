@@ -19,20 +19,8 @@ export async function revokeAccessToken(accessToken) {
     : discord.revokeAccessToken(accessToken);
 }
 
-export async function isInMaplist(accessToken) {
+export async function getDiscordUserGuilds(accessToken) {
   return process.env.MOCK_DISCORD
-    ? discordMock.isInMaplist(accessToken)
-    : discord.isInMaplist(accessToken);
-}
-
-export async function getDiscordUser(accessToken) {
-  return process.env.MOCK_DISCORD
-    ? discordMock.getDiscordUser(accessToken)
-    : discord.getDiscordUser(accessToken);
-}
-
-export async function getMaplistRoles(accessToken) {
-  return process.env.MOCK_DISCORD
-    ? discordMock.getMaplistRoles(accessToken)
-    : discord.getMaplistRoles(accessToken);
+    ? discordMock.getDiscordUserGuilds(accessToken)
+    : discord.getDiscordUserGuilds(accessToken);
 }

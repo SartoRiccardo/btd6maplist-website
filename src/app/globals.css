@@ -8,7 +8,7 @@
   --color-text-muted: #b0bec5;
 
   --color-maplist: #00897b;
-  --color-experts: #5e35b1;
+  --color-experts: #7d1d1a;
 
   --bs-btn-success: #198754;
 }
@@ -135,6 +135,10 @@ a > .panel:hover {
   column-gap: 0.5rem;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 .mono {
   font-family: Courier;
 }
@@ -231,6 +235,14 @@ img.zoomable:hover {
 
 .c-pointer:hover {
   cursor: pointer;
+}
+
+.invalid-feedback {
+  --shadow-clr: #000;
+  text-shadow: 2px 0 var(--shadow-clr), -2px 0 var(--shadow-clr),
+    0 2px var(--shadow-clr), 0 -2px var(--shadow-clr), 1px 1px var(--shadow-clr),
+    -1px -1px var(--shadow-clr), 1px -1px var(--shadow-clr),
+    -1px 1px var(--shadow-clr);
 }
 
 /* xs */

@@ -77,3 +77,28 @@ export const groupCompsByMap = (completions) => {
   }
   return { keyOrder, runsOnSameMap };
 };
+
+export const deepChange = (obj, path, value) => {
+  const lastPathMatch = /(?:\.?([^\.\[\s]+)|\[(\d+)\])$/g.exec(path);
+  const lastPath = lastPathMatch[1] || lastPathMatch[2];
+  const paths = path
+    .substring(0, path.length - lastPathMatch[0].length)
+    .split(".")
+    .filter((p) => p.length);
+  let cur = obj;
+  for (let i = 0; i < paths.length; i++) {
+    const objPath = paths[i].split("[")[0];
+    cur = cur[objPath];
+    const arrayIdxs = (paths[i].match(/\[(\d+)\]/g) || []).map((match) =>
+      parseInt(match.slice(1, -1))
+    );
+    for (const idx of arrayIdxs) {
+      cur = cur[idx];
+    }
+  }
+  cur[lastPath] = value;
+  return obj;
+};
+
+export const intToHex = (color) => `#${color.toString(16).padStart(6, "0")}`;
+export const hexToInt = (hex) => parseInt(hex.slice(1), 16);

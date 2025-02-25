@@ -72,7 +72,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         (!(50 <= format && format < 100) ||
           (50 <= format &&
             format < 100 &&
-            !(0 <= mapData.difficulty && mapData.difficulty <= 1))))
+            !(0 <= mapData.difficulty && mapData.difficulty <= 2))))
     );
   };
 

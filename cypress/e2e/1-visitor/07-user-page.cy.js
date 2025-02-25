@@ -12,23 +12,27 @@ describe("User page", () => {
 
   it("should display the correct roles", () => {
     cy.visit(`/user/42`);
-    cy.get("[data-cy=user-roles]").as("u42-roles").contains("List Map Creator");
-    cy.get("@u42-roles").contains("Expert Map Creator");
-    cy.get("@u42-roles").contains("The GOAT");
+    cy.get("[data-cy=user-roles]").as("u42-roles").contains("List Champ");
+    cy.get("@u42-roles").contains("Experts Champ");
+    cy.get("@u42-roles").contains("List BBChamp");
+    // cy.get("@u42-roles").contains("List Map Creator");
+    // cy.get("@u42-roles").contains("Expert Map Creator");
 
     cy.visit("/list/leaderboard");
     cy.get("[data-cy=leaderboard-entry]")
       .eq(2)
       .find("[data-cy=user-entry]")
       .click();
-    cy.get("[data-cy=user-roles]").contains("Expert");
+    cy.get("[data-cy=user-roles]").contains("List BBlv1");
+    cy.get("[data-cy=user-roles]").contains("List lv3");
 
     cy.visit("/list/leaderboard");
     cy.get("[data-cy=leaderboard-entry]")
       .last()
       .find("[data-cy=user-entry]")
       .click();
-    cy.get("[data-cy=user-roles]").contains("Beginner");
+    cy.get("[data-cy=user-roles]").contains("List lv1");
+    cy.get("[data-cy=user-roles]").contains("Experts lv1");
   });
 
   it("should display the user's completions", () => {

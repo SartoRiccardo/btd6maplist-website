@@ -3,7 +3,7 @@ import UserEntry from "@/components/users/UserEntry";
 import { getListLeaderboard } from "@/server/maplistRequests";
 import Link from "next/link";
 import { getPositionColor } from "@/utils/functions";
-import { allFormats } from "@/utils/maplistUtils";
+import { allFormats, leaderboards } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import PaginateElement from "@/components/buttons/PaginateElement";
 import Image from "next/image";
@@ -21,49 +21,6 @@ export async function generateMetadata({ searchParams }) {
     } | BTD6 Maplist`,
   };
 }
-
-export const leaderboards = [
-  { key: "points", title: "Points", suffix: "pt" },
-  {
-    key: "lccs",
-    title: "LCCs",
-    suffix: (
-      <Image
-        src="/medals/medal_lcc.webp"
-        alt=""
-        className="ms-2"
-        width={30}
-        height={30}
-      />
-    ),
-  },
-  {
-    key: "no_optimal_hero",
-    title: "No Optimal Hero",
-    suffix: (
-      <Image
-        src="/medals/medal_nogerry.webp"
-        alt=""
-        className="ms-2"
-        width={30}
-        height={30}
-      />
-    ),
-  },
-  {
-    key: "black_border",
-    title: "Black Border",
-    suffix: (
-      <Image
-        src="/medals/medal_bb.webp"
-        alt=""
-        className="ms-2"
-        width={30}
-        height={30}
-      />
-    ),
-  },
-];
 
 export default async function ListLeaderboard({ searchParams }) {
   let version = searchParams?.format || "current";

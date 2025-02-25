@@ -4,7 +4,7 @@ import stylesFrmMap from "./MapForm.module.css";
 import { Formik } from "formik";
 import { useState } from "react";
 import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
-import { isFloat, removeFieldCode } from "@/utils/functions";
+import { isFloat } from "@/utils/functions";
 import {
   revalidateMap,
   revalidateMapSubmissions,
@@ -26,6 +26,7 @@ import ErrorToast from "./ErrorToast";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import Input from "./bootstrap/Input";
 import { imageFormats } from "@/utils/file-formats";
+import { getRepeatedIndexes } from "@/utils/validators";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -50,17 +51,6 @@ const textFields = [
   { field: "creators", inner: "role" },
   { field: "additional_codes", inner: "description" },
 ];
-
-const getRepeatedIndexes = (list) => {
-  const sortedList = list
-    .map((val, i) => ({ val, i }))
-    .toSorted((a, b) => (a.val === b.val ? a.i - b.i : a.val > b.val ? 1 : -1));
-  const repeated = [];
-  for (let i = 1; i < sortedList.length; i++)
-    if (sortedList[i].val === sortedList[i - 1].val)
-      repeated.push(sortedList[i].i);
-  return repeated;
-};
 
 const heros = [
   "quincy",
@@ -538,6 +528,11 @@ export default function MapForm({
                                 )}
                               </div>
                             </DragFiles>
+                            {errors?.r6_start_file && (
+                              <div className="invalid-feedback d-block text-center light">
+                                {errors?.r6_start_file}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>

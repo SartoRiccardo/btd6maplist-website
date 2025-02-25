@@ -13,11 +13,8 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
 import "./commands";
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+import "cypress-real-events";
 
 // https://github.com/cypress-io/cypress/issues/702#issuecomment-587127275
 Cypress.on("window:before:load", (win) => {

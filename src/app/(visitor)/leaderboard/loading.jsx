@@ -1,9 +1,8 @@
 import styles from "./leaderboard.module.css";
 import { getPositionColor } from "@/utils/functions";
-import { allFormats } from "@/utils/maplistUtils";
+import { allFormats, leaderboards } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { UserEntry_Plc } from "@/components/users/UserEntry.client";
-import { leaderboards } from "./page";
 
 export default function ListLeaderboardLoader() {
   const entries = [];

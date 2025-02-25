@@ -7,6 +7,7 @@ it("can't see admin-only pages", () => {
     "/map/MLXXXAA/edit",
     "/map/add",
     "/map/MLXXXAA/completios/new",
+    "/roles",
   ];
 
   for (const url of adminOnly) {

@@ -46,32 +46,6 @@ export async function revokeAccessToken(accessToken) {
   return {};
 }
 
-export async function isInMaplist(accessToken) {
-  const mockData = getMockData(accessToken);
-  return !(parseInt(mockData[2]) & 3);
-}
-
-export async function getDiscordUser(accessToken) {
-  const mockData = getMockData(accessToken);
-  if (parseInt(mockData[2]) & 1) return null;
-  return {
-    id: mockData[1],
-    username: `usr${mockData[1]}`,
-    avatar: "31eb929ef84cce316fa9be34fc9b1c5b",
-    global_name: `Test User ${mockData[1]}`,
-    // And other fields...
-  };
-}
-
-export async function getMaplistRoles(accessToken) {
-  const mockData = getMockData(accessToken);
-  if (parseInt(mockData[2]) & 3) return null;
-
-  const roles = [];
-  if (mockData[2] & 4) roles.push(process.env.NEXT_PUBLIC_NEEDSREC_ROLES);
-  if (mockData[2] & 16) roles.push(process.env.NEXT_PUBLIC_LISTMOD_ROLE);
-  if (mockData[2] & 32) roles.push(process.env.NEXT_PUBLIC_EXPMOD_ROLE);
-  if (mockData[2] & 64)
-    roles.push(process.env.NEXT_PUBLIC_ADMIN_ROLES.split(",")[0]);
-  return roles;
+export async function getDiscordUserGuilds(accessToken) {
+  return [];
 }

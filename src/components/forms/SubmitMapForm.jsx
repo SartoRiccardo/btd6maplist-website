@@ -155,7 +155,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
                   <div className="row flex-row-space mt-5">
                     <div className="col-12 col-lg-6">
                       <Btd6Map
-                        code={values.code.match(codeRegex)[1]}
+                        code={currentMap.code}
                         name={currentMap.name}
                         className="my-0"
                       />

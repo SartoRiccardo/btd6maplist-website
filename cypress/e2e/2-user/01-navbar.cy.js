@@ -14,14 +14,14 @@ describe("Logged in user navbar", () => {
       .as("nav")
       .find("[data-cy=user-tab]:visible")
       .as("user-tab")
-      .click();
+      .realHover();
 
     cy.get("[data-cy=nav-dropdown]").as("dropdown").should("be.visible");
 
     cy.get("@dropdown").contains("Profile").click();
     cy.url().should("include", `/user/${uid}`);
 
-    cy.get("@user-tab").click();
+    cy.get("@user-tab").realHover();
     cy.get("@dropdown").contains("Logout").click();
     cy.location("pathname").should("equal", "/");
     cy.get("@nav").contains("Login").should("be.visible");

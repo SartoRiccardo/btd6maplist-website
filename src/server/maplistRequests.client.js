@@ -316,3 +316,36 @@ async function editUserRole(token, userId, roleId, action) {
     return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
   }
 }
+
+export async function updateAchievementRoles(token, lb_format, lb_type, roles) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/roles/achievement`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ lb_format, lb_type, roles }),
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (response.headers.get("Content-Type")?.includes("application/json"))
+      return await response.json();
+  } catch (exc) {
+    return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
+  }
+}
+
+export async function getValidServerDropdownRoles(token) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/server-roles`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        next: { tags: ["discord"], revalidate },
+        cache,
+      }
+    );
+    return await response.json();
+  } catch (exc) {
+    return [];
+  }
+}

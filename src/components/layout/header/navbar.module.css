@@ -20,22 +20,28 @@
 .submenu:not(.mobile) {
   position: absolute;
   right: 0;
+  top: 100%;
+  padding-top: 1rem;
+  transition: all 0.2s ease;
+  transform: translateY(-1rem);
   opacity: 0;
-  top: -100rem;
-  transition: opacity 0.1s linear;
-
+  pointer-events: none;
   z-index: 999;
   width: max-content;
+}
+
+.navbar li:hover .submenu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.submenu:not(.mobile) ul {
   padding: 0.5rem 2rem;
   background-color: var(--color-secondary);
   border-top: 5px solid var(--color-highlight);
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-}
-
-.navbar li:focus-within .submenu {
-  top: 140%;
-  opacity: 1;
 }
 
 .submenu li {
@@ -52,6 +58,10 @@
   color: var(--color-text);
   text-decoration: none;
   transition: color 0.1s linear;
+}
+
+.navbar > li > span:hover {
+  cursor: pointer;
 }
 
 .navbar a:hover {
@@ -77,6 +87,14 @@
   border-bottom: 1px solid var(--color-primary);
   padding: 0.3rem 0;
   margin-top: 0.3rem;
+}
+
+.navbar.mobile li span {
+  transition: color 0.1s ease;
+}
+
+.navbar.mobile li span:hover {
+  color: var(--color-less-highlight);
 }
 
 .navbar.mobile li:last-child {
