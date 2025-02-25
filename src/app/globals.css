@@ -237,8 +237,12 @@ img.zoomable:hover {
   cursor: pointer;
 }
 
-.invalid-feedback.light {
-  color: #ef5350;
+.invalid-feedback {
+  --shadow-clr: #000;
+  text-shadow: 2px 0 var(--shadow-clr), -2px 0 var(--shadow-clr),
+    0 2px var(--shadow-clr), 0 -2px var(--shadow-clr), 1px 1px var(--shadow-clr),
+    -1px -1px var(--shadow-clr), 1px -1px var(--shadow-clr),
+    -1px 1px var(--shadow-clr);
 }
 
 /* xs */

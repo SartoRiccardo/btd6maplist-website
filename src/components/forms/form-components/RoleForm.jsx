@@ -4,10 +4,18 @@ import Select from "../bootstrap/Select";
 import { deepChange } from "@/utils/functions";
 import { useState } from "react";
 
-const AddRoleButton = ({ onChange, value, guilds, count, setCount }) => {
+const AddRoleButton = ({
+  disabled,
+  onChange,
+  value,
+  guilds,
+  count,
+  setCount,
+}) => {
   return (
     <div>
       <button
+        disabled={disabled}
         type="button"
         className="btn btn-success float-end"
         onClick={() => {
@@ -30,6 +38,7 @@ const AddRoleButton = ({ onChange, value, guilds, count, setCount }) => {
 };
 
 export default function RoleForm({
+  disabled,
   name,
   value,
   onChange,
@@ -63,6 +72,7 @@ export default function RoleForm({
       <div className="col-12 d-flex align-items-top flex-col-space">
         <div className="w-100" data-cy="fgroup">
           <Input
+            disabled={disabled}
             name={`${name}.name`}
             className={`font-border ${cssRoleForm.name}`}
             value={value.name}
@@ -77,12 +87,14 @@ export default function RoleForm({
           <div className="invalid-feedback">{errors?.[`${name}.name`]}</div>
         </div>
         <Input
+          disabled={disabled}
           name={`${name}.clr_inner`}
           type="color"
           value={value.clr_inner}
           onChange={handleChange}
         />
         <Input
+          disabled={disabled}
           name={`${name}.clr_border`}
           type="color"
           value={value.clr_border}
@@ -90,6 +102,7 @@ export default function RoleForm({
         />
         <div>
           <button
+            disabled={disabled}
             type="button"
             className="btn btn-danger"
             onClick={() => onDelete()}
@@ -104,6 +117,7 @@ export default function RoleForm({
         <div className="col-12 col-lg-4" data-cy="fgroup">
           <label className="form-label">Point Threshold</label>
           <Input
+            disabled={disabled}
             name={`${name}.threshold`}
             type="number"
             value={value.threshold}
@@ -120,6 +134,7 @@ export default function RoleForm({
       <div className={`col-12 ${threshold ? "col-lg-8" : ""}`} data-cy="fgroup">
         <label className="form-label">Tooltip description (optional)</label>
         <Input
+          disabled={disabled}
           name={`${name}.tooltip_description`}
           type="text"
           value={value.tooltip_description}
@@ -145,6 +160,7 @@ export default function RoleForm({
           <div className="d-flex w-100 align-items-center">
             <p className="flex-1 muted mb-0">No linked roles yet!</p>
             <AddRoleButton
+              disabled={disabled}
               onChange={onChange}
               value={value}
               guilds={guilds}
@@ -158,12 +174,16 @@ export default function RoleForm({
               const selectedGuild = guilds.find(({ id }) => id === guild_id);
 
               if (!selectedGuild) return null;
+              const isRoleValid = selectedGuild.roles.find(
+                ({ id }) => id === role_id
+              );
 
               return (
                 <div className="mb-2" key={count} data-cy="fgroup">
                   <div className="d-flex w-100 flex-col-space">
                     <div className="d-flex flex-1 flex-col-space">
                       <Select
+                        disabled={disabled}
                         name={`${name}.linked_roles[${i}].guild_id`}
                         value={guild_id}
                         onChange={(evt) => {
@@ -185,13 +205,21 @@ export default function RoleForm({
                       </Select>
 
                       <Select
+                        disabled={disabled}
                         name={`${name}.linked_roles[${i}].role_id`}
-                        value={role_id}
+                        value={isRoleValid ? role_id : ""}
                         onChange={handleChange}
                         isInvalid={
-                          errors?.[`${name}.linked_roles[${i}].role_id`]
+                          errors?.[`${name}.linked_roles[${i}].role_id`] ||
+                          !isRoleValid
                         }
+                        required
                       >
+                        {!isRoleValid && (
+                          <option disabled value={""}>
+                            &#9888; Unassignable Role
+                          </option>
+                        )}
                         {selectedGuild.roles.map(({ id, name }) => (
                           <option key={id} value={id}>
                             {name}
@@ -201,6 +229,7 @@ export default function RoleForm({
                     </div>
                     <div>
                       <button
+                        disabled={disabled}
                         type="button"
                         className="btn btn-danger"
                         onClick={() => {
@@ -219,9 +248,12 @@ export default function RoleForm({
                     </div>
                   </div>
 
-                  {errors?.[`${name}.linked_roles[${i}].role_id`] && (
+                  {(errors?.[`${name}.linked_roles[${i}].role_id`] ||
+                    !isRoleValid) && (
                     <div className="invalid-feedback d-block w-100 mb-2 pb-1">
-                      {errors?.[`${name}.linked_roles[${i}].role_id`]}
+                      {!isRoleValid
+                        ? "This role can't be assigned. Was it deleted? Is it lower than the bot's highest role?"
+                        : errors?.[`${name}.linked_roles[${i}].role_id`]}
                     </div>
                   )}
                 </div>
@@ -229,6 +261,7 @@ export default function RoleForm({
             })}
             <div className="float-right">
               <AddRoleButton
+                disabled={disabled}
                 onChange={onChange}
                 value={value}
                 guilds={guilds}

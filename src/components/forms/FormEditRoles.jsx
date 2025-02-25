@@ -188,7 +188,6 @@ export default function FormEditRoles({ roles }) {
           resetForm,
         } = formikProps;
         const disableInputs = isSubmitting;
-        // TODO disableinputs
 
         return (
           <FormikContext.Provider
@@ -203,6 +202,7 @@ export default function FormEditRoles({ roles }) {
                   </div>
                   <div className="col-6">
                     <Select
+                      disabled={disableInputs}
                       name="lb_format"
                       value={values.lb_format}
                       onBlur={handleBlur}
@@ -236,6 +236,7 @@ export default function FormEditRoles({ roles }) {
                   </div>
                   <div className="col-6">
                     <Select
+                      disabled={disableInputs}
                       name="lb_type"
                       value={values.lb_type}
                       onChange={(evt) => {
@@ -278,6 +279,7 @@ export default function FormEditRoles({ roles }) {
                   <div className="col-12 col-md-6">
                     {values.firstPlaceRole ? (
                       <RoleForm
+                        disabled={disableInputs}
                         name="firstPlaceRole"
                         value={values.firstPlaceRole}
                         onChange={(newVal) =>
@@ -308,7 +310,11 @@ export default function FormEditRoles({ roles }) {
                   Roles that get assigned when a user goes past a certain point
                   threshold for this specific leaderboard.
                 </p>
-                <AddableField name="roles" defaultValue={{ ...emptyRole }}>
+                <AddableField
+                  name="roles"
+                  defaultValue={{ ...emptyRole }}
+                  disabled={disableInputs}
+                >
                   <div className="row gy-5 mb-5" data-cy="threshold-roles">
                     {values.roles.length === 0 ? (
                       <p className="muted text-center lead mb-0">
@@ -318,6 +324,7 @@ export default function FormEditRoles({ roles }) {
                       values.roles.map((role, i) => (
                         <div key={role.count} className="col-12 col-md-6">
                           <RoleForm
+                            disabled={disableInputs}
                             name={`roles[${i}]`}
                             value={role}
                             threshold
@@ -347,7 +354,11 @@ export default function FormEditRoles({ roles }) {
               </div>
 
               <div className="d-flex justify-content-center">
-                <button type="submit" className="btn btn-primary">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={disableInputs}
+                >
                   Save
                 </button>
               </div>

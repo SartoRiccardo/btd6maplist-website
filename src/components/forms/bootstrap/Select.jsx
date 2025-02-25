@@ -9,6 +9,7 @@ export default function Select({
   className,
   rows,
   children,
+  required,
 }) {
   const props = {
     name,
@@ -17,6 +18,7 @@ export default function Select({
     onChange,
     onBlur,
     disabled,
+    required,
     className: `form-select ${isInvalid ? "is-invalid" : ""} ${
       isValid ? "is-valid" : ""
     } ${className || ""}`,
