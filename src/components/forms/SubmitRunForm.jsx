@@ -16,7 +16,7 @@ import Link from "next/link";
 import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
-import { imageFormats } from "@/utils/file-formats";
+import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import LazyFade from "../transitions/LazyFade";
 import AddableField from "./AddableField";
 import { removeFieldCode } from "@/utils/functions";
@@ -87,8 +87,10 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         errors[`proof_completion[${i}]`] = "Upload proof of completion";
 
       const fsize = file?.[0]?.file?.size || 0;
-      if (fsize > 1024 ** 2 * 3)
-        errors[`proof_completion[${i}]`] = `Can upload maximum 3MB (yours is ${(
+      if (fsize > 1024 ** 2 * maxImgSizeMb)
+        errors[
+          `proof_completion[${i}]`
+        ] = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
           fsize /
           1024 ** 2
         ).toFixed(2)}MB)`;

@@ -11,7 +11,7 @@ import { submitMap } from "@/server/maplistRequests.client";
 import { MapSubmissionRules } from "../layout/maplists/MaplistRules";
 import ErrorToast from "./ErrorToast";
 import Input from "./bootstrap/Input";
-import { imageFormats } from "@/utils/file-formats";
+import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import { revalidateMapSubmissions } from "@/server/revalidations";
 import Select from "./bootstrap/Select";
 import LazyFade from "../transitions/LazyFade";
@@ -43,8 +43,8 @@ export default function SubmitMapForm({ onSubmit, type }) {
       errors.proof_completion = "Upload proof of completion";
 
     const fsize = values.proof_completion?.[0]?.file?.size || 0;
-    if (fsize > 1024 ** 2 * 3)
-      errors.proof_completion = `Can upload maximum 3MB (yours is ${(
+    if (fsize > 1024 ** 2 * maxImgSizeMb)
+      errors.proof_completion = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
         fsize /
         1024 ** 2
       ).toFixed(2)}MB)`;

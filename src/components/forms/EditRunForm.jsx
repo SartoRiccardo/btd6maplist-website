@@ -14,7 +14,7 @@ import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import Input from "./bootstrap/Input";
 import CheckBox from "./bootstrap/CheckBox";
 import Select from "./bootstrap/Select";
-import { imageFormats } from "@/utils/file-formats";
+import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import LazyToast from "../transitions/LazyToast";
 import { AutoComplete } from "./form-components/AutoComplete";
 
@@ -79,8 +79,8 @@ export default function EditRunForm({ completion, onSubmit, onDelete }) {
     };
     for (const field of Object.keys(fileFields)) {
       const fsize = values[field]?.[0]?.file?.size || 0;
-      if (fsize > 1024 ** 2 * 3)
-        errors[field] = `Can upload maximum 3MB (yours is ${(
+      if (fsize > 1024 ** 2 * maxImgSizeMb)
+        errors[field] = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
           fsize /
           1024 ** 2
         ).toFixed(2)}MB)`;

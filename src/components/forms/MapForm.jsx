@@ -25,7 +25,7 @@ import DragFiles from "./DragFiles";
 import ErrorToast from "./ErrorToast";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import Input from "./bootstrap/Input";
-import { imageFormats } from "@/utils/file-formats";
+import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import { getRepeatedIndexes } from "@/utils/validators";
 
 const MAX_NAME_LEN = 100;
@@ -207,8 +207,8 @@ export default function MapForm({
     const fileFields = ["r6_start_file", "map_preview_file"];
     for (const ff of fileFields) {
       const fsize = values[ff]?.[0]?.file?.size || 0;
-      if (fsize > 1024 ** 2 * 3)
-        errors[ff] = `Can upload maximum 3MB (yours is ${(
+      if (fsize > 1024 ** 2 * maxImgSizeMb)
+        errors[ff] = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
           fsize /
           1024 ** 2
         ).toFixed(2)}MB)`;
