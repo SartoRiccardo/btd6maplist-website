@@ -16,7 +16,7 @@ export default function MapPlacements({ mapData, placeholder }) {
   const maplistCfg = useMaplistConfig();
 
   const expertDiff =
-    mapData.difficulty > -1
+    mapData.difficulty !== null
       ? difficulties.filter((diff) => diff.value === mapData.difficulty)[0]
       : null;
 
@@ -24,7 +24,7 @@ export default function MapPlacements({ mapData, placeholder }) {
     <>
       {listVersions.map(
         ({ plcKey, image, diffPanelName }) =>
-          mapData[plcKey] > -1 &&
+          mapData[plcKey] !== null &&
           mapData[plcKey] <= maplistCfg.map_count && (
             <DifficultyPanel
               key={plcKey}

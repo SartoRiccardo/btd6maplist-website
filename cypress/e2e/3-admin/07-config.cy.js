@@ -92,6 +92,8 @@ describe("Edit Config Variables", () => {
         exp_nogerry_points_high: "7",
         exp_nogerry_points_true: "7",
         exp_nogerry_points_extreme: "7",
+        exp_bb_multi: "7",
+        exp_lcc_extra: "7",
       };
 
       insertTestValues(testValues);
@@ -115,6 +117,8 @@ describe("Edit Config Variables", () => {
         exp_nogerry_points_high: "7.1",
         exp_nogerry_points_true: "7.1",
         exp_nogerry_points_extreme: "7.1",
+        exp_bb_multi: "7.1",
+        exp_lcc_extra: "7.1",
       };
 
       insertTestValues(testValues);

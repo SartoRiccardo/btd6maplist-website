@@ -1,5 +1,4 @@
 import styles from "./userpage.module.css";
-import cssMedals from "@/components/maps/Medals.module.css";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import { getUser } from "@/server/maplistRequests";
 import { getPositionColor, intToHex } from "@/utils/functions";
@@ -12,6 +11,7 @@ import { ServerRoles, UserRole, WebsiteCreatorRole } from "./page.client";
 import ProfileMedal from "@/components/users/ProfileMedal";
 import { notFound } from "next/navigation";
 import MapList from "@/components/layout/maplists/MapList";
+import Medal from "@/components/decoration/Medal";
 
 export async function generateMetadata({ params }) {
   const userData = await getUser(params.uid);
@@ -112,32 +112,17 @@ function MaplistOverview({ stats, format }) {
     {
       plc: stats.lccs_placement,
       score: stats.lccs,
-      prefix: (
-        <img
-          src="/medals/medal_lcc.webp"
-          className={`${cssMedals.inline_medal} me-1`}
-        />
-      ),
+      prefix: <Medal src="/medals/medal_lcc.webp" />,
     },
     {
       plc: stats.no_geraldo_placement,
       score: stats.no_geraldo,
-      prefix: (
-        <img
-          src="/medals/medal_nogerry.webp"
-          className={`${cssMedals.inline_medal} me-1`}
-        />
-      ),
+      prefix: <Medal src="/medals/medal_nogerry.webp" />,
     },
     {
       plc: stats.black_border_placement,
       score: stats.black_border,
-      prefix: (
-        <img
-          src="/medals/medal_bb.webp"
-          className={`${cssMedals.inline_medal} me-1`}
-        />
-      ),
+      prefix: <Medal src="/medals/medal_bb.webp" />,
     },
   ].sort((a, b) => b.plc - a.plc);
 

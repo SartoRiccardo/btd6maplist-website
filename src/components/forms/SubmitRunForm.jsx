@@ -44,7 +44,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     mapData.placement_all <= maplistCfg.map_count
   )
     formats.push(2);
-  if (mapData.difficulty > -1) formats.push(51);
+  if (mapData.difficulty !== null) formats.push(51);
 
   if (!formats.length || mapData.deleted_on) {
     return (

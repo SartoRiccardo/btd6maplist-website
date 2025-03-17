@@ -53,7 +53,7 @@ export default function MapList({
               name={name}
               hrefBase="/map"
               verified={verified}
-              placement={placement > -1 ? placement : undefined}
+              placement={placement !== null ? placement : undefined}
               completion={completion}
               showMedals={maplistProfile !== null && !legacy && !noMedals}
               hidePoints={legacy}
@@ -63,7 +63,7 @@ export default function MapList({
               <div
                 className={`${cssList.difficulties} d-flex justify-content-center`}
               >
-                {mapData.placement_cur > -1 && (
+                {mapData.placement_cur !== null && (
                   <SelectorButton
                     text={`#${mapData.placement_cur}`}
                     active
@@ -79,7 +79,7 @@ export default function MapList({
                 )}
 
                 {/* ALLVER UCOMMENT */}
-                {/* {mapData.placement_all > -1 && (
+                {/* {mapData.placement_all !== null && (
                   <SelectorButton text={`#${mapData.placement_all}`} active textSize="lg">
                     <img
                       src="/format_icons/icon_allver.webp"
@@ -90,7 +90,7 @@ export default function MapList({
                   </SelectorButton>
                 )} */}
 
-                {mapData.difficulty > -1 && (
+                {mapData.difficulty !== null && (
                   <SelectorButton active>
                     <img
                       src={difficulties[mapData.difficulty].image}

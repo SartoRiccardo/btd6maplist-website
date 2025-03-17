@@ -67,7 +67,7 @@ export default function CompletionColumn({
                 {onlyIcon ? (
                   fmtIcon
                 ) : format <= 50 &&
-                  (mapIdxCurver !== -1 || mapIdxAllver !== -1) ? (
+                  (mapIdxCurver !== null || mapIdxAllver !== null) ? (
                   <MaplistPoints
                     completion={compl}
                     prevCompletions={completion.slice(0, i)}

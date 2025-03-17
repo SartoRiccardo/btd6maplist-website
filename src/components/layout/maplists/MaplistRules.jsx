@@ -1,4 +1,5 @@
 "use client";
+import Medal from "@/components/decoration/Medal";
 import cssMedals from "@/components/maps/Medals.module.css";
 import { useMaplistConfig } from "@/utils/hooks";
 import { difficulties } from "@/utils/maplistUtils";
@@ -55,7 +56,8 @@ export function RunSubmissionRules({ on }) {
         ) : (
           <>
             <li>
-              Alt Hero runs (heroes other than the best hero(s) on the map) are
+              <Medal src="/medals/medal_nogerry.webp" padHeight /> No Optimal
+              Hero runs (heroes other than the best hero(s) on the map) are
               worth:
               <ul>
                 {difficulties.map(({ query, value, points_cfg, name }) => {
@@ -66,10 +68,11 @@ export function RunSubmissionRules({ on }) {
                   return (
                     maplistCfg[pointsNoGerryCfg] > 0 && (
                       <li key={value}>
-                        <img
+                        <Medal
                           src={`/format_icons/icon_${query}.webp`}
-                          className={`${cssMedals.inline_medal} ${cssMedals.format_border} me-1`}
-                        />
+                          border
+                          padHeight
+                        />{" "}
                         On {name} Expert maps:&nbsp;
                         <b>
                           <u>
@@ -83,34 +86,57 @@ export function RunSubmissionRules({ on }) {
                 })}
               </ul>
             </li>
+            {maplistCfg.exp_bb_multi !== 1 && (
+              <li>
+                <Medal src="/medals/medal_bb.webp" padHeight /> Black Border
+                runs multiply the map's <b>base</b> points by{" "}
+                <b>x{maplistCfg.exp_bb_multi}</b>
+              </li>
+            )}
+            {maplistCfg.exp_lcc_extra !== 0 && (
+              <li>
+                <Medal src="/medals/medal_lcc.webp" padHeight /> Holding the
+                Least Cost CHIMPS on a map awards you{" "}
+                <b>+{maplistCfg.exp_lcc_extra}</b> points on it
+              </li>
+            )}
           </>
         )}
       </ul>
       <h3>Proof Requirements</h3>
       <ul>
-        <li>Black Border runs must have completely unedited video proof</li>
         <li>
-          LCC runs must be streamed with 2 moderators as witnesses, or have
-          video proof following the requirements below.
+          <Medal src="/medals/medal_bb.webp" padHeight /> Black Border runs must
+          have completely unedited video proof
         </li>
         <li>
-          <img
-            src="/medals/medal_nogerry.webp"
-            className={`${cssMedals.inline_medal} me-1`}
-          />
-          For No Optimal Hero runs:
-          <ul>
-            <li>
-              No Optimal Hero runs <u>on High, True and Extreme experts</u> must
-              be streamed with 2 moderators as witnesses, or have video proof
-              following the requirements below.
-            </li>
-            <li>
-              Adora runs on Casual and Medium Experts require an additional
-              screenshot at the start of Round 98.
-            </li>
-          </ul>
+          <Medal src="/medals/medal_lcc.webp" padHeight /> LCC runs must be
+          streamed with 2 moderators as witnesses, or have video proof following
+          the requirements below.
         </li>
+        {on === "list" ? (
+          <li>
+            <Medal src="/medals/medal_nogerry.webp" padHeight /> No Optimal Hero
+            runs must be streamed with 2 moderators as witnesses, or have video
+            proof following the requirements below.
+          </li>
+        ) : (
+          <li>
+            <Medal src="/medals/medal_nogerry.webp" padHeight /> For No Optimal
+            Hero runs:
+            <ul>
+              <li>
+                No Optimal Hero runs <u>on High, True and Extreme experts</u>{" "}
+                must be streamed with 2 moderators as witnesses, or have video
+                proof following the requirements below.
+              </li>
+              <li>
+                Adora runs on Casual and Medium Experts require an additional
+                screenshot at the start of Round 98.
+              </li>
+            </ul>
+          </li>
+        )}
       </ul>
 
       <h2 className="text-center mb-2">Recording Requirements</h2>

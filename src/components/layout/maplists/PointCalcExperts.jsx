@@ -1,4 +1,5 @@
 "use client";
+import Medal from "@/components/decoration/Medal";
 import cssMedals from "@/components/maps/Medals.module.css";
 import { useMaplistConfig } from "@/utils/hooks";
 import { difficulties } from "@/utils/maplistUtils";
@@ -17,10 +18,12 @@ export default function PointCalcExperts() {
           );
           return (
             <li key={value} className="mb-1">
-              <img
+              <Medal
                 src={`/format_icons/icon_${query}.webp`}
-                className={`${cssMedals.inline_medal} ${cssMedals.format_border} me-1`}
-              />
+                padEnd
+                padHeight
+                border
+              />{" "}
               {name} Expert completions award{" "}
               <b>
                 {maplistCfg[points_cfg]} point
@@ -29,10 +32,7 @@ export default function PointCalcExperts() {
               {maplistCfg[points_nogerry_cfg] > 0 && (
                 <ul>
                   <li>
-                    <img
-                      src="/medals/medal_nogerry.webp"
-                      className={`${cssMedals.inline_medal} me-1`}
-                    />
+                    <Medal src="/medals/medal_nogerry.webp" padEnd padHeight />{" "}
                     No Optimal Hero completions on this difficulty award{" "}
                     <b>
                       +{maplistCfg[points_nogerry_cfg]} point
@@ -44,6 +44,23 @@ export default function PointCalcExperts() {
             </li>
           );
         })}
+      </ul>
+      <p>There are extra modifiers if you beat certain challenges:</p>
+      <ul>
+        {maplistCfg.exp_bb_multi !== 1 && (
+          <li>
+            <Medal src="/medals/medal_bb.webp" padHeight /> Black Border runs
+            multiply <b>base</b> points earned by{" "}
+            <b>x{maplistCfg.exp_bb_multi}</b>
+          </li>
+        )}
+        {maplistCfg.exp_lcc_extra !== 0 && (
+          <li>
+            <Medal src="/medals/medal_lcc.webp" padHeight /> Holding the current
+            Least Cost CHIMPS run on a map awards{" "}
+            <b>+{maplistCfg.exp_lcc_extra} points</b> on it
+          </li>
+        )}
       </ul>
     </div>
   );
