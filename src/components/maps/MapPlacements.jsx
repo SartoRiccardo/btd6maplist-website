@@ -11,7 +11,7 @@ import { useMaplistConfig } from "@/utils/hooks";
 
 export default function MapPlacements({ mapData, placeholder }) {
   mapData = placeholder
-    ? { difficulty: -1, placement_cur: -1, placement_all: -1 }
+    ? { difficulty: null, placement_cur: null, placement_all: null }
     : mapData;
   const maplistCfg = useMaplistConfig();
 

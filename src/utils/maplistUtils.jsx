@@ -30,7 +30,8 @@ export const mapDataToFormik = (mapData) => {
       mapData.placement_cur === null ? "" : mapData.placement_cur.toString(),
     placement_allver:
       mapData.placement_all === null ? "" : mapData.placement_all.toString(),
-    difficulty: mapData.difficulty.toString(),
+    difficulty:
+      mapData.difficulty === null ? "-1" : mapData.difficulty.toString(),
     map_data: ["a", null].includes(mapData.map_data) ? "" : mapData.map_data,
     map_data_req_permission: mapData.map_data === "a",
     r6_start: mapData.r6_start === null ? "" : mapData.r6_start,
@@ -41,6 +42,7 @@ export const mapDataToFormik = (mapData) => {
         role: role ? role : "",
       }))
     ),
+    no_optimal_hero: mapData.optimal_heros.length === 0,
     verifiers: addCountKey(
       mapData.verifications.map(({ name, version }) => ({
         id: name,

@@ -86,7 +86,8 @@ const defaultValues = {
   additional_codes: [],
   version_compatibilities: [],
   aliases: [],
-  optimal_heros: ["geraldo"],
+  no_optimal_hero: false,
+  optimal_heros: ["geraldo", "brickell"],
   map_preview_url: "",
   map_preview_file: [],
 };
@@ -214,6 +215,10 @@ export default function MapForm({
         ).toFixed(2)}MB)`;
     }
 
+    if (values.optimal_heros.length === 0 && !values.no_optimal_hero) {
+      errors.optimal_heros = "Select at least one hero";
+    }
+
     return errors;
   };
 
@@ -233,10 +238,15 @@ export default function MapForm({
     const payload = {
       ...values,
       placement_curver:
-        values.placement_curver === "" ? -1 : parseInt(values.placement_curver),
+        values.placement_curver === ""
+          ? null
+          : parseInt(values.placement_curver),
       placement_allver:
-        values.placement_allver === "" ? -1 : parseInt(values.placement_allver),
-      difficulty: parseInt(values.difficulty),
+        values.placement_allver === ""
+          ? null
+          : parseInt(values.placement_allver),
+      difficulty:
+        values.difficulty === "-1" ? null : parseInt(values.difficulty),
       map_data: null,
       r6_start: values.r6_start_file.length
         ? values.r6_start_file[0].file
@@ -244,6 +254,7 @@ export default function MapForm({
       map_preview_url: values.map_preview_file.length
         ? values.map_preview_file[0].file
         : values.map_preview_url || null,
+      optimal_heros: values.no_optimal_hero ? [] : values.optimal_heros,
 
       aliases: aliases.map(({ alias }) => alias),
       additional_codes: additionalCodes.map(({ code, description }) => ({
@@ -336,7 +347,7 @@ export default function MapForm({
           "difficulty" in errors
         )
           errorCount--;
-        const disableInputs = isRedirecting || isFetching;
+        const disableInputs = isRedirecting || isFetching || isSubmitting;
 
         return (
           <FormikContext.Provider
@@ -385,7 +396,6 @@ export default function MapForm({
               {currentMap && currentMap.valid && (
                 <>
                   {!code && <hr className="mb-5" />}
-
                   <div className="row flex-row-space mt-5">
                     {/* Map preview */}
                     <div className="col-12 col-lg-6">
@@ -405,7 +415,7 @@ export default function MapForm({
                                 (values.name.length === 0 || "name" in errors)
                               }
                               isValid={!("name" in errors)}
-                              disabled={isSubmitting || disableInputs}
+                              disabled={disableInputs}
                               autoComplete="off"
                             />
                           </div>
@@ -478,7 +488,7 @@ export default function MapForm({
                                 name="difficulty"
                                 value={values.difficulty}
                                 onChange={handleChange}
-                                disabled={isSubmitting || disableInputs}
+                                disabled={disableInputs}
                               >
                                 <option value="-1">N/A</option>
                                 {difficulties.map(({ name, value }) => (
@@ -507,6 +517,7 @@ export default function MapForm({
                               onChange={handleChange}
                               value={values.r6_start_file}
                               className="w-100"
+                              disabled={disableInputs}
                               showChildren={
                                 !!initialValues?.r6_start &&
                                 imageFormats.some((ext) =>
@@ -538,15 +549,27 @@ export default function MapForm({
                       </div>
                     </div>
                   </div>
-
                   <h2 className="mt-4">Optimal Heros</h2>
+                  <p className="text-center">
+                    <input
+                      type="checkbox"
+                      name="no_optimal_hero"
+                      value={values.no_optimal_hero}
+                      checked={values.no_optimal_hero}
+                      onChange={handleChange}
+                      disabled={disableInputs}
+                    />{" "}
+                    This map has no optimal hero
+                  </p>
                   <div className={stylesFrmMap.herobtn_container}>
                     {heros.map((h) => (
                       <button
+                        disabled={disableInputs || values.no_optimal_hero}
                         type="button"
                         key={h}
                         className={`btn btn-primary ${stylesFrmMap.herobtn} ${
-                          values.optimal_heros.includes(h)
+                          values.optimal_heros.includes(h) &&
+                          !values.no_optimal_hero
                             ? `${stylesFrmMap.active} active`
                             : ""
                         }`}
@@ -576,7 +599,6 @@ export default function MapForm({
                       {errors.optimal_heros}
                     </p>
                   )}
-
                   <h2 className="mt-4">Aliases</h2>
                   <AddableField name="aliases" defaultValue={{ alias: "" }}>
                     {values.aliases.length > 0 && (
@@ -606,7 +628,7 @@ export default function MapForm({
                                 touched.aliases &&
                                 `aliases[${i}].alias` in errors
                               }
-                              disabled={isSubmitting || disableInputs}
+                              disabled={disableInputs}
                               autoComplete="off"
                             />
                             <div className="invalid-feedback">
@@ -617,7 +639,6 @@ export default function MapForm({
                       ))}
                     </div>
                   </AddableField>
-
                   <h2 className="mt-4">Creators</h2>
                   <AddableField
                     name="creators"
@@ -635,7 +656,6 @@ export default function MapForm({
                       />
                     </div>
                   </AddableField>
-
                   <h2 className="mt-4">Verifications</h2>
                   <p className="muted text-center">
                     Verifications that aren't in the current update don't get
@@ -660,7 +680,6 @@ export default function MapForm({
                       </div>
                     </AddableField>
                   </div>
-
                   <h2 className="mt-4">Additional Codes</h2>
                   <div data-cy="fgroup-additional-codes">
                     <AddableField
@@ -683,7 +702,6 @@ export default function MapForm({
                       </div>
                     </AddableField>
                   </div>
-
                   <h2 className="mt-4">Version Compatibility</h2>
                   <p className="muted text-center">
                     By default, it assumes the map is unplayable since v39.0
@@ -723,7 +741,7 @@ export default function MapForm({
                                       `version_compatibilities[${i}].version`
                                     ]
                                   }
-                                  disabled={isSubmitting || disableInputs}
+                                  disabled={disableInputs}
                                   autoComplete="off"
                                 />
                                 <div className="invalid-feedback">
@@ -746,7 +764,7 @@ export default function MapForm({
                                   name={`version_compatibilities[${i}].status`}
                                   value={status}
                                   onChange={handleChange}
-                                  disabled={isSubmitting || disableInputs}
+                                  disabled={disableInputs}
                                 >
                                   <option value="0">is playable</option>
                                   <option value="3">crashes</option>
@@ -784,12 +802,11 @@ export default function MapForm({
                       </div>
                     </div>
                   </AddableField>
-
                   <div className="flex-hcenter flex-col-space mt-5">
                     {isEditing && !currentMap?.isDeleted && (
                       <button
                         type="button"
-                        disabled={isSubmitting || disableInputs}
+                        disabled={disableInputs}
                         onClick={() => setShowDeleting(true)}
                         className="btn btn-danger big"
                         data-cy="btn-delete"
@@ -800,12 +817,11 @@ export default function MapForm({
                     <button
                       className="btn btn-primary"
                       type="submit"
-                      disabled={isSubmitting || disableInputs}
+                      disabled={disableInputs}
                     >
                       {isEditing ? "Save" : "Insert"}
                     </button>
                   </div>
-
                   {showErrorCount && errorCount > 0 && (
                     <p className="text-center text-danger mt-3">
                       There are {errorCount} fields to compile correctly
@@ -816,7 +832,7 @@ export default function MapForm({
             </form>
 
             <ConfirmDeleteModal
-              disabled={isSubmitting || disableInputs}
+              disabled={disableInputs}
               show={showDeleting}
               onHide={() => setShowDeleting(false)}
               entity="map"

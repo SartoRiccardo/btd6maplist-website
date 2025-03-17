@@ -16,15 +16,8 @@ export default function MapSidebarField({
   disabled,
 }) {
   const formikProps = useContext(FormikContext);
-  const {
-    handleChange,
-    handleBlur,
-    values,
-    touched,
-    errors,
-    isSubmitting,
-    disableInputs,
-  } = formikProps;
+  const { handleChange, handleBlur, values, touched, errors, disableInputs } =
+    formikProps;
 
   return (
     <>
@@ -49,9 +42,7 @@ export default function MapSidebarField({
                   ? isValid(formikProps)
                   : !(name in errors) && values[name]
               }
-              disabled={
-                disabled ? disabled(formikProps) : isSubmitting || disableInputs
-              }
+              disabled={disabled ? disabled(formikProps) : disableInputs}
               autoComplete="off"
             />
             {invalidFeedback && (
