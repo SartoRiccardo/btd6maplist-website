@@ -17,6 +17,8 @@ import {
 import CopyButton from "@/components/forms/CopyButton";
 import BtnShowCompletion from "@/components/buttons/BtnShowCompletion";
 import { notFound } from "next/navigation";
+import NKUserEntry from "@/components/users/NKUserEntry";
+import { getCustomMap } from "@/server/ninjakiwiRequests";
 
 export async function generateMetadata({ params }) {
   const mapData = await getMap(params.code);
@@ -33,6 +35,18 @@ export default async function MapOverview({ params, searchParams }) {
   page = isNaN(page) ? 1 : page;
 
   if (mapData === null) notFound();
+
+  let nkUserId = null;
+  if (mapData.creators.length === 0) {
+    const nkMap = await getCustomMap(mapData.code);
+    if (nkMap) {
+      nkUserId = nkMap.creator.match(/\/(\w+)$/)?.[0];
+    }
+  }
+  const userId =
+    mapData.creators.length > 0
+      ? null
+      : (await getCustomMap(mapData.code))?.creator?.split("/");
 
   return (
     <>
@@ -73,9 +87,19 @@ export default async function MapOverview({ params, searchParams }) {
             <div className={`${styles.mapInfo} row shadow`}>
               <div className="col-6 col-md-12 col-lg-6 mb-3" data-cy="creators">
                 <h3>Creator{mapData.creators.length > 1 && "s"}</h3>
-                {mapData.creators.map(({ id, role }) => (
-                  <UserEntry key={id} id={id} label={role} />
-                ))}
+                {mapData.creators.length ? (
+                  mapData.creators.map(({ id, role }) => (
+                    <UserEntry key={id} id={id} label={role} />
+                  ))
+                ) : (
+                  <>
+                    <NKUserEntry userId={nkUserId} />
+                    <p className="muted">
+                      This map's creator has never interacted with the BTD6
+                      Maplist, so they have no account on this website.
+                    </p>
+                  </>
+                )}
               </div>
 
               <div

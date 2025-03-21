@@ -27,6 +27,11 @@
   border-radius: 0.2rem;
 }
 
+.pfp.small {
+  width: 30px;
+  height: 30px;
+}
+
 .pfp_padding_inline {
   margin-left: var(--inline-pfp-size);
 }

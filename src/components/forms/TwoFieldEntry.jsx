@@ -14,6 +14,7 @@ export default function TwoFieldEntry({
   omitFirstOptional,
   optional,
   firstIsUser,
+  disabled,
 }) {
   const formikProps = useContext(FormikContext);
   const {
@@ -38,6 +39,7 @@ export default function TwoFieldEntry({
     const value1 = values[name][i][fields[0].split(".")[1]];
     const value2 = values[name][i][fields[1].split(".")[1]];
 
+    console.log(errors[realField1]);
     const firstField = (
       <Input
         name={realField1}
@@ -47,7 +49,7 @@ export default function TwoFieldEntry({
         onBlur={handleBlur}
         isInvalid={touched[topLevelField1] && realField1 in errors}
         isValid={values[realField1]}
-        disabled={isSubmitting || disableInputs}
+        disabled={isSubmitting || disableInputs || disabled}
         autoComplete="off"
         {...firstProps}
       />
@@ -70,12 +72,14 @@ export default function TwoFieldEntry({
                 }
               >
                 {firstField}
+                <div className="invalid-feedback">{errors[realField1]}</div>
               </AutoComplete>
             ) : (
-              firstField
+              <>
+                {firstField}
+                <div className="invalid-feedback">{errors[realField1]}</div>
+              </>
             )}
-
-            <div className="invalid-feedback">{errors[realField1]}</div>
           </div>
         </div>
 
@@ -93,7 +97,7 @@ export default function TwoFieldEntry({
                 onBlur={handleBlur}
                 isInvalid={touched[topLevelField2] && realField2 in errors}
                 isValid={value2}
-                disabled={isSubmitting || disableInputs}
+                disabled={isSubmitting || disableInputs || disabled}
                 autoComplete="off"
                 {...secondProps}
               />

@@ -36,6 +36,7 @@ export const mapDataToFormik = (mapData) => {
     map_data_req_permission: mapData.map_data === "a",
     r6_start: mapData.r6_start === null ? "" : mapData.r6_start,
     aliases: addCountKey(mapData.aliases.map((alias) => ({ alias }))),
+    has_no_creators: mapData.creators.length === 0,
     creators: addCountKey(
       mapData.creators.map(({ role, name }) => ({
         id: name,

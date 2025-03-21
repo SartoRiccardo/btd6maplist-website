@@ -202,7 +202,7 @@ export default function MapForm({
       errors.difficulty = "At least one of these is required";
     }
 
-    if (!values.creators.some(({ id }) => id.length))
+    if (!values.has_no_creators && !values.creators.some(({ id }) => id.length))
       errors["creators[0].id"] = "Must have at least 1 creator";
 
     const fileFields = ["r6_start_file", "map_preview_file"];
@@ -265,10 +265,12 @@ export default function MapForm({
         version: parseFloat(version),
         status: parseInt(status),
       })),
-      creators: creators.map(({ id, role }) => ({
-        id,
-        role: role.length ? role : null,
-      })),
+      creators: values.has_no_creators
+        ? []
+        : creators.map(({ id, role }) => ({
+            id,
+            role: role.length ? role : null,
+          })),
       verifiers: verifiers.map(({ id, version }) => ({
         id,
         version: version.length ? parseFloat(version) * 10 : null,
@@ -639,10 +641,23 @@ export default function MapForm({
                       ))}
                     </div>
                   </AddableField>
+
                   <h2 className="mt-4">Creators</h2>
+                  <p className="text-center">
+                    <input
+                      type="checkbox"
+                      name="has_no_creators"
+                      value={values.has_no_creators}
+                      checked={values.has_no_creators}
+                      onChange={handleChange}
+                    />{" "}
+                    This map's creator is not known on Discord and hasn't
+                    interacted with the community
+                  </p>
                   <AddableField
                     name="creators"
                     defaultValue={{ id: "", role: "" }}
+                    disabled={values.has_no_creators}
                   >
                     <div className="row gy-2">
                       <TwoFieldEntry
@@ -653,9 +668,11 @@ export default function MapForm({
                           placeholder: "Gameplay",
                         }}
                         firstIsUser
+                        disabled={values.has_no_creators}
                       />
                     </div>
                   </AddableField>
+
                   <h2 className="mt-4">Verifications</h2>
                   <p className="muted text-center">
                     Verifications that aren't in the current update don't get
