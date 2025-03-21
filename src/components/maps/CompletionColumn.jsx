@@ -61,7 +61,7 @@ export default function CompletionColumn({
             </div>
           </div>
 
-          <div className="col-5">
+          <div className="col-4 col-md-5">
             <div className="d-flex justify-content-end justify-content-lg-start h-100">
               <div className="align-self-center">
                 {onlyIcon ? (
@@ -86,7 +86,7 @@ export default function CompletionColumn({
             </div>
           </div>
 
-          <div className="col-1 flex-vcenter">
+          <div className="col-2 col-md-1 d-flex justify-content-end">
             {isAdmin ? (
               <Link
                 className={`${stylesComp.completion_link} align-self-center no-underline`}
