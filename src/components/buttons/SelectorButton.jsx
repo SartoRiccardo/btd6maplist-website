@@ -15,12 +15,13 @@ export default function SelectorButton({
       } ${className || ""}`}
     >
       {children}
+
       <p
         className={`${btd6Font.className} ${
           textSize === "lg" ? stylesDiffS.text_large : ""
-        } font-border text-center`}
+        } font-border text-center text-nowrap`}
       >
-        {text}
+        <span className={stylesDiffS.label_inner}>{text}</span>
       </p>
     </div>
   );

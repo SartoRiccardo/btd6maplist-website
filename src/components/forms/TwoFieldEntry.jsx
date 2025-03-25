@@ -39,7 +39,6 @@ export default function TwoFieldEntry({
     const value1 = values[name][i][fields[0].split(".")[1]];
     const value2 = values[name][i][fields[1].split(".")[1]];
 
-    console.log(errors[realField1]);
     const firstField = (
       <Input
         name={realField1}

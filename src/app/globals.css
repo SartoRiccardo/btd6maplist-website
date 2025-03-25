@@ -217,10 +217,12 @@ a .btn {
 
 .btn-primary:disabled {
   background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
 }
 
 .btn-primary.active {
   background-color: var(--color-highlight);
+  border-color: var(--color-highlight);
 }
 
 .btn-primary:hover {

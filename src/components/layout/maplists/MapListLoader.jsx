@@ -6,7 +6,7 @@ export default function MapListLoader({ mapCount }) {
 
   for (let i = 0; i < mapCount; i++)
     maps.push(
-      <div key={i} className="col-12 col-sm-6 col-lg-4">
+      <div key={i} className="col-6 col-lg-4">
         <Btd6Map placeholder />
       </div>
     );

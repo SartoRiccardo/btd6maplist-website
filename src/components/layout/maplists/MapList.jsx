@@ -25,7 +25,7 @@ export default function MapList({
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
 
   return (
-    <div className="row">
+    <div className="row gx-0 gx-sm-1 gx-md-2">
       {!legacy && !noSubmit && <AddMapListEntry format={listFormat} />}
 
       {maps.map((mapData) => {
@@ -47,7 +47,7 @@ export default function MapList({
         );
 
         return (
-          <div key={code} className="col-12 col-sm-6 col-lg-4 p-relative">
+          <div key={code} className="col-6 col-lg-4 p-relative">
             <Btd6Map
               mapData={mapData}
               name={name}
