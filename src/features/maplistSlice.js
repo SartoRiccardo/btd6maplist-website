@@ -33,10 +33,9 @@ export const maplistSlice = createSlice({
       state.formats = payload.formats;
     },
     setFormat: (state, { payload }) => {
-      state.formats = [
-        ...state.formats.filter(({ id }) => id !== payload.format.id),
-        payload.format,
-      ];
+      state.formats = state.formats.map((format) =>
+        format.id === payload.format.id ? payload.format : format
+      );
     },
   },
 });
