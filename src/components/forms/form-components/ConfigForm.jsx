@@ -3,13 +3,14 @@ import { patchConfig } from "@/features/maplistSlice";
 import { editConfig } from "@/server/maplistRequests.client";
 import { revalidateLeaderboard } from "@/server/revalidations";
 import { Formik } from "formik";
-import LazyToast from "@/components/transitions/LazyToast";
 import { Fragment, useState } from "react";
 import Input from "../bootstrap/Input";
 import { useDispatch } from "react-redux";
 import { useDiscordToken } from "@/utils/hooks";
 import { isFloat, isInt } from "@/utils/functions";
 import Medal from "@/components/decoration/Medal";
+import ToastSuccess from "../ToastSuccess";
+import ErrorToast from "../ErrorToast";
 
 export default function ConfigForm({ fields }) {
   const [success, setSuccess] = useState(false);
@@ -72,72 +73,76 @@ export default function ConfigForm({ fields }) {
         validate={validate}
         initialValues={initialValues}
       >
-        {({ handleSubmit, handleChange, values, errors, isSubmitting }) => (
-          <form onSubmit={handleSubmit}>
-            <div className="panel panel-container">
-              <h2 className="text-center">Config Variables</h2>
-              <div className="row flex-row-space">
-                {Object.keys(fields).map((key) => (
-                  <Fragment key={key}>
-                    <div className="col-5 col-sm-6">
-                      <p>
-                        {key.includes("gerry") && (
-                          <Medal src="/medals/medal_nogerry.webp" />
-                        )}
-                        {key.includes("bb") && (
-                          <Medal src="/medals/medal_bb.webp" />
-                        )}
-                        {key.includes("lcc") && (
-                          <Medal src="/medals/medal_lcc.webp" />
-                        )}{" "}
-                        {fields[key]?.description || key}
-                      </p>
-                    </div>
-                    <div className="col-7 col-sm-6">
-                      <div data-cy="form-group">
-                        <Input
-                          name={key}
-                          type="text"
-                          placeholder={initialValues[key]}
-                          value={values[key]}
-                          onChange={handleChange}
-                          isInvalid={values[key].length === 0 || key in errors}
-                          disabled={isSubmitting}
-                          autoComplete="off"
-                        />
-                        <div className="invalid-feedback">{errors[key]}</div>
+        {({
+          handleSubmit,
+          handleChange,
+          values,
+          errors,
+          setErrors,
+          isSubmitting,
+        }) => (
+          <>
+            <form onSubmit={handleSubmit} data-cy="config-form">
+              <div className="panel panel-container">
+                <h2 className="text-center">Config Variables</h2>
+                <div className="row flex-row-space">
+                  {Object.keys(fields).map((key) => (
+                    <Fragment key={key}>
+                      <div className="col-5 col-sm-6">
+                        <p>
+                          {key.includes("gerry") && (
+                            <Medal src="/medals/medal_nogerry.webp" />
+                          )}
+                          {key.includes("bb") && (
+                            <Medal src="/medals/medal_bb.webp" />
+                          )}
+                          {key.includes("lcc") && (
+                            <Medal src="/medals/medal_lcc.webp" />
+                          )}{" "}
+                          {fields[key]?.description || key}
+                        </p>
                       </div>
-                    </div>
-                  </Fragment>
-                ))}
-              </div>
+                      <div className="col-7 col-sm-6">
+                        <div data-cy="form-group">
+                          <Input
+                            name={key}
+                            type="text"
+                            placeholder={initialValues[key]}
+                            value={values[key]}
+                            onChange={handleChange}
+                            isInvalid={
+                              values[key].length === 0 || key in errors
+                            }
+                            disabled={isSubmitting}
+                            autoComplete="off"
+                          />
+                          <div className="invalid-feedback">{errors[key]}</div>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+                </div>
 
-              <div className="d-flex flex-col-space justify-content-center mt-3">
-                <button
-                  className="btn btn-primary"
-                  disabled={isSubmitting}
-                  type="submit"
-                >
-                  Save
-                </button>
+                <div className="d-flex flex-col-space justify-content-center mt-3">
+                  <button
+                    className="btn btn-primary"
+                    disabled={isSubmitting}
+                    type="submit"
+                  >
+                    Save
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+
+            <ErrorToast errors={errors} setErrors={setErrors} />
+          </>
         )}
       </Formik>
 
-      <LazyToast
-        bg="success"
-        className="notification"
-        show={success}
-        onClose={() => setSuccess(false)}
-        delay={4000}
-        autohide
-      >
-        <div className="toast-body" data-cy="toast-success">
-          Config variables modified successfully!
-        </div>
-      </LazyToast>
+      <ToastSuccess show={success} onClose={() => setSuccess(false)}>
+        Config variables modified successfully!
+      </ToastSuccess>
     </>
   );
 }

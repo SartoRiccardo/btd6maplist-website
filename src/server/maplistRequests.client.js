@@ -340,12 +340,44 @@ export async function getValidServerDropdownRoles(token) {
       `${process.env.NEXT_PUBLIC_API_URL}/server-roles`,
       {
         headers: { Authorization: `Bearer ${token}` },
-        next: { tags: ["discord"], revalidate },
-        cache,
       }
     );
     return await response.json();
   } catch (exc) {
     return [];
+  }
+}
+
+export async function getFormat(token, id) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/formats/${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return await response.json();
+  } catch (exc) {
+    return null;
+  }
+}
+
+export async function editFormat(token, formatId, payload) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/formats/${formatId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(payload),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.headers.get("Content-Type")?.includes("application/json"))
+      return await response.json();
+  } catch (exc) {
+    return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
   }
 }

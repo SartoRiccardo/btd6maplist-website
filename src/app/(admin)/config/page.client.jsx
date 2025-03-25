@@ -1,6 +1,7 @@
 "use client";
 import Select from "@/components/forms/bootstrap/Select";
 import ConfigForm from "@/components/forms/form-components/ConfigForm";
+import FormEditFormat from "@/components/forms/FormEditFormat";
 import {
   useFormatsWhere,
   useMaplistFormats,
@@ -45,7 +46,9 @@ export default function ConfigPageClient() {
       </div>
 
       <div className="row">
-        <div className="col-12 col-lg-6"></div>
+        <div className="col-12 col-lg-6">
+          <FormEditFormat formatId={selectedFormat} />
+        </div>
         <div className="col-12 col-lg-6">
           <ConfigForm key={selectedFormat} fields={selectedVars} />
         </div>

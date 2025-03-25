@@ -32,6 +32,12 @@ export const maplistSlice = createSlice({
       };
       state.formats = payload.formats;
     },
+    setFormat: (state, { payload }) => {
+      state.formats = [
+        ...state.formats.filter(({ id }) => id !== payload.format.id),
+        payload.format,
+      ];
+    },
   },
 });
 
@@ -49,6 +55,11 @@ export const selectMaplistConfig = createSelector(
 export const selectMaplistRoles = ({ maplist }) => maplist.roles;
 export const selectMaplistFormats = ({ maplist }) => maplist.formats;
 
-export const { setConfig, setRoles, initializeMaplistSlice, patchConfig } =
-  maplistSlice.actions;
+export const {
+  setConfig,
+  setRoles,
+  initializeMaplistSlice,
+  patchConfig,
+  setFormat,
+} = maplistSlice.actions;
 export default maplistSlice.reducer;
