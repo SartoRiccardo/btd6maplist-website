@@ -3,11 +3,7 @@ import cssDragF from "./DragFiles.module.css";
 import stylesMedals from "../maps/Medals.module.css";
 import { Formik } from "formik";
 import { useContext, useState } from "react";
-import {
-  useAuthLevels,
-  useDiscordToken,
-  useMaplistConfig,
-} from "@/utils/hooks";
+import { useDiscordToken, useHasPerms, useMaplistConfig } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import DragFiles from "./DragFiles";
 import { listVersions } from "@/utils/maplistUtils";
@@ -31,7 +27,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   const [success, setSuccess] = useState(false);
   const [openRules, setOpenRules] = useState(false);
   const accessToken = useDiscordToken();
-  const authLevels = useAuthLevels();
+  const hasPerms = useHasPerms();
 
   const formats = [];
   if (
@@ -65,7 +61,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   }) => {
     format = parseInt(format);
     return (
-      authLevels.requiresRecording ||
+      hasPerms("require:completion_submission:recording") ||
       black_border ||
       current_lcc ||
       (no_geraldo &&

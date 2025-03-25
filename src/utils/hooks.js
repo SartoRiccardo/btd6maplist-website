@@ -1,6 +1,6 @@
 "use client";
 import {
-  selectAuthLevels,
+  selectPermissions,
   selectDiscordAccessToken,
   selectMaplistProfile,
 } from "@/features/authSlice";
@@ -9,13 +9,32 @@ import {
   selectMaplistRoles,
 } from "@/features/maplistSlice";
 import { useAppSelector } from "@/lib/store";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useMaplistConfig = () => useAppSelector(selectMaplistConfig);
 export const useDiscordToken = () => useAppSelector(selectDiscordAccessToken);
 export const useMaplistProfile = () => useAppSelector(selectMaplistProfile);
 export const useMaplistRoles = () => useAppSelector(selectMaplistRoles);
-export const useAuthLevels = () => useAppSelector(selectAuthLevels);
+export const useHasPerms = () => {
+  const { loaded, permissions } = useAppSelector(selectPermissions);
+  return useCallback(
+    (requested, { format = undefined } = {}) => {
+      if (!loaded) return false;
+      if (typeof requested === "string") requested = [requested];
+
+      return requested.some((permWant) =>
+        permissions.some(
+          (permGroup) =>
+            (format === undefined ||
+              permGroup.format === null ||
+              permGroup.format === format) &&
+            permGroup.permissions.includes(permWant)
+        )
+      );
+    },
+    [loaded, permissions]
+  );
+};
 export const useIsWindows = () => {
   const [isWindows, setIsWindows] = useState(false);
   useEffect(() => {

@@ -1,7 +1,7 @@
 "use client";
 import cssDangerZone from "./DangerZone.module.css";
 import { FormikContext } from "@/contexts";
-import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
+import { useDiscordToken } from "@/utils/hooks";
 import { Formik } from "formik";
 import { useState } from "react";
 import MapCodeController, { codeRegex } from "./MapCodeController";
@@ -25,7 +25,6 @@ export default function FormTransferCompletion({ from }) {
   const [success, setSuccess] = useState(false);
   const [currentMap, setCurrentMap] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const authLevels = useAuthLevels();
   const token = useDiscordToken();
 
   const handleHide = () => setShow(false);
@@ -67,18 +66,10 @@ export default function FormTransferCompletion({ from }) {
                 >
                   <h2>Transfer Completions</h2>
                   <p>Transfer all completions to another map.</p>
-                  {!(authLevels.isExplistMod || authLevels.isAdmin) && (
-                    <p className="muted">
-                      It will not transfer completions marked as Expert List
-                      completions.
-                    </p>
-                  )}
-                  {!(authLevels.isListMod || authLevels.isAdmin) && (
-                    <p className="muted">
-                      It will not transfer completions marked as Maplist
-                      completions.
-                    </p>
-                  )}
+                  <p className="muted">
+                    It will only transfer completions you have privileges to
+                    edit.
+                  </p>
 
                   <div className="row d-flex justify-content-between align-items-start gy-3">
                     <div className="col-12 col-md-4">

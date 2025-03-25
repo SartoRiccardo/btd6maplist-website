@@ -1,6 +1,5 @@
 "use client";
 import cssMapInfo from "./mapinfo.module.css";
-import stylesLoader from "@/components/utils/Loader.module.css";
 import LazyFade from "@/components/transitions/LazyFade";
 import CompletionRow from "@/components/maps/CompletionRow";
 import UserEntry_C from "@/components/users/UserEntry.client";
@@ -9,8 +8,7 @@ import { initialBtd6Profile, selectMaplistProfile } from "@/features/authSlice";
 import { useAppSelector } from "@/lib/store";
 import { getOwnMapCompletions } from "@/server/maplistRequests.client";
 import { imageFormats } from "@/utils/file-formats";
-import { groupCompsByUser } from "@/utils/functions";
-import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
+import { useDiscordToken, useHasPerms } from "@/utils/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
@@ -74,8 +72,8 @@ export function LoggedUserRun({ mapData }) {
 }
 
 export function EditPencilAdmin({ href }) {
-  const authLevels = useAuthLevels();
-  if (!authLevels.loaded || !authLevels.hasPerms) return null;
+  const hasPerms = useHasPerms();
+  if (!hasPerms(["delete:map", "edit:map"])) return null;
 
   return (
     <Link href={href} data-cy="btn-edit-map">
@@ -85,8 +83,8 @@ export function EditPencilAdmin({ href }) {
 }
 
 export function AdminRunOptions({ code }) {
-  const authLevels = useAuthLevels();
-  if (!authLevels.loaded || !authLevels.hasPerms) return null;
+  const hasPerms = useHasPerms();
+  if (!hasPerms(["delete:completion", "edit:completion"])) return null;
 
   return (
     <>

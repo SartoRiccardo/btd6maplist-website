@@ -13,20 +13,20 @@ export default function MapList({
   maps,
   formats,
   legacy,
-  listName,
+  listFormat,
   // Flags to show/hide extra content
   noSubmit,
   noMedals,
   bottomInfo,
 }) {
   formats = formats || [];
-  listName = listName || "list";
+  listFormat = listFormat || 1;
 
   const { maplistProfile } = useAppSelector(selectMaplistProfile);
 
   return (
     <div className="row">
-      {!legacy && !noSubmit && <AddMapListEntry on={listName} />}
+      {!legacy && !noSubmit && <AddMapListEntry format={listFormat} />}
 
       {maps.map((mapData) => {
         const { code, placement, name, verified } = mapData;

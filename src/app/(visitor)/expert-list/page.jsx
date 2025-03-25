@@ -1,9 +1,7 @@
 import styles from "./maplist.module.css";
-import Btd6Map from "@/components/maps/Btd6Map";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { difficulties } from "@/utils/maplistUtils";
 import { getExpertMaplist } from "@/server/maplistRequests";
-import AddMapListEntry from "@/components/layout/maplists/AddMapListEntry";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 import MapList from "@/components/layout/maplists/MapList";
 
@@ -48,7 +46,7 @@ export default async function Experts({ searchParams }) {
         <MapList
           maps={maplist.filter((map) => map.difficulty === curDifficulty.value)}
           formats={[51, 1]}
-          listName="experts"
+          listFormat={51}
         />
       </div>
     </>

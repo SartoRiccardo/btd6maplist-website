@@ -153,3 +153,11 @@ export async function getAchievementRoles() {
   });
   return await response.json();
 }
+
+export async function getFormats() {
+  const response = await fetch(`${process.env.API_URL}/formats`, {
+    next: { tags: ["formats"], revalidate },
+    cache,
+  });
+  return await response.json();
+}

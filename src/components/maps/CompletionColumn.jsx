@@ -4,7 +4,7 @@ import { allFormats } from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import MaplistPoints from "./MaplistPoints";
 import RowMedals from "./RowMedals";
-import { useAuthLevels } from "@/utils/hooks";
+import { useHasPerms } from "@/utils/hooks";
 import Link from "next/link";
 import BtnShowCompletion from "../buttons/BtnShowCompletion";
 import { Fragment } from "react";
@@ -15,7 +15,7 @@ export default function CompletionColumn({
   mapIdxAllver,
   onlyIcon,
 }) {
-  const authLevels = useAuthLevels();
+  const hasPerms = useHasPerms();
 
   return completion
     .sort((cmp1, cmp2) => {
@@ -46,7 +46,6 @@ export default function CompletionColumn({
         </SelectorButton>
       );
 
-      const isAdmin = authLevels.loaded && authLevels.hasPerms;
       return (
         <div key={id} className="row gx-0" data-cy="single-completion">
           <div className="col-6">
@@ -87,7 +86,7 @@ export default function CompletionColumn({
           </div>
 
           <div className="col-2 col-md-1 d-flex justify-content-end">
-            {isAdmin ? (
+            {hasPerms(["edit:completion", "delete:completion"], { format }) ? (
               <Link
                 className={`${stylesComp.completion_link} align-self-center no-underline`}
                 href={`/completions/${id}`}

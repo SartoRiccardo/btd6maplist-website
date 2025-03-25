@@ -1,5 +1,5 @@
 "use client";
-import { useAuthLevels, useMaplistConfig } from "@/utils/hooks";
+import { useHasPerms, useMaplistConfig } from "@/utils/hooks";
 import { useState } from "react";
 import ConfigForm from "./form-components/ConfigForm";
 
@@ -18,9 +18,13 @@ const configNames = {
 export default function ConfigVarForm() {
   const [success, setSuccess] = useState(false);
   const config = useMaplistConfig();
-  const authLevels = useAuthLevels();
+  const hasPerms = useHasPerms();
 
-  if (!(authLevels.isAdmin || authLevels.isListMod)) return null;
+  if (
+    hasPerms("edit:config", { format: 1 }) ||
+    hasPerms("edit:config", { format: 2 })
+  )
+    return null;
 
   const defaultVals = {
     ...config,

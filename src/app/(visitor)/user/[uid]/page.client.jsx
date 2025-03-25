@@ -1,7 +1,7 @@
 "use client";
 import {
-  useAuthLevels,
   useDiscordToken,
+  useHasPerms,
   useMaplistProfile,
   useMaplistRoles,
 } from "@/utils/hooks";
@@ -80,7 +80,7 @@ export function ServerRoles({ userId, roles }) {
   const [pendingChanges, setPendingChanges] = useState([]);
   const { maplistProfile } = useMaplistProfile();
   const token = useDiscordToken();
-  const { hasPerms } = useAuthLevels();
+  const hasPerms = useHasPerms();
   const maplistRoles = useMaplistRoles();
 
   const addRole = async (roleId) => {
@@ -156,7 +156,11 @@ export function ServerRoles({ userId, roles }) {
   const roleComponents = [];
   for (const { id, name } of renderRoles) {
     const roleStyles = serverRoleStyles[id];
-    if (!roleStyles || (roleStyles?.hidden && !hasPerms)) continue;
+    if (
+      !roleStyles ||
+      (roleStyles?.hidden && !hasPerms(["create:map", "create:completion"]))
+    )
+      continue;
 
     roleComponents.push(
       <UserRole

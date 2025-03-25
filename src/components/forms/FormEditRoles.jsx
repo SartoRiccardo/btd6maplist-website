@@ -2,7 +2,7 @@
 import { Formik } from "formik";
 import RoleForm from "./form-components/RoleForm";
 import Select from "./bootstrap/Select";
-import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
+import { useHasPerms, useDiscordToken, useHasPerms } from "@/utils/hooks";
 import { allFormats, leaderboards } from "@/utils/maplistUtils";
 import AddableField from "./AddableField";
 import { FormikContext } from "@/contexts";
@@ -27,14 +27,12 @@ const emptyRole = {
 };
 
 export default function FormEditRoles({ roles }) {
-  const authLevels = useAuthLevels();
+  const hasPerms = useHasPerms();
   const accessToken = useDiscordToken();
   const [guilds, setGuilds] = useState(null);
   const [success, setSuccess] = useState(false);
-  const allowedFormats = allFormats.filter(
-    ({ value }) =>
-      (0 < value < 50 && authLevels.isListMod) ||
-      (50 < value < 100 && authLevels.isExplistMod)
+  const allowedFormats = allFormats.filter(({ value }) =>
+    hasPerms("edit:achievement_roles", { format: value })
   );
 
   const validate = (values) => {

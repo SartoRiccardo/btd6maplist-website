@@ -10,11 +10,7 @@ import {
   revalidateMapSubmissions,
 } from "@/server/revalidations";
 import { useRouter } from "next/navigation";
-import {
-  useAuthLevels,
-  useDiscordToken,
-  useMaplistConfig,
-} from "@/utils/hooks";
+import { useHasPerms, useDiscordToken, useMaplistConfig } from "@/utils/hooks";
 import { addMap, deleteMap, editMap } from "@/server/maplistRequests.client";
 import { FormikContext } from "@/contexts";
 import AddableField from "./AddableField";
@@ -109,7 +105,7 @@ export default function MapForm({
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [showErrorCount, setShowErrorCount] = useState(false);
   const [showDeleting, setShowDeleting] = useState(false);
-  const authLevels = useAuthLevels();
+  const hasPerms = useHasPerms();
   const maplistCfg = useMaplistConfig();
   const accessToken = useDiscordToken();
   const router = useRouter();
@@ -131,8 +127,6 @@ export default function MapForm({
   initialValues = initialValues || defaultValues;
 
   const isEditing = !!code || (currentMap && currentMap.editing);
-
-  if (!authLevels.loaded) return null;
 
   const validate = async (values) => {
     const errors = {};
@@ -179,7 +173,10 @@ export default function MapForm({
           errors[`${field}[${i}].${inner}`] = `This must be a game version`;
         }
 
-    if (authLevels.isListMod || authLevels.isAdmin) {
+    if (
+      hasPerms(["edit:map", "create:map"], { format: 1 }) &&
+      hasPerms(["edit:map", "create:map"], { format: 2 })
+    ) {
       for (const plcmField of placementFields) {
         const val = parseInt(values[plcmField]);
         if (
@@ -340,12 +337,17 @@ export default function MapForm({
 
         let errorCount = Object.keys(errors).length;
         if ("" in errors) errorCount--;
-        if (!(authLevels.isListMod || authLevels.isAdmin)) {
+        if (
+          !(
+            hasPerms(["edit:map", "create:map"], { format: 1 }) &&
+            hasPerms(["edit:map", "create:map"], { format: 2 })
+          )
+        ) {
           if ("placement_allver" in errors) errorCount--;
           if ("placement_curver" in errors) errorCount--;
         }
         if (
-          !(authLevels.isExplistMod || authLevels.isAdmin) &&
+          !hasPerms(["edit:map", "create:map"], { format: 51 }) &&
           "difficulty" in errors
         )
           errorCount--;
@@ -463,27 +465,33 @@ export default function MapForm({
                     <div className="col-12 col-lg-6">
                       <div className="panel h-100">
                         <div className="row flex-row-space my-3">
-                          {(authLevels.isListMod || authLevels.isAdmin) && (
-                            <>
-                              <SidebarField
-                                title="List Placement"
-                                name="placement_curver"
-                                type="number"
-                                placeholder="N/A"
-                                invalidFeedback
-                              />
-
-                              <SidebarField
-                                title="List Placement (All Versions)"
-                                name="placement_allver"
-                                type="number"
-                                placeholder="N/A"
-                                invalidFeedback
-                              />
-                            </>
+                          {hasPerms(["edit:map", "create:map"], {
+                            format: 1,
+                          }) && (
+                            <SidebarField
+                              title="List Placement"
+                              name="placement_curver"
+                              type="number"
+                              placeholder="N/A"
+                              invalidFeedback
+                            />
                           )}
 
-                          {(authLevels.isExplistMod || authLevels.isAdmin) && (
+                          {hasPerms(["edit:map", "create:map"], {
+                            format: 2,
+                          }) && (
+                            <SidebarField
+                              title="List Placement (All Versions)"
+                              name="placement_allver"
+                              type="number"
+                              placeholder="N/A"
+                              invalidFeedback
+                            />
+                          )}
+
+                          {hasPerms(["edit:map", "create:map"], {
+                            format: 51,
+                          }) && (
                             <SidebarField title="Expert Difficulty">
                               <select
                                 className="form-select"
