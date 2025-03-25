@@ -203,13 +203,16 @@ a .btn {
   font-family: var(--font-p);
   text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
     -1px -1px #000, 1px -1px #000, -1px 1px #000;
-  font-size: calc(1rem + 0.5vw);
+  font-size: calc(1rem + 0.2vw);
   border: 0;
 }
 
 .btn-primary {
   background-color: var(--color-secondary);
   color: white;
+  transition: all 0.2s linear;
+  border: 2px solid var(--color-primary);
+  min-width: 7rem;
 }
 
 .btn-primary:disabled {
@@ -220,13 +223,10 @@ a .btn {
   background-color: var(--color-highlight);
 }
 
-.btn-primary {
-  transition: background-color 0.2s linear;
-}
-
 .btn-primary:hover {
   background-color: var(--color-less-highlight);
-  transition: background-color 0.2s linear;
+  transition: all 0.2s linear;
+  border-color: var(--color-less-highlight);
 }
 
 img.zoomable:hover {

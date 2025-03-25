@@ -6,12 +6,17 @@ import {
 } from "@/features/authSlice";
 import {
   selectMaplistConfig,
+  selectTypedMaplistConfig,
   selectMaplistRoles,
+  selectMaplistFormats,
 } from "@/features/maplistSlice";
 import { useAppSelector } from "@/lib/store";
 import { useCallback, useEffect, useState } from "react";
 
+export const useMaplistFormats = () => useAppSelector(selectMaplistFormats);
 export const useMaplistConfig = () => useAppSelector(selectMaplistConfig);
+export const useTypedMaplistConfig = () =>
+  useAppSelector(selectTypedMaplistConfig);
 export const useDiscordToken = () => useAppSelector(selectDiscordAccessToken);
 export const useMaplistProfile = () => useAppSelector(selectMaplistProfile);
 export const useMaplistRoles = () => useAppSelector(selectMaplistRoles);
@@ -34,6 +39,14 @@ export const useHasPerms = () => {
     },
     [loaded, permissions]
   );
+};
+export const useFormatsWhere = (permWant) => {
+  const { loaded, permissions } = useAppSelector(selectPermissions);
+  if (!loaded) return [];
+
+  return permissions
+    .filter((permGroup) => permGroup.permissions.includes(permWant))
+    .map((permGrup) => permGrup.format);
 };
 export const useIsWindows = () => {
   const [isWindows, setIsWindows] = useState(false);

@@ -1,7 +1,4 @@
-import cssCfgPage from "./ConfigPage.module.css";
-import AddUserForm from "@/components/forms/AddUserForm";
-import ConfigVarForm from "@/components/forms/ConfigVarForm";
-import FormExplistConfig from "@/components/forms/FormExplistConfig";
+import ConfigPageClient from "./page.client";
 
 export const metadata = {
   title: "Admin Configuration | BTD6 Maplist",
@@ -12,12 +9,9 @@ export default async function ConfigVarPage() {
     <>
       <h1 className="text-center">Admin Configuration</h1>
 
-      <div className={cssCfgPage.forms_container}>
-        <ConfigVarForm />
+      <ConfigPageClient />
 
-        <FormExplistConfig />
-
-        <div>
+      {/* <div>
           <h2 className="text-center">Insert User Manually</h2>
           <p className="text-justify">
             Users must be in the database before they can interact with the
@@ -30,8 +24,7 @@ export default async function ConfigVarPage() {
             Maplist name or their Discord ID, interchangably.
           </p>
           <AddUserForm />
-        </div>
-      </div>
+        </div> */}
     </>
   );
 }
