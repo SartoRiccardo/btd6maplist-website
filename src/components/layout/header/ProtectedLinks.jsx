@@ -4,7 +4,7 @@ import stylesNav from "./navbar.module.css";
 import styles from "./navbar.module.css";
 import Link from "next/link";
 import LazyCollapse from "@/components/transitions/LazyCollapse";
-import protectedRoutes from "@/utils/protectedRoutes";
+import { protectedRoutes } from "@/utils/routeInfo";
 
 export default function ProtectedLinks({
   onNavigate,

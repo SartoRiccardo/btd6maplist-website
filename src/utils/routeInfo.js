@@ -1,4 +1,4 @@
-export default [
+export const protectedRoutes = [
   {
     href: "/config",
     matcher: "/config.*",
@@ -49,4 +49,11 @@ export default [
     label: "Register User",
     show: true,
   },
+];
+
+export const listRoutes = [
+  { href: "/maplist", dependsOn: [1, 2], name: "The Maplist" },
+  { href: "/expert-list", dependsOn: [51], name: "Expert List" },
+  { href: "/best-of-the-best", dependsOn: [52], name: "Best of the Best" },
+  { href: "/nostalgia-pack", dependsOn: [11], name: "Nostalgia Pack" },
 ];

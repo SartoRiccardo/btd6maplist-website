@@ -1,16 +1,6 @@
 import { maplistAuthenticate } from "@/server/maplistRequests";
-import protectedRoutes from "@/utils/protectedRoutes";
+import { protectedRoutes } from "@/utils/routeInfo";
 import { NextResponse } from "next/server";
-
-const matcher = [
-  "/config.*",
-  "/map/add.*",
-  "/map/.+?/edit",
-  "/completions/.*",
-  "/hidden-maps",
-  "/map-submissions",
-  "/roles",
-];
 
 /**
  * Return 404 if attempting to access one of the routes in matcher
