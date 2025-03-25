@@ -42,4 +42,11 @@ export default [
     matcher: "/map/.+?/edit",
     requires: ["edit:map", "delete:map"],
   },
+  {
+    href: "/user/add",
+    matcher: "/user/add.*",
+    requires: ["create:user"],
+    label: "Register User",
+    show: true,
+  },
 ];
