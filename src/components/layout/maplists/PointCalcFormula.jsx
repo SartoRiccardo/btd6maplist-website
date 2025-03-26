@@ -2,7 +2,7 @@
 import cssMedals from "@/components/maps/Medals.module.css";
 import cssFormula from "./Formula.module.css";
 import { useMaplistConfig } from "@/utils/hooks";
-import Medal from "@/components/decoration/Medal";
+import Medal from "@/components/ui/Medal";
 
 export default function PointCalcFormula() {
   const maplistCfg = useMaplistConfig();

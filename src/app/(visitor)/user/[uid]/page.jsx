@@ -11,7 +11,7 @@ import { ServerRoles, UserRole, WebsiteCreatorRole } from "./page.client";
 import ProfileMedal from "@/components/users/ProfileMedal";
 import { notFound } from "next/navigation";
 import MapList from "@/components/layout/maplists/MapList";
-import Medal from "@/components/decoration/Medal";
+import Medal from "@/components/ui/Medal";
 
 export async function generateMetadata({ params }) {
   const userData = await getUser(params.uid);

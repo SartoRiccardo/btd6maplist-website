@@ -1,5 +1,5 @@
 "use client";
-import Medal from "@/components/decoration/Medal";
+import Medal from "@/components/ui/Medal";
 import cssMedals from "@/components/maps/Medals.module.css";
 import { useMaplistConfig } from "@/utils/hooks";
 import { difficulties } from "@/utils/maplistUtils";

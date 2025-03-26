@@ -191,8 +191,8 @@ export default async function MapOverview({ params, searchParams }) {
         <MaplistCompletions
           page={page}
           code={code}
-          mapIdxCurver={mapData.placement_cur}
-          mapIdxAllver={mapData.placement_all}
+          mapIdxCurver={mapData.placement_curver}
+          mapIdxAllver={mapData.placement_allver}
         />
       </Suspense>
     </>

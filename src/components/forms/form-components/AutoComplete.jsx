@@ -1,5 +1,5 @@
 "use client";
-import Medal from "@/components/decoration/Medal";
+import Medal from "@/components/ui/Medal";
 import cssAutoC from "./AutoComplete.module.css";
 import cssMedals from "@/components/maps/Medals.module.css";
 import { search } from "@/server/maplistRequests.client";

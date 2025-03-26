@@ -27,9 +27,13 @@ export const mapDataToFormik = (mapData) => {
   const initialValues = {
     ...mapData,
     placement_curver:
-      mapData.placement_cur === null ? "" : mapData.placement_cur.toString(),
+      mapData.placement_curver === null
+        ? ""
+        : mapData.placement_curver.toString(),
     placement_allver:
-      mapData.placement_all === null ? "" : mapData.placement_all.toString(),
+      mapData.placement_allver === null
+        ? ""
+        : mapData.placement_allver.toString(),
     difficulty:
       mapData.difficulty === null ? "-1" : mapData.difficulty.toString(),
     map_data: ["a", null].includes(mapData.map_data) ? "" : mapData.map_data,
@@ -209,6 +213,7 @@ export const serverRoleStyles = {
   5: { bg: "#ba68c8", border: "#e1bee7" },
   6: { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true },
   7: { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true },
+  8: { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true },
 };
 
 export const leaderboards = [
@@ -253,3 +258,11 @@ export const leaderboards = [
     ),
   },
 ];
+
+export const formatToKey = {
+  1: "placement_curver",
+  2: "placement_allver",
+  51: "difficulty",
+  52: "botb_difficulty",
+  11: "remake_of",
+};

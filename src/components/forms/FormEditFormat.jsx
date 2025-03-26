@@ -15,6 +15,7 @@ import { revalidateTag } from "next/cache";
 const mapSubmStatuses = [
   { name: "open", label: "Open" },
   { name: "closed", label: "Closed" },
+  { name: "open_chimps", label: "Open (requires CHIMPS verification)" },
 ];
 
 const runSubmStatuses = [

@@ -49,8 +49,8 @@ export default function Btd6MapRow({ map, hrefBase, completion }) {
         >
           <CompletionColumn
             completion={completion}
-            mapIdxCurver={map.placement_cur}
-            mapIdxAllver={map.placement_all}
+            mapIdxCurver={map.placement_curver}
+            mapIdxAllver={map.placement_allver}
           />
         </div>
       </div>

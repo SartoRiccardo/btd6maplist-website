@@ -8,7 +8,7 @@ import Input from "../bootstrap/Input";
 import { useDispatch } from "react-redux";
 import { useDiscordToken } from "@/utils/hooks";
 import { isFloat, isInt } from "@/utils/functions";
-import Medal from "@/components/decoration/Medal";
+import Medal from "@/components/ui/Medal";
 import ToastSuccess from "../ToastSuccess";
 import ErrorToast from "../ErrorToast";
 

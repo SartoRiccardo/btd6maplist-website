@@ -62,8 +62,8 @@ export function LoggedUserRun({ mapData }) {
   return (
     <CompletionRow
       completion={completions || []}
-      mapIdxCurver={mapData.placement_cur}
-      mapIdxAllver={mapData.placement_all}
+      mapIdxCurver={mapData.placement_curver}
+      mapIdxAllver={mapData.placement_allver}
       userEntry={<UserEntry_C profile={userProfile} centered lead="sm" />}
       extraColumns={extraColumns}
       cy_excludeData

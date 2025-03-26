@@ -1,7 +1,7 @@
 "use client";
 import { Formik } from "formik";
-import { useContext, useState } from "react";
-import { useDiscordToken } from "@/utils/hooks";
+import { useCallback, useContext, useState } from "react";
+import { useDiscordToken, useFormatsWhere } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import MapCodeController, { codeRegex } from "./MapCodeController";
 import Btd6Map from "../maps/Btd6Map";
@@ -15,8 +15,30 @@ import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import { revalidateMapSubmissions } from "@/server/revalidations";
 import Select from "./bootstrap/Select";
 import LazyFade from "../transitions/LazyFade";
+import MessageBanned from "../ui/MessageBanned";
 
 const MAX_TEXT_LEN = 500;
+
+const validate = async (values) => {
+  const errors = {};
+  if (!codeRegex.test(values.code))
+    errors.code = "Codes must be exactly 7 letters";
+
+  if (values.notes.length > MAX_TEXT_LEN)
+    errors.notes = `Keep it under ${MAX_TEXT_LEN} characters!`;
+
+  if (!values.proof_completion.length)
+    errors.proof_completion = "Upload proof of completion";
+
+  const fsize = values.proof_completion?.[0]?.file?.size || 0;
+  if (fsize > 1024 ** 2 * maxImgSizeMb)
+    errors.proof_completion = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
+      fsize /
+      1024 ** 2
+    ).toFixed(2)}MB)`;
+
+  return errors;
+};
 
 export default function SubmitMapForm({ onSubmit, type }) {
   onSubmit = onSubmit || submitMap;
@@ -28,49 +50,37 @@ export default function SubmitMapForm({ onSubmit, type }) {
   const [success, setSuccess] = useState(false);
   const [openRules, setOpenRules] = useState(false);
   const accessToken = useDiscordToken();
+  const submittableFormats = useFormatsWhere("create:map_submission");
 
   if (!accessToken) return null;
 
-  const validate = async (values) => {
-    const errors = {};
-    if (!codeRegex.test(values.code))
-      errors.code = "Codes must be exactly 7 letters";
+  if (submittableFormats.length === 0)
+    return (
+      <MessageBanned>It seems like you can't submit maps...</MessageBanned>
+    );
 
-    if (values.notes.length > MAX_TEXT_LEN)
-      errors.notes = `Keep it under ${MAX_TEXT_LEN} characters!`;
+  const handleSubmit = useCallback(
+    async (values, { setErrors }) => {
+      const code = values.code.match(codeRegex)[1].toUpperCase();
+      const payload = {
+        code,
+        type: values.type,
+        notes: values.notes.length ? values.notes : null,
+        proposed: parseInt(values.proposed),
+        proof_completion: values.proof_completion[0].file,
+      };
 
-    if (!values.proof_completion.length)
-      errors.proof_completion = "Upload proof of completion";
+      const result = await onSubmit(accessToken.access_token, payload);
+      if (result && Object.keys(result.errors).length) {
+        setErrors(result.errors);
+        return;
+      }
 
-    const fsize = values.proof_completion?.[0]?.file?.size || 0;
-    if (fsize > 1024 ** 2 * maxImgSizeMb)
-      errors.proof_completion = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
-        fsize /
-        1024 ** 2
-      ).toFixed(2)}MB)`;
-
-    return errors;
-  };
-
-  const handleSubmit = async (values, { setErrors }) => {
-    const code = values.code.match(codeRegex)[1].toUpperCase();
-    const payload = {
-      code,
-      type: values.type,
-      notes: values.notes.length ? values.notes : null,
-      proposed: parseInt(values.proposed),
-      proof_completion: values.proof_completion[0].file,
-    };
-
-    const result = await onSubmit(accessToken.access_token, payload);
-    if (result && Object.keys(result.errors).length) {
-      setErrors(result.errors);
-      return;
-    }
-
-    revalidateMapSubmissions();
-    setSuccess(true);
-  };
+      revalidateMapSubmissions();
+      setSuccess(true);
+    },
+    [accessToken.access_token]
+  );
 
   return (
     <Formik
@@ -166,31 +176,32 @@ export default function SubmitMapForm({ onSubmit, type }) {
                         {success ? (
                           <SidebarSuccess type={type} />
                         ) : (
-                          <SidebarForm type={type} />
+                          <>
+                            <SidebarForm type={type} />
+
+                            <div className="mb-2 mt-4">
+                              <div className="flex-hcenter flex-col-space">
+                                <button
+                                  className="btn btn-primary"
+                                  type="submit"
+                                  disabled={isSubmitting || disableInputs}
+                                >
+                                  Submit
+                                </button>
+                              </div>
+
+                              {showErrorCount && errorCount > 0 && (
+                                <p className="text-center text-danger font-border mt-1">
+                                  There are {errorCount} fields to compile
+                                  correctly
+                                </p>
+                              )}
+                            </div>
+                          </>
                         )}
                       </div>
                     </div>
                   </div>
-
-                  {!success && (
-                    <>
-                      <div className="flex-hcenter flex-col-space mt-5">
-                        <button
-                          className="btn btn-primary"
-                          type="submit"
-                          disabled={isSubmitting || disableInputs}
-                        >
-                          Submit
-                        </button>
-                      </div>
-
-                      {showErrorCount && errorCount > 0 && (
-                        <p className="text-center text-danger mt-3">
-                          There are {errorCount} fields to compile correctly
-                        </p>
-                      )}
-                    </>
-                  )}
                 </div>
               )}
             </form>
@@ -304,7 +315,9 @@ function SidebarForm({ type }) {
           )}
         </DragFiles>
         {touched.proof_completion && errors.proof_completion && (
-          <p className="text-danger text-center">{errors.proof_completion}</p>
+          <p className="text-danger font-border text-center">
+            {errors.proof_completion}
+          </p>
         )}
       </div>
     </div>

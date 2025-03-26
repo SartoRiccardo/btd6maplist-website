@@ -63,9 +63,9 @@ export default function MapList({
               <div
                 className={`${cssList.difficulties} d-flex justify-content-center`}
               >
-                {mapData.placement_cur !== null && (
+                {mapData.placement_curver !== null && (
                   <SelectorButton
-                    text={`#${mapData.placement_cur}`}
+                    text={`#${mapData.placement_curver}`}
                     active
                     textSize="lg"
                   >
@@ -79,8 +79,8 @@ export default function MapList({
                 )}
 
                 {/* ALLVER UCOMMENT */}
-                {/* {mapData.placement_all !== null && (
-                  <SelectorButton text={`#${mapData.placement_all}`} active textSize="lg">
+                {/* {mapData.placement_allver !== null && (
+                  <SelectorButton text={`#${mapData.placement_allver}`} active textSize="lg">
                     <img
                       src="/format_icons/icon_allver.webp"
                       alt="All"
