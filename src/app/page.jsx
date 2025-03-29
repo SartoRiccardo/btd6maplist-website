@@ -3,7 +3,10 @@ import FullCompletionInfoRow from "@/components/maps/FullCompletionInfoRow";
 import { FullCompletionInfoRow_Plc } from "@/components/maps/FullCompletionInfoRow";
 import UserEntry from "@/components/users/UserEntry";
 import DiscordWidget from "@/components/utils/DiscordWidget";
-import { getRecentCompletions } from "@/server/maplistRequests";
+import {
+  getRecentCompletions,
+  getVisibleFormats,
+} from "@/server/maplistRequests";
 import { allFormats } from "@/utils/maplistUtils";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -146,7 +149,11 @@ export default async function Home() {
 }
 
 async function RecentCompletions() {
-  const formats = allFormats.map(({ value }) => value.toString()).join(",");
+  const visibleFormats = await getVisibleFormats();
+  const formats = allFormats
+    .filter(({ value }) => visibleFormats.includes(value))
+    .map(({ value }) => value.toString())
+    .join(",");
   const completions = await getRecentCompletions({ formats });
 
   return completions.map((cmp) => (

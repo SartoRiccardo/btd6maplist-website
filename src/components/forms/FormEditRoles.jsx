@@ -2,8 +2,8 @@
 import { Formik } from "formik";
 import RoleForm from "./form-components/RoleForm";
 import Select from "./bootstrap/Select";
-import { useHasPerms, useDiscordToken, useHasPerms } from "@/utils/hooks";
-import { allFormats, leaderboards } from "@/utils/maplistUtils";
+import { useDiscordToken, useFormatsWhere } from "@/utils/hooks";
+import { leaderboards } from "@/utils/maplistUtils";
 import AddableField from "./AddableField";
 import { FormikContext } from "@/contexts";
 import { getRepeatedIndexes, validateAchievableRole } from "@/utils/validators";
@@ -27,13 +27,12 @@ const emptyRole = {
 };
 
 export default function FormEditRoles({ roles }) {
-  const hasPerms = useHasPerms();
   const accessToken = useDiscordToken();
   const [guilds, setGuilds] = useState(null);
   const [success, setSuccess] = useState(false);
-  const allowedFormats = allFormats.filter(({ value }) =>
-    hasPerms("edit:achievement_roles", { format: value })
-  );
+  const allowedFormats = useFormatsWhere("edit:achievement_roles", {
+    full: true,
+  });
 
   const validate = (values) => {
     const errors = {};
@@ -139,7 +138,7 @@ export default function FormEditRoles({ roles }) {
     roles
       .filter(
         ({ lb_format, lb_type }) =>
-          lb_format === lbFormat && lb_type === lbValue
+          lb_format === lbFormat.id && lb_type === lbValue
       )
       .map((rl, idx) => ({
         ...rl,
@@ -153,7 +152,7 @@ export default function FormEditRoles({ roles }) {
         })),
       }));
 
-  const initialLbformat = (allowedFormats?.[0] || allFormats[0]).value;
+  const initialLbformat = allowedFormats?.[0];
   const initRoles = selectCurrentRoles(initialLbformat, "points");
 
   useEffect(() => {
@@ -163,10 +162,12 @@ export default function FormEditRoles({ roles }) {
     execute();
   }, []);
 
+  if (initialLbformat === undefined) return null;
+
   return (
     <Formik
       initialValues={{
-        lb_format: initialLbformat,
+        lb_format: initialLbformat.id,
         lb_type: "points",
         firstPlaceRole: initRoles.find(({ for_first }) => for_first) || null,
         roles: initRoles.filter(({ for_first }) => !for_first),
@@ -222,8 +223,8 @@ export default function FormEditRoles({ roles }) {
                         });
                       }}
                     >
-                      {allowedFormats.map(({ name, value }) => (
-                        <option key={value} value={value}>
+                      {allowedFormats.map(({ name, id }) => (
+                        <option key={id} value={id}>
                           {name}
                         </option>
                       ))}

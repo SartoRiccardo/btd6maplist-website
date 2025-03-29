@@ -17,7 +17,7 @@ export default async function TheListPage() {
         (doesn't have an index), it was deleted.
       </p>
 
-      <MapList maps={maps} legacy />
+      <MapList maps={maps} showPlacement legacy />
     </>
   );
 }

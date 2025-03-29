@@ -8,7 +8,7 @@ import {
 import styles from "./userpage.module.css";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { serverRoleStyles } from "@/utils/maplistUtils";
+import { getServerRoleStyle } from "@/utils/maplistUtils";
 import {
   addRoleToUser,
   removeRoleFromUser,
@@ -155,7 +155,7 @@ export function ServerRoles({ userId, roles }) {
 
   const roleComponents = [];
   for (const { id, name } of renderRoles) {
-    const roleStyles = serverRoleStyles[id];
+    const roleStyles = getServerRoleStyle(name);
     if (
       !roleStyles ||
       (roleStyles?.hidden && !hasPerms(["create:map", "create:completion"]))

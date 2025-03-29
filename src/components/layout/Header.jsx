@@ -1,6 +1,6 @@
 "use client";
 import { btd6Font, titleFont } from "@/lib/fonts";
-import { useIsWindows, useMaplistFormats } from "@/utils/hooks";
+import { useIsWindows, useVisibleFormats } from "@/utils/hooks";
 import stylesHeader from "./header.module.css";
 import stylesNav from "./header/navbar.module.css";
 import Link from "next/link";
@@ -14,9 +14,7 @@ import { listRoutes } from "@/utils/routeInfo";
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const isWindows = useIsWindows();
-  const visibleFormats = useMaplistFormats()
-    .filter(({ hidden }) => !hidden)
-    .map(({ id }) => id);
+  const visibleFormats = useVisibleFormats();
 
   return (
     <header

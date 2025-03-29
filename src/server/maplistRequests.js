@@ -11,19 +11,18 @@ export async function maplistAuthenticate(token) {
   return await response.json();
 }
 
-export async function getExpertMaplist() {
-  const response = await fetch(`${process.env.API_URL}/exmaps`, {
-    next: { tags: ["experts"], revalidate },
-    cache,
-  });
-  if (response.status !== 200) return [];
-  return await response.json();
-}
+export async function getMaplist({ format = 1, filter = undefined } = {}) {
+  const searchParams = { format };
+  if (filter !== undefined) searchParams.filter = filter;
 
-export async function getTheList(version) {
   const response = await fetch(
-    `${process.env.API_URL}/maps?version=${version}`,
-    { next: { tags: ["list"], revalidate }, cache }
+    `${process.env.API_URL}/maps?${new URLSearchParams(
+      searchParams
+    ).toString()}`,
+    {
+      next: { tags: ["maplist"], revalidate },
+      cache,
+    }
   );
   if (response.status !== 200) return [];
   return await response.json();
@@ -31,7 +30,7 @@ export async function getTheList(version) {
 
 export async function getLegacyList() {
   const response = await fetch(`${process.env.API_URL}/maps/legacy`, {
-    next: { tags: ["list"], revalidate },
+    next: { tags: ["maplist"], revalidate },
     cache,
   });
   if (!response.ok) return [];
@@ -47,10 +46,13 @@ export async function getMap(code) {
   return await response.json();
 }
 
-export async function getMapCompletions(code, qparams) {
+export async function getMapCompletions(
+  code,
+  { page = 1, formats = [1, 51] } = {}
+) {
   const response = await fetch(
     `${process.env.API_URL}/maps/${code}/completions?` +
-      new URLSearchParams(qparams).toString(),
+      new URLSearchParams({ page, formats: formats.join(",") }).toString(),
     { cache, next: { revalidate } }
   );
   if (response.status !== 200) return [];
@@ -160,4 +162,10 @@ export async function getFormats() {
     cache,
   });
   return await response.json();
+}
+
+export async function getVisibleFormats() {
+  return (await getFormats())
+    .filter(({ hidden }) => !hidden)
+    .map(({ id }) => id);
 }

@@ -36,6 +36,10 @@ export const mapDataToFormik = (mapData) => {
         : mapData.placement_allver.toString(),
     difficulty:
       mapData.difficulty === null ? "-1" : mapData.difficulty.toString(),
+    botb_difficulty:
+      mapData.botb_difficulty === null
+        ? "-1"
+        : mapData.botb_difficulty.toString(),
     map_data: ["a", null].includes(mapData.map_data) ? "" : mapData.map_data,
     map_data_req_permission: mapData.map_data === "a",
     r6_start: mapData.r6_start === null ? "" : mapData.r6_start,
@@ -90,9 +94,9 @@ export const difficulties = [
     image: "/format_icons/icon_casual.webp",
     points_cfg: "exp_points_casual",
     description:
-      "Easy and enjoyable, yet not brainless maps. Expect a game where many towers are viable. Comparable difficulty to maps like Workshop and Muddy Puddles.",
+      "These maps are a great mix of fun and challenge—tough enough to keep things interesting but not so hard that you’ll get stuck for hours. Most towers work well here, so you’ve got plenty of ways to win. If you’ve beaten Workshop and Muddy Puddles and had a good time, you’ll feel right at home with these.",
     meta_desc:
-      "Easy and enjoyable, yet not brainless maps. Expect a game where many towers are viable.",
+      "Enjoyable yet thoughtful custom BTD6 maps, offering balanced difficulty comparable to Workshop and Muddy Puddles.",
   },
   {
     name: "Medium",
@@ -101,9 +105,9 @@ export const difficulties = [
     image: "/format_icons/icon_medium.webp",
     points_cfg: "exp_points_medium",
     description:
-      "Challenging, but not frustrating or intense difficulty. May have complications at any point. Comparable difficulty to maps like Sanctuary and Flooded Valley.",
+      "These maps step things up a notch, adding extra obstacles or mechanics that make you think more carefully about your strategy. They can get pretty tough at times, but they never feel unfair. If you’ve beaten maps like Sanctuary and Flooded Valley, expect a similar level of challenge with some fresh twists.",
     meta_desc:
-      "Challenging, but not frustrating or intense difficulty. May have complications at any point.",
+      "Challenging but fair BTD6 custom maps with strategic twists, comparable to Sanctuary and Flooded Valley.",
   },
   {
     name: "High",
@@ -112,9 +116,9 @@ export const difficulties = [
     image: "/format_icons/icon_hard.webp",
     points_cfg: "exp_points_high",
     description:
-      "Has at least one phase of the game that is very tough, usually a hard lategame at minimum. Comparable difficulty to maps like Dark Dungeons and Quad.",
+      "Things start getting serious here. These maps always have at least one part that’s brutally tough—usually in the lategame, where even small mistakes can ruin a run. You’ll need to plan ahead and make smart moves to survive. If you’ve handled Dark Dungeons and Quad, you’ll know what to expect.",
     meta_desc:
-      "Has at least one phase of the game that is very tough, usually a hard lategame at minimum.",
+      "Advanced Bloons TD 6 maps featuring difficult phases and intense lategame challenges, similar to Dark Dungeons and Quad.",
   },
   {
     name: "True",
@@ -123,9 +127,9 @@ export const difficulties = [
     image: "/format_icons/icon_true.webp",
     points_cfg: "exp_points_true",
     description:
-      "If you're asking for one of the best, you'd better be one of the best. Many strategies will not work. Comparable to, or even greater difficulty than maps like Bloody Puddles and Ouch.",
+      "If you’re looking for a real challenge, these maps don’t mess around. A lot of normal strategies just won’t cut it, so you’ll have to come up with new ways to win. Every round is a battle, and even small mistakes can send you back to square one. They’re as tough as, or even harder than, Bloody Puddles and Ouch—so if you want to prove you’re one of the best, here’s your chance.",
     meta_desc:
-      "Many strategies will not work. If you're asking for one of the best, you'd better be one of the best.",
+      "Brutally difficult Bloons TD 6 maps demanding elite-level skill. As hard as Bloody Puddles and Ouch, or worse.",
   },
   {
     name: "Extreme",
@@ -135,22 +139,131 @@ export const difficulties = [
     points_cfg: "exp_points_extreme",
     description: (
       <>
-        Some of the toughest challenges CHIMPS has to offer, each being much
-        harder than any official map made by Ninja Kiwi. This difficulty often
-        contains forced strategies and maps that have fallen off The Maplist.
+        The hardest of the hard, featuring even some maps which have fallen off
+        The Maplist. These maps make official expert maps look easy, pushing the
+        game to its absolute limit. You’ll often need super-specific strategies
+        just to stand a chance. If you’re looking for the toughest CHIMPS runs
+        ever made, this is it.
         <br />
         <i>Good luck...</i>
       </>
     ),
     meta_desc:
-      "The absolute hardest this community has to offer. Many strategies are forced. Good luck...",
+      "The hardest custom BTD6 maps ever made. Beyond official maps, featuring forced strategies and near-impossible CHIMPS runs.",
+  },
+];
+
+export const botbDifficulties = [
+  {
+    name: "Beginner",
+    query: "beginner",
+    value: 0,
+    image: "/format_icons/icon_botb_1.png",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero dolorum vel excepturi sapiente ex explicabo, dolore est quos dolor nulla hic fugiat ad a aliquid incidunt iure itaque veniam aliquam?",
+    meta_desc: "Lorem ipsum",
+  },
+  {
+    name: "Intermediate",
+    query: "intermediate",
+    value: 1,
+    image: "/format_icons/icon_botb_2.png",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero dolorum vel excepturi sapiente ex explicabo, dolore est quos dolor nulla hic fugiat ad a aliquid incidunt iure itaque veniam aliquam?",
+    meta_desc: "Lorem ipsum",
+  },
+  {
+    name: "Advanced",
+    query: "advanced",
+    value: 2,
+    image: "/format_icons/icon_botb_3.png",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero dolorum vel excepturi sapiente ex explicabo, dolore est quos dolor nulla hic fugiat ad a aliquid incidunt iure itaque veniam aliquam?",
+    meta_desc: "Lorem ipsum",
+  },
+  {
+    name: "Expert",
+    query: "expert",
+    value: 3,
+    difficuly_values: [3, 4],
+    image: "/format_icons/icon_botb_4.png",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero dolorum vel excepturi sapiente ex explicabo, dolore est quos dolor nulla hic fugiat ad a aliquid incidunt iure itaque veniam aliquam?",
+    meta_desc: "Lorem ipsum",
+  },
+];
+
+export const npDifficulties = [
+  {
+    name: "BTD1/2/3",
+    query: "btd1_2_3",
+    value: 0,
+    image: "/format_icons/icon_np_1.png",
+    description: "",
+    meta_desc: "",
+  },
+  {
+    name: "iOS/PSN/DSi",
+    query: "btd_ios_psn_dsi",
+    value: 1,
+    image: "/format_icons/icon_np_2.png",
+    description: "",
+    meta_desc: "",
+  },
+  {
+    name: "BTD4",
+    query: "bloons_td_4",
+    value: 2,
+    image: "/format_icons/icon_np_3.png",
+    description: "",
+    meta_desc: "",
+  },
+  {
+    name: "BTD5",
+    query: "bloons_td_5",
+    value: 3,
+    image: "/format_icons/icon_np_4.png",
+    description: "",
+    meta_desc: "",
+  },
+  {
+    name: "BTDB1",
+    query: "bloons_td_battles",
+    value: 4,
+    image: "/format_icons/icon_np_5.png",
+    description: "",
+    meta_desc: "",
+  },
+  {
+    name: "BMC",
+    query: "bloons_monkey_city",
+    value: 5,
+    image: "/format_icons/icon_np_6.png",
+    description: "",
+    meta_desc: "",
+  },
+  {
+    name: "BATTD",
+    query: "bloons_adventure_time_td",
+    value: 6,
+    image: "/format_icons/icon_np_7.png",
+    description: "",
+    meta_desc: "",
+  },
+  {
+    name: "BTDB2/BTD6",
+    query: "bloons_td_battles_2",
+    value: 7,
+    image: "/format_icons/icon_np_8.png",
+    description: "",
+    meta_desc: "",
   },
 ];
 
 export const filterCompletionFormats = (completions, formats) => {
   return completions
     .sort((c1, c2) => c1.format - c2.format)
-    .filter(({ format }) => !!formats.find(({ value }) => format === value));
+    .filter(({ format }) => !!formats.find(({ id }) => format === id));
 };
 
 export const listVersions = [
@@ -161,59 +274,80 @@ export const listVersions = [
     query: "current",
     value: 1,
     image: "/format_icons/icon_curver.webp",
-    plcKey: "placement_cur",
-    description: "",
+    plcKey: "placement_curver",
+    description:
+      "The 50 hardest custom maps in the game, ordered by difficulty. Good luck, you'll need it...",
   },
-  /* ALLVER UCOMMENT */
-  // {
-  //   name: "All Versions",
-  //   diffPanelName: "All Vers",
-  //   short: "All",
-  //   query: "all",
-  //   value: 2,
-  //   image: "/format_icons/icon_allver.webp",
-  //   plcKey: "placement_all",
-  //   description: (
-  //     <>
-  //       Unlike the Current Version format, you can play these maps in any past
-  //       versions. Check out the{" "}
-  //       <a
-  //         href="https://docs.google.com/document/d/1AcjTgWI2-mfj3-vJpY7YgKoAM5SYAGSIbonWI5urQQI"
-  //         target="_blank"
-  //       >
-  //         Old Versions Guide
-  //       </a>{" "}
-  //       to check how you can play (and optionally mod) past versions of BTD6.{" "}
-  //       <span className="muted">It's easier than it looks.</span>
-  //     </>
-  //   ),
-  // },
+  {
+    name: "All Versions",
+    longName: "Maplist ~ All Versions",
+    diffPanelName: "All Vers",
+    short: "All",
+    query: "all",
+    value: 2,
+    image: "/format_icons/icon_allver.webp",
+    plcKey: "placement_allver",
+    description: (
+      <>
+        Unlike the Current Version format, you can play these maps in any past
+        versions. Check out the{" "}
+        <a
+          href="https://docs.google.com/document/d/1AcjTgWI2-mfj3-vJpY7YgKoAM5SYAGSIbonWI5urQQI"
+          target="_blank"
+        >
+          Old Versions Guide
+        </a>{" "}
+        to check how you can play (and optionally mod) past versions of BTD6.{" "}
+        <span className="muted">It's easier than it looks.</span>
+      </>
+    ),
+  },
 ];
 
-const explistVersions = [
+export const allFormats = [
+  ...listVersions,
   {
     name: "Expert List",
-    // diffPanelName: "Experts",
     short: "Exp",
     query: "experts",
     value: 51,
     image: "/format_icons/icon_hard.webp",
-    // plcKey: "placement_cur",
-    // description: "",
+  },
+  {
+    name: "Best of the Best",
+    short: "BotB",
+    query: "best_of_the_best",
+    value: 52,
+    image: "/format_icons/icon_botb.webp",
+  },
+  {
+    name: "Nostalgia Pack",
+    short: "NP",
+    query: "nostalgia_pack",
+    value: 52,
+    image: "/format_icons/icon_np.webp",
   },
 ];
 
-export const allFormats = [...listVersions, ...explistVersions];
-
-export const serverRoleStyles = {
-  1: { bg: "#000", border: "#000", hidden: true },
-  2: { bg: "#d50000", border: "#f06292" },
-  3: { bg: "#d50000", border: "#f06292" },
-  4: { bg: "#ba68c8", border: "#e1bee7" },
-  5: { bg: "#ba68c8", border: "#e1bee7" },
-  6: { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true },
-  7: { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true },
-  8: { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true },
+export const getServerRoleStyle = (name) => {
+  const styles = { bg: "rgba(0,0,0,0.5)", border: "#000", hidden: true };
+  if (name.includes("Owner")) {
+    styles.bg = "#d50000";
+    styles.border = "#f06292";
+    styles.hidden = false;
+  }
+  if (
+    name.includes("Mod") ||
+    name.includes("Curator") ||
+    name.includes("Verifier")
+  ) {
+    styles.bg = "#ba68c8";
+    styles.border = "#e1bee7";
+    styles.hidden = false;
+  }
+  if (name === "Technician") {
+    styles.bg = "#000";
+  }
 };
 
 export const leaderboards = [

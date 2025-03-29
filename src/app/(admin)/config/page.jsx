@@ -7,7 +7,7 @@ export const metadata = {
 export default async function ConfigVarPage() {
   return (
     <>
-      <h1 className="text-center">Admin Configuration</h1>
+      <h1 className="text-center">List Configuration</h1>
       <ConfigPageClient />
     </>
   );

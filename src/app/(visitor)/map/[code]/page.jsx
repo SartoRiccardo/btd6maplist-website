@@ -227,7 +227,7 @@ function LCC({ run }) {
             <div className="col-11 d-flex justify-content-start justify-content-md-end">
               <div className="align-self-center">
                 <div className="pe-3">
-                  <SelectorButton key={format.value} text={format.short} active>
+                  <SelectorButton key={format.value} active>
                     <img src={format.image} width={40} height={40} />
                   </SelectorButton>
                 </div>

@@ -14,12 +14,19 @@ import { useAppSelector } from "@/lib/store";
 import { useCallback, useEffect, useState } from "react";
 
 export const useMaplistFormats = () => useAppSelector(selectMaplistFormats);
+export const useVisibleFormats = (idOnly = true) => {
+  const visibleFormats = useMaplistFormats().filter(({ hidden }) => !hidden);
+  if (idOnly) return visibleFormats.map(({ id }) => id);
+  return visibleFormats;
+};
+
 export const useMaplistConfig = () => useAppSelector(selectMaplistConfig);
 export const useTypedMaplistConfig = () =>
   useAppSelector(selectTypedMaplistConfig);
 export const useDiscordToken = () => useAppSelector(selectDiscordAccessToken);
 export const useMaplistProfile = () => useAppSelector(selectMaplistProfile);
 export const useMaplistRoles = () => useAppSelector(selectMaplistRoles);
+
 export const useHasPerms = () => {
   const { loaded, permissions } = useAppSelector(selectPermissions);
   return useCallback(
@@ -40,14 +47,22 @@ export const useHasPerms = () => {
     [loaded, permissions]
   );
 };
-export const useFormatsWhere = (permWant) => {
+
+export const useFormatsWhere = (permWant, { full = false } = {}) => {
   const { loaded, permissions } = useAppSelector(selectPermissions);
+  const formats = useMaplistFormats();
   if (!loaded) return [];
 
-  return permissions
+  const formatsWhere = permissions
     .filter((permGroup) => permGroup.permissions.includes(permWant))
     .map((permGrup) => permGrup.format);
+  if (formatsWhere.includes(null))
+    return full ? formats : formats.map(({ id }) => id);
+  return full
+    ? formats.filter(({ id }) => formatsWhere.includes(id))
+    : formatsWhere;
 };
+
 export const useIsWindows = () => {
   const [isWindows, setIsWindows] = useState(false);
   useEffect(() => {

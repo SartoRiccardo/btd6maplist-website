@@ -6,6 +6,7 @@ import { btd6Font } from "@/lib/fonts";
 import { calcMapPoints } from "@/utils/maplistUtils";
 import { useIsWindows, useMaplistConfig } from "@/utils/hooks";
 import Image from "../utils/Image";
+import { emptyImage } from "@/utils/misc";
 
 const MEDAL_SIZE = 60;
 
@@ -21,16 +22,21 @@ export default function Btd6Map({
   className,
   completion,
   showMedals,
-  hidePoints,
   placeholder,
+  // Circle props
+  showPlacement,
+  placementIcon,
+  placementColor,
+  hidePoints,
 }) {
   code = code || mapData?.code || "";
   otherCodes = otherCodes || [];
+  placementColor = placementColor || "#ef5350";
 
   const isWindows = useIsWindows();
   const maplistCfg = useMaplistConfig();
   const previewUrl = placeholder
-    ? "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+    ? emptyImage
     : mapData?.map_preview_url ||
       `https://data.ninjakiwi.com/btd6/maps/map/${code}/preview`;
 
@@ -51,23 +57,38 @@ export default function Btd6Map({
         {name}
       </p>
 
-      {placement !== undefined && Object.keys(maplistCfg).length && (
-        <div className={stylesMap.points}>
+      {showPlacement ? (
+        placement !== undefined &&
+        Object.keys(maplistCfg).length && (
+          <div className={stylesMap.points}>
+            <p
+              className={`my-0 text-center ${btd6Font.className} font-border`}
+              // Luckiest Guy for some reason is perfectly centered on Windows but not anywhere else?
+              style={{ paddingTop: isWindows ? "0" : "0.5rem" }}
+            >
+              #{placement}
+              {!hidePoints && (
+                <span className={stylesMap.points_value}>
+                  {calcMapPoints(placement, maplistCfg)}
+                  <span>pt</span>
+                </span>
+              )}
+            </p>
+          </div>
+        )
+      ) : placementIcon ? (
+        <div
+          className={stylesMap.points}
+          style={{ backgroundColor: placementColor }}
+        >
           <p
             className={`my-0 text-center ${btd6Font.className} font-border`}
-            // Luckiest Guy for some reason is perfectly centered on Windows but not anywhere else?
             style={{ paddingTop: isWindows ? "0" : "0.5rem" }}
           >
-            #{placement}
-            {!hidePoints && (
-              <span className={stylesMap.points_value}>
-                {calcMapPoints(placement, maplistCfg)}
-                <span>pt</span>
-              </span>
-            )}
+            <i className={`bi ${placementIcon}`} />
           </p>
         </div>
-      )}
+      ) : null}
 
       <Image
         className={stylesMap.btd6map_image}

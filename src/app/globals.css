@@ -212,6 +212,9 @@ a .btn {
   color: white;
   transition: all 0.2s linear;
   border: 2px solid var(--color-primary);
+}
+
+.btn-primary:not(.width-auto) {
   min-width: 7rem;
 }
 

@@ -12,9 +12,8 @@ import { useState } from "react";
 export default function ConfigPageClient() {
   const formatsWithEditConfig = useFormatsWhere("edit:config");
   const maplistConfig = useTypedMaplistConfig();
-  const formats = useMaplistFormats();
   const permsInAll = formatsWithEditConfig.includes(null);
-  const validFormatInfo = formats.filter(
+  const validFormatInfo = useMaplistFormats().filter(
     ({ id }) => permsInAll || formatsWithEditConfig.includes(id)
   );
   const [selectedFormat, setSelectedFormat] = useState(
@@ -23,7 +22,7 @@ export default function ConfigPageClient() {
 
   const selectedVars = {};
   for (const vname of Object.keys(maplistConfig)) {
-    if (permsInAll || maplistConfig[vname].formats.includes(selectedFormat))
+    if (maplistConfig[vname].formats.includes(selectedFormat))
       selectedVars[vname] = maplistConfig[vname];
   }
 

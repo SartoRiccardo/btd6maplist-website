@@ -1,8 +1,8 @@
-import styles from "../expert-list/maplist.module.css";
+import styles from "../maplist.module.css";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 import MapList from "@/components/layout/maplists/MapList";
 import DifficultySelector from "@/components/maps/DifficultySelector";
-import { getTheList } from "@/server/maplistRequests";
+import { getMaplist, getVisibleFormats } from "@/server/maplistRequests";
 import { listVersions } from "@/utils/maplistUtils";
 
 export async function generateMetatdata({ searchParams }) {
@@ -26,7 +26,10 @@ export default async function TheListPage({ searchParams }) {
 
   let curFormat =
     listVersions.find(({ query }) => version === query) || listVersions[0];
-  const maps = await getTheList(version);
+  const [maps, visibleFormats] = await Promise.all([
+    getMaplist({ format: curFormat.value }),
+    getVisibleFormats(),
+  ]);
 
   return (
     <>
@@ -34,14 +37,20 @@ export default async function TheListPage({ searchParams }) {
 
       <DifficultySelector
         value={curFormat.value}
-        difficulties={listVersions}
+        difficulties={listVersions.filter(({ value }) =>
+          visibleFormats.includes(value)
+        )}
         href="/maplist?format={queryval}"
       />
       <p className={`${styles.diffDesc}`}>{curFormat.description}</p>
 
       <SubmissionRules on="list" />
 
-      <MapList maps={maps} formats={[curFormat.value]} />
+      <MapList
+        maps={maps}
+        formcompletionFormatsats={[1, curFormat.value]}
+        showPlacement
+      />
     </>
   );
 }

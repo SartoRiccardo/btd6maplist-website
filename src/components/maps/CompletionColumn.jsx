@@ -8,6 +8,8 @@ import { useHasPerms } from "@/utils/hooks";
 import Link from "next/link";
 import BtnShowCompletion from "../buttons/BtnShowCompletion";
 import { Fragment } from "react";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export default function CompletionColumn({
   completion,
@@ -41,9 +43,11 @@ export default function CompletionColumn({
       if (!runFormat) return <Fragment key={id} />;
 
       const fmtIcon = (
-        <SelectorButton text={runFormat.short} className="ms-3" active>
-          <img src={runFormat.image} width={35} height={35} />
-        </SelectorButton>
+        <FormatIcon
+          name={runFormat?.longName || runFormat.name}
+          image={runFormat.image}
+          id={id}
+        />
       );
 
       return (
@@ -65,17 +69,13 @@ export default function CompletionColumn({
               <div className="align-self-center">
                 {onlyIcon ? (
                   fmtIcon
-                ) : format <= 50 &&
-                  (mapIdxCurver !== null || mapIdxAllver !== null) ? (
+                ) : (format === 1 && mapIdxCurver !== null) ||
+                  (format === 2 && mapIdxAllver !== null) ? (
                   <MaplistPoints
                     completion={compl}
                     prevCompletions={completion.slice(0, i)}
                     idx={format === 1 ? mapIdxCurver : mapIdxAllver}
-                    icon={
-                      <SelectorButton text={runFormat.short} active>
-                        <img src={runFormat.image} width={35} height={35} />
-                      </SelectorButton>
-                    }
+                    icon={fmtIcon}
                     className="ms-3"
                   />
                 ) : (
@@ -85,7 +85,7 @@ export default function CompletionColumn({
             </div>
           </div>
 
-          <div className="col-2 col-md-1 d-flex justify-content-end">
+          <div className="col-2 col-md-1 d-flex justify-content-center">
             {hasPerms(["edit:completion", "delete:completion"], { format }) ? (
               <Link
                 className={`${stylesComp.completion_link} align-self-center no-underline`}
@@ -105,4 +105,22 @@ export default function CompletionColumn({
         </div>
       );
     });
+}
+
+function FormatIcon({ image, name, id }) {
+  return (
+    <OverlayTrigger
+      overlay={(props) => (
+        <Tooltip {...props} id={`tooltip-format-comp-${id}`}>
+          Beaten with {name} rules
+        </Tooltip>
+      )}
+    >
+      <div>
+        <SelectorButton className="me-2" active>
+          <img src={image} width={35} height={35} />
+        </SelectorButton>
+      </div>
+    </OverlayTrigger>
+  );
 }

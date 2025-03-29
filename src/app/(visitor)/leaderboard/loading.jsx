@@ -1,7 +1,6 @@
 import styles from "./leaderboard.module.css";
 import { getPositionColor } from "@/utils/functions";
-import { allFormats, leaderboards } from "@/utils/maplistUtils";
-import DifficultySelector from "@/components/maps/DifficultySelector";
+import { leaderboards } from "@/utils/maplistUtils";
 import { UserEntry_Plc } from "@/components/users/UserEntry.client";
 
 export default function ListLeaderboardLoader() {
@@ -34,8 +33,6 @@ export default function ListLeaderboardLoader() {
   return (
     <>
       <h1 className="text-center">Leaderboard</h1>
-
-      <DifficultySelector difficulties={allFormats} />
 
       <div className={`d-flex justify-content-center ${styles.lbValueChooser}`}>
         {leaderboards.map(({ key, title }) => (

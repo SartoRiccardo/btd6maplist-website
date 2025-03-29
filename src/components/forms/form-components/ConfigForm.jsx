@@ -11,6 +11,7 @@ import { isFloat, isInt } from "@/utils/functions";
 import Medal from "@/components/ui/Medal";
 import ToastSuccess from "../ToastSuccess";
 import ErrorToast from "../ErrorToast";
+import MessageBanned from "@/components/ui/MessageBanned";
 
 export default function ConfigForm({ fields }) {
   const [success, setSuccess] = useState(false);
@@ -67,24 +68,27 @@ export default function ConfigForm({ fields }) {
   };
 
   return (
-    <>
-      <Formik
-        onSubmit={handleSubmit}
-        validate={validate}
-        initialValues={initialValues}
-      >
-        {({
-          handleSubmit,
-          handleChange,
-          values,
-          errors,
-          setErrors,
-          isSubmitting,
-        }) => (
-          <>
-            <form onSubmit={handleSubmit} data-cy="config-form">
-              <div className="panel panel-container">
-                <h2 className="text-center">Config Variables</h2>
+    <div className="panel panel-container">
+      <h2 className="text-center">Config Variables</h2>
+
+      {Object.keys(fields).length === 0 ? (
+        <MessageBanned>No config variables for this list!</MessageBanned>
+      ) : (
+        <Formik
+          onSubmit={handleSubmit}
+          validate={validate}
+          initialValues={initialValues}
+        >
+          {({
+            handleSubmit,
+            handleChange,
+            values,
+            errors,
+            setErrors,
+            isSubmitting,
+          }) => (
+            <>
+              <form onSubmit={handleSubmit} data-cy="config-form">
                 <div className="row flex-row-space">
                   {Object.keys(fields).map((key) => (
                     <Fragment key={key}>
@@ -132,17 +136,17 @@ export default function ConfigForm({ fields }) {
                     Save
                   </button>
                 </div>
-              </div>
-            </form>
+              </form>
 
-            <ErrorToast errors={errors} setErrors={setErrors} />
-          </>
-        )}
-      </Formik>
+              <ErrorToast errors={errors} setErrors={setErrors} />
+            </>
+          )}
+        </Formik>
+      )}
 
       <ToastSuccess show={success} onClose={() => setSuccess(false)}>
         Config variables modified successfully!
       </ToastSuccess>
-    </>
+    </div>
   );
 }

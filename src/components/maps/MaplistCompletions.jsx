@@ -1,4 +1,4 @@
-import { getMapCompletions } from "@/server/maplistRequests";
+import { getMapCompletions, getVisibleFormats } from "@/server/maplistRequests";
 import CompletionRow from "./CompletionRow";
 import UserEntry from "../users/UserEntry";
 import { groupCompsByUser } from "@/utils/functions";
@@ -10,7 +10,11 @@ export default async function MaplistCompletions({
   mapIdxCurver,
   mapIdxAllver,
 }) {
-  const completions = await getMapCompletions(code, { page });
+  const visibleFormats = await getVisibleFormats();
+  const completions = await getMapCompletions(code, {
+    page,
+    formats: visibleFormats,
+  });
   const { keyOrder, runsBySameUsr } = groupCompsByUser(completions.completions);
 
   return (

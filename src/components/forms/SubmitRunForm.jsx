@@ -11,7 +11,7 @@ import {
 } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import DragFiles from "./DragFiles";
-import { formatToKey, listVersions } from "@/utils/maplistUtils";
+import { formatToKey } from "@/utils/maplistUtils";
 import { submitRun } from "@/server/maplistRequests.client";
 import Link from "next/link";
 import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
@@ -36,7 +36,8 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   const accessToken = useDiscordToken();
   const hasPerms = useHasPerms();
   const submittableFormats = useMaplistFormats().filter(
-    ({ run_submission_status, id }) =>
+    ({ run_submission_status, hidden, id }) =>
+      !hidden &&
       run_submission_status !== "closed" &&
       mapData?.[formatToKey?.[id]] &&
       hasPerms("create:completion_submission", { format: id })
@@ -378,62 +379,79 @@ function SidebarForm({ formats }) {
       </div>
 
       <h3 className="text-center mt-2">Run Properties</h3>
-      {curFormat.run_submission_status !== "lcc_only" && (
-        <>
-          <CheckBox
-            className={stylesMedals.medal_check}
-            name="black_border"
-            onChange={handleChange}
-            value={values.black_border}
-            disabled={disableInputs}
-            label={
-              <span>
-                <img
-                  src="/medals/medal_bb.webp"
-                  className={stylesMedals.inline_medal}
-                />
-                &nbsp; Black Border
-              </span>
-            }
-          />
-
-          <CheckBox
-            className={`${stylesMedals.medal_check} my-2`}
-            name="no_geraldo"
-            onChange={handleChange}
-            value={values.no_geraldo}
-            disabled={disableInputs}
-            label={
-              <span>
-                <img
-                  src="/medals/medal_nogerry.webp"
-                  className={stylesMedals.inline_medal}
-                />
-                &nbsp; No Optimal Hero
-              </span>
-            }
-          />
-        </>
-      )}
-
-      <CheckBox
-        className={stylesMedals.medal_check}
-        name="current_lcc"
-        onChange={handleChange}
-        value={values.current_lcc}
-        disabled={
-          disableInputs || curFormat.run_submission_status === "lcc_only"
-        }
-        label={
-          <span>
-            <img
-              src="/medals/medal_lcc.webp"
-              className={stylesMedals.inline_medal}
+      <div className="mb-2 pb-3">
+        {curFormat.run_submission_status !== "lcc_only" && (
+          <>
+            <CheckBox
+              className={stylesMedals.medal_check}
+              name="black_border"
+              onChange={handleChange}
+              value={values.black_border}
+              disabled={disableInputs}
+              label={
+                <span>
+                  <img
+                    src="/medals/medal_bb.webp"
+                    className={stylesMedals.inline_medal}
+                  />
+                  &nbsp; Black Border
+                </span>
+              }
             />
-            &nbsp; Least Cash CHIMPS
-          </span>
-        }
-      />
+
+            <CheckBox
+              className={`${stylesMedals.medal_check} my-2`}
+              name="no_geraldo"
+              onChange={handleChange}
+              value={values.no_geraldo}
+              disabled={disableInputs}
+              label={
+                <span>
+                  <img
+                    src="/medals/medal_nogerry.webp"
+                    className={stylesMedals.inline_medal}
+                  />
+                  &nbsp; No Optimal Hero
+                </span>
+              }
+            />
+          </>
+        )}
+
+        <CheckBox
+          className={stylesMedals.medal_check}
+          name="current_lcc"
+          onChange={handleChange}
+          value={values.current_lcc}
+          disabled={
+            disableInputs || curFormat.run_submission_status === "lcc_only"
+          }
+          label={
+            <span>
+              <img
+                src="/medals/medal_lcc.webp"
+                className={stylesMedals.inline_medal}
+              />
+              &nbsp; Least Cash CHIMPS
+            </span>
+          }
+        />
+      </div>
+
+      {values.current_lcc && (
+        <div className="mt-2" data-cy="fgroup-leftover">
+          <label className="form-label">LCC Saveup</label>
+          <Input
+            type="number"
+            name="leftover"
+            value={values.leftover}
+            isInvalid={touched.leftover && "leftover" in errors}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <div className="invalid-feedback">{errors.leftover}</div>
+        </div>
+      )}
 
       {requiresVideoProof(values) && (
         <div className="mt-2">
@@ -488,21 +506,6 @@ function SidebarForm({ formats }) {
               </div>
             ))}
           </AddableField>
-        </div>
-      )}
-
-      {values.current_lcc && (
-        <div className="mt-2" data-cy="fgroup-leftover">
-          <label className="form-label">LCC Saveup</label>
-          <Input
-            type="number"
-            name="leftover"
-            value={values.leftover}
-            isInvalid={touched.leftover && "leftover" in errors}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <div className="invalid-feedback">{errors.leftover}</div>
         </div>
       )}
     </div>

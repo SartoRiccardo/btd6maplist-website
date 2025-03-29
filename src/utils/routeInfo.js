@@ -14,8 +14,8 @@ export const protectedRoutes = [
     show: true,
   },
   {
-    href: "/maps/hidden",
-    matcher: "/maps/hidden",
+    href: "/hidden-maps",
+    matcher: "/hidden-maps",
     requires: ["edit:map", "delete:map"],
     label: "Legacy List",
     show: true,

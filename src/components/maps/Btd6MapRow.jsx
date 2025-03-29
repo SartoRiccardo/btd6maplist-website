@@ -1,14 +1,18 @@
+"use client";
 import stylesComp from "./MaplistCompletions.module.css";
 import stylesMap from "./Btd6Map.module.css";
 import { btd6Font } from "@/lib/fonts";
 import Link from "next/link";
 import CompletionColumn from "./CompletionColumn";
-import { allFormats, filterCompletionFormats } from "@/utils/maplistUtils";
+import { filterCompletionFormats } from "@/utils/maplistUtils";
 import Image from "../utils/Image";
+import { useMaplistFormats } from "@/utils/hooks";
 
-export default function Btd6MapRow({ map, hrefBase, completion }) {
+export default async function Btd6MapRow({ map, hrefBase, completion }) {
   completion = completion instanceof Array ? completion : [completion];
-  completion = filterCompletionFormats(completion, allFormats);
+
+  const formats = useMaplistFormats();
+  completion = filterCompletionFormats(completion, formats);
   if (!completion.length) return null;
 
   const cmpMap = (

@@ -1,7 +1,7 @@
-import styles from "./maplist.module.css";
+import styles from "../maplist.module.css";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { difficulties } from "@/utils/maplistUtils";
-import { getExpertMaplist } from "@/server/maplistRequests";
+import { getMaplist } from "@/server/maplistRequests";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 import MapList from "@/components/layout/maplists/MapList";
 
@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }) {
 }
 
 export default async function Experts({ searchParams }) {
-  const maplist = await getExpertMaplist();
+  const maplist = await getMaplist({ format: 51 });
 
   let difficulty = searchParams.difficulty || "casual";
   if (!difficulties.map(({ query }) => query).includes(difficulty))
@@ -44,8 +44,8 @@ export default async function Experts({ searchParams }) {
         <SubmissionRules on="experts" />
 
         <MapList
-          maps={maplist.filter((map) => map.difficulty === curDifficulty.value)}
-          formats={[51, 1]}
+          maps={maplist.filter((map) => map.format_idx === curDifficulty.value)}
+          completionFormats={[51, 1]}
           listFormat={51}
         />
       </div>

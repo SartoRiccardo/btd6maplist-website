@@ -3,7 +3,11 @@
 import stylesFrmMap from "./MapForm.module.css";
 import { Formik } from "formik";
 import { useState } from "react";
-import { difficulties, mapDataToFormik } from "@/utils/maplistUtils";
+import {
+  botbDifficulties,
+  difficulties,
+  mapDataToFormik,
+} from "@/utils/maplistUtils";
 import { isFloat } from "@/utils/functions";
 import {
   revalidateMap,
@@ -23,6 +27,7 @@ import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import Input from "./bootstrap/Input";
 import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import { getRepeatedIndexes } from "@/utils/validators";
+import Select from "./bootstrap/Select";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -244,6 +249,10 @@ export default function MapForm({
           : parseInt(values.placement_allver),
       difficulty:
         values.difficulty === "-1" ? null : parseInt(values.difficulty),
+      botb_difficulty:
+        values.botb_difficulty === "-1"
+          ? null
+          : parseInt(values.botb_difficulty),
       map_data: null,
       r6_start: values.r6_start_file.length
         ? values.r6_start_file[0].file
@@ -493,7 +502,7 @@ export default function MapForm({
                             format: 51,
                           }) && (
                             <SidebarField title="Expert Difficulty">
-                              <select
+                              <Select
                                 className="form-select"
                                 name="difficulty"
                                 value={values.difficulty}
@@ -506,7 +515,27 @@ export default function MapForm({
                                     {name} Expert
                                   </option>
                                 ))}
-                              </select>
+                              </Select>
+                            </SidebarField>
+                          )}
+
+                          {hasPerms(["edit:map", "create:map"], {
+                            format: 52,
+                          }) && (
+                            <SidebarField title="Best of the Best Difficulty">
+                              <Select
+                                name="botb_difficulty"
+                                value={values.botb_difficulty}
+                                onChange={handleChange}
+                                disabled={disableInputs}
+                              >
+                                <option value="-1">N/A</option>
+                                {botbDifficulties.map(({ name, value }) => (
+                                  <option key={value} value={value}>
+                                    {name}
+                                  </option>
+                                ))}
+                              </Select>
                             </SidebarField>
                           )}
 
