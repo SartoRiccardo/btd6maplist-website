@@ -379,6 +379,11 @@ function SidebarForm({ formats }) {
       </div>
 
       <h3 className="text-center mt-2">Run Properties</h3>
+      {curFormat.run_submission_status === "lcc_only" && (
+        <p className="muted text-center">
+          You can only submit LCC attempts for this list.
+        </p>
+      )}
       <div className="mb-2 pb-3">
         {curFormat.run_submission_status !== "lcc_only" && (
           <>

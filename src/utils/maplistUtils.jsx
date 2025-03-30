@@ -277,6 +277,7 @@ export const listVersions = [
     value: 1,
     image: "/format_icons/icon_curver.webp",
     plcKey: "placement_curver",
+    leaderboards: ["points", "no_optimal_hero", "black_border", "lccs"],
     description:
       "The 50 hardest custom maps in the game, ordered by difficulty. Good luck, you'll need it...",
   },
@@ -289,6 +290,7 @@ export const listVersions = [
     value: 2,
     image: "/format_icons/icon_allver.webp",
     plcKey: "placement_allver",
+    leaderboards: ["points", "no_optimal_hero", "black_border", "lccs"],
     description: (
       <>
         Unlike the Current Version format, you can play these maps in any past
@@ -314,6 +316,7 @@ export const allFormats = [
     query: "experts",
     value: 51,
     image: "/format_icons/icon_hard.webp",
+    leaderboards: ["points", "no_optimal_hero", "black_border", "lccs"],
   },
   {
     name: "Best of the Best",
@@ -321,6 +324,7 @@ export const allFormats = [
     query: "best_of_the_best",
     value: 52,
     image: "/format_icons/icon_botb.png",
+    leaderboards: [],
   },
   {
     name: "Nostalgia Pack",
@@ -328,6 +332,7 @@ export const allFormats = [
     query: "nostalgia_pack",
     value: 11,
     image: "/format_icons/icon_np_1.png",
+    leaderboards: [],
   },
 ];
 
