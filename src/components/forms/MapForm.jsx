@@ -28,6 +28,7 @@ import Input from "./bootstrap/Input";
 import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import { getRepeatedIndexes } from "@/utils/validators";
 import Select from "./bootstrap/Select";
+import NostalgiaPackSelect from "./form-components/NostalgiaPackSelect";
 
 const MAX_NAME_LEN = 100;
 const MAX_URL_LEN = 300;
@@ -78,6 +79,8 @@ const defaultValues = {
   placement_curver: "",
   placement_allver: "",
   difficulty: "-1",
+  remake_of: "-1",
+  botb_difficulty: "-1",
   r6_start: "",
   r6_start_file: [],
   map_data: "",
@@ -197,11 +200,15 @@ export default function MapForm({
     if (
       values.placement_curver === "" &&
       values.placement_allver === "" &&
-      values.difficulty === "-1"
+      values.difficulty === "-1" &&
+      values.botb_difficulty === "-1" &&
+      values.remake_of === "-1"
     ) {
       errors.placement_curver = "At least one of these is required";
       errors.placement_allver = "At least one of these is required";
       errors.difficulty = "At least one of these is required";
+      errors.botb_difficulty = "At least one of these is required";
+      errors.remake_of = "At least one of these is required";
     }
 
     if (!values.has_no_creators && !values.creators.some(({ id }) => id.length))
@@ -253,6 +260,7 @@ export default function MapForm({
         values.botb_difficulty === "-1"
           ? null
           : parseInt(values.botb_difficulty),
+      remake_of: values.remake_of === "-1" ? null : parseInt(values.remake_of),
       map_data: null,
       r6_start: values.r6_start_file.length
         ? values.r6_start_file[0].file
@@ -536,6 +544,20 @@ export default function MapForm({
                                   </option>
                                 ))}
                               </Select>
+                            </SidebarField>
+                          )}
+
+                          {hasPerms(["edit:map", "create:map"], {
+                            format: 11,
+                          }) && (
+                            <SidebarField title="Nostalgia Pack">
+                              <NostalgiaPackSelect
+                                name="remake_of"
+                                value={values.remake_of}
+                                onChange={handleChange}
+                                disabled={disableInputs}
+                                allowNull
+                              />
                             </SidebarField>
                           )}
 

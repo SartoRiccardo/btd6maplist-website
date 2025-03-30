@@ -16,7 +16,7 @@
 }
 
 .inline_medal.format_border {
-  border: 2px solid var(--color-highlight);
+  border: 1px solid var(--color-highlight);
   border-radius: 50%;
 }
 

@@ -40,6 +40,8 @@ export const mapDataToFormik = (mapData) => {
       mapData.botb_difficulty === null
         ? "-1"
         : mapData.botb_difficulty.toString(),
+    remake_of:
+      mapData.remake_of === null ? "-1" : mapData.remake_of.id.toString(),
     map_data: ["a", null].includes(mapData.map_data) ? "" : mapData.map_data,
     map_data_req_permission: mapData.map_data === "a",
     r6_start: mapData.r6_start === null ? "" : mapData.r6_start,
@@ -318,14 +320,14 @@ export const allFormats = [
     short: "BotB",
     query: "best_of_the_best",
     value: 52,
-    image: "/format_icons/icon_botb.webp",
+    image: "/format_icons/icon_botb.png",
   },
   {
     name: "Nostalgia Pack",
     short: "NP",
     query: "nostalgia_pack",
-    value: 52,
-    image: "/format_icons/icon_np.webp",
+    value: 11,
+    image: "/format_icons/icon_np_1.png",
   },
 ];
 

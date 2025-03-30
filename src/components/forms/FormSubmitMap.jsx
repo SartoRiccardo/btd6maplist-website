@@ -1,7 +1,11 @@
 "use client";
 import { Formik } from "formik";
 import { useCallback, useContext, useState } from "react";
-import { useDiscordToken, useFormatsWhere } from "@/utils/hooks";
+import {
+  useDiscordToken,
+  useFormatsWhere,
+  useMaplistFormats,
+} from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import MapCodeController, { codeRegex } from "./MapCodeController";
 import Btd6Map from "../maps/Btd6Map";
@@ -16,6 +20,7 @@ import { revalidateMapSubmissions } from "@/server/revalidations";
 import Select from "./bootstrap/Select";
 import LazyFade from "../transitions/LazyFade";
 import MessageBanned from "../ui/MessageBanned";
+import NostalgiaPackSelect from "./form-components/NostalgiaPackSelect";
 
 const MAX_TEXT_LEN = 500;
 
@@ -40,9 +45,10 @@ const validate = async (values) => {
   return errors;
 };
 
-export default function SubmitMapForm({ onSubmit, type }) {
+export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
   onSubmit = onSubmit || submitMap;
-  type = type || "list";
+  type = type || "1";
+  remakeOf = remakeOf || null;
 
   const [currentMap, setCurrentMap] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
@@ -64,7 +70,7 @@ export default function SubmitMapForm({ onSubmit, type }) {
       const code = values.code.match(codeRegex)[1].toUpperCase();
       const payload = {
         code,
-        type: values.type,
+        format: parseInt(values.type),
         notes: values.notes.length ? values.notes : null,
         proposed: parseInt(values.proposed),
         proof_completion: values.proof_completion[0].file,
@@ -89,14 +95,13 @@ export default function SubmitMapForm({ onSubmit, type }) {
         code: "",
         notes: "",
         type,
-        proposed: "0",
+        proposed: remakeOf || "0",
         proof_completion: [],
       }}
       onSubmit={handleSubmit}
     >
       {(formikProps) => {
-        const { handleSubmit, values, errors, setErrors, isSubmitting } =
-          formikProps;
+        const { handleSubmit, errors, setErrors, isSubmitting } = formikProps;
 
         let errorCount = Object.keys(errors).length;
         if ("" in errors) errorCount--;
@@ -216,8 +221,16 @@ export default function SubmitMapForm({ onSubmit, type }) {
 
 function SidebarForm({ type }) {
   const formikProps = useContext(FormikContext);
-  const { handleChange, handleBlur, values, touched, errors, disableInputs } =
-    formikProps;
+  const {
+    handleChange,
+    handleBlur,
+    values,
+    touched,
+    errors,
+    disableInputs,
+    setValues,
+  } = formikProps;
+  const formats = useMaplistFormats();
 
   return (
     <div className="my-2" data-cy="sidebar-form">
@@ -244,51 +257,57 @@ function SidebarForm({ type }) {
           <Select
             name="type"
             value={values.type}
-            onChange={handleChange}
+            onChange={(evt) => {
+              setValues({
+                ...values,
+                type: evt.target.value,
+                proposed: evt.target.value == 11 ? "1" : "0",
+              });
+            }}
             onBlur={handleBlur}
           >
-            <option value="list">The Maplist</option>
-            <option value="experts">Expert List</option>
+            {formats
+              .filter(
+                ({ hidden, map_submission_status }) =>
+                  !hidden && map_submission_status !== 0
+              )
+              .map(({ id, name }) => (
+                <option value={id} key={id}>
+                  {name}
+                </option>
+              ))}
           </Select>
         </div>
       </div>
 
       <div className="d-flex w-100 justify-content-between mt-3">
-        <p className="my-0 align-self-center">
-          Proposed{" "}
-          {values.type === "list" ? "List Position" : "Expert Difficulty"}
-        </p>
+        <p className="my-0 align-self-center">Proposed Category</p>
         <div className="align-self-end">
-          <select
-            className="form-select"
-            name="proposed"
-            value={values.proposed}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          >
-            {values.type === "list" ? (
-              <>
-                <option value="0">Top 3</option>
-                <option value="1">Top 10</option>
-                <option value="2">#11~20</option>
-                <option value="3">#21~30</option>
-                <option value="4">#31~40</option>
-                <option value="5">#41~50</option>
-              </>
-            ) : (
-              <>
-                <option value="0">Casual Expert</option>
-                <option value="1">Casual/Medium</option>
-                <option value="2">Medium Expert</option>
-                <option value="3">Medium/High</option>
-                <option value="4">High Expert</option>
-                <option value="5">High/True</option>
-                <option value="6">True Expert</option>
-                <option value="7">True/Extreme</option>
-                <option value="8">Extreme Expert</option>
-              </>
-            )}
-          </select>
+          {values.type == 11 ? (
+            <NostalgiaPackSelect
+              className="form-select"
+              name="proposed"
+              value={values.proposed}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          ) : (
+            <Select
+              className="form-select"
+              name="proposed"
+              value={values.proposed}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              {formats
+                .find(({ id }) => id == values.type)
+                .proposed_difficulties.map((name, idx) => (
+                  <option key={name} value={idx}>
+                    {name}
+                  </option>
+                ))}
+            </Select>
+          )}
         </div>
       </div>
 

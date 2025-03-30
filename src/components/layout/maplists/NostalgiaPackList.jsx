@@ -76,6 +76,7 @@ export default function NostalgiaPackList({
                   ) : (
                     <Btd6MapMissing
                       name={mapData.name}
+                      mapId={mapData.format_idx.id}
                       previewUrl={mapData.format_idx.preview_url}
                     />
                   )}

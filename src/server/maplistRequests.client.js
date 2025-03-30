@@ -381,3 +381,9 @@ export async function editFormat(token, formatId, payload) {
     return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
   }
 }
+
+export async function getRetroMaps() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/maps/retro`);
+  if (!response.ok) return null;
+  return await response.json();
+}

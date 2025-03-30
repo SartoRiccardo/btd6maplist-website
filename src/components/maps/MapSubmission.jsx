@@ -6,26 +6,15 @@ import { btd6Font } from "@/lib/fonts";
 import UserEntry from "../users/UserEntry";
 import { fromNow } from "@/utils/dates";
 import BtnDeleteSubmission from "../buttons/BtnDeleteCompletion";
-
-const proposed = {
-  list: ["Top 3", "Top 10", "#11 ~ 20", "#21 ~ 30", "#31 ~ 40", "#41 ~ 50"],
-  experts: [
-    "Casual Expert",
-    "Casual/Medium",
-    "Medium Expert",
-    "Medium/High",
-    "High Expert",
-    "High/True",
-    "True Expert",
-    "True/Extreme",
-    "Extreme Expert",
-  ],
-};
+import { allFormats } from "@/utils/maplistUtils";
+import Medal from "../ui/Medal";
+import RetroMapName from "../dynamic/RetroMapName";
 
 export default async function MapSubmission({
   code,
   rejected_by,
-  type,
+  format,
+  proposed_diff_name,
   proposed_diff,
   subm_notes,
   submitter,
@@ -33,10 +22,11 @@ export default async function MapSubmission({
   created_on,
 }) {
   const btd6Map = await getCustomMap(code);
+  const submFormat = allFormats.find(({ value }) => value === format);
 
   return (
     <div
-      className={`row panel ${cssMap.btd6map_row} my-3 gy-2 ${
+      className={`row panel ${cssMap.btd6map_row} my-3 pb-3 gy-2 ${
         rejected_by !== null ? cssMapSubm.rejected : ""
       }`}
       data-cy={`map-submission${rejected_by !== null ? "-deleted" : ""}`}
@@ -59,10 +49,20 @@ export default async function MapSubmission({
             <p className={`mb-0 ${btd6Font.className} font-border fs-5`}>
               {btd6Map?.name || <span className="muted">Deleted map?</span>}
             </p>
+            <p className="mb-2">
+              <Medal src={submFormat.image} border /> {submFormat.name}
+            </p>
             <p className="mb-0">
               <b>{code}</b> | {fromNow(created_on)}
               <br />
-              Proposed position: <b>{proposed[type][proposed_diff]}</b>
+              Submitted as:{" "}
+              <b>
+                {format === 11 ? (
+                  <RetroMapName mapId={proposed_diff} />
+                ) : (
+                  proposed_diff_name
+                )}
+              </b>
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default async function MapSubmission({
 
       {subm_notes && (
         <div className="col-12">
-          <p>{subm_notes}</p>
+          <p className="mb-0">{subm_notes}</p>
         </div>
       )}
     </div>

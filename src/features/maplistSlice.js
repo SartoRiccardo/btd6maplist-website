@@ -6,6 +6,7 @@ export const maplistSlice = createSlice({
     config: {},
     roles: [],
     formats: [],
+    retroMaps: null,
   },
   reducers: {
     setConfig: (state, { payload }) => {
@@ -37,6 +38,9 @@ export const maplistSlice = createSlice({
         format.id === payload.format.id ? payload.format : format
       );
     },
+    setRetroMaps: (state, { payload }) => {
+      state.retroMaps = payload.retroMaps;
+    },
   },
 });
 
@@ -53,10 +57,28 @@ export const selectMaplistConfig = createSelector(
 );
 export const selectMaplistRoles = ({ maplist }) => maplist.roles;
 export const selectMaplistFormats = ({ maplist }) => maplist.formats;
+export const selectRetroMaps = ({ maplist }) => maplist.retroMaps;
+export const selectRetroMapsObj = createSelector(
+  ({ maplist }) => maplist.retroMaps,
+  (retroMaps) => {
+    const maps = {};
+
+    if (retroMaps) {
+      for (const game of Object.keys(retroMaps)) {
+        for (const category of Object.keys(retroMaps[game])) {
+          for (const { id, name } of retroMaps[game][category]) maps[id] = name;
+        }
+      }
+    }
+
+    return maps;
+  }
+);
 
 export const {
   setConfig,
   setRoles,
+  setRetroMaps,
   initializeMaplistSlice,
   patchConfig,
   setFormat,

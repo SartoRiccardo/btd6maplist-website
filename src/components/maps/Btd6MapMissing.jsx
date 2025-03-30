@@ -5,13 +5,16 @@ import { btd6Font } from "@/lib/fonts";
 import Image from "../utils/Image";
 import { useIsWindows } from "@/utils/hooks";
 
-export default function Btd6MapMissing({ name, previewUrl }) {
+export default function Btd6MapMissing({ name, previewUrl, mapId }) {
   const isWindows = useIsWindows();
 
   return (
-    <Link className={stylesMap.btd6map_clickable} href="/">
+    <Link
+      className={stylesMap.btd6map_clickable}
+      href={`/map/submit?on=11&remake_of=${mapId}`}
+    >
       <div
-        className={`shadow ${stylesMap.btd6map} ${stylesMap.missing} pb-3 `}
+        className={`shadow ${stylesMap.btd6map} ${stylesMap.missing} pb-3`}
         data-cy="custom-map"
       >
         <Image
