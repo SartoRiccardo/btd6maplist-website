@@ -18,6 +18,11 @@
   text-align: center;
 }
 
+.square_image {
+  height: 64px;
+  width: auto;
+}
+
 @media only screen and (max-width: 767.98px) {
   .difficulty_label {
     font-size: 1rem;

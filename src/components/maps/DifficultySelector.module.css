@@ -22,9 +22,12 @@
 .img_wrapper {
   position: relative;
   background-color: var(--color-secondary);
+  transition: border-color 0.3s linear;
+}
+
+.img_wrapper:not(.square) {
   border: 7px solid var(--color-misc);
   border-radius: 50%;
-  transition: border-color 0.3s linear;
 }
 
 .difficulty.active .img_wrapper,

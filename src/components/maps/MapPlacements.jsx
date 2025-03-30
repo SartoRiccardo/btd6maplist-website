@@ -71,6 +71,15 @@ export default function MapPlacements({ mapData, placeholder }) {
         />
       )}
 
+      {mapData.remake_of && visibleFormats.includes(11) && (
+        <DifficultyPanel
+          image={mapData.remake_of.preview_url}
+          shortLabel={mapData.remake_of.game.name}
+          label={mapData.remake_of.name}
+          squareImage
+        />
+      )}
+
       {placeholder && (
         <DifficultyPanel
           image={emptyImage}
@@ -83,13 +92,17 @@ export default function MapPlacements({ mapData, placeholder }) {
   );
 }
 
-function DifficultyPanel({ image, shortLabel, label }) {
+function DifficultyPanel({ image, shortLabel, label, squareImage }) {
   return (
     <div className="col-6 col-md-auto">
       <div className={`${stylesMapP.difficulty_container} shadow`}>
         <div>
-          <SelectorButton text={shortLabel} active>
-            <Image alt="" src={image} width={50} height={50} />
+          <SelectorButton text={shortLabel} active squareImage={squareImage}>
+            {squareImage ? (
+              <img alt="" src={image} className={stylesMapP.square_image} />
+            ) : (
+              <Image alt="" src={image} width={50} height={50} />
+            )}
           </SelectorButton>
         </div>
 

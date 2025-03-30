@@ -7,12 +7,13 @@ export default function SelectorButton({
   active,
   className,
   textSize,
+  squareImage,
 }) {
   return (
     <div
       className={`${stylesDiffS.img_wrapper} shadow ${
         active ? stylesDiffS.active : ""
-      } ${className || ""}`}
+      } ${squareImage ? stylesDiffS.square : ""} ${className || ""}`}
     >
       {children}
 
