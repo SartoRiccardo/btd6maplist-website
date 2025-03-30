@@ -28,6 +28,7 @@ export default function Btd6Map({
   placementIcon,
   placementColor,
   hidePoints,
+  minimap,
 }) {
   code = code || mapData?.code || "";
   otherCodes = otherCodes || [];
@@ -87,6 +88,10 @@ export default function Btd6Map({
           >
             <i className={`bi ${placementIcon}`} />
           </p>
+        </div>
+      ) : minimap ? (
+        <div className={stylesMap.minimap}>
+          <img src={minimap} alt="" loading="lazy" />
         </div>
       ) : null}
 

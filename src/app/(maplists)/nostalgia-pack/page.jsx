@@ -36,7 +36,7 @@ export default async function NostalgiaPackPage({ searchParams }) {
   for (const map of maplist) {
     const categoryId = map.format_idx.category.name
       .toLowerCase()
-      .replace("[^A-Za-z0-9]", "_");
+      .replace(/[^a-z0-9]/gi, "_");
     if (!(categoryId in maplistByCategory)) {
       maplistByCategory[categoryId] = [];
       categories.push({
@@ -58,7 +58,6 @@ export default async function NostalgiaPackPage({ searchParams }) {
           href={
             "/nostalgia-pack?" +
             new URLSearchParams({
-              ...searchParams,
               game: "{queryval}",
             }).toString()
           }
@@ -104,7 +103,11 @@ export default async function NostalgiaPackPage({ searchParams }) {
 
         <NostalgiaPackList
           key={searchParams?.category || categories[0].name}
-          maps={maplistByCategory[searchParams?.category || categories[0].name]}
+          maps={
+            maplistByCategory[
+              searchParams?.category || categories[0].categoryQuery
+            ]
+          }
           completionFormats={[51, 1, 52, 11]}
           listFormat={11}
         />

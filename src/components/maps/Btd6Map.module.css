@@ -28,6 +28,26 @@
   color: var(--color-less-highlight);
 }
 
+.submit_cta {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.btd6map_clickable:hover .submit_cta {
+  opacity: 1;
+}
+
+.btd6map_clickable:hover .missing > img {
+  opacity: 1;
+  filter: brightness(1);
+}
+
 .btd6map_clickable:hover .btd6map,
 .btd6map_clickable:hover .btd6map_row {
   background-color: var(--color-less-highlight);
@@ -90,6 +110,28 @@
 
 .points_value span {
   margin-left: 0.1rem;
+}
+
+.minimap {
+  position: absolute;
+  top: 7%;
+  left: -4%;
+
+  background-color: var(--color-nostalgia-pack);
+  box-shadow: 0 0 0.5rem black;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.minimap > img {
+  height: 4rem;
+  width: auto;
+}
+
+.missing > img {
+  transition: all 0.2s ease;
+  opacity: 0.5;
+  filter: brightness(0.3);
 }
 
 /* Edge only, for some reason Luckiest Guy is already aligned */
@@ -164,7 +206,7 @@
   background-color: var(--bs-btn-success);
 }
 
-.btd6map_btn i.warn {
+.warn {
   background-color: #fbc02d;
 }
 
@@ -217,5 +259,8 @@
   }
   .play_btn p {
     font-size: 1rem;
+  }
+  .minimap > img {
+    height: 2.5rem;
   }
 }

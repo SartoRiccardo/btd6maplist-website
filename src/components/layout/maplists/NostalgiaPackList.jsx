@@ -71,11 +71,12 @@ export default function NostalgiaPackList({
                       verified={mapData.verified}
                       completion={completion}
                       showMedals={maplistProfile !== null && !noMedals}
+                      minimap={mapData.format_idx.preview_url}
                     />
                   ) : (
                     <Btd6MapMissing
                       name={mapData.name}
-                      previewUrl="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                      previewUrl={mapData.format_idx.preview_url}
                     />
                   )}
                 </div>
