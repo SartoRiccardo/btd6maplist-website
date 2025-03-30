@@ -9,6 +9,7 @@ import BtnDeleteSubmission from "../buttons/BtnDeleteCompletion";
 import { allFormats } from "@/utils/maplistUtils";
 import Medal from "../ui/Medal";
 import RetroMapName from "../dynamic/RetroMapName";
+import ZoomableImage from "../ui/ZoomableImage";
 
 export default async function MapSubmission({
   code,
@@ -35,7 +36,7 @@ export default async function MapSubmission({
         <div className="d-flex align-self-center">
           {btd6Map?.mapURL ? (
             <div>
-              <img
+              <ZoomableImage
                 className={cssMap.btd6map_image}
                 loading="lazy"
                 src={btd6Map.mapURL}
@@ -78,6 +79,7 @@ export default async function MapSubmission({
           <BtnDeleteSubmission
             className="ps-3"
             name={btd6Map?.name}
+            formatId={format}
             code={code}
           />
         )}

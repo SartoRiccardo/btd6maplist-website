@@ -243,6 +243,10 @@ img.zoomable:hover {
   cursor: pointer;
 }
 
+.c-zoom-in:hover {
+  cursor: zoom-in;
+}
+
 .invalid-feedback {
   --shadow-clr: #000;
   text-shadow: 2px 0 var(--shadow-clr), -2px 0 var(--shadow-clr),

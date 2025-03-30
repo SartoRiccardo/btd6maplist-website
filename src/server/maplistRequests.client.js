@@ -257,10 +257,10 @@ export async function insertUser(token, payload) {
   }
 }
 
-export async function rejectMapSubmission(token, code) {
+export async function rejectMapSubmission(token, code, formatId) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/maps/submit/${code}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/maps/submit/${code}/formats/${formatId}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },

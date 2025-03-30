@@ -7,14 +7,23 @@ import { useState } from "react";
 import LazyToast from "../transitions/LazyToast";
 import LazyModal from "../transitions/LazyModal";
 
-export default function BtnDeleteSubmission({ name, code, className }) {
+export default function BtnDeleteSubmission({
+  name,
+  code,
+  formatId,
+  className,
+}) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const accessToken = useDiscordToken();
 
   const reject = async () => {
-    const result = await rejectMapSubmission(accessToken.access_token, code);
+    const result = await rejectMapSubmission(
+      accessToken.access_token,
+      code,
+      formatId
+    );
     if (result && Object.keys(result.errors).length)
       setError(result[Object.keys(result.errors)[0]]);
     else setSuccess(true);
