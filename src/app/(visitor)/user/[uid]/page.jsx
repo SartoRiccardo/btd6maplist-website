@@ -1,8 +1,6 @@
 import styles from "./userpage.module.css";
-import SelectorButton from "@/components/buttons/SelectorButton";
-import { getUser } from "@/server/maplistRequests";
-import { getPositionColor, intToHex } from "@/utils/functions";
-import { allFormats } from "@/utils/maplistUtils";
+import { getFormats, getUser } from "@/server/maplistRequests";
+import { intToHex } from "@/utils/functions";
 import { initialBtd6Profile } from "@/features/authSlice";
 import EditProfilePencil from "@/components/buttons/EditProfilePencil";
 import UserCompletions from "@/components/users/UserCompletions";
@@ -11,7 +9,7 @@ import { ServerRoles, UserRole, WebsiteCreatorRole } from "./page.client";
 import ProfileMedal from "@/components/users/ProfileMedal";
 import { notFound } from "next/navigation";
 import MapList from "@/components/layout/maplists/MapList";
-import Medal from "@/components/ui/Medal";
+import { UserListStats } from "@/components/ui/UserListStats";
 
 export async function generateMetadata({ params }) {
   const userData = await getUser(params.uid);
@@ -22,7 +20,10 @@ export async function generateMetadata({ params }) {
 
 export default async function PageUser({ params, searchParams }) {
   const { uid } = params;
-  const userData = await getUser(uid);
+  const [userData, formats] = await Promise.all([getUser(uid), getFormats()]);
+  const visibleFormats = formats
+    .filter(({ hidden }) => !hidden)
+    .map(({ id }) => id);
   let page = parseInt(searchParams?.comp_page || "1");
   page = isNaN(page) ? 1 : page;
 
@@ -77,10 +78,12 @@ export default async function PageUser({ params, searchParams }) {
       </div>
 
       <h2 className="text-center mt-3">Overview</h2>
-      <div className="row gx-3 justify-content-center">
-        <MaplistOverview stats={userData.maplist.current} format={1} />
-        <MaplistOverview stats={userData.maplist.all} format={2} />
-        <MaplistOverview stats={userData.maplist.experts} format={51} />
+      <div className="row gx-3 gy-3 mb-3">
+        {userData.list_stats
+          .filter(({ format_id }) => visibleFormats.includes(format_id))
+          .map(({ format_id, stats }) => (
+            <UserListStats key={format_id} format={format_id} stats={stats} />
+          ))}
       </div>
 
       <Suspense fallback={null} key="completions">
@@ -101,84 +104,5 @@ export default async function PageUser({ params, searchParams }) {
         </>
       )}
     </>
-  );
-}
-
-function MaplistOverview({ stats, format }) {
-  const formatData = allFormats.find(({ value }) => value === format);
-  if (!formatData) return null;
-
-  const placements = [
-    {
-      plc: stats.lccs_placement,
-      score: stats.lccs,
-      prefix: <Medal src="/medals/medal_lcc.webp" />,
-    },
-    {
-      plc: stats.no_geraldo_placement,
-      score: stats.no_geraldo,
-      prefix: <Medal src="/medals/medal_nogerry.webp" />,
-    },
-    {
-      plc: stats.black_border_placement,
-      score: stats.black_border,
-      prefix: <Medal src="/medals/medal_bb.webp" />,
-    },
-  ].sort((a, b) => b.plc - a.plc);
-
-  return (
-    <div className="col-6 col-md-4 col-lg-3 col-xl-3">
-      <div className="panel my-3">
-        <div className="d-flex justify-content-center my-2">
-          <SelectorButton active>
-            <img src={formatData.image} width={50} height={50} />
-          </SelectorButton>
-          <div className="d-flex flex-column justify-content-center">
-            <h3 className="mb-0 ms-3">{formatData.name}</h3>
-          </div>
-        </div>
-
-        <PlacementRow
-          placement={stats.pts_placement}
-          score={stats.points}
-          suffix="pt"
-          large
-        />
-        {placements.map(({ plc, score, prefix }, i) => (
-          <PlacementRow key={i} placement={plc} score={score} prefix={prefix} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function PlacementRow({ placement, score, suffix, prefix, large }) {
-  return (
-    <div className={placement === null ? styles.no_score : ""}>
-      <div
-        className={`px-0 px-lg-4 ${
-          large ? "fs-2 my-3" : "fs-5 my-2"
-        } d-flex justify-content-between`}
-      >
-        <div
-          className={`${large ? "px-3" : "px-2"} py-1 font-border rounded-3 ${
-            styles.placement
-          }`}
-          style={{
-            backgroundColor: placement
-              ? getPositionColor(placement) || "#7191AD"
-              : null,
-            border: placement ? null : "1px solid var(--color-primary)",
-          }}
-        >
-          #{placement || "-"}
-        </div>
-        <div>
-          {prefix}
-          {score}
-          {suffix}
-        </div>
-      </div>
-    </div>
   );
 }

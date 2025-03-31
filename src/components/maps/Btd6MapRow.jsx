@@ -8,7 +8,7 @@ import { filterCompletionFormats } from "@/utils/maplistUtils";
 import Image from "../utils/Image";
 import { useMaplistFormats } from "@/utils/hooks";
 
-export default async function Btd6MapRow({ map, hrefBase, completion }) {
+export default function Btd6MapRow({ map, hrefBase, completion }) {
   completion = completion instanceof Array ? completion : [completion];
 
   const formats = useMaplistFormats();
