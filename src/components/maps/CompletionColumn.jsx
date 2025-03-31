@@ -65,7 +65,7 @@ export default function CompletionColumn({
           </div>
 
           <div className="col-4 col-md-5">
-            <div className="d-flex justify-content-end justify-content-lg-start h-100">
+            <div className="d-flex h-100">
               <div className="align-self-center">
                 {onlyIcon ? (
                   fmtIcon
@@ -76,7 +76,6 @@ export default function CompletionColumn({
                     prevCompletions={completion.slice(0, i)}
                     idx={format === 1 ? mapIdxCurver : mapIdxAllver}
                     icon={fmtIcon}
-                    className="ms-3"
                   />
                 ) : (
                   fmtIcon
@@ -85,7 +84,7 @@ export default function CompletionColumn({
             </div>
           </div>
 
-          <div className="col-2 col-md-1 d-flex justify-content-center">
+          <div className="col-2 col-md-1 d-flex justify-content-center align-items-center">
             {hasPerms(["edit:completion", "delete:completion"], { format }) ? (
               <Link
                 className={`${stylesComp.completion_link} align-self-center no-underline`}
@@ -107,7 +106,7 @@ export default function CompletionColumn({
     });
 }
 
-function FormatIcon({ image, name, id }) {
+function FormatIcon({ image, name, id, className }) {
   return (
     <OverlayTrigger
       overlay={(props) => (
@@ -116,8 +115,8 @@ function FormatIcon({ image, name, id }) {
         </Tooltip>
       )}
     >
-      <div>
-        <SelectorButton className="me-2" active>
+      <div className={stylesComp.format_icon}>
+        <SelectorButton className="me-md-2" active>
           <img src={image} width={35} height={35} />
         </SelectorButton>
       </div>

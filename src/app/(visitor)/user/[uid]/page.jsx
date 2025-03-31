@@ -10,6 +10,7 @@ import ProfileMedal from "@/components/users/ProfileMedal";
 import { notFound } from "next/navigation";
 import MapList from "@/components/layout/maplists/MapList";
 import { UserListStats } from "@/components/ui/UserListStats";
+import BtnBanUser from "@/components/buttons/BtnBanUser";
 
 export async function generateMetadata({ params }) {
   const userData = await getUser(params.uid);
@@ -51,7 +52,8 @@ export default async function PageUser({ params, searchParams }) {
           />
           <div className="ps-3 d-flex flex-column">
             <h1 className={`${styles.title} font-border`}>
-              {userData.name} <EditProfilePencil userId={userData.id} />
+              {userData.name} <EditProfilePencil userId={userData.id} />{" "}
+              <BtnBanUser userId={userData.id} roles={userData.roles} />
             </h1>
 
             <div className={styles.rolesContainer} data-cy="user-roles">

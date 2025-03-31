@@ -22,12 +22,15 @@ body {
 }
 
 a,
-a:visited {
+a:visited,
+.a,
+.a:visited {
   color: var(--color-highlight);
   transition: color 0.1s linear;
 }
 
-a:hover {
+a:hover,
+.a:hover {
   color: var(--color-less-highlight);
 }
 

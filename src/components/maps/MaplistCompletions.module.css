@@ -32,3 +32,10 @@
 .compcol_container > :not(:last-child) {
   padding-bottom: 0.5rem;
 }
+
+@media only screen and (max-width: 575.98px) {
+  .format_icon img {
+    width: 30px;
+    height: 30px;
+  }
+}

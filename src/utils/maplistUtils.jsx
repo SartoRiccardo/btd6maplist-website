@@ -355,6 +355,7 @@ export const getServerRoleStyle = (name) => {
   if (name === "Technician") {
     styles.bg = "#000";
   }
+  return styles;
 };
 
 export const leaderboards = [
