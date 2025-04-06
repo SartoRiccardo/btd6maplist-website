@@ -15,7 +15,7 @@ export default function BtnBanUser({ user, roles }) {
   const hasPerms = useHasPerms();
   const maplistRoles = useMaplistRoles();
   const discordToken = useDiscordToken();
-  const hasRoleIds = maplistProfile.roles.map(({ id }) => id);
+  const hasRoleIds = maplistProfile?.roles?.map(({ id }) => id) ?? [];
 
   const handleBanUser = useCallback(async () => {
     const banFunc = user.is_banned ? unbanUser : banUser;

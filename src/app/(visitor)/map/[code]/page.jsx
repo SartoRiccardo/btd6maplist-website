@@ -3,7 +3,7 @@ import styles from "./mapinfo.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
 import UserEntry from "@/components/users/UserEntry";
-import { getMap } from "@/server/maplistRequests";
+import { getFormats, getMap } from "@/server/maplistRequests";
 import { numberWithCommas } from "@/utils/functions";
 import { Fragment, Suspense } from "react";
 import SelectorButton from "@/components/buttons/SelectorButton";
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
 
 export default async function MapOverview({ params, searchParams }) {
   const { code } = params;
-  const mapData = await getMap(code);
+  const [mapData, formats] = await Promise.all([getMap(code), getFormats()]);
   let page = parseInt(searchParams?.comp_page || "1");
   page = isNaN(page) ? 1 : page;
 
@@ -47,6 +47,13 @@ export default async function MapOverview({ params, searchParams }) {
     mapData.creators.length > 0
       ? null
       : (await getCustomMap(mapData.code))?.creator?.split("/");
+
+  const visibleFormats = formats
+    .filter(({ hidden }) => !hidden)
+    .map(({ id }) => id);
+  const validLccs = mapData.lccs.filter(({ format }) =>
+    visibleFormats.includes(format)
+  );
 
   return (
     <>
@@ -172,17 +179,17 @@ export default async function MapOverview({ params, searchParams }) {
         <LoggedUserRun mapData={mapData} />
       </div>
 
-      {mapData.lccs.length ? (
+      {validLccs.length > 0 && (
         <>
           <h3 className="text-center">
             Current LCC{mapData.lccs.length !== 1 && "s"}
           </h3>
 
-          {mapData.lccs.map((run) => (
+          {validLccs.map((run) => (
             <LCC run={run} key={run.id} />
           ))}
         </>
-      ) : null}
+      )}
 
       <h3 className="text-center mt-3">List Completions</h3>
       {mapData.deleted_on === null && <AdminRunOptions code={code} />}
