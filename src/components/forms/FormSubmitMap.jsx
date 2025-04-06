@@ -269,7 +269,7 @@ function SidebarForm({ type }) {
             {formats
               .filter(
                 ({ hidden, map_submission_status }) =>
-                  !hidden && map_submission_status !== 0
+                  !hidden && map_submission_status !== "closed"
               )
               .map(({ id, name }) => (
                 <option value={id} key={id}>
