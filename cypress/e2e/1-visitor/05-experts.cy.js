@@ -1,6 +1,6 @@
 describe("Expert List", () => {
   before(() => {
-    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+    cy.resetApi();
   });
 
   beforeEach(() => {
@@ -8,20 +8,22 @@ describe("Expert List", () => {
   });
 
   it("should display the correct maps for every difficulty", () => {
-    cy.request(`${Cypress.env("maplist_api_url")}/exmaps`).then(({ body }) => {
-      cy.get("[data-cy=difficulty-selector]").each(($difficultySelector) => {
-        cy.wrap($difficultySelector).as("current-difficulty").click();
-        cy.get("@current-difficulty")
-          .invoke("attr", "data-difficulty")
-          .then((currentDiff) => {
-            cy.get("[data-cy=custom-map]").should(
-              "have.length",
-              body.filter((map) => map.difficulty === parseInt(currentDiff))
-                .length
-            );
-          });
-      });
-    });
+    cy.request(`${Cypress.env("maplist_api_url")}/maps?format=51`).then(
+      ({ body }) => {
+        cy.get("[data-cy=difficulty-selector]").each(($difficultySelector) => {
+          cy.wrap($difficultySelector).as("current-difficulty").click();
+          cy.get("@current-difficulty")
+            .invoke("attr", "data-difficulty")
+            .then((currentDiff) => {
+              cy.get("[data-cy=custom-map]").should(
+                "have.length",
+                body.filter((map) => map.format_idx === parseInt(currentDiff))
+                  .length
+              );
+            });
+        });
+      }
+    );
   });
 
   it.skip("should redirect to Discord when submitting a map", () => {
