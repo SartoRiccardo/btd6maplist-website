@@ -37,6 +37,7 @@ export default async function NostalgiaPackPage({ searchParams }) {
     const categoryId = map.format_idx.category.name
       .toLowerCase()
       .replace(/[^a-z0-9]/gi, "_");
+    console.log(categoryId);
     if (!(categoryId in maplistByCategory)) {
       maplistByCategory[categoryId] = [];
       categories.push({
@@ -46,6 +47,7 @@ export default async function NostalgiaPackPage({ searchParams }) {
     }
     maplistByCategory[categoryId].push(map);
   }
+  console.log(categories);
 
   return (
     <>
@@ -101,16 +103,18 @@ export default async function NostalgiaPackPage({ searchParams }) {
 
         <SubmissionRules on={11} />
 
-        <NostalgiaPackList
-          key={searchParams?.category || categories[0].name}
-          maps={
-            maplistByCategory[
-              searchParams?.category || categories[0].categoryQuery
-            ]
-          }
-          completionFormats={[51, 1, 52, 11]}
-          listFormat={11}
-        />
+        {maplist.length > 0 && (
+          <NostalgiaPackList
+            key={searchParams?.category || categories[0].name}
+            maps={
+              maplistByCategory[
+                searchParams?.category || categories[0].categoryQuery
+              ]
+            }
+            completionFormats={[51, 1, 52, 11]}
+            listFormat={11}
+          />
+        )}
       </div>
     </>
   );
