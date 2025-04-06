@@ -1,23 +1,22 @@
 /**
- * Access codes follow the syntax: mock_discord_code_(user_id)_(perm_int)
- * Mock access tokens follow the syntax: mock_discord_(user_id)_(perm_int)
- * Refresh access tokens follow the syntax: mock_discord_refresh_(user_id)_(perm_int)
+ * Access codes follow the syntax: mock_discord_code_(user_id)_(perm_list)
+ * Mock access tokens follow the syntax: mock_discord_(user_id)_(perm_list)
+ * Refresh access tokens follow the syntax: mock_discord_refresh_(user_id)_(perm_list)
  *
- * Where perm_int is a parameter where each bit is a Maplist perm. For each bit:
- * 0 - Unauthorized (token is invalid)
- * 1 - Not in the Discord
- * 2 - Requires recording to submit any run
- * 3 - Banned from submitting
- * 4 - Maplist Moderator
- * 5 - Expert List Moderator
- * 6 - Administrator (deprecated, resolved to Maplist Moderator + Expert List Moderator)
- * 7 - Maplist Owner
- * 8 - Expert List Owner
+ * - perm_list is a plus-separated array of permissions.
+ *   Permissions can be individual or by category.
+ *   Individual: {permission}/{format_ids, comma separated. If empty, present in all formats}
+ *     For example: edit:config/1,51+edit:map/1+edit:self/
+ *   Category: !{category}/{format_ids, comma separated. If empty, present in all formats}
+ *     For example: !mod/51+!curator/1,2
+ *     Categories are methods in the Permissions class.
+ *
+ *   You can combine the two types: edit:config/+!mod/51
  */
 
 function getMockData(token) {
-  const mockData = token.match(/^mock_discord(?:_code|_refresh)?_(\d+)_(\d+)$/);
-  return mockData || [null, 1, 1];
+  const mockData = token.match(/^mock_discord(?:_code|_refresh)?_(\d+)_(.+)$/);
+  return mockData || [null, 1, ""];
 }
 
 export async function getAccessToken(code) {
