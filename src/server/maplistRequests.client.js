@@ -387,3 +387,33 @@ export async function getRetroMaps() {
   if (!response.ok) return null;
   return await response.json();
 }
+
+export async function banUser(token, userId) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/ban`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.ok;
+  } catch (exc) {
+    return false;
+  }
+}
+
+export async function unbanUser(token, userId) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/unban`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.ok;
+  } catch (exc) {
+    return false;
+  }
+}

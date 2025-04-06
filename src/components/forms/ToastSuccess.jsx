@@ -1,3 +1,4 @@
+import { pFont } from "@/lib/fonts";
 import LazyToast from "../transitions/LazyToast";
 
 export default function ToastSuccess({ show, onClose, children }) {
@@ -10,7 +11,7 @@ export default function ToastSuccess({ show, onClose, children }) {
       delay={4000}
       autohide
     >
-      <div className="toast-body" data-cy="toast-success">
+      <div className={`toast-body ${pFont.className}`} data-cy="toast-success">
         {children}
       </div>
     </LazyToast>

@@ -4,9 +4,17 @@ export default function Medal({ src, padEnd, padStart, padHeight, border }) {
   return (
     <img
       src={src}
-      className={`${cssMedals.inline_medal} ${padHeight ? "my-2" : ""} ${
-        padEnd ? "me-2" : ""
-      } ${padStart ? "me-2" : ""} ${border ? cssMedals.format_border : ""}`}
+      className={`${cssMedals.inline_medal} ${
+        padHeight === "bottom"
+          ? "mb-2"
+          : padHeight === "top"
+          ? "mt-2"
+          : padHeight
+          ? "my-2"
+          : ""
+      } ${padEnd ? "me-2" : ""} ${padStart ? "me-2" : ""} ${
+        border ? cssMedals.format_border : ""
+      }`}
     />
   );
 }

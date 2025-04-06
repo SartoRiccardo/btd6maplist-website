@@ -52,7 +52,7 @@ export default async function Experts({ searchParams }) {
         />
         <p className={`${styles.diffDesc}`}>{curDifficulty.description}</p>
 
-        <SubmissionRules on="experts" />
+        <SubmissionRules on={52} />
 
         <MapList
           maps={maplist.filter((map) =>

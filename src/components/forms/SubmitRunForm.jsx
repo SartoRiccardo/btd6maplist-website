@@ -131,8 +131,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   }
 
   if (!accessToken) return null;
-
-  const form = (
+  return (
     <Formik
       validate={validate}
       initialValues={{
@@ -167,6 +166,23 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
             value={{ ...formikProps, disableInputs, requiresVideoProof }}
             key={0}
           >
+            <div className="flex-hcenter">
+              <button
+                type="button"
+                onClick={() => setOpenRules(!openRules)}
+                className="btn btn-primary fs-6"
+              >
+                Run Submission Rules
+              </button>
+            </div>
+
+            <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
+              <div>
+                <br />
+                <RunSubmissionRules on={parseInt(values.format)} />
+              </div>
+            </LazyFade>
+
             <form
               onSubmit={(evt) => {
                 setShowErrorCount(true);
@@ -289,31 +305,6 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         );
       }}
     </Formik>
-  );
-
-  return (
-    <>
-      <div className="flex-hcenter">
-        <button
-          type="button"
-          onClick={() => setOpenRules(!openRules)}
-          className="btn btn-primary fs-6"
-        >
-          Run Submission Rules
-        </button>
-      </div>
-
-      <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
-        <div>
-          <br />
-          {/* <RunSubmissionRules
-            on={humptyDumpty.includes(3) ? "experts" : "list"}
-          /> */}
-        </div>
-      </LazyFade>
-
-      {form}
-    </>
   );
 }
 

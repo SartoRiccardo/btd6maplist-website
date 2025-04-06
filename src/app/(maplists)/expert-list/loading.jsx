@@ -11,7 +11,7 @@ export default function ExpertsLoader() {
       <div>
         <DifficultySelector difficulties={difficulties} />
 
-        <SubmissionRules on="experts" />
+        <SubmissionRules on={51} />
 
         <MapListLoader />
       </div>

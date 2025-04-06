@@ -53,7 +53,7 @@ export default async function PageUser({ params, searchParams }) {
           <div className="ps-3 d-flex flex-column">
             <h1 className={`${styles.title} font-border`}>
               {userData.name} <EditProfilePencil userId={userData.id} />{" "}
-              <BtnBanUser userId={userData.id} roles={userData.roles} />
+              <BtnBanUser user={userData} roles={userData.roles} />
             </h1>
 
             <div className={styles.rolesContainer} data-cy="user-roles">

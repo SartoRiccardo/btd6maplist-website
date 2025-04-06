@@ -44,7 +44,7 @@ export default async function TheListPage({ searchParams }) {
       />
       <p className={`${styles.diffDesc}`}>{curFormat.description}</p>
 
-      <SubmissionRules on="list" />
+      <SubmissionRules on={1} />
 
       <MapList
         maps={maps}
