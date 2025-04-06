@@ -15,7 +15,7 @@
  */
 
 function getMockData(token) {
-  const mockData = token.match(/^mock_discord(?:_code|_refresh)?_(\d+)_(.+)$/);
+  const mockData = token.match(/^mock_discord(?:_code|_refresh)?_(\d+)_(.*)$/);
   return mockData || [null, 1, ""];
 }
 
