@@ -163,6 +163,7 @@ a.white-text {
   position: fixed;
   bottom: 1rem;
   left: 0.5rem;
+  z-index: 999;
 }
 
 .text-justify {
