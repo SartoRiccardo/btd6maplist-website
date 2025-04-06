@@ -21,6 +21,7 @@ import Select from "./bootstrap/Select";
 import LazyFade from "../transitions/LazyFade";
 import MessageBanned from "../ui/MessageBanned";
 import NostalgiaPackSelect from "./form-components/NostalgiaPackSelect";
+import { allFormats } from "@/utils/maplistUtils";
 
 const MAX_TEXT_LEN = 500;
 
@@ -126,17 +127,29 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
                 setIsFetching={setIsFetching}
                 currentMap={currentMap?.code}
                 onMapSuccess={({ mapData, isMaplist }) => {
+                  let submittableFormats = [];
+                  let code = null;
                   if (isMaplist) {
+                    submittableFormats = allFormats
+                      .filter(({ plcKey }) => mapData[plcKey] === null)
+                      .map(({ value }) => value);
+                    code = mapData.code;
+                  } else {
+                    submittableFormats = allFormats.map(({ value }) => value);
+                    code = mapData.id;
+                  }
+
+                  setCurrentMap({
+                    code,
+                    name: mapData.name,
+                    submittableFormats,
+                  });
+                  if (submittableFormats.length === 0) {
                     setErrors({
                       ...errors,
-                      code: "The map's already in the list!",
+                      code: "That map is already in all lists!",
                     });
                   }
-                  setCurrentMap({
-                    code: mapData.id,
-                    name: mapData.name,
-                    valid: !isMaplist,
-                  });
                 }}
                 onMapFail={() =>
                   setErrors({
@@ -163,7 +176,7 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
                 </div>
               </LazyFade>
 
-              {currentMap && currentMap.valid && (
+              {currentMap && currentMap.submittableFormats.length > 0 && (
                 <div data-cy="submit-map-fields">
                   <hr className="mb-5" />
 
@@ -182,7 +195,9 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
                           <SidebarSuccess type={type} />
                         ) : (
                           <>
-                            <SidebarForm type={type} />
+                            <SidebarForm
+                              submittableFormats={currentMap.submittableFormats}
+                            />
 
                             <div className="mb-2 mt-4">
                               <div className="flex-hcenter flex-col-space">
@@ -219,7 +234,7 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
   );
 }
 
-function SidebarForm({ type }) {
+function SidebarForm({ submittableFormats }) {
   const formikProps = useContext(FormikContext);
   const {
     handleChange,
@@ -268,8 +283,10 @@ function SidebarForm({ type }) {
           >
             {formats
               .filter(
-                ({ hidden, map_submission_status }) =>
-                  !hidden && map_submission_status !== "closed"
+                ({ hidden, map_submission_status, id }) =>
+                  !hidden &&
+                  map_submission_status !== "closed" &&
+                  submittableFormats.includes(id)
               )
               .map(({ id, name }) => (
                 <option value={id} key={id}>

@@ -108,7 +108,7 @@ export default function FormEditFormat({ formatId }) {
 
           return (
             <>
-              <form onSubmit={handleSubmit} data-cy="config-form">
+              <form onSubmit={handleSubmit} data-cy="format-form">
                 <div className="panel panel-container">
                   <h2 className="text-center">List Information</h2>
 
