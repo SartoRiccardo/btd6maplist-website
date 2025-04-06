@@ -21,7 +21,7 @@ export default function BtnDeleteSubmission({
 
   const reject = async () => {
     const result = await rejectMapSubmission(
-      "", //accessToken.access_token,
+      accessToken.access_token,
       code,
       formatId
     );
