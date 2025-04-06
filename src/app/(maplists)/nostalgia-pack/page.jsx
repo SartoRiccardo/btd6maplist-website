@@ -62,7 +62,16 @@ export default async function NostalgiaPackPage({ searchParams }) {
             }).toString()
           }
         />
-        <p className={styles.diffDesc}>{curDifficulty.description}</p>
+        <p className={styles.diffDesc}>
+          {curDifficulty.description}
+          <br />
+          <br />
+          Join the{" "}
+          <a href="https://discord.gg/T228Dtkfb9" target="_blank">
+            BTD6 Map Emporium
+          </a>{" "}
+          if you would like to interact with the community more!
+        </p>
 
         {categories.length > 1 && (
           <div
@@ -74,7 +83,11 @@ export default async function NostalgiaPackPage({ searchParams }) {
                 const isActive = categoryQuery === searchParams?.category;
 
                 return isActive ? (
-                  <button className="btn btn-primary active" key={id}>
+                  <button
+                    className="btn btn-primary active"
+                    key={id}
+                    data-cy="btn-category"
+                  >
                     {name}
                   </button>
                 ) : (
@@ -92,7 +105,9 @@ export default async function NostalgiaPackPage({ searchParams }) {
                       isActive ? cssLeaderboard.lbValueActive : ""
                     } font-border`}
                   >
-                    <button className="btn btn-primary">{name}</button>
+                    <button className="btn btn-primary" data-cy="btn-category">
+                      {name}
+                    </button>
                   </Link>
                 );
               })}

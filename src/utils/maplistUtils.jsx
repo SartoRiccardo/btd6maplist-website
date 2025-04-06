@@ -162,8 +162,9 @@ export const botbDifficulties = [
     value: 0,
     image: "/format_icons/icon_botb_1.png",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero dolorum vel excepturi sapiente ex explicabo, dolore est quos dolor nulla hic fugiat ad a aliquid incidunt iure itaque veniam aliquam?",
-    meta_desc: "Lorem ipsum",
+      "Simple, clean, and beautifully crafted — these maps are perfect for getting started or just enjoying the art of great design. Whether you're new to the game or just want to relax, feel free to breeze through and admire the smooth flow and charming aesthetics.",
+    meta_desc:
+      "Explore beginner-friendly maps that are easy to play and beautifully designed. Perfect for new players or a relaxing experience!",
   },
   {
     name: "Intermediate",
@@ -171,8 +172,9 @@ export const botbDifficulties = [
     value: 1,
     image: "/format_icons/icon_botb_2.png",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero dolorum vel excepturi sapiente ex explicabo, dolore est quos dolor nulla hic fugiat ad a aliquid incidunt iure itaque veniam aliquam?",
-    meta_desc: "Lorem ipsum",
+      "Ready to turn things up a notch? These maps introduce a bit more challenge, but nothing you haven’t handled before. The gameplay stays fair and familiar, while the decoration steps things up with unique and polished visuals that bring every level to life.",
+    meta_desc:
+      "Browse intermediate-level maps that blend familiar gameplay with increased difficulty and stunning visuals.",
   },
   {
     name: "Advanced",
@@ -180,8 +182,9 @@ export const botbDifficulties = [
     value: 2,
     image: "/format_icons/icon_botb_3.png",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero dolorum vel excepturi sapiente ex explicabo, dolore est quos dolor nulla hic fugiat ad a aliquid incidunt iure itaque veniam aliquam?",
-    meta_desc: "Lorem ipsum",
+      "You'll need solid game knowledge and sharper skills to push through the creative mechanics and complex layouts. While the visuals are still top-tier, the focus here shifts to serious gameplay. Expect to restart a few times — and enjoy the process.",
+    meta_desc:
+      "Discover advanced maps with intricate design and challenging mechanics. For players ready to test their skills and strategy!",
   },
   {
     name: "Expert",
@@ -190,8 +193,9 @@ export const botbDifficulties = [
     difficuly_values: [3, 4],
     image: "/format_icons/icon_botb_4.png",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero dolorum vel excepturi sapiente ex explicabo, dolore est quos dolor nulla hic fugiat ad a aliquid incidunt iure itaque veniam aliquam?",
-    meta_desc: "Lorem ipsum",
+      "Beautiful and brutal. These maps are not for the faint of heart — they're punishing, strategic, and some have even earned spots on The Maplist and The Expert List. While the decoration may wow you, don’t get too distracted. You'll need everything you've learned (and then some) to make it through.\n\nMaps marked with a flame are extreme, they might break within updates and are sometimes featured in harder lists.",
+    meta_desc:
+      "Dive into expert-level maps featuring elite-level difficulty and stunning visuals. Only for the brave!",
   },
 ];
 
@@ -201,64 +205,80 @@ export const npDifficulties = [
     query: "btd1_2_3",
     value: 0,
     image: "/format_icons/icon_np_1.png",
-    description: "",
-    meta_desc: "",
+    description:
+      "Travel all the way back to where it began! These maps are remakes and reimaginings of tracks from the original Bloons TD trilogy. Simple layouts, classic vibes, and a healthy dose of nostalgia — all brought to life with modern decoration.",
+    meta_desc:
+      "Play remakes of classic Bloons TD 1, 2, and 3 maps. Reimagined with updated visuals, perfect for longtime fans and curious newcomers.",
   },
   {
     name: "iOS/PSN/DSi",
     query: "btd_ios_psn_dsi",
     value: 1,
     image: "/format_icons/icon_np_2.png",
-    description: "",
-    meta_desc: "",
+    description:
+      "Miss those mobile and console exclusives? These maps are faithful recreations of tracks found only in Bloons TD's early iOS, PlayStation Network, and DSi versions. Rare, sometimes forgotten, but always fun — they're back and better than ever!",
+    meta_desc:
+      "Explore remakes of classic Bloons TD maps from iOS, PSN, and DSi versions. Rare and nostalgic tracks brought into the modern era!",
   },
   {
     name: "BTD4",
     query: "bloons_td_4",
     value: 2,
     image: "/format_icons/icon_np_3.png",
-    description: "",
-    meta_desc: "",
+    description:
+      "Bloons TD 4 brought major changes — and these remakes honor that legacy! Enjoy fan-favorite tracks from the BTD4 era with refreshed visuals, and all the charm that made the original game so memorable.",
+    meta_desc:
+      "Relive Bloons TD 4 with remade tracks from the classic game. Updated visuals and design, same nostalgic fun!",
   },
   {
     name: "BTD5",
     query: "bloons_td_5",
     value: 3,
     image: "/format_icons/icon_np_4.png",
-    description: "",
-    meta_desc: "",
+    description:
+      "BTD5 was a fan-favorite for a reason, and these remade maps capture all the tight track design and fun layouts you remember. Brought into the current era with fresh decoration and quality-of-life updates — it's the best of both worlds.",
+    meta_desc:
+      "Revisit Bloons TD 5 maps with modern remakes. Nostalgic layouts enhanced with updated visuals and smooth gameplay.",
   },
   {
     name: "BTDB1",
     query: "bloons_td_battles",
     value: 4,
     image: "/format_icons/icon_np_5.png",
-    description: "",
-    meta_desc: "",
+    description:
+      "Inspired by the intense head-to-head action of Bloons TD Battles, these maps are built for competitive strategy. Whether you're reliving your favorite arenas or just love their design, these remakes bring the spirit of PvP into any playstyle.",
+    meta_desc:
+      "Remade Bloons TD Battles maps featuring competitive layouts and classic arenas. Perfect for strategy fans and old-school players!",
   },
   {
     name: "BMC",
     query: "bloons_monkey_city",
     value: 5,
     image: "/format_icons/icon_np_6.png",
-    description: "",
-    meta_desc: "",
+    description:
+      "Remember expanding your Monkey City and fighting through the world's maps along the way? These remakes bring that world-building charm back to life, with maps based on the tracks from Bloons Monkey City — now fully updated!",
+    meta_desc:
+      "Play remakes of maps from Bloons Monkey City. Unique layouts from the city-builder TD game, brought into modern gameplay.",
   },
   {
     name: "BATTD",
     query: "bloons_adventure_time_td",
     value: 6,
     image: "/format_icons/icon_np_7.png",
-    description: "",
-    meta_desc: "",
+    description:
+      "These aren't just remakes — they're full-on ports from Bloons Adventure Time TD. Originally built for a different universe, these maps have been carefully adapted into the core Bloons TD style. Expect creative layouts and thematic fun, now fully playable outside the Land of Ooo.",
+    meta_desc:
+      "Ported maps from Bloons Adventure Time TD, adapted for core Bloons gameplay. Unique layouts and themes from the crossover title!",
   },
   {
     name: "BTDB2/BTD6",
     query: "bloons_td_battles_2",
     value: 7,
     image: "/format_icons/icon_np_8.png",
-    description: "",
-    meta_desc: "",
+    description:
+      "These maps were either scrapped from BTD6 before release or originally launched in Bloons TD Battles 2 — and now they’ve made their way over here. Whether they were cut, forgotten, or locked behind multiplayer, these ports give them new life in a fresh format. Think of it as the second chance they deserve.",
+    meta_desc:
+      "Play official maps from Battles 2 and scrapped BTD6 content, now ported into full playability. Unreleased and multiplayer-only maps revived!",
   },
 ];
 

@@ -50,7 +50,16 @@ export default async function Experts({ searchParams }) {
           difficulties={botbDifficulties}
           href="/best-of-the-best?difficulty={queryval}"
         />
-        <p className={`${styles.diffDesc}`}>{curDifficulty.description}</p>
+        <p className={`${styles.diffDesc}`}>
+          {curDifficulty.description}
+          <br />
+          <br />
+          Join the{" "}
+          <a href="https://discord.gg/T228Dtkfb9" target="_blank">
+            BTD6 Map Emporium
+          </a>{" "}
+          if you would like to interact with the community more!
+        </p>
 
         <SubmissionRules on={52} />
 
