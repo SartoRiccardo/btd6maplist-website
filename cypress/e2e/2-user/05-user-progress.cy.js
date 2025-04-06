@@ -6,7 +6,7 @@ describe("User Progress", () => {
   });
 
   beforeEach(() => {
-    cy.login(uid, 0);
+    cy.login(uid);
   });
 
   it("shows completions on a map", () => {

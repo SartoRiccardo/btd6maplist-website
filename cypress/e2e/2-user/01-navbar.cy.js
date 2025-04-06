@@ -6,7 +6,7 @@ describe("Logged in user navbar", () => {
   });
 
   beforeEach(() => {
-    cy.login(uid, 0);
+    cy.login(uid);
   });
 
   it("has a section for one's profile on desktop", () => {

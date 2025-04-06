@@ -33,7 +33,7 @@ describe("Submit Completion", () => {
   });
 
   beforeEach(() => {
-    cy.login(uid, 0);
+    cy.login(uid);
   });
 
   it("can't submit on a deleted map", () => {
@@ -110,7 +110,12 @@ describe("Submit Completion", () => {
 
   describe("Banned and restricted users", () => {
     it("forces requires recording users to submit video proof", () => {
-      cy.login(uid, 4);
+      cy.login(uid, {
+        permissions: {
+          "!basic": null,
+          "require:completion_submission:recording": null,
+        },
+      });
       cy.visit("/map/MLXXXAA/submit");
       cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
         "req-comp-submission"
@@ -134,18 +139,9 @@ describe("Submit Completion", () => {
     });
 
     it("prevents banned users from submitting", () => {
-      cy.login(uid, 8);
+      cy.login(uid, { permissions: {} });
       cy.visit("/map/MLXXXAA/submit");
-      cy.intercept("POST", "/maps/MLXXXAA/completions/submit").as(
-        "req-comp-submission"
-      );
-
-      cy.fillCompletionImages();
-      cy.shouldFailSubmit();
-      cy.get("[data-cy=toast-error]");
-      cy.wait("@req-comp-submission")
-        .its("response.statusCode")
-        .should("equal", 403);
+      cy.get("[data-cy=form-submit-completion]").should("not.exist");
     });
   });
 
