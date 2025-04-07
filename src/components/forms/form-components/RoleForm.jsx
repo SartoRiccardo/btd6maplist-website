@@ -104,7 +104,7 @@ export default function RoleForm({
           <button
             disabled={disabled}
             type="button"
-            className="btn btn-danger"
+            className="btn btn-danger width-auto"
             onClick={() => onDelete()}
             data-cy="btn-role-delete"
           >
@@ -231,7 +231,7 @@ export default function RoleForm({
                       <button
                         disabled={disabled}
                         type="button"
-                        className="btn btn-danger"
+                        className="btn btn-danger width-auto"
                         onClick={() => {
                           const newVal = {
                             ...value,
@@ -259,7 +259,8 @@ export default function RoleForm({
                 </div>
               );
             })}
-            <div className="float-right">
+
+            <div className="d-flex justify-content-start">
               <AddRoleButton
                 disabled={disabled}
                 onChange={onChange}

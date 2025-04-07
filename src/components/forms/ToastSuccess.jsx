@@ -10,6 +10,7 @@ export default function ToastSuccess({ show, onClose, children }) {
       onClose={() => onClose(false)}
       delay={4000}
       autohide
+      data-cy="toast-success"
     >
       <div className={`toast-body ${pFont.className}`} data-cy="toast-success">
         {children}

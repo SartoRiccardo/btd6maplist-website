@@ -102,7 +102,8 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
       onSubmit={handleSubmit}
     >
       {(formikProps) => {
-        const { handleSubmit, errors, setErrors, isSubmitting } = formikProps;
+        const { handleSubmit, errors, setErrors, isSubmitting, values } =
+          formikProps;
 
         let errorCount = Object.keys(errors).length;
         if ("" in errors) errorCount--;
@@ -158,7 +159,6 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
                   })
                 }
               />
-
               <div className="flex-hcenter">
                 <button
                   type="button"
@@ -168,14 +168,12 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
                   Map Submission Rules
                 </button>
               </div>
-
               <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
                 <div>
                   <br />
-                  <MapSubmissionRules on={type} />
+                  <MapSubmissionRules on={parseInt(values.type)} />
                 </div>
               </LazyFade>
-
               {currentMap && currentMap.submittableFormats.length > 0 && (
                 <div data-cy="submit-map-fields">
                   <hr className="mb-5" />

@@ -235,7 +235,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                               <div className={cssDragF.remove}>
                                 <button
                                   type="button"
-                                  className="btn btn-danger"
+                                  className="btn btn-danger width-auto"
                                   disabled={disableInputs}
                                   onClick={(_e) =>
                                     setFieldValue(
@@ -269,7 +269,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                 </div>
 
                 <div className="col-12 col-lg-6">
-                  <div className="panel h-100">
+                  <div className="panel">
                     {success ? (
                       <SidebarSuccess formats={submittableFormats} />
                     ) : (

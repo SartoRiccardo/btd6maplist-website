@@ -106,7 +106,7 @@ export default function DragFiles({
         <button
           name={name}
           type="button"
-          className={`btn btn-danger big ${stylesDrgF.reset}`}
+          className={`btn btn-danger big ${stylesDrgF.reset} width-auto`}
           onClick={(evt) => processFiles(evt, [])}
         >
           <i className="bi bi-trash3" />

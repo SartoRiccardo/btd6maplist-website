@@ -342,7 +342,7 @@ function RunProperties({ isNew }) {
                 <div>
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn btn-danger width-auto"
                     disabled={disableInputs}
                     onClick={(_e) =>
                       setValues({

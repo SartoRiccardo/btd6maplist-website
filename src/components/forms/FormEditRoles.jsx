@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { revalidateRoles } from "@/server/revalidations";
 import LazyToast from "../transitions/LazyToast";
 import { hexToInt, intToHex } from "@/utils/functions";
+import ToastSuccess from "./ToastSuccess";
 
 const emptyRole = {
   threshold: 1,
@@ -291,16 +292,18 @@ export default function FormEditRoles({ roles }) {
                         guilds={guilds}
                       />
                     ) : (
-                      <button
-                        type="button"
-                        className="btn btn-success w-100"
-                        onClick={() =>
-                          setFieldValue("firstPlaceRole", { ...emptyRole })
-                        }
-                        data-cy="btn-add-first-place-role"
-                      >
-                        <i className="bi bi-plus-lg" />
-                      </button>
+                      <div className="flex-hcenter">
+                        <button
+                          type="button"
+                          className="btn btn-success"
+                          onClick={() =>
+                            setFieldValue("firstPlaceRole", { ...emptyRole })
+                          }
+                          data-cy="btn-add-first-place-role"
+                        >
+                          <i className="bi bi-plus-lg" />
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -314,6 +317,29 @@ export default function FormEditRoles({ roles }) {
                   name="roles"
                   defaultValue={{ ...emptyRole }}
                   disabled={disableInputs}
+                  addFieldsBtn={({ addValue }) => (
+                    <>
+                      <div className="flex-hcenter mt-3">
+                        <button
+                          type="button"
+                          className="btn btn-success font-border me-3 fw-bold"
+                          disabled={disableInputs}
+                          onClick={addValue}
+                          data-cy="btn-addable-field"
+                        >
+                          New Role
+                        </button>
+
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                          disabled={disableInputs}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </>
+                  )}
                 >
                   <div className="row gy-5 mb-5" data-cy="threshold-roles">
                     {values.roles.length === 0 ? (
@@ -352,31 +378,12 @@ export default function FormEditRoles({ roles }) {
                   </div>
                 </AddableField>
               </div>
-
-              <div className="d-flex justify-content-center">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={disableInputs}
-                >
-                  Save
-                </button>
-              </div>
             </form>
 
             <ErrorToast />
-            <LazyToast
-              bg="success"
-              className="notification"
-              show={success}
-              onClose={() => setSuccess(false)}
-              delay={4000}
-              autohide
-            >
-              <div className="toast-body" data-cy="toast-success">
-                Roles changed!
-              </div>
-            </LazyToast>
+            <ToastSuccess show={success} onClose={() => setSuccess(false)}>
+              Roles changed!
+            </ToastSuccess>
           </FormikContext.Provider>
         );
       }}
