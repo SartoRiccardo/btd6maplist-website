@@ -6,7 +6,7 @@ describe("Pending Completions", () => {
   });
 
   beforeEach(() => {
-    cy.login(uid, 64);
+    cy.login(uid, { permissions: { "!verifier": null } });
     cy.visit("/completions/pending");
   });
 

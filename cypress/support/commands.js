@@ -45,10 +45,15 @@ Cypress.Commands.add("resetApi", () => {
 
 Cypress.Commands.add(
   "login",
-  (userId, { permissions = { "!basic": null }, unauthorized = false } = {}) => {
-    const permList = Object.keys(permissions).map(
-      (permName) => `${permName}/${permissions[permName]?.join(",") ?? ""}`
-    );
+  (
+    userId,
+    { permissions = { "!basic": null }, roles = [], unauthorized = false } = {}
+  ) => {
+    const permList = Object.keys(permissions)
+      .map(
+        (permName) => `${permName}/${permissions[permName]?.join(",") ?? ""}`
+      )
+      .concat(roles.map((roleId) => `@${roleId}`));
     const permParam = encodeURIComponent(permList.join("+"));
 
     const url = unauthorized

@@ -19,7 +19,7 @@ describe("Submit Map", () => {
   });
 
   it("doesn't show the code if the code is invalid", () => {
-    cy.get("input[name=code]").as("in-code").type("MLXXXAA");
+    cy.get("input[name=code]").as("in-code").type("MLXXXED");
     cy.get("@in-code")
       .parents("[data-cy=fgroup-map-code]")
       .find(".invalid-feedback")
@@ -30,6 +30,11 @@ describe("Submit Map", () => {
     cy.get("@in-code").type("XXXXXXX");
     cy.get("@err-code").should("not.be.empty");
     cy.get("[data-cy=submit-map-fields]").should("not.exist");
+  });
+
+  it("is missing some formats if the map's already in them", () => {
+    cy.get("input[name=code]").as("in-code").type("MLXXXAA");
+    cy.get("[name=type] option").should("have.length", 2);
   });
 
   it("doesn't submit if some fields are invalid", () => {

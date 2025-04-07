@@ -12,7 +12,7 @@ describe("Admin user navbar", () => {
   });
 
   beforeEach(() => {
-    cy.login(uid, 64);
+    cy.login(uid, { permissions: { "!mod": null } });
     cy.visit("/");
   });
 

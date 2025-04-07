@@ -134,11 +134,11 @@ export default function FormEditRoles({ roles }) {
     revalidateRoles();
   };
 
-  const selectCurrentRoles = (lbFormat, lbValue) =>
-    roles
+  const selectCurrentRoles = (lbFormat, lbValue) => {
+    return roles
       .filter(
         ({ lb_format, lb_type }) =>
-          lb_format === lbFormat.id && lb_type === lbValue
+          lb_format === lbFormat && lb_type === lbValue
       )
       .map((rl, idx) => ({
         ...rl,
@@ -151,9 +151,10 @@ export default function FormEditRoles({ roles }) {
           count: -i - 1,
         })),
       }));
+  };
 
   const initialLbformat = allowedFormats?.[0];
-  const initRoles = selectCurrentRoles(initialLbformat, "points");
+  const initRoles = selectCurrentRoles(initialLbformat.id, "points");
 
   useEffect(() => {
     const execute = async () => {

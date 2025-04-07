@@ -302,9 +302,37 @@ describe("Edit Maps", () => {
     }
   );
 
+  Cypress.Commands.add(
+    "checkFormatFields",
+    (formatId, field, fieldsNotPresent) => {
+      cy.login(uid, { permissions: { "!curator": [formatId] } });
+      cy.visit("/map/MLXXXED/edit");
+      cy.get(`[name=${field}]`);
+      for (const fieldNP of fieldsNotPresent)
+        cy.get(`[name=${fieldNP}]`).should("not.exist");
+    }
+  );
+
   beforeEach(() => {
     cy.resetApi();
-    cy.login(uid, 64);
+    cy.login(uid, { permissions: { "!curator": null } });
+  });
+
+  it("shows the correct fields based on permissions", () => {
+    const checks = [
+      { format: 1, field: "placement_curver" },
+      { format: 2, field: "placement_allver" },
+      { format: 11, field: "remake_of" },
+      { format: 51, field: "difficulty" },
+      { format: 52, field: "botb_difficulty" },
+    ];
+    const allFields = checks.map(({ field }) => field);
+    for (const { format, field } of checks)
+      cy.checkFormatFields(
+        format,
+        field,
+        allFields.filter((f) => f !== field)
+      );
   });
 
   describe("Edit a map", () => {
@@ -314,6 +342,8 @@ describe("Edit Maps", () => {
       cy.get("[name=placement_curver]").should("have.value", "44");
       cy.get("[name=placement_allver]").should("have.value", "39");
       cy.get("[name=difficulty]").should("have.value", "0");
+      cy.get("[name=botb_difficulty]").should("have.value", "3");
+      cy.get("[name=remake_of]").should("have.value", "100");
       cy.get("[name=r6_start]").should(
         "have.value",
         "https://drive.google.com/file/d/qWpmWHvTUJMEhyxBNiZTsMJjOHJfLFdY/view"
@@ -458,7 +488,7 @@ describe("Edit Maps", () => {
       cy.get("@form").failSubmit();
     });
 
-    it("doesn't diplay on non-deleted maps", () => {
+    it("doesn't display on non-deleted maps", () => {
       cy.visit("/map/MLXXXAA/edit");
       cy.get("[data-cy=form-transfer-completions]").should("not.exist");
     });
