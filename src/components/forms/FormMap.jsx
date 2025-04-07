@@ -1,6 +1,6 @@
 "use client";
 /* One thousand billion line code component please refactor immediately */
-import stylesFrmMap from "./MapForm.module.css";
+import stylesFrmMap from "./FormMap.module.css";
 import { Formik } from "formik";
 import { useState } from "react";
 import {
@@ -96,7 +96,7 @@ const defaultValues = {
   map_preview_file: [],
 };
 
-export default function MapForm({
+export default function FormMap({
   initialValues,
   code,
   onAdd,
@@ -609,295 +609,334 @@ export default function MapForm({
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <h2 className="mt-4">Optimal Heros</h2>
-                  <p className="text-center">
-                    <input
-                      type="checkbox"
-                      name="no_optimal_hero"
-                      value={values.no_optimal_hero}
-                      checked={values.no_optimal_hero}
-                      onChange={handleChange}
-                      disabled={disableInputs}
-                    />{" "}
-                    This map has no optimal hero
-                  </p>
-                  <div className={stylesFrmMap.herobtn_container}>
-                    {heros.map((h) => (
-                      <button
-                        disabled={disableInputs || values.no_optimal_hero}
-                        type="button"
-                        key={h}
-                        className={`btn btn-primary ${stylesFrmMap.herobtn} ${
-                          values.optimal_heros.includes(h) &&
-                          !values.no_optimal_hero
-                            ? `${stylesFrmMap.active} active`
-                            : ""
-                        }`}
-                        onClick={(_e) => {
-                          if (values.optimal_heros.includes(h))
-                            setFieldValue(
-                              "optimal_heros",
-                              values.optimal_heros.filter((h1) => h1 !== h)
-                            );
-                          else
-                            setFieldValue("optimal_heros", [
-                              ...values.optimal_heros,
-                              h,
-                            ]);
-                        }}
-                        data-cy="btn-hero"
-                        data-cy-active={values.optimal_heros
-                          .includes(h)
-                          .toString()}
-                      >
-                        <img src={`/heros/hero_${h}.webp`} alt={h} />
-                      </button>
-                    ))}
-                  </div>
-                  {errors.optimal_heros && (
-                    <p className="text-center mb-0 text-danger">
-                      {errors.optimal_heros}
-                    </p>
-                  )}
-                  <h2 className="mt-4">Aliases</h2>
-                  <AddableField name="aliases" defaultValue={{ alias: "" }}>
-                    {values.aliases.length > 0 && (
-                      <p className="muted text-center">
-                        Leave an alias field blank to delete it.
-                      </p>
-                    )}
 
-                    <div className="row gy-2">
-                      {values.aliases.map(({ alias, count }, i) => (
-                        <div
-                          key={count || -1}
-                          className="col-4 col-md-3 col-xl-2"
-                          data-cy="form-group"
-                        >
-                          <div>
-                            <Input
-                              name={`aliases[${i}].alias`}
-                              type="text"
-                              placeholder={
-                                randomAliases[i % randomAliases.length]
-                              }
-                              value={alias}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              isInvalid={
-                                touched.aliases &&
-                                `aliases[${i}].alias` in errors
-                              }
-                              disabled={disableInputs}
-                              autoComplete="off"
-                            />
-                            <div className="invalid-feedback">
-                              {errors[`aliases[${i}].alias`]}
+                    <div className="col-12">
+                      <div className="panel mt-4 pb-4">
+                        <div className="row gx-3">
+                          <div className="col-12 col-lg-6">
+                            <h2 className="mt-3">Optimal Heros</h2>
+                            <p className="text-center">
+                              <input
+                                type="checkbox"
+                                name="no_optimal_hero"
+                                value={values.no_optimal_hero}
+                                checked={values.no_optimal_hero}
+                                onChange={handleChange}
+                                disabled={disableInputs}
+                              />{" "}
+                              This map has no optimal hero
+                            </p>
+
+                            <div className={stylesFrmMap.herobtn_container}>
+                              {heros.map((h) => (
+                                <button
+                                  disabled={
+                                    disableInputs || values.no_optimal_hero
+                                  }
+                                  type="button"
+                                  key={h}
+                                  className={`btn btn-primary width-auto ${
+                                    stylesFrmMap.herobtn
+                                  } ${
+                                    values.optimal_heros.includes(h) &&
+                                    !values.no_optimal_hero
+                                      ? `${stylesFrmMap.active} active`
+                                      : ""
+                                  }`}
+                                  onClick={(_e) => {
+                                    if (values.optimal_heros.includes(h))
+                                      setFieldValue(
+                                        "optimal_heros",
+                                        values.optimal_heros.filter(
+                                          (h1) => h1 !== h
+                                        )
+                                      );
+                                    else
+                                      setFieldValue("optimal_heros", [
+                                        ...values.optimal_heros,
+                                        h,
+                                      ]);
+                                  }}
+                                  data-cy="btn-hero"
+                                  data-cy-active={values.optimal_heros
+                                    .includes(h)
+                                    .toString()}
+                                >
+                                  <img src={`/heros/hero_${h}.webp`} alt={h} />
+                                </button>
+                              ))}
+                            </div>
+                            {errors.optimal_heros && (
+                              <p className="text-center mb-0 text-danger">
+                                {errors.optimal_heros}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="col-12 col-lg-6">
+                            <h2 className="mt-3">Aliases</h2>
+                            <AddableField
+                              name="aliases"
+                              defaultValue={{ alias: "" }}
+                            >
+                              {values.aliases.length > 0 && (
+                                <p className="muted text-center">
+                                  Leave an alias field blank to delete it.
+                                </p>
+                              )}
+
+                              <div className="row g-2">
+                                {values.aliases.map(({ alias, count }, i) => (
+                                  <div
+                                    key={count || -1}
+                                    className="col-4 col-md-4 col-xl-3"
+                                    data-cy="form-group"
+                                  >
+                                    <div>
+                                      <Input
+                                        name={`aliases[${i}].alias`}
+                                        type="text"
+                                        placeholder={
+                                          randomAliases[
+                                            i % randomAliases.length
+                                          ]
+                                        }
+                                        value={alias}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        isInvalid={
+                                          touched.aliases &&
+                                          `aliases[${i}].alias` in errors
+                                        }
+                                        disabled={disableInputs}
+                                        autoComplete="off"
+                                      />
+                                      <div className="invalid-feedback">
+                                        {errors[`aliases[${i}].alias`]}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </AddableField>
+                          </div>
+
+                          <div className="col-12 col-lg-6">
+                            <h2 className="mt-4">Creators</h2>
+                            <p className="text-center">
+                              <input
+                                type="checkbox"
+                                name="has_no_creators"
+                                value={values.has_no_creators}
+                                checked={values.has_no_creators}
+                                onChange={handleChange}
+                              />{" "}
+                              This map's creator is not known on Discord and
+                              hasn't interacted with the community
+                            </p>
+                            <AddableField
+                              name="creators"
+                              defaultValue={{ id: "", role: "" }}
+                              disabled={values.has_no_creators}
+                            >
+                              <TwoFieldEntry
+                                name="creators"
+                                labels={["Creator", "Role?"]}
+                                fields={["creators[i].id", "creators[i].role"]}
+                                secondProps={{
+                                  placeholder: "Gameplay",
+                                }}
+                                firstIsUser
+                                disabled={values.has_no_creators}
+                              />
+                            </AddableField>
+                          </div>
+
+                          <div className="col-12 col-lg-6">
+                            <h2 className="mt-4">Verifications</h2>
+                            <p className="muted text-center">
+                              Verifications that aren't in the current update
+                              don't get shown in the map's info page.
+                            </p>
+                            <div data-cy="fgroup-verifiers">
+                              <AddableField
+                                name="verifiers"
+                                defaultValue={{ id: "", version: "" }}
+                              >
+                                <TwoFieldEntry
+                                  name="verifiers"
+                                  labels={["Verifier", "Version?"]}
+                                  fields={[
+                                    "verifiers[i].id",
+                                    "verifiers[i].version",
+                                  ]}
+                                  secondProps={{
+                                    placeholder:
+                                      "Leave blank if first verification",
+                                  }}
+                                  omitFirstOptional
+                                  firstIsUser
+                                />
+                              </AddableField>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </AddableField>
 
-                  <h2 className="mt-4">Creators</h2>
-                  <p className="text-center">
-                    <input
-                      type="checkbox"
-                      name="has_no_creators"
-                      value={values.has_no_creators}
-                      checked={values.has_no_creators}
-                      onChange={handleChange}
-                    />{" "}
-                    This map's creator is not known on Discord and hasn't
-                    interacted with the community
-                  </p>
-                  <AddableField
-                    name="creators"
-                    defaultValue={{ id: "", role: "" }}
-                    disabled={values.has_no_creators}
-                  >
-                    <div className="row gy-2">
-                      <TwoFieldEntry
-                        name="creators"
-                        labels={["Creator", "Role?"]}
-                        fields={["creators[i].id", "creators[i].role"]}
-                        secondProps={{
-                          placeholder: "Gameplay",
-                        }}
-                        firstIsUser
-                        disabled={values.has_no_creators}
-                      />
-                    </div>
-                  </AddableField>
-
-                  <h2 className="mt-4">Verifications</h2>
-                  <p className="muted text-center">
-                    Verifications that aren't in the current update don't get
-                    shown in the map's info page.
-                  </p>
-                  <div data-cy="fgroup-verifiers">
-                    <AddableField
-                      name="verifiers"
-                      defaultValue={{ id: "", version: "" }}
-                    >
-                      <div className="row gy-2">
-                        <TwoFieldEntry
-                          name="verifiers"
-                          labels={["Verifier", "Version?"]}
-                          fields={["verifiers[i].id", "verifiers[i].version"]}
-                          secondProps={{
-                            placeholder: "Leave blank if first verification",
-                          }}
-                          omitFirstOptional
-                          firstIsUser
-                        />
-                      </div>
-                    </AddableField>
-                  </div>
-                  <h2 className="mt-4">Additional Codes</h2>
-                  <div data-cy="fgroup-additional-codes">
-                    <AddableField
-                      name="additional_codes"
-                      defaultValue={{ code: "", description: "" }}
-                    >
-                      <div className="row gy-2">
-                        <TwoFieldEntry
-                          name="additional_codes"
-                          labels={["Code", "Description?"]}
-                          fields={[
-                            "additional_codes[i].code",
-                            "additional_codes[i].description",
-                          ]}
-                          secondProps={{
-                            placeholder: "Small niche gameplay difference",
-                          }}
-                          optional
-                        />
-                      </div>
-                    </AddableField>
-                  </div>
-                  <h2 className="mt-4">Version Compatibility</h2>
-                  <p className="muted text-center">
-                    By default, it assumes the map is unplayable since v39.0
-                    onwards.
-                  </p>
-                  <AddableField
-                    name="version_compatibilities"
-                    defaultValue={{ version: "", status: "0" }}
-                  >
-                    <div className="flex-hcenter">
-                      <div>
-                        {values.version_compatibilities.map(
-                          ({ version, status, count }, i) => (
-                            <div
-                              key={count || -1}
-                              className={stylesFrmMap.vcompat}
-                            >
-                              <p>Since v&nbsp;</p>
-
-                              <div
-                                className={stylesFrmMap.vcompat_input}
-                                data-cy="form-group"
+                          <div className="col-12 col-lg-6">
+                            <h2 className="mt-4">Additional Codes</h2>
+                            <div data-cy="fgroup-additional-codes">
+                              <AddableField
+                                name="additional_codes"
+                                defaultValue={{ code: "", description: "" }}
                               >
-                                <Input
-                                  name={`version_compatibilities[${i}].version`}
-                                  type="text"
-                                  value={version}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  isInvalid={
-                                    touched.version_compatibilities &&
-                                    `version_compatibilities[${i}].version` in
-                                      errors
-                                  }
-                                  isValid={
-                                    values[
-                                      `version_compatibilities[${i}].version`
-                                    ]
-                                  }
-                                  disabled={disableInputs}
-                                  autoComplete="off"
+                                <TwoFieldEntry
+                                  name="additional_codes"
+                                  labels={["Code", "Description?"]}
+                                  fields={[
+                                    "additional_codes[i].code",
+                                    "additional_codes[i].description",
+                                  ]}
+                                  secondProps={{
+                                    placeholder:
+                                      "Small niche gameplay difference",
+                                  }}
+                                  optional
                                 />
-                                <div className="invalid-feedback">
-                                  {
-                                    errors[
-                                      `version_compatibilities[${i}].version`
-                                    ]
-                                  }
-                                </div>
-                              </div>
-
-                              <p>&nbsp;the map&nbsp;</p>
-
-                              <div
-                                className={stylesFrmMap.vcompat_select}
-                                data-cy="form-group"
-                              >
-                                <select
-                                  className="form-select"
-                                  name={`version_compatibilities[${i}].status`}
-                                  value={status}
-                                  onChange={handleChange}
-                                  disabled={disableInputs}
-                                >
-                                  <option value="0">is playable</option>
-                                  <option value="3">crashes</option>
-                                  <option value="1">
-                                    has only visual differences
-                                  </option>
-                                  <option value="2">
-                                    runs, but isn't recommended
-                                  </option>
-                                </select>
-                              </div>
-
-                              <div>
-                                <div className="d-flex flex-column w-100">
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={(_e) =>
-                                      setValues({
-                                        ...values,
-                                        version_compatibilities:
-                                          values.version_compatibilities.filter(
-                                            (_v, idx) => idx !== i
-                                          ),
-                                      })
-                                    }
-                                  >
-                                    <i className="bi bi-dash" />
-                                  </button>
-                                </div>
-                              </div>
+                              </AddableField>
                             </div>
-                          )
-                        )}
+                          </div>
+
+                          <div className="col-12 col-lg-6">
+                            <h2 className="mt-4">Version Compatibility</h2>
+                            <p className="muted text-center">
+                              By default, it assumes the map is unplayable since
+                              v39.0 onwards.
+                            </p>
+                            <AddableField
+                              name="version_compatibilities"
+                              defaultValue={{ version: "", status: "0" }}
+                            >
+                              <div className="flex-hcenter">
+                                <div>
+                                  {values.version_compatibilities.map(
+                                    ({ version, status, count }, i) => (
+                                      <div
+                                        key={count || -1}
+                                        className={stylesFrmMap.vcompat}
+                                      >
+                                        <p>Since v&nbsp;</p>
+
+                                        <div
+                                          className={stylesFrmMap.vcompat_input}
+                                          data-cy="form-group"
+                                        >
+                                          <Input
+                                            name={`version_compatibilities[${i}].version`}
+                                            type="text"
+                                            value={version}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            isInvalid={
+                                              touched.version_compatibilities &&
+                                              `version_compatibilities[${i}].version` in
+                                                errors
+                                            }
+                                            isValid={
+                                              values[
+                                                `version_compatibilities[${i}].version`
+                                              ]
+                                            }
+                                            disabled={disableInputs}
+                                            autoComplete="off"
+                                          />
+                                          <div className="invalid-feedback">
+                                            {
+                                              errors[
+                                                `version_compatibilities[${i}].version`
+                                              ]
+                                            }
+                                          </div>
+                                        </div>
+
+                                        <p>&nbsp;the map&nbsp;</p>
+
+                                        <div
+                                          className={
+                                            stylesFrmMap.vcompat_select
+                                          }
+                                          data-cy="form-group"
+                                        >
+                                          <select
+                                            className="form-select"
+                                            name={`version_compatibilities[${i}].status`}
+                                            value={status}
+                                            onChange={handleChange}
+                                            disabled={disableInputs}
+                                          >
+                                            <option value="0">
+                                              is playable
+                                            </option>
+                                            <option value="3">crashes</option>
+                                            <option value="1">
+                                              has only visual differences
+                                            </option>
+                                            <option value="2">
+                                              runs, but isn't recommended
+                                            </option>
+                                          </select>
+                                        </div>
+
+                                        <div>
+                                          <div className="d-flex flex-column w-100">
+                                            <button
+                                              type="button"
+                                              className="btn btn-danger width-auto"
+                                              onClick={(_e) =>
+                                                setValues({
+                                                  ...values,
+                                                  version_compatibilities:
+                                                    values.version_compatibilities.filter(
+                                                      (_v, idx) => idx !== i
+                                                    ),
+                                                })
+                                              }
+                                            >
+                                              <i className="bi bi-dash" />
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              </div>
+                            </AddableField>
+                          </div>
+
+                          <div className="flex-hcenter flex-col-space mt-5">
+                            {isEditing && !currentMap?.isDeleted && (
+                              <button
+                                type="button"
+                                disabled={disableInputs}
+                                onClick={() => setShowDeleting(true)}
+                                className="btn btn-danger big"
+                                data-cy="btn-delete"
+                              >
+                                Delete
+                              </button>
+                            )}
+                            <button
+                              className="btn btn-primary"
+                              type="submit"
+                              disabled={disableInputs}
+                            >
+                              {isEditing ? "Save" : "Insert"}
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </AddableField>
-                  <div className="flex-hcenter flex-col-space mt-5">
-                    {isEditing && !currentMap?.isDeleted && (
-                      <button
-                        type="button"
-                        disabled={disableInputs}
-                        onClick={() => setShowDeleting(true)}
-                        className="btn btn-danger big"
-                        data-cy="btn-delete"
-                      >
-                        Delete
-                      </button>
-                    )}
-                    <button
-                      className="btn btn-primary"
-                      type="submit"
-                      disabled={disableInputs}
-                    >
-                      {isEditing ? "Save" : "Insert"}
-                    </button>
                   </div>
+
                   {showErrorCount && errorCount > 0 && (
                     <p className="text-center text-danger mt-3">
                       There are {errorCount} fields to compile correctly
