@@ -19,6 +19,7 @@ import BtnShowCompletion from "@/components/buttons/BtnShowCompletion";
 import { notFound } from "next/navigation";
 import NKUserEntry from "@/components/users/NKUserEntry";
 import { getCustomMap } from "@/server/ninjakiwiRequests";
+import Btd6MapMissing from "@/components/maps/Btd6MapMissing";
 
 export async function generateMetadata({ params }) {
   const mapData = await getMap(params.code);
@@ -171,6 +172,27 @@ export default async function MapOverview({ params, searchParams }) {
           </div>
         </div>
       </div>
+
+      {mapData.remake_of !== null && (
+        <>
+          <h2 className="text-center">Submit your recreation</h2>
+          <p className="text-center">
+            Think your recreation of this map is better than the current one?
+            You can submit it!
+          </p>
+
+          <div className="row justify-content-center mb-3">
+            <div className="col-6 col-md-4">
+              <Btd6MapMissing
+                name={mapData.remake_of.name}
+                mapId={mapData.remake_of.id}
+                previewUrl={mapData.remake_of.preview_url}
+                opaque={false}
+              />
+            </div>
+          </div>
+        </>
+      )}
 
       <h2 className="text-center">Completions</h2>
 

@@ -40,8 +40,8 @@ function Difficulty({ difficulty, onClick, active, href }) {
         <img
           className={stylesDiffS.selector_image}
           src={difficulty.image}
-          width={100}
-          height={100}
+          width={80}
+          height={80}
         />
       </SelectorButton>
     </div>

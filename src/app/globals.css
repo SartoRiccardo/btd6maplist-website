@@ -8,9 +8,8 @@
   --color-text: white;
   --color-text-muted: #b0bec5;
 
-  --color-maplist: #00897b;
+  --color-add-on: #00897b;
   --color-experts: #3949ab;
-  --color-nostalgia-pack: #039be5;
 
   --bs-btn-success: #198754;
 }
@@ -153,7 +152,7 @@ a.white-text {
 }
 
 .bg-list {
-  background-color: var(--color-maplist);
+  background-color: var(--color-add-on);
 }
 
 .bg-experts {
@@ -195,6 +194,38 @@ code {
   background-color: var(--color-primary);
   color: var(--color-less-highlight);
   border-radius: 0.3rem;
+}
+
+/* Progress bar */
+
+progress {
+  /* Outer track (background) */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  height: 1.1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  background-color: var(--color-secondary); /* Outer track color */
+  overflow: hidden;
+}
+
+/* For WebKit/Blink browsers (Chrome, Edge, Safari) */
+progress::-webkit-progress-bar {
+  background-color: var(--color-secondary); /* Outer track color */
+  border-radius: 0.5rem;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--bs-btn-success); /* Inner progress color */
+  border-radius: 0.5rem;
+}
+
+/* For Firefox */
+progress::-moz-progress-bar {
+  background-color: var(--bs-btn-success); /* Inner progress color */
+  border-radius: 0.5rem;
 }
 
 /* Buttons */

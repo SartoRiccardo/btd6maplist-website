@@ -31,9 +31,12 @@ export default async function NostalgiaPackPage({ searchParams }) {
 
   const maplist = await getMaplist({ format: 11, filter: curDifficulty.value });
 
+  let remade = 0;
   const maplistByCategory = {};
   const categories = [];
   for (const map of maplist) {
+    if (map.code !== null) remade += 1;
+
     const categoryId = map.format_idx.category.name
       .toLowerCase()
       .replace(/[^a-z0-9]/gi, "_");
@@ -62,16 +65,23 @@ export default async function NostalgiaPackPage({ searchParams }) {
             }).toString()
           }
         />
+        <p className={styles.diffDesc}>{curDifficulty.description}</p>
         <p className={styles.diffDesc}>
-          {curDifficulty.description}
-          <br />
-          <br />
           Join the{" "}
           <a href="https://discord.gg/T228Dtkfb9" target="_blank">
             BTD6 Map Emporium
           </a>{" "}
           if you would like to interact with the community more!
         </p>
+        <div className="mb-4">
+          <p className="lead text-center">
+            {((remade / maplist.length) * 100).toFixed(1)}% Complete ({remade}/
+            {maplist.length})
+          </p>
+          <div className="px-5">
+            <progress max={maplist.length} value={remade} />
+          </div>
+        </div>
 
         {categories.length > 1 && (
           <div

@@ -5,7 +5,8 @@ import { btd6Font } from "@/lib/fonts";
 import Image from "../utils/Image";
 import { useIsWindows } from "@/utils/hooks";
 
-export default function Btd6MapMissing({ name, previewUrl, mapId }) {
+export default function Btd6MapMissing({ name, previewUrl, mapId, opaque }) {
+  opaque = opaque ?? true;
   const isWindows = useIsWindows();
 
   return (
@@ -14,7 +15,9 @@ export default function Btd6MapMissing({ name, previewUrl, mapId }) {
       href={`/map/submit?on=11&remake_of=${mapId}`}
     >
       <div
-        className={`shadow ${stylesMap.btd6map} ${stylesMap.missing} pb-3`}
+        className={`shadow ${stylesMap.btd6map} ${
+          opaque ? stylesMap.missing : ""
+        } pb-3`}
         data-cy="custom-map"
       >
         <Image
@@ -31,13 +34,15 @@ export default function Btd6MapMissing({ name, previewUrl, mapId }) {
           {name}
         </p>
 
-        <p
-          className={`${stylesMap.submit_cta} ${btd6Font.className} text-center font-border`}
-        >
-          Submit Your
-          <br />
-          Recreation
-        </p>
+        {opaque && (
+          <p
+            className={`${stylesMap.submit_cta} ${btd6Font.className} text-center font-border`}
+          >
+            Submit Your
+            <br />
+            Recreation
+          </p>
+        )}
 
         <div className={`${stylesMap.points} ${stylesMap.warn}`}>
           <p
