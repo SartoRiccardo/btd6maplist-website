@@ -33,6 +33,33 @@
   padding-bottom: 0.5rem;
 }
 
+.border_top_primary {
+  border-top: 1px solid var(--color-primary);
+}
+
+ul.dropdown {
+  background-color: var(--color-tertiary);
+  border: none;
+  text-align: start;
+  padding-left: 0;
+}
+
+ul.dropdown li {
+  padding: 0.2rem 1rem 0.2rem 0.5rem;
+  transition: all 0.2s ease;
+  color: white;
+  text-decoration: none;
+}
+
+ul.dropdown li:hover {
+  cursor: pointer;
+  background-color: var(--color-less-highlight);
+}
+
+.darkened {
+  filter: brightness(0.7);
+}
+
 @media only screen and (max-width: 575.98px) {
   .format_icon img {
     width: 30px;

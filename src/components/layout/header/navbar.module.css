@@ -18,6 +18,7 @@
 }
 
 .submenu:not(.mobile) {
+  isolation: isolate;
   position: absolute;
   right: 0;
   top: 100%;
@@ -30,13 +31,18 @@
   width: max-content;
 }
 
-.navbar li:hover .submenu {
+.has_submenu {
+  position: relative;
+}
+
+.navbar li:hover .submenu,
+.has_submenu:hover .submenu {
   opacity: 1;
   transform: translateY(0);
   pointer-events: all;
 }
 
-.submenu:not(.mobile) ul {
+.submenu:not(.mobile) ul:not(.has_submenu ul) {
   padding: 0.5rem 2rem;
   background-color: var(--color-secondary);
   border-top: 5px solid var(--color-highlight);

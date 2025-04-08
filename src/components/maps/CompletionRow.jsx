@@ -23,7 +23,9 @@ export default function CompletionRow({
 
   return (
     <div
-      className={`panel my-2 overflow-hidden ${className || ""}`}
+      className={`panel ${
+        !/my-\d/.test(className) ? "my-2" : ""
+      } overflow-hidden ${className || ""}`}
       data-cy={cy_excludeData ? undefined : "completion"}
     >
       <div className="row">

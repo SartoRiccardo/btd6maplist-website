@@ -9,9 +9,10 @@ export default function RowMedals({
   no_geraldo,
   current_lcc,
   hideNoGeraldo,
+  className,
 }) {
   return (
-    <div className={stylesMedals.medals_container}>
+    <div className={`${stylesMedals.medals_container} ${className ?? ""}`}>
       <OverlayTrigger
         overlay={(props) => (
           <Tooltip {...props}>

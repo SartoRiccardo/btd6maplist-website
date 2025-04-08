@@ -1,21 +1,20 @@
 "use client";
 import stylesComp from "./MaplistCompletions.module.css";
 import { allFormats } from "@/utils/maplistUtils";
-import SelectorButton from "../buttons/SelectorButton";
 import MaplistPoints from "./MaplistPoints";
 import RowMedals from "./RowMedals";
 import { useHasPerms } from "@/utils/hooks";
 import Link from "next/link";
 import BtnShowCompletion from "../buttons/BtnShowCompletion";
 import { Fragment } from "react";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import FormatIcon from "../ui/FormatIcon";
 
 export default function CompletionColumn({
   completion,
   mapIdxCurver,
   mapIdxAllver,
   onlyIcon,
+  button,
 }) {
   const hasPerms = useHasPerms();
 
@@ -85,41 +84,23 @@ export default function CompletionColumn({
           </div>
 
           <div className="col-2 col-md-1 d-flex justify-content-center align-items-center">
-            {hasPerms(["edit:completion", "delete:completion"], { format }) ? (
-              <Link
-                className={`${stylesComp.completion_link} align-self-center no-underline`}
-                href={`/completions/${id}`}
-                data-cy="btn-completion-edit"
-              >
-                <p className="text-center mb-0">
-                  <i className="bi bi-pencil-fill" />
-                </p>
-              </Link>
-            ) : (
-              subm_proof_img.length > 0 && (
-                <BtnShowCompletion src={subm_proof_img} />
-              )
-            )}
+            {hasPerms(["edit:completion", "delete:completion"], { format })
+              ? button || (
+                  <Link
+                    className={`${stylesComp.completion_link} align-self-center no-underline`}
+                    href={`/completions/${id}`}
+                    data-cy="btn-completion-edit"
+                  >
+                    <p className="text-center mb-0">
+                      <i className="bi bi-pencil-fill" />
+                    </p>
+                  </Link>
+                )
+              : subm_proof_img.length > 0 && (
+                  <BtnShowCompletion src={subm_proof_img} />
+                )}
           </div>
         </div>
       );
     });
-}
-
-function FormatIcon({ image, name, id, className }) {
-  return (
-    <OverlayTrigger
-      overlay={(props) => (
-        <Tooltip {...props} id={`tooltip-format-comp-${id}`}>
-          Beaten with {name} rules
-        </Tooltip>
-      )}
-    >
-      <div className={stylesComp.format_icon}>
-        <SelectorButton className="me-md-2" active>
-          <img src={image} width={35} height={35} />
-        </SelectorButton>
-      </div>
-    </OverlayTrigger>
-  );
 }

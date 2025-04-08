@@ -64,7 +64,7 @@
   background-color: var(--color-primary);
 }
 
-.btd6map_row .btd6map_image {
+.btd6map_small.btd6map_image {
   width: 6rem;
 }
 

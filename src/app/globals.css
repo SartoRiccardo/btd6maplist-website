@@ -110,7 +110,7 @@ a > .panel:hover {
 }
 
 .modal-panel .modal-content {
-  background-color: var(--color-primary);
+  background-color: var(--color-secondary);
 }
 
 .p-relative {
@@ -204,7 +204,9 @@ a .btn {
 }
 
 .btn.big,
-.btn-primary {
+.btn-primary,
+.btn-success,
+.btn-danger {
   font-weight: bold;
   font-family: var(--font-p);
   text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
