@@ -1,17 +1,27 @@
+import Btd6Map from "@/components/maps/Btd6Map";
+import cssHome from "./Home.module.css";
 import SelectorButton from "@/components/buttons/SelectorButton";
 import FullCompletionInfoRow from "@/components/maps/FullCompletionInfoRow";
 import { FullCompletionInfoRow_Plc } from "@/components/maps/FullCompletionInfoRow";
 import UserEntry from "@/components/users/UserEntry";
 import DiscordWidget from "@/components/utils/DiscordWidget";
 import {
+  getFormats,
   getRecentCompletions,
   getVisibleFormats,
 } from "@/server/maplistRequests";
 import { allFormats } from "@/utils/maplistUtils";
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import Medal from "@/components/ui/Medal";
 
 export default async function Home() {
+  const formats = await getFormats();
+  const visibleFormats = formats
+    .filter(({ hidden }) => !hidden)
+    .map(({ id }) => id);
+
   return (
     <div className="text-center">
       <h1> Bloons TD 6 Maplist</h1>
@@ -21,10 +31,6 @@ export default async function Home() {
         designed to incredibly difficult, offering a variety of experiences for
         players looking to test their tower defense skills.
         <div className="mt-3 fs-6">
-          <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
-            Discord
-          </a>
-          {" | "}
           <a href="https://www.youtube.com/@btd6maplist" target="_blank">
             YouTube
           </a>
@@ -38,86 +44,180 @@ export default async function Home() {
         </div>
       </div>
 
-      <h2 className="mt-5">Lists</h2>
-      <p className="fs-5">
-        There are 2 different lists, each divided into separate subcategories
-        and leaderboards.
-      </p>
-      <div className="row justify-content-center mb-3 font-border">
-        <div className="col-6 col-md-4 col-lg-3">
-          <Link scroll={true} className="no-underline" href="/maplist">
-            <div className="panel bg-list shadow pt-3 h-100 no-border">
-              <div className="flex-hcenter mb-2">
-                <div className="flex-vcenter">
-                  <SelectorButton active>
-                    <img
-                      src="/format_icons/icon_allver.webp"
-                      width={40}
-                      height={40}
-                    />
-                  </SelectorButton>
-                </div>
-                <div className="flex-vcenter">
-                  <h3 className="m-0 ms-2">The Maplist</h3>
-                </div>
+      <div className={`${cssHome.home_formats} mt-5 mt-md-0`}>
+        {visibleFormats.includes(1) && (
+          <div className="row gy-4 py-4">
+            <div className="col-12 col-md-6 p-relative order-last">
+              <Image
+                src="/format_icons/hero_maplist.png"
+                alt=""
+                width={350}
+                height={350}
+              />
+              <div className={cssHome.map_preview_container}>
+                <Btd6Map code="ZFKTKEH" />
+                <Btd6Map code="ZMOFEYB" />
+                <Btd6Map code="ZFFEETW" />
               </div>
-              <p>
-                Community-curated list of the 50 hardest maps, ranked from
-                hardest to easiest. Beat them to gain points and climb the
-                leaderboard!
-              </p>
             </div>
-          </Link>
-        </div>
-        <div className="col-6 col-md-4 col-lg-3">
-          <Link scroll={true} className="no-underline" href="/expert-list">
-            <div className="panel bg-experts shadow pt-3 h-100 no-border">
-              <div className="flex-hcenter mb-2">
-                <div className="flex-vcenter">
-                  <SelectorButton active>
-                    <img
-                      src="/format_icons/icon_hard.webp"
-                      width={40}
-                      height={40}
-                    />
-                  </SelectorButton>
-                </div>
-                <div className="flex-vcenter">
-                  <h3 className="m-0 ms-2">Expert List</h3>
-                </div>
+            <div className="col-12 col-md-6">
+              <h2>
+                <Medal
+                  src="/format_icons/icon_curver.webp"
+                  border
+                  className="mb-2"
+                />{" "}
+                The Maplist
+              </h2>
+              <p>
+                This is where you go to suffer — but in a fun way. The community
+                curates this list of the 50 hardest custom maps, ranked from
+                hardest to easiest. Beat them to earn points, climb the
+                leaderboard, and flex on your friends. New maps rotate in to
+                keep the pain fresh.
+              </p>
+              <div className="pt-2">
+                <Link href="/maplist">
+                  <button className="btn btn-primary">
+                    Check out the Maplist
+                  </button>
+                </Link>
               </div>
-              <p>
-                Maps of varying difficulty, but none too easy, where more of the
-                classic challenges and strategies are viable.
-              </p>
             </div>
-          </Link>
-        </div>
+          </div>
+        )}
+
+        {visibleFormats.includes(51) && (
+          <div className="row py-4 gy-4">
+            <div className="col-12 col-md-6 p-relative order-last order-md-first">
+              <Image
+                src="/format_icons/hero_expert_list.png"
+                alt=""
+                width={350}
+                height={350}
+              />
+              <div className={cssHome.map_preview_container}>
+                <Btd6Map code="ZFFBGCC" />
+                <Btd6Map code="ZMOFEYB" />
+                <Btd6Map code="ZFFTBHX" />
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <h2>
+                <Medal
+                  src="/format_icons/icon_hard.webp"
+                  border
+                  className="mb-2"
+                />{" "}
+                The Expert List
+              </h2>
+              <p>
+                This collection features thoughtfully designed maps where
+                gameplay and decoration matters more than raw difficulty. You
+                can attempt some of the classic challenges in these maps, such
+                as 2 Million Pops CHIMPS or 2 Towers CHIMPS. It's the perfect
+                middle ground - challenging enough to feel rewarding, but fair
+                enough to stay fun.
+              </p>
+              <div className="pt-2">
+                <Link href="/expert-list">
+                  <button className="btn btn-primary">
+                    Check out the Expert List
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {visibleFormats.includes(52) && (
+          <div className="row py-4 gy-4">
+            <div className="col-12 col-md-6 p-relative order-last">
+              <Image
+                src="/format_icons/hero_best_of_the_best.png"
+                alt=""
+                width={350}
+                height={350}
+              />
+              <div className={cssHome.map_preview_container}>
+                <Btd6Map code="ZFGGFRV" />
+                <Btd6Map code="ZFMWKKL" />
+                <Btd6Map code="ZFFPRCS" />
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <h2>
+                <Medal
+                  src="/format_icons/icon_botb.png"
+                  border
+                  className="mb-2"
+                />{" "}
+                Best of the Best
+              </h2>
+              <p>
+                Some custom maps are so good they feel like NK made them. This
+                pack is all about gorgeous visuals and high-quality gameplay —
+                no jank, just pure eye candy. Perfect when you want a challenge
+                that also looks amazing. Be careful, it doesn't mean every map
+                here is easy!
+              </p>
+              <div className="pt-2">
+                <Link href="/best-of-the-best">
+                  <button className="btn btn-primary">
+                    Browse the Best of the Best
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {visibleFormats.includes(11) && (
+          <div className="row py-4 gy-4">
+            <div className="col-12 col-md-6 p-relative order-last order-md-first">
+              <Image
+                src="/format_icons/hero_nostalgia_pack.png"
+                alt=""
+                width={350}
+                height={350}
+              />
+              <div className={cssHome.map_preview_container}>
+                <Btd6Map code="ZMOPRVY" />
+                <Btd6Map code="ZFMXPDS" />
+                <Btd6Map code="ZFMKRDL" />
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <h2>
+                <Medal
+                  src="/format_icons/icon_np_1.png"
+                  border
+                  className="mb-2"
+                />{" "}
+                Nostalgia Pack
+              </h2>
+              <p>
+                Miss the old days? These are classic maps from BTD5 and BMC, but
+                rebuilt for BTD6. You can finally bring havoc into these old
+                maps by getting heros and paragons. Time to relive the glory
+                days (and finally beat that one map that haunted you).
+              </p>
+              <div className="pt-2">
+                <Link href="/nostalgia-pack">
+                  <button className="btn btn-primary">
+                    Revisit out the Nostalgia Pack
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <h2 className="mt-5">Recent Completions</h2>
       <Suspense fallback={<RecentCompletions_Plc count={5} />}>
         <RecentCompletions />
       </Suspense>
-
-      <h2 className="mt-5">Join, Play and Create</h2>
-      <div className="row d-flex justify-content-center align-items-center">
-        <div className="col-12 col-md-5">
-          <p className="text-start fs-5">
-            Whether you're a map maker, someone who likes a challenge, or both,
-            you can submit your own custom maps and run completions either
-            through the Discord server's bot or this website (you don't need to
-            make an account, you can log in with Discord). Either way you should{" "}
-            <a href={process.env.NEXT_PUBLIC_DISCORD_INVITE} target="_blank">
-              join the Discord server!
-            </a>
-          </p>
-        </div>
-
-        <div className="col-12 col-md-auto">
-          <DiscordWidget />
-        </div>
-      </div>
 
       <hr className="my-5" />
 

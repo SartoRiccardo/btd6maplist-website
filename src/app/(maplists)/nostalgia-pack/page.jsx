@@ -1,7 +1,7 @@
 import styles from "../maplist.module.css";
 import cssLeaderboard from "@/app/(visitor)/leaderboard/leaderboard.module.css";
 import DifficultySelector from "@/components/maps/DifficultySelector";
-import { npDifficulties } from "@/utils/maplistUtils";
+import { discordInvites, npDifficulties } from "@/utils/maplistUtils";
 import { getMaplist } from "@/server/maplistRequests";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 import NostalgiaPackList from "@/components/layout/maplists/NostalgiaPackList";
@@ -68,7 +68,7 @@ export default async function NostalgiaPackPage({ searchParams }) {
         <p className={styles.diffDesc}>{curDifficulty.description}</p>
         <p className={styles.diffDesc}>
           Join the{" "}
-          <a href="https://discord.gg/T228Dtkfb9" target="_blank">
+          <a href={discordInvites.emporium} target="_blank">
             BTD6 Map Emporium
           </a>{" "}
           if you would like to interact with the community more!

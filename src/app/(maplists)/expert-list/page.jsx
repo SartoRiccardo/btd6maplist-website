@@ -1,6 +1,6 @@
 import styles from "../maplist.module.css";
 import DifficultySelector from "@/components/maps/DifficultySelector";
-import { difficulties } from "@/utils/maplistUtils";
+import { difficulties, discordInvites } from "@/utils/maplistUtils";
 import { getMaplist } from "@/server/maplistRequests";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 import MapList from "@/components/layout/maplists/MapList";
@@ -40,6 +40,13 @@ export default async function Experts({ searchParams }) {
           href="/expert-list?difficulty={queryval}"
         />
         <p className={`${styles.diffDesc}`}>{curDifficulty.description}</p>
+        <p className={`${styles.diffDesc}`}>
+          Join the{" "}
+          <a href={discordInvites.maplist} target="_blank">
+            BTD6 Maplist Discord
+          </a>{" "}
+          if you would like to interact with the community more!
+        </p>
 
         <SubmissionRules on={51} />
 

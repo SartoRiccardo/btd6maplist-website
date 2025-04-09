@@ -3,7 +3,7 @@ import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 import MapList from "@/components/layout/maplists/MapList";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { getMaplist, getVisibleFormats } from "@/server/maplistRequests";
-import { listVersions } from "@/utils/maplistUtils";
+import { discordInvites, listVersions } from "@/utils/maplistUtils";
 
 export async function generateMetatdata({ searchParams }) {
   let version = searchParams?.format || "current";
@@ -43,6 +43,13 @@ export default async function TheListPage({ searchParams }) {
         href="/maplist?format={queryval}"
       />
       <p className={`${styles.diffDesc}`}>{curFormat.description}</p>
+      <p className={`${styles.diffDesc}`}>
+        Join the{" "}
+        <a href={discordInvites.maplist} target="_blank">
+          BTD6 Maplist Discord
+        </a>{" "}
+        if you would like to interact with the community more!
+      </p>
 
       <SubmissionRules on={1} />
 

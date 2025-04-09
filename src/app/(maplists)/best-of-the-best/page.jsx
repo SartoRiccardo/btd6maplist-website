@@ -1,6 +1,6 @@
 import styles from "../maplist.module.css";
 import DifficultySelector from "@/components/maps/DifficultySelector";
-import { botbDifficulties } from "@/utils/maplistUtils";
+import { botbDifficulties, discordInvites } from "@/utils/maplistUtils";
 import SubmissionRules from "@/components/layout/maplists/SubmissionRules";
 import MapList from "@/components/layout/maplists/MapList";
 import { getMaplist } from "@/server/maplistRequests";
@@ -50,12 +50,10 @@ export default async function Experts({ searchParams }) {
           difficulties={botbDifficulties}
           href="/best-of-the-best?difficulty={queryval}"
         />
+        <p className={`${styles.diffDesc}`}>{curDifficulty.description}</p>
         <p className={`${styles.diffDesc}`}>
-          {curDifficulty.description}
-          <br />
-          <br />
           Join the{" "}
-          <a href="https://discord.gg/T228Dtkfb9" target="_blank">
+          <a href={discordInvites.emporium} target="_blank">
             BTD6 Map Emporium
           </a>{" "}
           if you would like to interact with the community more!

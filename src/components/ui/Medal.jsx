@@ -1,6 +1,13 @@
 import cssMedals from "@/components/maps/Medals.module.css";
 
-export default function Medal({ src, padEnd, padStart, padHeight, border }) {
+export default function Medal({
+  src,
+  padEnd,
+  padStart,
+  padHeight,
+  border,
+  className,
+}) {
   return (
     <img
       src={src}
@@ -14,7 +21,7 @@ export default function Medal({ src, padEnd, padStart, padHeight, border }) {
           : ""
       } ${padEnd ? "me-2" : ""} ${padStart ? "me-2" : ""} ${
         border ? cssMedals.format_border : ""
-      }`}
+      } ${className ?? ""}`}
     />
   );
 }
