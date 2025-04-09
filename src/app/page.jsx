@@ -205,7 +205,7 @@ export default async function Home() {
               <div className="pt-2">
                 <Link href="/nostalgia-pack">
                   <button className="btn btn-primary">
-                    Revisit out the Nostalgia Pack
+                    Revisit the Nostalgia Pack
                   </button>
                 </Link>
               </div>
