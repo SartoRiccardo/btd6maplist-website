@@ -31,6 +31,11 @@
   width: max-content;
 }
 
+.has_submenu.hover_lg .submenu {
+  top: 0%;
+  padding-top: 2.5rem;
+}
+
 .has_submenu {
   position: relative;
 }
@@ -40,6 +45,15 @@
   opacity: 1;
   transform: translateY(0);
   pointer-events: all;
+}
+
+@media (hover: none) {
+  .navbar li:focus-within .submenu,
+  .has_submenu:focus-within .submenu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
 }
 
 .submenu:not(.mobile) ul:not(.has_submenu ul) {

@@ -4,6 +4,7 @@
   align-items: stretch;
   color: var(--color-text);
   position: relative;
+  width: fit-content;
   --inline-pfp-size: 1.8em;
 }
 
@@ -16,7 +17,6 @@
 }
 
 .name_container {
-  flex: 1;
   padding-left: 0.5rem;
 }
 
@@ -57,6 +57,10 @@
 .pfp_small {
   margin-bottom: 0;
   font-size: 0.8rem;
+}
+
+.pfp_link {
+  display: inline-block;
 }
 
 .pfp_link:hover .pfp_name {

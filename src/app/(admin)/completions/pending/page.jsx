@@ -22,7 +22,7 @@ export default async function UnconfirmedList({ searchParams }) {
             const runs = runsOnSameMap[keyMap];
             const mapData = runs[0].map;
             return (
-              <div className="mb-3" key={keyMap}>
+              <div className="my-3" key={keyMap}>
                 <div className="panel py-2 rounded-bottom-0">
                   <Btd6MapRowPreview
                     name={mapData.name}

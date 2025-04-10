@@ -56,7 +56,7 @@ export default async function Home() {
               />
               <div className={cssHome.map_preview_container}>
                 <Btd6Map code="ZFKTKEH" />
-                <Btd6Map code="ZMOFEYB" />
+                <Btd6Map code="ZFFGKFH" />
                 <Btd6Map code="ZFFEETW" />
               </div>
             </div>

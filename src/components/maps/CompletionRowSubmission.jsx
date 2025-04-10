@@ -38,7 +38,7 @@ export default function CompletionRowSubmission({
       >
         <div className="row">
           <div className="col-12 col-md-5 col-lg-7 align-self-center">
-            {userEntry}
+            <div className="display-flex">{userEntry}</div>
           </div>
 
           <div
@@ -53,15 +53,19 @@ export default function CompletionRowSubmission({
                 disabled ? (
                   <></>
                 ) : (
-                  <div className={`text-center mb-0 ${stylesNav.has_submenu}`}>
+                  <div
+                    className={`text-center mb-0 ${stylesNav.has_submenu} ${stylesNav.hover_lg}`}
+                  >
                     <i
                       className={`${stylesComp.completion_link} bi bi-three-dots-vertical`}
                       tabIndex={0}
+                      data-cy="btn-more-actions"
                     />
                     <div className={stylesNav.submenu}>
                       <ul
                         tabIndex={0}
                         className={`font-border ${stylesComp.dropdown}`}
+                        data-cy="menu-completion"
                       >
                         <Link
                           href={`/completions/${completion.id}`}
@@ -220,12 +224,17 @@ function QuickActionModal({
         </div>
       </div>
       <div className="mb-3">
-        <button className="btn btn-primary me-3" onClick={onHide}>
+        <button
+          className="btn btn-primary me-3"
+          onClick={onHide}
+          data-cy="btn-cancel"
+        >
           Cancel
         </button>
         <button
           className={`btn ${btnStyle} text-capitalize`}
           onClick={onSubmit}
+          data-cy={`btn-completion-${action}`}
         >
           {action}
         </button>
