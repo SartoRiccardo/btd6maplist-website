@@ -114,9 +114,11 @@ export async function getMap(code) {
 export async function submitMap(token, payload) {
   const body = new FormData();
   const data = { ...payload };
-  delete data.proof_completion;
   body.append("data", JSON.stringify(data));
-  body.append("proof_completion", payload.proof_completion);
+  if (data.proof_completion) {
+    delete data.proof_completion;
+    body.append("proof_completion", payload.proof_completion);
+  }
 
   try {
     const response = await fetch(

@@ -37,7 +37,7 @@ export default async function MapSubmission({
           {btd6Map?.mapURL ? (
             <div>
               <ZoomableImage
-                className={cssMap.btd6map_image}
+                className={`${cssMap.btd6map_image} ${cssMap.btd6map_small}`}
                 loading="lazy"
                 src={btd6Map.mapURL}
               />
@@ -74,7 +74,7 @@ export default async function MapSubmission({
       </div>
 
       <div className="col-2 col-lg-1 d-flex align-items-center justify-content-center">
-        <BtnShowCompletion src={completion_proof} />
+        {completion_proof && <BtnShowCompletion src={completion_proof} />}
         {rejected_by === null && (
           <BtnDeleteSubmission
             className="ps-3"

@@ -35,7 +35,9 @@ export const maplistSlice = createSlice({
     },
     setFormat: (state, { payload }) => {
       state.formats = state.formats.map((format) =>
-        format.id === payload.format.id ? payload.format : format
+        format.id === payload.format.id
+          ? { ...payload.format, ...format }
+          : format
       );
     },
     setRetroMaps: (state, { payload }) => {

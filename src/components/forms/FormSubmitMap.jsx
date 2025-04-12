@@ -25,27 +25,6 @@ import { allFormats } from "@/utils/maplistUtils";
 
 const MAX_TEXT_LEN = 500;
 
-const validate = async (values) => {
-  const errors = {};
-  if (!codeRegex.test(values.code))
-    errors.code = "Codes must be exactly 7 letters";
-
-  if (values.notes.length > MAX_TEXT_LEN)
-    errors.notes = `Keep it under ${MAX_TEXT_LEN} characters!`;
-
-  if (!values.proof_completion.length)
-    errors.proof_completion = "Upload proof of completion";
-
-  const fsize = values.proof_completion?.[0]?.file?.size || 0;
-  if (fsize > 1024 ** 2 * maxImgSizeMb)
-    errors.proof_completion = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
-      fsize /
-      1024 ** 2
-    ).toFixed(2)}MB)`;
-
-  return errors;
-};
-
 export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
   onSubmit = onSubmit || submitMap;
   type = type || "1";
@@ -58,6 +37,7 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
   const [openRules, setOpenRules] = useState(false);
   const accessToken = useDiscordToken();
   const submittableFormats = useFormatsWhere("create:map_submission");
+  const formats = useMaplistFormats();
 
   if (!accessToken) return null;
 
@@ -65,6 +45,35 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
     return (
       <MessageBanned>It seems like you can't submit maps...</MessageBanned>
     );
+
+  const validate = useCallback(
+    async (values) => {
+      const selectedFormat = formats.find(({ id }) => id == values.type);
+
+      const errors = {};
+      if (!codeRegex.test(values.code))
+        errors.code = "Codes must be exactly 7 letters";
+
+      if (values.notes.length > MAX_TEXT_LEN)
+        errors.notes = `Keep it under ${MAX_TEXT_LEN} characters!`;
+
+      if (
+        selectedFormat.map_submission_status === "open_chimps" &&
+        !values.proof_completion.length
+      )
+        errors.proof_completion = "Upload proof of completion";
+
+      const fsize = values.proof_completion?.[0]?.file?.size || 0;
+      if (fsize > 1024 ** 2 * maxImgSizeMb)
+        errors.proof_completion = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
+          fsize /
+          1024 ** 2
+        ).toFixed(2)}MB)`;
+
+      return errors;
+    },
+    [formats]
+  );
 
   const handleSubmit = useCallback(
     async (values, { setErrors }) => {
@@ -74,8 +83,12 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
         format: parseInt(values.type),
         notes: values.notes.length ? values.notes : null,
         proposed: parseInt(values.proposed),
-        proof_completion: values.proof_completion[0].file,
       };
+
+      const selectedFormat = formats.find(({ id }) => id == values.type);
+      if (selectedFormat.map_submission_status === "open_chimps") {
+        payload.proof_completion = values.proof_completion[0].file;
+      }
 
       const result = await onSubmit(accessToken.access_token, payload);
       if (result && Object.keys(result.errors).length) {
@@ -86,7 +99,7 @@ export default function FormSubmitMap({ onSubmit, type, remakeOf }) {
       revalidateMapSubmissions();
       setSuccess(true);
     },
-    [accessToken.access_token]
+    [accessToken.access_token, formats]
   );
 
   return (
