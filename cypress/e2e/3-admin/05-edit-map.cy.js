@@ -451,6 +451,12 @@ describe("Edit Maps", () => {
   });
 
   describe("Transfer a map's completions", () => {
+    beforeEach(() => {
+      cy.login(uid, {
+        permissions: { "!curator": null, "edit:completion": null },
+      });
+    });
+
     it("can transfer completions", () => {
       cy.intercept("PUT", "/maps/DELXXAH/completions/transfer").as(
         "req-transfer"

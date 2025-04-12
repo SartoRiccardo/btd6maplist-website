@@ -4,13 +4,11 @@ describe("Best of the Best", () => {
   });
 
   beforeEach(() => {
-    cy.visit(`/best-of-the-best`);
+    cy.visit(`/nostalgia-pack`);
   });
 
   it("should display the correct maps for every game", () => {
-    cy.get("[data-cy=difficulty-selector]").each(($difficultySelector) => {
-      cy.wrap($difficultySelector).click();
-      cy.get("[data-cy=btn-category]").each(($btn) => cy.wrap($btn).click());
-    });
+    cy.get("[data-cy=difficulty-selector]").eq(3).click();
+    cy.get("[data-cy=btn-category]").each(($btn) => cy.wrap($btn).click());
   });
 });

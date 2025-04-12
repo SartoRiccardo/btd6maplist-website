@@ -16,7 +16,7 @@ export default function AddMapListEntry({ format }) {
         </div>
       ) : null}
 
-      {currentFormat.map_submission_status === "open" &&
+      {currentFormat.map_submission_status !== "closed" &&
       (hasPerms("create:map_submission", { format }) || !accessToken) ? (
         <div className="col-6 col-lg-4">
           <AddMapButton
