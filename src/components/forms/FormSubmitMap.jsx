@@ -244,6 +244,7 @@ function SidebarForm({ submittableFormats }) {
     setValues,
   } = formikProps;
   const formats = useMaplistFormats();
+  const selectedFormat = formats.find(({ id }) => id == values.type);
 
   return (
     <div className="my-2" data-cy="sidebar-form">
@@ -326,34 +327,37 @@ function SidebarForm({ submittableFormats }) {
         </div>
       </div>
 
-      <div className="w-100 justify-content-between mt-3">
-        <p className="text-center mb-0">Proof of completion</p>
-        <p className="muted text-center">
-          Upload an image of you beating Round 100 on your own map
-        </p>
-        <DragFiles
-          name="proof_completion"
-          formats={imageFormats}
-          limit={1}
-          onChange={handleChange}
-          value={values.proof_completion}
-          className="w-100"
-        >
-          {values.proof_completion.length > 0 && (
-            <div className="d-flex justify-content-center">
-              <img
-                style={{ maxWidth: "100%" }}
-                src={values.proof_completion[0].objectUrl}
-              />
-            </div>
-          )}
-        </DragFiles>
-        {touched.proof_completion && errors.proof_completion && (
-          <p className="text-danger font-border text-center">
-            {errors.proof_completion}
+      {selectedFormat.map_submission_status === "open_chimps" && (
+        <div className="w-100 justify-content-between mt-3">
+          <p className="text-center mb-0">Proof of completion</p>
+          <p className="muted text-center">
+            Upload an image of you (or someone) beating Round 100 on your own
+            map
           </p>
-        )}
-      </div>
+          <DragFiles
+            name="proof_completion"
+            formats={imageFormats}
+            limit={1}
+            onChange={handleChange}
+            value={values.proof_completion}
+            className="w-100"
+          >
+            {values.proof_completion.length > 0 && (
+              <div className="d-flex justify-content-center">
+                <img
+                  style={{ maxWidth: "100%" }}
+                  src={values.proof_completion[0].objectUrl}
+                />
+              </div>
+            )}
+          </DragFiles>
+          {touched.proof_completion && errors.proof_completion && (
+            <p className="text-danger font-border text-center">
+              {errors.proof_completion}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
