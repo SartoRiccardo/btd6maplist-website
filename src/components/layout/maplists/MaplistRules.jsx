@@ -120,10 +120,12 @@ export function RunSubmissionRules({ on }) {
 
       <h3>Proof Requirements</h3>
       <ul>
-        <li>
-          <Medal src="/medals/medal_bb.webp" padHeight /> Black Border runs must
-          have completely unedited video proof
-        </li>
+        <ShowOnFormats on={on} formats={[1, 2, 51]}>
+          <li>
+            <Medal src="/medals/medal_bb.webp" padHeight /> Black Border runs
+            must have completely unedited video proof
+          </li>
+        </ShowOnFormats>
         <li>
           <Medal src="/medals/medal_lcc.webp" padHeight /> LCC runs must be
           streamed with 2 moderators as witnesses, or have video proof following
@@ -172,7 +174,7 @@ export function RunSubmissionRules({ on }) {
             <u>91 - 100</u> (unlike the Expert List, which requires 98 - 100).
           </li>
         </ShowOnFormats>
-        <ShowOnFormats on={on} formats={[51]}>
+        <ShowOnFormats on={on} formats={[51, 11, 52]}>
           <li>
             The recording must consist of unedited clips of each round from{" "}
             <u>98 - 100</u> (unlike The Maplist, which requires 91 - 100).
@@ -332,6 +334,17 @@ export function MapSubmissionRules({ on }) {
           maps are assumed to be easier than expert maps and thus possible on
           every difficulty
         </p>
+      </ShowOnFormats>
+
+      <ShowOnFormats on={on} formats={[11]}>
+        <h3 className="text-center">Map Selection</h3>
+        <ul>
+          <li>Maps are selected based on quality and accuracy</li>
+          <li>
+            Maps that are more faithful to the original are more likely to get
+            added
+          </li>
+        </ul>
       </ShowOnFormats>
     </div>
   );
