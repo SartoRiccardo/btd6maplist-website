@@ -67,7 +67,7 @@ export default async function Experts({ searchParams }) {
               ? curDifficulties.includes(map.format_idx)
               : map.format_idx === curDifficulties
           )}
-          completionFormats={[51, 1, 52]}
+          completionFormats={[51, 1, 52, 11]}
           listFormat={52}
           extremeDifficulties={[4]}
         />
