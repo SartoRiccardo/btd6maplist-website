@@ -30,7 +30,7 @@ export default function AddUserForm() {
     return errors;
   };
 
-  const handleSubmit = async (values, { setErrors, setValues }) => {
+  const handleSubmit = async (values, { setErrors, setValues, resetForm }) => {
     const payload = { ...values };
     const result = await insertUser(accessToken.access_token, payload);
     if (result?.errors && Object.keys(result.errors).length) {
@@ -39,6 +39,7 @@ export default function AddUserForm() {
     }
     setValues({ ...defaultVals });
     setSuccess(true);
+    resetForm();
   };
 
   return (
@@ -69,7 +70,7 @@ export default function AddUserForm() {
                       <Input
                         name="discord_id"
                         type="text"
-                        placeholder="8694...1984"
+                        placeholder="1077309729942024302"
                         value={values.discord_id}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -108,16 +109,16 @@ export default function AddUserForm() {
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="d-flex flex-col-space justify-content-center">
-                <button
-                  className="btn btn-primary"
-                  disabled={isSubmitting}
-                  type="submit"
-                >
-                  Insert
-                </button>
+                <div className="d-flex flex-col-space justify-content-center mt-3">
+                  <button
+                    className="btn btn-primary"
+                    disabled={isSubmitting}
+                    type="submit"
+                  >
+                    Insert
+                  </button>
+                </div>
               </div>
             </form>
           );

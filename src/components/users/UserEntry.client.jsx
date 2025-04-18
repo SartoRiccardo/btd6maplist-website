@@ -59,12 +59,16 @@ export default function UserEntry_C({
     </div>
   );
 
-  return profile?.id ? (
-    <Link href={`/user/${profile.id}`} className={stylesUsrE.pfp_link}>
-      {component}
-    </Link>
-  ) : (
-    component
+  return (
+    <div>
+      {profile?.id ? (
+        <Link href={`/user/${profile.id}`} className={stylesUsrE.pfp_link}>
+          {component}
+        </Link>
+      ) : (
+        component
+      )}
+    </div>
   );
 }
 

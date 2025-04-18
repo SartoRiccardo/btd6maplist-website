@@ -1,6 +1,8 @@
+"use client";
 import stylesComp from "./MaplistCompletions.module.css";
-import { allFormats, filterCompletionFormats } from "@/utils/maplistUtils";
+import { filterCompletionFormats } from "@/utils/maplistUtils";
 import CompletionColumn from "./CompletionColumn";
+import { useMaplistFormats } from "@/utils/hooks";
 
 export default function CompletionRow({
   completion,
@@ -14,12 +16,16 @@ export default function CompletionRow({
 }) {
   extraColumns = extraColumns || [];
   completion = completion instanceof Array ? completion : [completion];
-  completion = filterCompletionFormats(completion, allFormats);
+
+  const formats = useMaplistFormats();
+  completion = filterCompletionFormats(completion, formats);
   if (!(completion.length + extraColumns.length)) return null;
 
   return (
     <div
-      className={`panel my-2 overflow-hidden ${className || ""}`}
+      className={`panel ${
+        !/my-\d/.test(className) ? "my-2" : ""
+      } overflow-hidden ${className || ""}`}
       data-cy={cy_excludeData ? undefined : "completion"}
     >
       <div className="row">

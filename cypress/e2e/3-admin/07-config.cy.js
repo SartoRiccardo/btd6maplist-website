@@ -20,18 +20,44 @@ describe("Edit Config Variables", () => {
   };
 
   before(() => {
-    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+    cy.resetApi();
   });
 
-  beforeEach(() => {
-    cy.login(uid, 64);
+  it("can switch between formats", () => {
+    cy.login(uid, { permissions: { "!mod": null } });
     cy.visit("/config");
-    cy.intercept("PUT", "/config").as("req-edit-config");
+
+    cy.get("[name=format]").select(2);
+    cy.get("[name=format]").select(0);
+  });
+
+  describe("Edit format", () => {
+    beforeEach(() => {
+      cy.login(uid, { permissions: { "!mod": null } });
+      cy.visit("/config");
+      cy.intercept("PUT", "/formats/*").as("req-edit-config");
+
+      cy.get("form[data-cy=format-form]").as("form");
+    });
+
+    it("can edit the format config", () => {
+      cy.get("[name=hidden]").check();
+      cy.get("[name=map_submission_status]").select(1);
+      cy.get("[name=run_submission_status]").select(1);
+      cy.get("[name=map_submission_wh]").type("https://discord.com/test123");
+      cy.get("[name=run_submission_wh]").type("https://discord.com/test123");
+      cy.get("@form").submit();
+      cy.get("[data-cy=toast-success]");
+    });
   });
 
   describe("Maplist config", () => {
     beforeEach(() => {
-      cy.get("[data-cy=form-maplist-config]").find("form").as("form");
+      cy.login(uid, { permissions: { "!mod": [1] } });
+      cy.visit("/config");
+      cy.intercept("PUT", "/config").as("req-edit-config");
+
+      cy.get("form[data-cy=config-form]").as("form");
     });
 
     it("can edit config variables", () => {
@@ -76,7 +102,11 @@ describe("Edit Config Variables", () => {
 
   describe("Expert config", () => {
     beforeEach(() => {
-      cy.get("[data-cy=form-experts-config]").find("form").as("form");
+      cy.login(uid, { permissions: { "!mod": [51] } });
+      cy.visit("/config");
+      cy.intercept("PUT", "/config").as("req-edit-config");
+
+      cy.get("form[data-cy=config-form]").as("form");
     });
 
     it("can edit config variables", () => {
@@ -92,6 +122,8 @@ describe("Edit Config Variables", () => {
         exp_nogerry_points_high: "7",
         exp_nogerry_points_true: "7",
         exp_nogerry_points_extreme: "7",
+        exp_bb_multi: "7",
+        exp_lcc_extra: "7",
       };
 
       insertTestValues(testValues);
@@ -115,6 +147,8 @@ describe("Edit Config Variables", () => {
         exp_nogerry_points_high: "7.1",
         exp_nogerry_points_true: "7.1",
         exp_nogerry_points_extreme: "7.1",
+        exp_bb_multi: "7.1",
+        exp_lcc_extra: "7.1",
       };
 
       insertTestValues(testValues);

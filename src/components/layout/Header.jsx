@@ -1,17 +1,20 @@
 "use client";
 import { btd6Font, titleFont } from "@/lib/fonts";
+import { useIsWindows, useVisibleFormats } from "@/utils/hooks";
 import stylesHeader from "./header.module.css";
 import stylesNav from "./header/navbar.module.css";
 import Link from "next/link";
 import { NavbarMobile } from "./header/NavbarMobile";
 import NavLogin from "./header/NavLogin";
 import ProtectedLinks from "./header/ProtectedLinks";
-import { SiteTitle } from "./Header.client";
 import SearchTab from "./header/SearchTab";
 import { useState } from "react";
+import { listRoutes } from "@/utils/routeInfo";
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const isWindows = useIsWindows();
+  const visibleFormats = useVisibleFormats();
 
   return (
     <header
@@ -29,7 +32,13 @@ export default function Header() {
                   &nbsp;
                 </span>
                 &nbsp;
-                <SiteTitle />
+                <span
+                  className={stylesHeader.btd6MaplistTitle}
+                  // Luckiest Guy for some reason is perfectly centered on Windows but not anywhere else?
+                  style={{ top: isWindows ? "0" : "0.3rem" }}
+                >
+                  BTD6 Maplist
+                </span>
               </p>
             </Link>
           </div>
@@ -47,12 +56,17 @@ export default function Header() {
 
                   <div className={stylesNav.submenu}>
                     <ul className="shadow" tabIndex={0} data-cy="nav-dropdown">
-                      <li>
-                        <Link href="/expert-list">Expert List</Link>
-                      </li>
-                      <li>
-                        <Link href="/maplist">The Maplist</Link>
-                      </li>
+                      {listRoutes
+                        .filter(({ dependsOn }) =>
+                          dependsOn.some((format) =>
+                            visibleFormats.includes(format)
+                          )
+                        )
+                        .map(({ href, name }) => (
+                          <li key={href}>
+                            <Link href={href}>{name}</Link>
+                          </li>
+                        ))}
                     </ul>
                   </div>
                 </li>

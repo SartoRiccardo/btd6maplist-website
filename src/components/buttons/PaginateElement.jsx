@@ -29,7 +29,7 @@ export default function PaginateElement({
   const PageButtons = () => (
     <div className="flex-hcenter">
       <button
-        className="btn btn-primary"
+        className="btn btn-primary width-auto"
         disabled={page <= 1}
         onClick={() => router.replace(prevUrl, { scroll: false })}
         data-cy="btn-paginate-back"
@@ -40,7 +40,7 @@ export default function PaginateElement({
         {page}/{total}
       </p>
       <button
-        className="btn btn-primary"
+        className="btn btn-primary width-auto"
         disabled={page >= total}
         onClick={() => router.replace(nextUrl, { scroll: false })}
         data-cy="btn-paginate-next"

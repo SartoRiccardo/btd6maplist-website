@@ -6,7 +6,7 @@ describe("Pending Maps", () => {
   });
 
   beforeEach(() => {
-    cy.login(uid, 64);
+    cy.login(uid, { permissions: { "!curator": null } });
   });
 
   it("shows pending maps", () => {
@@ -20,7 +20,7 @@ describe("Pending Maps", () => {
 
   it("can delete and check pending maps", () => {
     cy.visit("/map-submissions?show=all");
-    cy.intercept("DELETE", "/maps/submit/*").as("req-reject-subm");
+    cy.intercept("DELETE", "/maps/submit/**").as("req-reject-subm");
 
     cy.get("[data-cy=map-submission-deleted]").then(($deletedSubmissions) => {
       const expectedDeletedSubms = $deletedSubmissions.length + 1;

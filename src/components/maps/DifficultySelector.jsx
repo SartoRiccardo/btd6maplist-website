@@ -11,7 +11,7 @@ function DifficultySelector({ onChange, value, difficulties, href }) {
       {difficulties.map((diff) => (
         <div
           key={diff.value}
-          className="col-6 col-md-4 col-lg-auto d-flex justify-content-center"
+          className="col-3 col-md-auto d-flex justify-content-center"
           data-cy="difficulty-selector"
           data-difficulty={diff.value.toString()}
         >
@@ -37,7 +37,12 @@ function Difficulty({ difficulty, onClick, active, href }) {
       onClick={onClick}
     >
       <SelectorButton text={difficulty.name}>
-        <img src={difficulty.image} width={100} height={100} />
+        <img
+          className={stylesDiffS.selector_image}
+          src={difficulty.image}
+          width={80}
+          height={80}
+        />
       </SelectorButton>
     </div>
   );

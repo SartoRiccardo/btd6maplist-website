@@ -2,15 +2,16 @@
 import cssDragF from "./DragFiles.module.css";
 import stylesMedals from "../maps/Medals.module.css";
 import { Formik } from "formik";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import {
-  useAuthLevels,
   useDiscordToken,
+  useHasPerms,
   useMaplistConfig,
+  useMaplistFormats,
 } from "@/utils/hooks";
 import { FormikContext } from "@/contexts";
 import DragFiles from "./DragFiles";
-import { listVersions } from "@/utils/maplistUtils";
+import { formatToKey } from "@/utils/maplistUtils";
 import { submitRun } from "@/server/maplistRequests.client";
 import Link from "next/link";
 import { RunSubmissionRules } from "../layout/maplists/MaplistRules";
@@ -20,6 +21,8 @@ import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import LazyFade from "../transitions/LazyFade";
 import AddableField from "./AddableField";
 import { removeFieldCode } from "@/utils/functions";
+import MessageBanned from "../ui/MessageBanned";
+import CheckBox from "./bootstrap/CheckBox";
 
 const MAX_TEXT_LEN = 500;
 
@@ -31,119 +34,113 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
   const [success, setSuccess] = useState(false);
   const [openRules, setOpenRules] = useState(false);
   const accessToken = useDiscordToken();
-  const authLevels = useAuthLevels();
+  const hasPerms = useHasPerms();
+  const submittableFormats = useMaplistFormats().filter(
+    ({ run_submission_status, hidden, id }) =>
+      !hidden &&
+      run_submission_status !== "closed" &&
+      mapData?.[formatToKey?.[id]] &&
+      hasPerms("create:completion_submission", { format: id })
+  );
 
-  const formats = [];
-  if (
-    mapData.placement_cur > 0 &&
-    mapData.placement_cur <= maplistCfg.map_count
-  )
-    formats.push(1);
-  if (
-    mapData.placement_all > 0 &&
-    mapData.placement_all <= maplistCfg.map_count
-  )
-    formats.push(2);
-  if (mapData.difficulty > -1) formats.push(51);
+  const requiresVideoProof = useCallback(
+    ({ black_border, no_geraldo, current_lcc, format }) => {
+      format = parseInt(format);
+      return (
+        hasPerms("require:completion_submission:recording") ||
+        black_border ||
+        current_lcc ||
+        (no_geraldo &&
+          (!(50 <= format && format < 100) ||
+            (50 <= format &&
+              format < 100 &&
+              !(0 <= mapData.difficulty && mapData.difficulty <= 2))))
+      );
+    },
+    [mapData]
+  );
 
-  if (!formats.length || mapData.deleted_on) {
+  const validate = useCallback(
+    (values) => {
+      const errors = {};
+      if (values.notes.length > MAX_TEXT_LEN)
+        errors.notes = `Keep it under ${MAX_TEXT_LEN} characters!`;
+
+      for (let i = 0; i < values.proof_completion.length; i++) {
+        const file = values.proof_completion[i].file;
+        if (!file.length)
+          errors[`proof_completion[${i}]`] = "Upload proof of completion";
+
+        const fsize = file?.[0]?.file?.size || 0;
+        if (fsize > 1024 ** 2 * maxImgSizeMb)
+          errors[
+            `proof_completion[${i}]`
+          ] = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
+            fsize /
+            1024 ** 2
+          ).toFixed(2)}MB)`;
+      }
+
+      if (requiresVideoProof(values)) {
+        // TODO check dupes
+        for (let i = 0; i < values.video_proof_url.length; i++) {
+          const url = values.video_proof_url[i].url;
+          if (!url.length)
+            errors[`video_proof_url[${i}]`] = "Please insert an URL!";
+        }
+      }
+
+      if (values.current_lcc && (values.leftover === "" || values.leftover < 0))
+        errors.leftover = "Must be a positive number";
+
+      return errors;
+    },
+    [requiresVideoProof]
+  );
+
+  const handleSubmit = useCallback(
+    async (values, { setErrors }) => {
+      const payload = {
+        ...values,
+        notes: values.notes.length ? values.notes : null,
+        format: parseInt(values.format),
+        code: mapData.code,
+        proof_completion: removeFieldCode(values.proof_completion)
+          .filter(({ file }) => file.length)
+          .map(({ file }) => file[0].file),
+        video_proof_url: removeFieldCode(values.video_proof_url).map(
+          ({ url }) => url
+        ),
+      };
+      if (!requiresVideoProof(values)) payload.video_proof_url = [];
+
+      const result = await onSubmit(accessToken.access_token, payload);
+      if (result && Object.keys(result.errors).length) {
+        setErrors(result.errors);
+        return;
+      }
+      setSuccess(true);
+    },
+    [accessToken.access_token, requiresVideoProof]
+  );
+
+  if (submittableFormats.length === 0 || mapData.deleted_on) {
     return (
-      <p className="lead text-center muted">
-        This map no longer accepts submissions, as it was either deleted or
-        pushed off the list!
-      </p>
+      <MessageBanned>This map no longer accepts submissions!</MessageBanned>
     );
   }
 
   if (!accessToken) return null;
-
-  const requiresVideoProof = ({
-    black_border,
-    no_geraldo,
-    current_lcc,
-    format,
-  }) => {
-    format = parseInt(format);
-    return (
-      authLevels.requiresRecording ||
-      black_border ||
-      current_lcc ||
-      (no_geraldo &&
-        (!(50 <= format && format < 100) ||
-          (50 <= format &&
-            format < 100 &&
-            !(0 <= mapData.difficulty && mapData.difficulty <= 2))))
-    );
-  };
-
-  const validate = (values) => {
-    const errors = {};
-    if (values.notes.length > MAX_TEXT_LEN)
-      errors.notes = `Keep it under ${MAX_TEXT_LEN} characters!`;
-
-    for (let i = 0; i < values.proof_completion.length; i++) {
-      const file = values.proof_completion[i].file;
-      if (!file.length)
-        errors[`proof_completion[${i}]`] = "Upload proof of completion";
-
-      const fsize = file?.[0]?.file?.size || 0;
-      if (fsize > 1024 ** 2 * maxImgSizeMb)
-        errors[
-          `proof_completion[${i}]`
-        ] = `Can upload maximum ${maxImgSizeMb}MB (yours is ${(
-          fsize /
-          1024 ** 2
-        ).toFixed(2)}MB)`;
-    }
-
-    if (requiresVideoProof(values)) {
-      // TODO check dupes
-      for (let i = 0; i < values.video_proof_url.length; i++) {
-        const url = values.video_proof_url[i].url;
-        if (!url.length)
-          errors[`video_proof_url[${i}]`] = "Please insert an URL!";
-      }
-    }
-
-    if (values.current_lcc && (values.leftover === "" || values.leftover < 0))
-      errors.leftover = "Must be a positive number";
-
-    return errors;
-  };
-
-  const handleSubmit = async (values, { setErrors }) => {
-    const payload = {
-      ...values,
-      notes: values.notes.length ? values.notes : null,
-      format: parseInt(values.format),
-      code: mapData.code,
-      proof_completion: removeFieldCode(values.proof_completion)
-        .filter(({ file }) => file.length)
-        .map(({ file }) => file[0].file),
-      video_proof_url: removeFieldCode(values.video_proof_url).map(
-        ({ url }) => url
-      ),
-    };
-    if (!requiresVideoProof(values)) payload.video_proof_url = [];
-
-    const result = await onSubmit(accessToken.access_token, payload);
-    if (result && Object.keys(result.errors).length) {
-      setErrors(result.errors);
-      return;
-    }
-    setSuccess(true);
-  };
-
-  const form = (
+  return (
     <Formik
       validate={validate}
       initialValues={{
         proof_completion: [{ count: -1, file: [] }],
-        format: formats[0].toString(),
+        format: submittableFormats[0].id.toString(),
         notes: "",
         black_border: false,
         no_geraldo: false,
-        current_lcc: false,
+        current_lcc: submittableFormats[0].run_submission_status === "lcc_only",
         video_proof_url: [{ count: -1, url: "" }],
         leftover: "",
       }}
@@ -169,6 +166,23 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
             value={{ ...formikProps, disableInputs, requiresVideoProof }}
             key={0}
           >
+            <div className="flex-hcenter">
+              <button
+                type="button"
+                onClick={() => setOpenRules(!openRules)}
+                className="btn btn-primary fs-6"
+              >
+                Run Submission Rules
+              </button>
+            </div>
+
+            <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
+              <div>
+                <br />
+                <RunSubmissionRules on={parseInt(values.format)} />
+              </div>
+            </LazyFade>
+
             <form
               onSubmit={(evt) => {
                 setShowErrorCount(true);
@@ -221,7 +235,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                               <div className={cssDragF.remove}>
                                 <button
                                   type="button"
-                                  className="btn btn-danger"
+                                  className="btn btn-danger width-auto"
                                   disabled={disableInputs}
                                   onClick={(_e) =>
                                     setFieldValue(
@@ -241,7 +255,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                             {touched.proof_completion &&
                               errors[`proof_completion[${i}]`] && (
                                 <p
-                                  className="text-danger text-center"
+                                  className="text-danger font-border text-center"
                                   data-cy="invalid-feedback"
                                 >
                                   {errors[`proof_completion[${i}]`]}
@@ -255,35 +269,35 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
                 </div>
 
                 <div className="col-12 col-lg-6">
-                  <div className="panel h-100">
+                  <div className="panel">
                     {success ? (
-                      <SidebarSuccess formats={formats} />
+                      <SidebarSuccess formats={submittableFormats} />
                     ) : (
-                      <SidebarForm formats={formats} />
+                      <>
+                        <SidebarForm formats={submittableFormats} />
+
+                        <div className="mb-2 mt-4">
+                          <div className="flex-hcenter flex-col-space">
+                            <button
+                              className="btn btn-primary"
+                              type="submit"
+                              disabled={isSubmitting || disableInputs}
+                            >
+                              Submit
+                            </button>
+                          </div>
+
+                          {showErrorCount && errorCount > 0 && (
+                            <p className="text-center text-danger font-border mt-1">
+                              There are {errorCount} fields to compile correctly
+                            </p>
+                          )}
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>
               </div>
-
-              {!success && (
-                <>
-                  <div className="flex-hcenter flex-col-space mt-5">
-                    <button
-                      className="btn btn-primary"
-                      type="submit"
-                      disabled={isSubmitting || disableInputs}
-                    >
-                      Submit
-                    </button>
-                  </div>
-
-                  {showErrorCount && errorCount > 0 && (
-                    <p className="text-center text-danger mt-3">
-                      There are {errorCount} fields to compile correctly
-                    </p>
-                  )}
-                </>
-              )}
             </form>
 
             <ErrorToast />
@@ -291,29 +305,6 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
         );
       }}
     </Formik>
-  );
-
-  return (
-    <>
-      <div className="flex-hcenter">
-        <button
-          type="button"
-          onClick={() => setOpenRules(!openRules)}
-          className="btn btn-primary fs-6"
-        >
-          Run Submission Rules
-        </button>
-      </div>
-
-      <LazyFade in={openRules} mountOnEnter={true} unmountOnExit={true}>
-        <div>
-          <br />
-          <RunSubmissionRules on={formats.includes(3) ? "experts" : "list"} />
-        </div>
-      </LazyFade>
-
-      {form}
-    </>
   );
 }
 
@@ -329,13 +320,11 @@ function SidebarForm({ formats }) {
     requiresVideoProof,
     setFieldValue,
   } = formikProps;
-  const validFormats = formats
-    .map((frm) => listVersions.find(({ value }) => value === frm))
-    .filter((x) => !!x);
+  const curFormat = formats.find(({ id }) => id === parseInt(values.format));
 
   return (
     <div className="my-2">
-      {validFormats.length > 1 && (
+      {formats.length > 1 && (
         <div className="d-flex w-100 justify-content-between mt-3">
           <p className=" align-self-center">Format</p>
           <div className="align-self-end">
@@ -343,11 +332,18 @@ function SidebarForm({ formats }) {
               className="form-select"
               name="format"
               value={values.proposed}
-              onChange={handleChange}
+              onChange={(evt) => {
+                const newFormat = formats.find(
+                  ({ id }) => id === parseInt(evt.target.value)
+                );
+                if (newFormat.run_submission_status === "lcc_only")
+                  setFieldValue("current_lcc", true);
+                setFieldValue(evt.target.name, evt.target.value);
+              }}
               onBlur={handleBlur}
             >
-              {validFormats.map(({ name, value }) => (
-                <option value={value} key={value}>
+              {formats.map(({ name, id }) => (
+                <option value={id} key={id}>
                   {name}
                 </option>
               ))}
@@ -374,59 +370,84 @@ function SidebarForm({ formats }) {
       </div>
 
       <h3 className="text-center mt-2">Run Properties</h3>
-      <div className={`${stylesMedals.medal_check} form-check`}>
-        <Input
-          type="checkbox"
-          name="black_border"
-          onChange={handleChange}
-          value={values.black_border}
-        />
-        <label className="form-check-label">
-          <span>
-            <img
-              src="/medals/medal_bb.webp"
-              className={stylesMedals.inline_medal}
+      {curFormat.run_submission_status === "lcc_only" && (
+        <p className="muted text-center">
+          You can only submit LCC attempts for this list.
+        </p>
+      )}
+      <div className="mb-2 pb-3">
+        {curFormat.run_submission_status !== "lcc_only" && (
+          <>
+            <CheckBox
+              className={stylesMedals.medal_check}
+              name="black_border"
+              onChange={handleChange}
+              value={values.black_border}
+              disabled={disableInputs}
+              label={
+                <span>
+                  <img
+                    src="/medals/medal_bb.webp"
+                    className={stylesMedals.inline_medal}
+                  />
+                  &nbsp; Black Border
+                </span>
+              }
             />
-            &nbsp; Black Border
-          </span>
-        </label>
-      </div>
 
-      <div className={`${stylesMedals.medal_check} form-check my-2`}>
-        <Input
-          type="checkbox"
-          name="no_geraldo"
-          onChange={handleChange}
-          value={values.no_geraldo}
-        />
-        <label className="form-check-label">
-          <span>
-            <img
-              src="/medals/medal_nogerry.webp"
-              className={stylesMedals.inline_medal}
+            <CheckBox
+              className={`${stylesMedals.medal_check} my-2`}
+              name="no_geraldo"
+              onChange={handleChange}
+              value={values.no_geraldo}
+              disabled={disableInputs}
+              label={
+                <span>
+                  <img
+                    src="/medals/medal_nogerry.webp"
+                    className={stylesMedals.inline_medal}
+                  />
+                  &nbsp; No Optimal Hero
+                </span>
+              }
             />
-            &nbsp; No Optimal Hero
-          </span>
-        </label>
-      </div>
+          </>
+        )}
 
-      <div className={`${stylesMedals.medal_check} form-check`}>
-        <Input
-          type="checkbox"
+        <CheckBox
+          className={stylesMedals.medal_check}
           name="current_lcc"
           onChange={handleChange}
           value={values.current_lcc}
+          disabled={
+            disableInputs || curFormat.run_submission_status === "lcc_only"
+          }
+          label={
+            <span>
+              <img
+                src="/medals/medal_lcc.webp"
+                className={stylesMedals.inline_medal}
+              />
+              &nbsp; Least Cash CHIMPS
+            </span>
+          }
         />
-        <label className="form-check-label">
-          <span>
-            <img
-              src="/medals/medal_lcc.webp"
-              className={stylesMedals.inline_medal}
-            />
-            &nbsp; Least Cash CHIMPS
-          </span>
-        </label>
       </div>
+
+      {values.current_lcc && (
+        <div className="mt-2" data-cy="fgroup-leftover">
+          <label className="form-label">LCC Saveup</label>
+          <Input
+            type="number"
+            name="leftover"
+            value={values.leftover}
+            isInvalid={touched.leftover && "leftover" in errors}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <div className="invalid-feedback">{errors.leftover}</div>
+        </div>
+      )}
 
       {requiresVideoProof(values) && (
         <div className="mt-2">
@@ -481,21 +502,6 @@ function SidebarForm({ formats }) {
               </div>
             ))}
           </AddableField>
-        </div>
-      )}
-
-      {values.current_lcc && (
-        <div className="mt-2" data-cy="fgroup-leftover">
-          <label className="form-label">LCC Saveup</label>
-          <Input
-            type="number"
-            name="leftover"
-            value={values.leftover}
-            isInvalid={touched.leftover && "leftover" in errors}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <div className="invalid-feedback">{errors.leftover}</div>
         </div>
       )}
     </div>

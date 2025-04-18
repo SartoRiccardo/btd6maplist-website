@@ -1,0 +1,18 @@
+.score {
+  position: absolute;
+  bottom: -1.7rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.placement {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  padding: 0 0.3rem;
+  font-size: 1.2rem;
+}
+
+.no_points {
+  opacity: 0.25;
+}

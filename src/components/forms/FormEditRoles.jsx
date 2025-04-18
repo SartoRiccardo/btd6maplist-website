@@ -2,8 +2,8 @@
 import { Formik } from "formik";
 import RoleForm from "./form-components/RoleForm";
 import Select from "./bootstrap/Select";
-import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
-import { allFormats, leaderboards } from "@/utils/maplistUtils";
+import { useDiscordToken, useFormatsWhere } from "@/utils/hooks";
+import { leaderboards } from "@/utils/maplistUtils";
 import AddableField from "./AddableField";
 import { FormikContext } from "@/contexts";
 import { getRepeatedIndexes, validateAchievableRole } from "@/utils/validators";
@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { revalidateRoles } from "@/server/revalidations";
 import LazyToast from "../transitions/LazyToast";
 import { hexToInt, intToHex } from "@/utils/functions";
+import ToastSuccess from "./ToastSuccess";
 
 const emptyRole = {
   threshold: 1,
@@ -27,15 +28,12 @@ const emptyRole = {
 };
 
 export default function FormEditRoles({ roles }) {
-  const authLevels = useAuthLevels();
   const accessToken = useDiscordToken();
   const [guilds, setGuilds] = useState(null);
   const [success, setSuccess] = useState(false);
-  const allowedFormats = allFormats.filter(
-    ({ value }) =>
-      (0 < value < 50 && authLevels.isListMod) ||
-      (50 < value < 100 && authLevels.isExplistMod)
-  );
+  const allowedFormats = useFormatsWhere("edit:achievement_roles", {
+    full: true,
+  });
 
   const validate = (values) => {
     const errors = {};
@@ -137,8 +135,8 @@ export default function FormEditRoles({ roles }) {
     revalidateRoles();
   };
 
-  const selectCurrentRoles = (lbFormat, lbValue) =>
-    roles
+  const selectCurrentRoles = (lbFormat, lbValue) => {
+    return roles
       .filter(
         ({ lb_format, lb_type }) =>
           lb_format === lbFormat && lb_type === lbValue
@@ -154,9 +152,10 @@ export default function FormEditRoles({ roles }) {
           count: -i - 1,
         })),
       }));
+  };
 
-  const initialLbformat = (allowedFormats?.[0] || allFormats[0]).value;
-  const initRoles = selectCurrentRoles(initialLbformat, "points");
+  const initialLbformat = allowedFormats?.[0];
+  const initRoles = selectCurrentRoles(initialLbformat.id, "points");
 
   useEffect(() => {
     const execute = async () => {
@@ -165,10 +164,12 @@ export default function FormEditRoles({ roles }) {
     execute();
   }, []);
 
+  if (initialLbformat === undefined) return null;
+
   return (
     <Formik
       initialValues={{
-        lb_format: initialLbformat,
+        lb_format: initialLbformat.id,
         lb_type: "points",
         firstPlaceRole: initRoles.find(({ for_first }) => for_first) || null,
         roles: initRoles.filter(({ for_first }) => !for_first),
@@ -224,8 +225,8 @@ export default function FormEditRoles({ roles }) {
                         });
                       }}
                     >
-                      {allowedFormats.map(({ name, value }) => (
-                        <option key={value} value={value}>
+                      {allowedFormats.map(({ name, id }) => (
+                        <option key={id} value={id}>
                           {name}
                         </option>
                       ))}
@@ -291,16 +292,18 @@ export default function FormEditRoles({ roles }) {
                         guilds={guilds}
                       />
                     ) : (
-                      <button
-                        type="button"
-                        className="btn btn-success w-100"
-                        onClick={() =>
-                          setFieldValue("firstPlaceRole", { ...emptyRole })
-                        }
-                        data-cy="btn-add-first-place-role"
-                      >
-                        <i className="bi bi-plus-lg" />
-                      </button>
+                      <div className="flex-hcenter">
+                        <button
+                          type="button"
+                          className="btn btn-success"
+                          onClick={() =>
+                            setFieldValue("firstPlaceRole", { ...emptyRole })
+                          }
+                          data-cy="btn-add-first-place-role"
+                        >
+                          <i className="bi bi-plus-lg" />
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -314,6 +317,29 @@ export default function FormEditRoles({ roles }) {
                   name="roles"
                   defaultValue={{ ...emptyRole }}
                   disabled={disableInputs}
+                  addFieldsBtn={({ addValue }) => (
+                    <>
+                      <div className="flex-hcenter mt-3">
+                        <button
+                          type="button"
+                          className="btn btn-success font-border me-3 fw-bold"
+                          disabled={disableInputs}
+                          onClick={addValue}
+                          data-cy="btn-addable-field"
+                        >
+                          New Role
+                        </button>
+
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                          disabled={disableInputs}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </>
+                  )}
                 >
                   <div className="row gy-5 mb-5" data-cy="threshold-roles">
                     {values.roles.length === 0 ? (
@@ -352,31 +378,12 @@ export default function FormEditRoles({ roles }) {
                   </div>
                 </AddableField>
               </div>
-
-              <div className="d-flex justify-content-center">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={disableInputs}
-                >
-                  Save
-                </button>
-              </div>
             </form>
 
             <ErrorToast />
-            <LazyToast
-              bg="success"
-              className="notification"
-              show={success}
-              onClose={() => setSuccess(false)}
-              delay={4000}
-              autohide
-            >
-              <div className="toast-body" data-cy="toast-success">
-                Roles changed!
-              </div>
-            </LazyToast>
+            <ToastSuccess show={success} onClose={() => setSuccess(false)}>
+              Roles changed!
+            </ToastSuccess>
           </FormikContext.Provider>
         );
       }}

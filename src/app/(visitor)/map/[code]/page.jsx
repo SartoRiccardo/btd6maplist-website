@@ -3,7 +3,7 @@ import styles from "./mapinfo.module.css";
 import Btd6Map from "@/components/maps/Btd6Map";
 import MapPlacements from "@/components/maps/MapPlacements";
 import UserEntry from "@/components/users/UserEntry";
-import { getMap } from "@/server/maplistRequests";
+import { getFormats, getMap } from "@/server/maplistRequests";
 import { numberWithCommas } from "@/utils/functions";
 import { Fragment, Suspense } from "react";
 import SelectorButton from "@/components/buttons/SelectorButton";
@@ -17,6 +17,9 @@ import {
 import CopyButton from "@/components/forms/CopyButton";
 import BtnShowCompletion from "@/components/buttons/BtnShowCompletion";
 import { notFound } from "next/navigation";
+import NKUserEntry from "@/components/users/NKUserEntry";
+import { getCustomMap } from "@/server/ninjakiwiRequests";
+import Btd6MapMissing from "@/components/maps/Btd6MapMissing";
 
 export async function generateMetadata({ params }) {
   const mapData = await getMap(params.code);
@@ -28,11 +31,30 @@ export async function generateMetadata({ params }) {
 
 export default async function MapOverview({ params, searchParams }) {
   const { code } = params;
-  const mapData = await getMap(code);
+  const [mapData, formats] = await Promise.all([getMap(code), getFormats()]);
   let page = parseInt(searchParams?.comp_page || "1");
   page = isNaN(page) ? 1 : page;
 
   if (mapData === null) notFound();
+
+  let nkUserId = null;
+  if (mapData.creators.length === 0) {
+    const nkMap = await getCustomMap(mapData.code);
+    if (nkMap) {
+      nkUserId = nkMap.creator.match(/\/(\w+)$/)?.[0];
+    }
+  }
+  const userId =
+    mapData.creators.length > 0
+      ? null
+      : (await getCustomMap(mapData.code))?.creator?.split("/");
+
+  const visibleFormats = formats
+    .filter(({ hidden }) => !hidden)
+    .map(({ id }) => id);
+  const validLccs = mapData.lccs.filter(({ format }) =>
+    visibleFormats.includes(format)
+  );
 
   return (
     <>
@@ -73,9 +95,19 @@ export default async function MapOverview({ params, searchParams }) {
             <div className={`${styles.mapInfo} row shadow`}>
               <div className="col-6 col-md-12 col-lg-6 mb-3" data-cy="creators">
                 <h3>Creator{mapData.creators.length > 1 && "s"}</h3>
-                {mapData.creators.map(({ id, role }) => (
-                  <UserEntry key={id} id={id} label={role} />
-                ))}
+                {mapData.creators.length ? (
+                  mapData.creators.map(({ id, role }) => (
+                    <UserEntry key={id} id={id} label={role} />
+                  ))
+                ) : (
+                  <>
+                    <NKUserEntry userId={nkUserId} />
+                    <p className="muted">
+                      This map's creator has never interacted with the BTD6
+                      Maplist, so they have no account on this website.
+                    </p>
+                  </>
+                )}
               </div>
 
               <div
@@ -141,6 +173,27 @@ export default async function MapOverview({ params, searchParams }) {
         </div>
       </div>
 
+      {mapData.remake_of !== null && (
+        <>
+          <h2 className="text-center">Submit your recreation</h2>
+          <p className="text-center">
+            Think your recreation of this map is better than the current one?
+            You can submit it!
+          </p>
+
+          <div className="row justify-content-center mb-3">
+            <div className="col-6 col-md-4">
+              <Btd6MapMissing
+                name={mapData.remake_of.name}
+                mapId={mapData.remake_of.id}
+                previewUrl={mapData.remake_of.preview_url}
+                opaque={false}
+              />
+            </div>
+          </div>
+        </>
+      )}
+
       <h2 className="text-center">Completions</h2>
 
       <div className="mb-4" data-cy="user-completions">
@@ -148,17 +201,17 @@ export default async function MapOverview({ params, searchParams }) {
         <LoggedUserRun mapData={mapData} />
       </div>
 
-      {mapData.lccs.length ? (
+      {validLccs.length > 0 && (
         <>
           <h3 className="text-center">
             Current LCC{mapData.lccs.length !== 1 && "s"}
           </h3>
 
-          {mapData.lccs.map((run) => (
+          {validLccs.map((run) => (
             <LCC run={run} key={run.id} />
           ))}
         </>
-      ) : null}
+      )}
 
       <h3 className="text-center mt-3">List Completions</h3>
       {mapData.deleted_on === null && <AdminRunOptions code={code} />}
@@ -167,8 +220,8 @@ export default async function MapOverview({ params, searchParams }) {
         <MaplistCompletions
           page={page}
           code={code}
-          mapIdxCurver={mapData.placement_cur}
-          mapIdxAllver={mapData.placement_all}
+          mapIdxCurver={mapData.placement_curver}
+          mapIdxAllver={mapData.placement_allver}
         />
       </Suspense>
     </>
@@ -203,7 +256,7 @@ function LCC({ run }) {
             <div className="col-11 d-flex justify-content-start justify-content-md-end">
               <div className="align-self-center">
                 <div className="pe-3">
-                  <SelectorButton key={format.value} text={format.short} active>
+                  <SelectorButton key={format.value} active>
                     <img src={format.image} width={40} height={40} />
                   </SelectorButton>
                 </div>

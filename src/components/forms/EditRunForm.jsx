@@ -7,7 +7,6 @@ import { useContext, useState } from "react";
 import AddableField from "./AddableField";
 import DragFiles from "./DragFiles";
 import { isInt, removeFieldCode } from "@/utils/functions";
-import { allFormats } from "@/utils/maplistUtils";
 import ZoomedImage from "../utils/ZoomedImage";
 import ErrorToast from "./ErrorToast";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
@@ -17,6 +16,7 @@ import Select from "./bootstrap/Select";
 import { imageFormats, maxImgSizeMb } from "@/utils/file-formats";
 import LazyToast from "../transitions/LazyToast";
 import { AutoComplete } from "./form-components/AutoComplete";
+import { useMaplistFormats } from "@/utils/hooks";
 
 const defaultValues = {
   black_border: false,
@@ -239,6 +239,7 @@ function RunProperties({ isNew }) {
     errors,
     disableInputs,
   } = formikProps;
+  const formats = useMaplistFormats();
 
   return (
     <div className="col-12 col-lg-6 mb-3">
@@ -256,8 +257,8 @@ function RunProperties({ isNew }) {
               disabled={disableInputs}
               isInvalid={!!errors.format}
             >
-              {allFormats.map(({ value, name }) => (
-                <option key={value} value={value}>
+              {formats.map(({ id, name }) => (
+                <option key={id} value={id}>
                   {name}
                 </option>
               ))}
@@ -341,7 +342,7 @@ function RunProperties({ isNew }) {
                 <div>
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn btn-danger width-auto"
                     disabled={disableInputs}
                     onClick={(_e) =>
                       setValues({

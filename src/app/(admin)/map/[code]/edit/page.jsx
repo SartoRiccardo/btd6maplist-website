@@ -1,6 +1,6 @@
 import { getMap } from "@/server/maplistRequests";
 import { mapDataToFormik } from "@/utils/maplistUtils";
-import MapForm from "@/components/forms/MapForm";
+import FormMap from "@/components/forms/FormMap";
 import FormTransferCompletion from "@/components/forms/FormTransferCompletions";
 import { notFound } from "next/navigation";
 
@@ -21,7 +21,7 @@ export default async function AddMap({ params }) {
     <>
       <h1 className="text-center">Edit Map - {code}</h1>
 
-      <MapForm
+      <FormMap
         code={code}
         initialValues={initialValues}
         isDeleted={isDeleted}

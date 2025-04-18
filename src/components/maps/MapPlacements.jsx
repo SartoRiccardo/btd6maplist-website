@@ -1,45 +1,61 @@
 "use client";
 import stylesMapP from "./MapPlacements.module.css";
 import {
+  botbDifficulties,
   calcMapPoints,
   difficulties,
   listVersions,
 } from "@/utils/maplistUtils";
 import SelectorButton from "../buttons/SelectorButton";
 import { titleFont } from "@/lib/fonts";
-import { useMaplistConfig } from "@/utils/hooks";
+import { useMaplistConfig, useVisibleFormats } from "@/utils/hooks";
+import { emptyImage } from "@/utils/misc";
+import Image from "next/image";
 
 export default function MapPlacements({ mapData, placeholder }) {
   mapData = placeholder
-    ? { difficulty: -1, placement_cur: -1, placement_all: -1 }
+    ? { difficulty: null, placement_cur: null, placement_all: null }
     : mapData;
   const maplistCfg = useMaplistConfig();
+  const visibleFormats = useVisibleFormats(true);
 
   const expertDiff =
-    mapData.difficulty > -1
+    mapData.difficulty !== null
       ? difficulties.filter((diff) => diff.value === mapData.difficulty)[0]
+      : null;
+
+  const botbDiff =
+    mapData.botb_difficulty !== null
+      ? botbDifficulties.filter((diff) => {
+          const formats = diff?.difficuly_values || diff.value;
+          return Array.isArray(formats)
+            ? formats.includes(mapData.botb_difficulty)
+            : mapData.botb_difficulty === formats;
+        })[0]
       : null;
 
   return (
     <>
-      {listVersions.map(
-        ({ plcKey, image, diffPanelName }) =>
-          mapData[plcKey] > -1 &&
-          mapData[plcKey] <= maplistCfg.map_count && (
-            <DifficultyPanel
-              key={plcKey}
-              image={image}
-              shortLabel={diffPanelName}
-              label={`#${mapData[plcKey]} ~ ${
-                Object.keys(maplistCfg).length
-                  ? calcMapPoints(mapData[plcKey], maplistCfg)
-                  : "&nbsp&nbsp"
-              }pt`}
-            />
-          )
-      )}
+      {listVersions
+        .filter(({ value }) => visibleFormats.includes(value))
+        .map(
+          ({ plcKey, image, diffPanelName }) =>
+            mapData[plcKey] !== null &&
+            mapData[plcKey] <= maplistCfg.map_count && (
+              <DifficultyPanel
+                key={plcKey}
+                image={image}
+                shortLabel={diffPanelName}
+                label={`#${mapData[plcKey]} ~ ${
+                  Object.keys(maplistCfg).length
+                    ? calcMapPoints(mapData[plcKey], maplistCfg)
+                    : "&nbsp&nbsp"
+                }pt`}
+              />
+            )
+        )}
 
-      {expertDiff && (
+      {expertDiff && visibleFormats.includes(51) && (
         <DifficultyPanel
           image={expertDiff.image}
           shortLabel={expertDiff.name}
@@ -47,9 +63,26 @@ export default function MapPlacements({ mapData, placeholder }) {
         />
       )}
 
+      {botbDiff && visibleFormats.includes(52) && (
+        <DifficultyPanel
+          image={botbDiff.image}
+          shortLabel={botbDiff.name}
+          label="Best of the Best"
+        />
+      )}
+
+      {mapData.remake_of && visibleFormats.includes(11) && (
+        <DifficultyPanel
+          image={mapData.remake_of.preview_url}
+          shortLabel={mapData.remake_of.game.name}
+          label={mapData.remake_of.name}
+          squareImage
+        />
+      )}
+
       {placeholder && (
         <DifficultyPanel
-          image={"data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="}
+          image={emptyImage}
           label={
             <span style={{ width: "6rem", display: "block" }}>&nbsp;</span>
           }
@@ -59,13 +92,17 @@ export default function MapPlacements({ mapData, placeholder }) {
   );
 }
 
-function DifficultyPanel({ image, shortLabel, label }) {
+function DifficultyPanel({ image, shortLabel, label, squareImage }) {
   return (
-    <div className="col-auto">
+    <div className="col-6 col-md-auto">
       <div className={`${stylesMapP.difficulty_container} shadow`}>
         <div>
-          <SelectorButton text={shortLabel} active>
-            <img src={image} width={75} height={75} />
+          <SelectorButton text={shortLabel} active squareImage={squareImage}>
+            {squareImage ? (
+              <img alt="" src={image} className={stylesMapP.square_image} />
+            ) : (
+              <Image alt="" src={image} width={50} height={50} />
+            )}
           </SelectorButton>
         </div>
 

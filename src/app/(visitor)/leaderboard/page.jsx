@@ -1,12 +1,14 @@
 import styles from "./leaderboard.module.css";
 import UserEntry from "@/components/users/UserEntry";
-import { getListLeaderboard } from "@/server/maplistRequests";
+import {
+  getListLeaderboard,
+  getVisibleFormats,
+} from "@/server/maplistRequests";
 import Link from "next/link";
 import { getPositionColor } from "@/utils/functions";
 import { allFormats, leaderboards } from "@/utils/maplistUtils";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import PaginateElement from "@/components/buttons/PaginateElement";
-import Image from "next/image";
 import { PointCalcFade } from "./page.client";
 
 export async function generateMetadata({ searchParams }) {
@@ -33,7 +35,10 @@ export default async function ListLeaderboard({ searchParams }) {
   if (!/^\d+$/.test(page)) page = "1";
   page = parseInt(page);
 
-  const leaderboard = await getListLeaderboard(version, lbType.key, page);
+  const [leaderboard, visibleFormats] = await Promise.all([
+    await getListLeaderboard(version, lbType.key, page),
+    await getVisibleFormats(),
+  ]);
 
   let curFormat =
     allFormats.find(({ query }) => version === query) || allFormats[0];
@@ -44,19 +49,25 @@ export default async function ListLeaderboard({ searchParams }) {
 
       <DifficultySelector
         value={curFormat.value}
-        difficulties={allFormats}
+        difficulties={allFormats.filter(
+          ({ value, leaderboards }) =>
+            visibleFormats.includes(value) && leaderboards.length > 0
+        )}
         href={
           `/leaderboard?` +
           new URLSearchParams({
             ...searchParams,
             format: "{queryval}",
+            value: curFormat.leaderboards[0],
             page: 1,
           }).toString()
         }
       />
 
       <div className={`d-flex justify-content-center ${styles.lbValueChooser}`}>
-        {leaderboards.map(({ key, title }) => {
+        {curFormat.leaderboards.map((lbKey) => {
+          const { key, title } = leaderboards.find(({ key }) => key === lbKey);
+
           const isActive = key === lbType.key;
           return isActive ? (
             <button className="btn btn-primary active" key={key}>
@@ -74,9 +85,7 @@ export default async function ListLeaderboard({ searchParams }) {
                   page: 1,
                 }).toString()
               }
-              className={`${
-                key === lbType.key ? styles.lbValueActive : ""
-              } font-border`}
+              className={`${isActive ? styles.lbValueActive : ""} font-border`}
             >
               <button className="btn btn-primary">{title}</button>
             </Link>

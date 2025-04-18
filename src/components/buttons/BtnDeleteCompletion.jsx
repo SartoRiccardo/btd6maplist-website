@@ -4,19 +4,29 @@ import { rejectMapSubmission } from "@/server/maplistRequests.client";
 import { revalidateMapSubmissions } from "@/server/revalidations";
 import { useDiscordToken } from "@/utils/hooks";
 import { useState } from "react";
-import LazyToast from "../transitions/LazyToast";
 import LazyModal from "../transitions/LazyModal";
+import ToastSuccess from "../forms/ToastSuccess";
+import ErrorToast from "../forms/ErrorToast";
 
-export default function BtnDeleteSubmission({ name, code, className }) {
+export default function BtnDeleteSubmission({
+  name,
+  code,
+  formatId,
+  className,
+}) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const accessToken = useDiscordToken();
 
   const reject = async () => {
-    const result = await rejectMapSubmission(accessToken.access_token, code);
+    const result = await rejectMapSubmission(
+      accessToken.access_token,
+      code,
+      formatId
+    );
     if (result && Object.keys(result.errors).length)
-      setError(result[Object.keys(result.errors)[0]]);
+      setError(result.errors[Object.keys(result.errors)[0]]);
     else setSuccess(true);
     revalidateMapSubmissions();
     setShow(false);
@@ -63,27 +73,11 @@ export default function BtnDeleteSubmission({ name, code, className }) {
         </div>
       </LazyModal>
 
-      <LazyToast
-        bg="danger"
-        className="notification"
-        show={error}
-        onClose={() => setError(null)}
-        delay={4000}
-        autohide
-      >
-        <div className="toast-body">{error}</div>
-      </LazyToast>
+      <ErrorToast errors={{ "": error }} setErrors={setError} />
 
-      <LazyToast
-        bg="success"
-        className="notification"
-        show={success}
-        onClose={() => setSuccess(false)}
-        delay={4000}
-        autohide
-      >
-        <div className="toast-body">Submission rejected!</div>
-      </LazyToast>
+      <ToastSuccess show={success} onClose={() => setSuccess(false)}>
+        Submission rejected!
+      </ToastSuccess>
     </>
   );
 }

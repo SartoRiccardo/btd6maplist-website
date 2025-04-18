@@ -13,8 +13,7 @@ export async function revalidateMap(code) {
   revalidatePath(`/map/${code}`);
   revalidatePath(`/map/${code}/edit`);
   revalidateTag("leaderboard");
-  revalidateTag("experts");
-  revalidateTag("list");
+  revalidateTag("maplist");
 }
 
 export async function revalidateCompletion(

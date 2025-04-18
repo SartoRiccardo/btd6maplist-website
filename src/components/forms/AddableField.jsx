@@ -1,6 +1,6 @@
 "use client";
 import { FormikContext } from "@/contexts";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 
 export default function AddableField({
   name,
@@ -11,6 +11,7 @@ export default function AddableField({
   maxAmount,
   currentAmount,
   w100,
+  addFieldsBtn,
 }) {
   maxAmount = maxAmount || 0;
   currentAmount = currentAmount || 0;
@@ -19,28 +20,36 @@ export default function AddableField({
   const formikProps = useContext(FormikContext);
   const { setValues, values } = formikProps;
 
+  const addValue = useCallback(
+    (_e) => {
+      setValues({
+        ...values,
+        [name]: [...values[name], { ...defaultValue, count }],
+      });
+      setCount(count + 1);
+    },
+    [values, count, name, defaultValue]
+  );
+
   return (
     <div data-cy="addable-field" data-cy-name={name}>
       {children}
-      {(maxAmount === 0 || currentAmount < maxAmount) && (
-        <div className={`flex-hcenter mt-3 ${w100 ? "w-100" : ""}`}>
-          <button
-            type="button"
-            className={`btn btn-success ${w100 ? "w-100" : ""}`}
-            disabled={disabled}
-            onClick={(_e) => {
-              setValues({
-                ...values,
-                [name]: [...values[name], { ...defaultValue, count }],
-              });
-              setCount(count + 1);
-            }}
-            data-cy="btn-addable-field"
-          >
-            <i className="bi bi-plus-lg" />
-          </button>
-        </div>
-      )}
+      {(maxAmount === 0 || currentAmount < maxAmount) &&
+        (addFieldsBtn ? (
+          addFieldsBtn({ addValue })
+        ) : (
+          <div className={`flex-hcenter mt-3 ${w100 ? "w-100" : ""}`}>
+            <button
+              type="button"
+              className={`btn btn-success ${w100 ? "w-100" : ""}`}
+              disabled={disabled}
+              onClick={addValue}
+              data-cy="btn-addable-field"
+            >
+              <i className="bi bi-plus-lg" />
+            </button>
+          </div>
+        ))}
     </div>
   );
 }

@@ -3,7 +3,7 @@ describe("User page - Authenticated", () => {
 
   beforeEach(() => {
     cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
-    cy.login(uid, 0);
+    cy.login(uid);
   });
 
   it("cannot edit roles", () => {

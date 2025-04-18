@@ -7,20 +7,22 @@ export default function SelectorButton({
   active,
   className,
   textSize,
+  squareImage,
 }) {
   return (
     <div
       className={`${stylesDiffS.img_wrapper} shadow ${
         active ? stylesDiffS.active : ""
-      } ${className || ""}`}
+      } ${squareImage ? stylesDiffS.square : ""} ${className || ""}`}
     >
       {children}
+
       <p
         className={`${btd6Font.className} ${
           textSize === "lg" ? stylesDiffS.text_large : ""
-        } font-border text-center`}
+        } font-border text-center text-nowrap`}
       >
-        {text}
+        <span className={stylesDiffS.label_inner}>{text}</span>
       </p>
     </div>
   );

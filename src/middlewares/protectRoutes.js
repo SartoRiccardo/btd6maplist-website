@@ -1,15 +1,6 @@
 import { maplistAuthenticate } from "@/server/maplistRequests";
+import { protectedRoutes } from "@/utils/routeInfo";
 import { NextResponse } from "next/server";
-
-const matcher = [
-  "/config.*",
-  "/map/add.*",
-  "/map/.+?/edit",
-  "/completions/.*",
-  "/hidden-maps",
-  "/map-submissions",
-  "/roles",
-];
 
 /**
  * Return 404 if attempting to access one of the routes in matcher
@@ -21,18 +12,20 @@ export default async function protectRoutesMiddleware(request, _rsp) {
     stop: true,
   };
 
-  for (const match of matcher) {
-    if (RegExp("^" + match).test(request.nextUrl.pathname)) {
+  for (const { matcher, requires } of protectedRoutes) {
+    if (RegExp("^" + matcher).test(request.nextUrl.pathname)) {
       if (!request.cookies.has("accessToken")) return resp404;
 
       const accessToken = JSON.parse(request.cookies.get("accessToken").value);
       const token = accessToken.access_token;
       const userProfile = await maplistAuthenticate(token);
 
-      if (userProfile?.roles) {
-        for (const { edit_maplist, edit_experts } of userProfile.roles)
-          if (edit_experts || edit_maplist) return;
-      }
+      const hasNecessaryPerms = requires.some((permWant) =>
+        userProfile?.permissions?.some((permGroup) =>
+          permGroup.permissions.includes(permWant)
+        )
+      );
+      if (hasNecessaryPerms) return;
 
       return resp404;
     }

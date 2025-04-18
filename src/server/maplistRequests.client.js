@@ -114,9 +114,11 @@ export async function getMap(code) {
 export async function submitMap(token, payload) {
   const body = new FormData();
   const data = { ...payload };
-  delete data.proof_completion;
   body.append("data", JSON.stringify(data));
-  body.append("proof_completion", payload.proof_completion);
+  if (data.proof_completion) {
+    delete data.proof_completion;
+    body.append("proof_completion", payload.proof_completion);
+  }
 
   try {
     const response = await fetch(
@@ -257,10 +259,10 @@ export async function insertUser(token, payload) {
   }
 }
 
-export async function rejectMapSubmission(token, code) {
+export async function rejectMapSubmission(token, code, formatId) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/maps/submit/${code}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/maps/submit/${code}/formats/${formatId}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
@@ -340,12 +342,80 @@ export async function getValidServerDropdownRoles(token) {
       `${process.env.NEXT_PUBLIC_API_URL}/server-roles`,
       {
         headers: { Authorization: `Bearer ${token}` },
-        next: { tags: ["discord"], revalidate },
-        cache,
       }
     );
     return await response.json();
   } catch (exc) {
     return [];
+  }
+}
+
+export async function getFormat(token, id) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/formats/${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return await response.json();
+  } catch (exc) {
+    return null;
+  }
+}
+
+export async function editFormat(token, formatId, payload) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/formats/${formatId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(payload),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.headers.get("Content-Type")?.includes("application/json"))
+      return await response.json();
+  } catch (exc) {
+    return { errors: { "": SRV_ERROR_MESSAGE }, data: {} };
+  }
+}
+
+export async function getRetroMaps() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/maps/retro`);
+  if (!response.ok) return null;
+  return await response.json();
+}
+
+export async function banUser(token, userId) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/ban`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.ok;
+  } catch (exc) {
+    return false;
+  }
+}
+
+export async function unbanUser(token, userId) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/unban`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.ok;
+  } catch (exc) {
+    return false;
   }
 }

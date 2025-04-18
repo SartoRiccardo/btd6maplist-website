@@ -2,6 +2,7 @@
 import cssMedals from "@/components/maps/Medals.module.css";
 import cssFormula from "./Formula.module.css";
 import { useMaplistConfig } from "@/utils/hooks";
+import Medal from "@/components/ui/Medal";
 
 export default function PointCalcFormula() {
   const maplistCfg = useMaplistConfig();
@@ -15,28 +16,18 @@ export default function PointCalcFormula() {
       </p>
       <ul>
         <li>
-          <img
-            src="/medals/medal_nogerry.webp"
-            className={`${cssMedals.inline_medal} me-1`}
-          />{" "}
-          Maps beat without using its Optimal Hero are worth{" "}
+          <Medal src="/medals/medal_nogerry.webp" padHeight /> Maps beat without
+          using its Optimal Hero are worth{" "}
           <b>{maplistCfg.points_multi_gerry}x points</b>
         </li>
         <li>
-          <img
-            src="/medals/medal_bb.webp"
-            className={`${cssMedals.inline_medal} me-1`}
-          />{" "}
-          Maps beat without ever loading a save (a <i>Black Border</i> run) are
-          worth <b>{maplistCfg.points_multi_bb}x points</b>
+          <Medal src="/medals/medal_bb.webp" padHeight /> Maps beat without ever
+          loading a save (a <i>Black Border</i> run) are worth{" "}
+          <b>{maplistCfg.points_multi_bb}x points</b>
         </li>
         <li>
-          <img
-            src="/medals/medal_lcc.webp"
-            className={`${cssMedals.inline_medal} me-1`}
-          />{" "}
-          Holding the current LCC on a map gives you{" "}
-          <b>+{maplistCfg.points_extra_lcc} points</b>
+          <Medal src="/medals/medal_lcc.webp" padHeight /> Holding the current
+          LCC on a map gives you <b>+{maplistCfg.points_extra_lcc} points</b>
           <ul>
             <li>
               This is added after all previous multipliers have been applied, if

@@ -1,4 +1,5 @@
 "use client";
+import Medal from "@/components/ui/Medal";
 import cssAutoC from "./AutoComplete.module.css";
 import cssMedals from "@/components/maps/Medals.module.css";
 import { search } from "@/server/maplistRequests.client";
@@ -106,11 +107,8 @@ export function AutoComplete({
                     tabIndex={0}
                   >
                     {typeIcons && (
-                      <img
-                        src={`/misc/icon_autocomplete_${type}.webp`}
-                        className={`${cssMedals.inline_medal} me-1`}
-                      />
-                    )}
+                      <Medal src={`/misc/icon_autocomplete_${type}.webp`} />
+                    )}{" "}
                     {content}
                   </li>
                 );

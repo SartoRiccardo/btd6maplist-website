@@ -59,37 +59,14 @@ export const selectMaplistProfile = createSelector(
   })
 );
 
-export const selectAuthLevels = createSelector(
+export const selectPermissions = createSelector(
   ({ auth }) => auth.maplistProfile,
   (maplistProfile) => {
-    let isExplistMod = false,
-      isListMod = false,
-      isBanned = false,
-      requiresRecording = false;
-
     const loaded = maplistProfile !== null;
-    if (loaded) {
-      for (const {
-        edit_experts,
-        edit_maplist,
-        cannot_submit,
-        requires_recording,
-      } of maplistProfile.roles) {
-        isExplistMod = isExplistMod || edit_experts;
-        isListMod = isListMod || edit_maplist;
-        isBanned = isBanned || cannot_submit;
-        requiresRecording = requiresRecording || requires_recording;
-      }
-    }
 
     return {
       loaded,
-      isExplistMod,
-      isListMod,
-      hasPerms: isExplistMod || isListMod,
-      isAdmin: false,
-      requiresRecording,
-      isBanned,
+      permissions: maplistProfile?.permissions || null,
     };
   }
 );

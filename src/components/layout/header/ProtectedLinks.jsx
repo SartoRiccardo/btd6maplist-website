@@ -1,9 +1,10 @@
 "use client";
-import { useAuthLevels } from "@/utils/hooks";
+import { useHasPerms } from "@/utils/hooks";
 import stylesNav from "./navbar.module.css";
 import styles from "./navbar.module.css";
 import Link from "next/link";
 import LazyCollapse from "@/components/transitions/LazyCollapse";
+import { protectedRoutes } from "@/utils/routeInfo";
 
 export default function ProtectedLinks({
   onNavigate,
@@ -15,8 +16,11 @@ export default function ProtectedLinks({
   openSubmenus = openSubmenus || [];
   toggleSubmenu = toggleSubmenu || (() => {});
 
-  const { loaded, hasPerms } = useAuthLevels();
-  if (!loaded || !hasPerms) return null;
+  const hasPerms = useHasPerms();
+  const renderedLinks = protectedRoutes.filter(
+    ({ requires, show }) => show && hasPerms(requires)
+  );
+  if (renderedLinks.length === 0) return null;
 
   return (
     <>
@@ -26,27 +30,14 @@ export default function ProtectedLinks({
 
           <div className={stylesNav.submenu}>
             <ul className="shadow" tabIndex={0} data-cy="nav-dropdown">
-              <LinkItem
-                href="/config"
-                label="List Config"
-                onNavigate={onNavigate}
-              />
-              <LinkItem
-                href="/completions/pending"
-                label="Pending Runs"
-                onNavigate={onNavigate}
-              />
-              <LinkItem
-                href="/hidden-maps"
-                label="Legacy List"
-                onNavigate={onNavigate}
-              />
-              <LinkItem
-                href="/map-submissions"
-                label="Map Submissions"
-                onNavigate={onNavigate}
-              />
-              <LinkItem href="/roles" label="Roles" onNavigate={onNavigate} />
+              {renderedLinks.map(({ href, label }) => (
+                <LinkItem
+                  href={href}
+                  label={label}
+                  key={href}
+                  onNavigate={onNavigate}
+                />
+              ))}
             </ul>
           </div>
         </li>
@@ -71,27 +62,14 @@ export default function ProtectedLinks({
                 className={`${styles.submenu} ${styles.mobile}`}
                 data-cy="nav-dropdown"
               >
-                <LinkItem
-                  href="/config"
-                  label="List Config"
-                  onNavigate={onNavigate}
-                />
-                <LinkItem
-                  href="/completions/pending"
-                  label="Pending Runs"
-                  onNavigate={onNavigate}
-                />
-                <LinkItem
-                  href="/hidden-maps"
-                  label="Legacy List"
-                  onNavigate={onNavigate}
-                />
-                <LinkItem
-                  href="/map-submissions"
-                  label="Map Submissions"
-                  onNavigate={onNavigate}
-                />
-                <LinkItem href="/roles" label="Roles" onNavigate={onNavigate} />
+                {renderedLinks.map(({ href, label }) => (
+                  <LinkItem
+                    href={href}
+                    label={label}
+                    key={href}
+                    onNavigate={onNavigate}
+                  />
+                ))}
               </ul>
             </div>
           </LazyCollapse>

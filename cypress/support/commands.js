@@ -43,9 +43,25 @@ Cypress.Commands.add("resetApi", () => {
   return cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
 });
 
-Cypress.Commands.add("login", (userId, perms) => {
-  return cy.visit(`/api/auth?code=mock_discord_code_${userId}_${perms}`);
-});
+Cypress.Commands.add(
+  "login",
+  (
+    userId,
+    { permissions = { "!basic": null }, roles = [], unauthorized = false } = {}
+  ) => {
+    const permList = Object.keys(permissions)
+      .map(
+        (permName) => `${permName}/${permissions[permName]?.join(",") ?? ""}`
+      )
+      .concat(roles.map((roleId) => `@${roleId}`));
+    const permParam = encodeURIComponent(permList.join("+"));
+
+    const url = unauthorized
+      ? "/api/auth?code=mock_discord_code"
+      : `/api/auth?code=mock_discord_code_${userId}_${permParam}`;
+    return cy.visit(url);
+  }
+);
 
 Cypress.Commands.add(
   "fillImages",

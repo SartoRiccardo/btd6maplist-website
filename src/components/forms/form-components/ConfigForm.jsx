@@ -1,29 +1,40 @@
 "use client";
-import { setConfig } from "@/features/maplistSlice";
+import { patchConfig } from "@/features/maplistSlice";
 import { editConfig } from "@/server/maplistRequests.client";
 import { revalidateLeaderboard } from "@/server/revalidations";
 import { Formik } from "formik";
-import LazyToast from "@/components/transitions/LazyToast";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Input from "../bootstrap/Input";
 import { useDispatch } from "react-redux";
 import { useDiscordToken } from "@/utils/hooks";
 import { isFloat, isInt } from "@/utils/functions";
+import Medal from "@/components/ui/Medal";
+import ToastSuccess from "../ToastSuccess";
+import ErrorToast from "../ErrorToast";
+import MessageBanned from "@/components/ui/MessageBanned";
 
-export default function ConfigForm({
-  getValues,
-  intFields,
-  floatFields,
-  initialValues,
-  configNames,
-  success,
-  setSuccess,
-}) {
+export default function ConfigForm({ fields }) {
+  const [success, setSuccess] = useState(false);
   const accessToken = useDiscordToken();
   const dispatch = useDispatch();
 
-  intFields = intFields || [];
-  floatFields = floatFields || [];
+  let intFields = Object.keys(fields).filter(
+    (vname) => fields[vname].type === "int"
+  );
+  let floatFields = Object.keys(fields).filter(
+    (vname) => fields[vname].type === "float"
+  );
+  if (intFields.includes("current_btd6_ver")) {
+    intFields = intFields.filter((vname) => vname !== "current_btd6_ver");
+    floatFields.push("current_btd6_ver");
+  }
+
+  const initialValues = {};
+  Object.keys(fields).forEach(
+    (vname) => (initialValues[vname] = fields[vname].value)
+  );
+  if (initialValues?.current_btd6_ver)
+    initialValues.current_btd6_ver = initialValues.current_btd6_ver / 10;
 
   const validate = (values) => {
     const errors = {};
@@ -38,78 +49,104 @@ export default function ConfigForm({
   };
 
   const handleSubmit = async (values, { setErrors }) => {
-    values = getValues(values);
+    values = { ...values };
+    if (values?.current_btd6_ver)
+      values.current_btd6_ver = Math.floor(
+        values.current_btd6_ver * 10
+      ).toString();
+    if (values?.formula_slope)
+      values.formula_slope = values.formula_slope.toString();
+
     const { errors, data } = await editConfig(accessToken.access_token, values);
     if (Object.keys(errors).length) {
       setErrors(errors);
       return;
     }
-    dispatch(setConfig({ config: data }));
+    dispatch(patchConfig({ config: data }));
     setSuccess(true);
     revalidateLeaderboard();
   };
 
   return (
-    <>
-      <Formik
-        onSubmit={handleSubmit}
-        validate={validate}
-        initialValues={initialValues}
-      >
-        {({ handleSubmit, handleChange, values, errors, isSubmitting }) => (
-          <form onSubmit={handleSubmit}>
-            <div className="panel panel-container">
-              <div className="row flex-row-space">
-                {Object.keys(configNames).map((key) => (
-                  <Fragment key={key}>
-                    <div className="col-5 col-sm-6">
-                      <p>{configNames[key]}</p>
-                    </div>
-                    <div className="col-7 col-sm-6">
-                      <div data-cy="form-group">
-                        <Input
-                          name={key}
-                          type="text"
-                          placeholder={initialValues[key]}
-                          value={values[key]}
-                          onChange={handleChange}
-                          isInvalid={values[key].length === 0 || key in errors}
-                          disabled={isSubmitting}
-                          autoComplete="off"
-                        />
-                        <div className="invalid-feedback">{errors[key]}</div>
+    <div className="panel panel-container">
+      <h2 className="text-center">Config Variables</h2>
+
+      {Object.keys(fields).length === 0 ? (
+        <MessageBanned>No config variables for this list!</MessageBanned>
+      ) : (
+        <Formik
+          onSubmit={handleSubmit}
+          validate={validate}
+          initialValues={initialValues}
+        >
+          {({
+            handleSubmit,
+            handleChange,
+            values,
+            errors,
+            setErrors,
+            isSubmitting,
+          }) => (
+            <>
+              <form onSubmit={handleSubmit} data-cy="config-form">
+                <div className="row flex-row-space">
+                  {Object.keys(fields).map((key) => (
+                    <Fragment key={key}>
+                      <div className="col-5 col-sm-6">
+                        <p>
+                          {key.includes("gerry") && (
+                            <Medal src="/medals/medal_nogerry.webp" />
+                          )}
+                          {key.includes("bb") && (
+                            <Medal src="/medals/medal_bb.webp" />
+                          )}
+                          {key.includes("lcc") && (
+                            <Medal src="/medals/medal_lcc.webp" />
+                          )}{" "}
+                          {fields[key]?.description || key}
+                        </p>
                       </div>
-                    </div>
-                  </Fragment>
-                ))}
-              </div>
-            </div>
+                      <div className="col-7 col-sm-6">
+                        <div data-cy="form-group">
+                          <Input
+                            name={key}
+                            type="text"
+                            placeholder={initialValues[key]}
+                            value={values[key]}
+                            onChange={handleChange}
+                            isInvalid={
+                              values[key].length === 0 || key in errors
+                            }
+                            disabled={isSubmitting}
+                            autoComplete="off"
+                          />
+                          <div className="invalid-feedback">{errors[key]}</div>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+                </div>
 
-            <div className="d-flex flex-col-space justify-content-center">
-              <button
-                className="btn btn-primary"
-                disabled={isSubmitting}
-                type="submit"
-              >
-                Save
-              </button>
-            </div>
-          </form>
-        )}
-      </Formik>
+                <div className="d-flex flex-col-space justify-content-center mt-3">
+                  <button
+                    className="btn btn-primary"
+                    disabled={isSubmitting}
+                    type="submit"
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
 
-      <LazyToast
-        bg="success"
-        className="notification"
-        show={success}
-        onClose={() => setSuccess(false)}
-        delay={4000}
-        autohide
-      >
-        <div className="toast-body" data-cy="toast-success">
-          Config variables modified successfully!
-        </div>
-      </LazyToast>
-    </>
+              <ErrorToast errors={errors} setErrors={setErrors} />
+            </>
+          )}
+        </Formik>
+      )}
+
+      <ToastSuccess show={success} onClose={() => setSuccess(false)}>
+        Config variables modified successfully!
+      </ToastSuccess>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import stylesFrmMap from "./MapForm.module.css";
+import stylesFrmMap from "./FormMap.module.css";
 import { FormikContext } from "@/contexts";
 import { getMap } from "@/server/maplistRequests.client";
 import { getCustomMap } from "@/server/ninjakiwiRequests";

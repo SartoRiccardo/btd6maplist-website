@@ -9,6 +9,7 @@ import { cookies } from "next/headers";
 import Btd6ProfileLoader from "@/components/appcontrol/Btd6ProfileLoader";
 import {
   getConfig,
+  getFormats,
   getMaplistRoles,
   maplistAuthenticate,
 } from "@/server/maplistRequests";
@@ -59,16 +60,19 @@ export default async function RootLayout({ children }) {
   const initReduxState = {};
   const cookieStore = cookies();
 
-  const [maplistCfg, maplistRoles, authState] = await Promise.all([
-    getConfig(),
-    getMaplistRoles(),
-    authenticate(cookieStore),
-  ]);
+  const [maplistCfg, maplistRoles, authState, maplistFormats] =
+    await Promise.all([
+      getConfig(),
+      getMaplistRoles(),
+      authenticate(cookieStore),
+      getFormats(),
+    ]);
 
   if (authState) initReduxState.auth = authState;
   initReduxState.maplist = {
     config: maplistCfg,
     roles: maplistRoles,
+    formats: maplistFormats,
   };
 
   return (
@@ -90,7 +94,7 @@ export default async function RootLayout({ children }) {
             <Btd6ProfileLoader oak={initReduxState.auth.maplistProfile.oak} />
           )}
 
-          <div className={`content`}>
+          <div className="content">
             <Header />
             <RulesFirstTimePopup />
             <main className="container mb-5 mt-3">{children}</main>

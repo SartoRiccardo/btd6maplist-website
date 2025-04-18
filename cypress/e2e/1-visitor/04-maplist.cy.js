@@ -1,6 +1,6 @@
 describe("Maplist", () => {
   before(() => {
-    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+    cy.resetApi();
   });
 
   beforeEach(() => {

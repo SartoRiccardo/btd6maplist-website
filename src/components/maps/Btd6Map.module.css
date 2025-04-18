@@ -28,6 +28,26 @@
   color: var(--color-less-highlight);
 }
 
+.submit_cta {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.btd6map_clickable:hover .submit_cta {
+  opacity: 1;
+}
+
+.btd6map_clickable:hover .missing > img {
+  opacity: 1;
+  filter: brightness(1);
+}
+
 .btd6map_clickable:hover .btd6map,
 .btd6map_clickable:hover .btd6map_row {
   background-color: var(--color-less-highlight);
@@ -44,13 +64,14 @@
   background-color: var(--color-primary);
 }
 
-.btd6map_row .btd6map_image {
+.btd6map_small.btd6map_image {
   width: 6rem;
 }
 
 .map_title {
   position: absolute;
   top: -0.7rem;
+  left: -0.1rem;
 
   overflow-wrap: break-word;
   text-align: center;
@@ -65,7 +86,7 @@
 
   width: 3.5rem;
   height: 3.5rem;
-  background-color: var(--color-maplist);
+  background-color: var(--color-add-on);
   box-shadow: 0 0 0.5rem black;
   display: flex;
   flex-direction: column;
@@ -89,6 +110,28 @@
 
 .points_value span {
   margin-left: 0.1rem;
+}
+
+.minimap {
+  position: absolute;
+  top: 7%;
+  left: -4%;
+
+  background-color: var(--color-add-on);
+  box-shadow: 0 0 0.5rem black;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.minimap > img {
+  height: 4rem;
+  width: auto;
+}
+
+.missing > img {
+  transition: all 0.2s ease;
+  opacity: 0.5;
+  filter: brightness(0.3);
 }
 
 /* Edge only, for some reason Luckiest Guy is already aligned */
@@ -163,7 +206,7 @@
   background-color: var(--bs-btn-success);
 }
 
-.btd6map_btn i.warn {
+.warn {
   background-color: #fbc02d;
 }
 
@@ -186,18 +229,38 @@
   .map_title {
     font-size: 1rem;
   }
+
+  .points {
+    width: 2.5rem;
+    height: 2.5rem;
+    top: 0.75rem;
+  }
+  .points p {
+    font-size: 1.5rem;
+  }
+  .points_value {
+    font-size: 0.9rem;
+  }
+
+  .btd6map_medals > img {
+    width: 35px;
+    height: 35px;
+  }
 }
 
 /* <xs */
 @media only screen and (max-width: 575.98px) {
   .map_title {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
   .points {
-    top: 1.3rem;
     left: -0.2rem;
+    top: 0.25rem;
   }
   .play_btn p {
     font-size: 1rem;
+  }
+  .minimap > img {
+    height: 2.5rem;
   }
 }

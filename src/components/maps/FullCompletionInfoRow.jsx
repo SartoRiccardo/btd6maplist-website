@@ -6,6 +6,7 @@ import { fromNow } from "@/utils/dates";
 import { UserEntry_Plc } from "../users/UserEntry.client";
 import Link from "next/link";
 import Image from "../utils/Image";
+import Btd6MapRowPreview from "../ui/Btd6MapRowPreview";
 
 export default function FullCompletionInfoRow({ completion }) {
   return (
@@ -21,20 +22,10 @@ export default function FullCompletionInfoRow({ completion }) {
             className={stylesMap.btd6map_clickable}
           >
             <div className="d-flex align-self-center">
-              <Image
-                className={stylesMap.btd6map_image}
-                src={completion.map.map_preview_url}
-                alt=""
-                width={225}
-                height={150}
+              <Btd6MapRowPreview
+                previewUrl={completion.map.map_preview_url}
+                name={completion.map.name}
               />
-              <div className="d-flex flex-column justify-content-center">
-                <p
-                  className={`mb-0 ps-3 ${btd6Font.className} font-border fs-5`}
-                >
-                  {completion.map.name}
-                </p>
-              </div>
             </div>
           </Link>
         </div>

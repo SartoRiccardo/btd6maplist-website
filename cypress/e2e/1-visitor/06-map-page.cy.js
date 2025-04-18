@@ -59,15 +59,14 @@ describe("Map page", () => {
 
     cy.get("[data-cy=completion]")
       .as("completions")
-      .eq(0)
+      .eq(1)
       .find("[data-cy=user-entry]")
-      .should("have.length", 1);
+      .should("have.length", 1); // usr2
 
     cy.get("@completions")
-      .eq(1)
-      .as("current-comp")
+      .eq(0)
       .find("[data-cy=user-entry]")
-      .should("have.length", 3);
+      .should("have.length", 3); // usr30, usr15, usr1
     cy.get("@completions").first().find("[data-cy=btn-completion-proof]");
 
     cy.visit("/map/MLXXXAA");

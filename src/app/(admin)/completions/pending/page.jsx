@@ -1,8 +1,9 @@
 import PaginateElement from "@/components/buttons/PaginateElement";
-import CompletionRow from "@/components/maps/CompletionRow";
+import CompletionRowSubmission from "@/components/maps/CompletionRowSubmission";
+import Btd6MapRowPreview from "@/components/ui/Btd6MapRowPreview";
 import UserEntry from "@/components/users/UserEntry";
 import { getUnapprovedRuns } from "@/server/maplistRequests";
-import { groupCompsByMap, groupCompsByUser } from "@/utils/functions";
+import { groupCompsByMap } from "@/utils/functions";
 
 export default async function UnconfirmedList({ searchParams }) {
   let page = parseInt(searchParams?.comp_page || "1");
@@ -10,9 +11,6 @@ export default async function UnconfirmedList({ searchParams }) {
 
   const completions = await getUnapprovedRuns({ page });
   const { keyOrder, runsOnSameMap } = groupCompsByMap(completions.completions);
-  for (const key of keyOrder) {
-    runsOnSameMap[key] = groupCompsByUser(runsOnSameMap[key]);
-  }
 
   return (
     <>
@@ -22,20 +20,24 @@ export default async function UnconfirmedList({ searchParams }) {
         {keyOrder.length ? (
           keyOrder.map((keyMap) => {
             const runs = runsOnSameMap[keyMap];
-            const mapName = runs.runsBySameUsr[runs.keyOrder[0]][0].map.name;
+            const mapData = runs[0].map;
             return (
-              <div className="mb-3" key={keyMap}>
-                <h2 className="text-center">{mapName}</h2>
-                {runs.keyOrder.map((keyUsr) => (
-                  <CompletionRow
-                    key={keyUsr}
-                    completion={runs.runsBySameUsr[keyUsr]}
-                    userEntry={runs.runsBySameUsr[keyUsr][0].users.map(
-                      (uid) => (
-                        <UserEntry key={uid} id={uid} centered lead="sm" />
-                      )
-                    )}
-                    onlyIcon
+              <div className="my-3" key={keyMap}>
+                <div className="panel py-2 rounded-bottom-0">
+                  <Btd6MapRowPreview
+                    name={mapData.name}
+                    previewUrl={mapData.map_preview_url}
+                  />
+                </div>
+
+                {runs.map((completion, i) => (
+                  <CompletionRowSubmission
+                    key={completion.id}
+                    isLast={i === runs.length - 1}
+                    completion={completion}
+                    userEntry={completion.users.map((uid) => (
+                      <UserEntry key={uid} id={uid} centered lead="sm" />
+                    ))}
                   />
                 ))}
               </div>

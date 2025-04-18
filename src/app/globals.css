@@ -1,14 +1,15 @@
 :root {
   --color-primary: #202c39;
   --color-secondary: #34495b;
+  --color-tertiary: #7190ad;
   --color-less-highlight: #f2d492;
   --color-highlight: #f29559;
   --color-misc: #b8b08d;
   --color-text: white;
   --color-text-muted: #b0bec5;
 
-  --color-maplist: #00897b;
-  --color-experts: #7d1d1a;
+  --color-add-on: #00897b;
+  --color-experts: #3949ab;
 
   --bs-btn-success: #198754;
 }
@@ -21,12 +22,15 @@ body {
 }
 
 a,
-a:visited {
+a:visited,
+.a,
+.a:visited {
   color: var(--color-highlight);
   transition: color 0.1s linear;
 }
 
-a:hover {
+a:hover,
+.a:hover {
   color: var(--color-less-highlight);
 }
 
@@ -105,7 +109,7 @@ a > .panel:hover {
 }
 
 .modal-panel .modal-content {
-  background-color: var(--color-primary);
+  background-color: var(--color-secondary);
 }
 
 .p-relative {
@@ -148,7 +152,7 @@ a.white-text {
 }
 
 .bg-list {
-  background-color: var(--color-maplist);
+  background-color: var(--color-add-on);
 }
 
 .bg-experts {
@@ -159,6 +163,7 @@ a.white-text {
   position: fixed;
   bottom: 1rem;
   left: 0.5rem;
+  z-index: 999;
 }
 
 .text-justify {
@@ -191,6 +196,38 @@ code {
   border-radius: 0.3rem;
 }
 
+/* Progress bar */
+
+progress {
+  /* Outer track (background) */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  height: 1.1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  background-color: var(--color-secondary); /* Outer track color */
+  overflow: hidden;
+}
+
+/* For WebKit/Blink browsers (Chrome, Edge, Safari) */
+progress::-webkit-progress-bar {
+  background-color: var(--color-secondary); /* Outer track color */
+  border-radius: 0.5rem;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--bs-btn-success); /* Inner progress color */
+  border-radius: 0.5rem;
+}
+
+/* For Firefox */
+progress::-moz-progress-bar {
+  background-color: var(--bs-btn-success); /* Inner progress color */
+  border-radius: 0.5rem;
+}
+
 /* Buttons */
 
 a .btn {
@@ -198,35 +235,44 @@ a .btn {
 }
 
 .btn.big,
-.btn-primary {
+.btn-primary,
+.btn-success,
+.btn-danger {
   font-weight: bold;
   font-family: var(--font-p);
   text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000, 1px 1px #000,
     -1px -1px #000, 1px -1px #000, -1px 1px #000;
-  font-size: calc(1rem + 0.5vw);
+  font-size: calc(1rem + 0.2vw);
   border: 0;
 }
 
 .btn-primary {
-  background-color: var(--color-secondary);
+  background-color: var(--color-tertiary);
   color: white;
+  transition: all 0.2s linear;
+}
+
+.btn-danger {
+  background-color: #ca054d;
+}
+
+.btn-primary:not(.width-auto),
+.btn-danger:not(.width-auto),
+.btn-success:not(.width-auto) {
+  min-width: 7rem;
 }
 
 .btn-primary:disabled {
-  background-color: var(--color-secondary);
+  background-color: var(--color-tertiary);
 }
 
 .btn-primary.active {
   background-color: var(--color-highlight);
 }
 
-.btn-primary {
-  transition: background-color 0.2s linear;
-}
-
 .btn-primary:hover {
   background-color: var(--color-less-highlight);
-  transition: background-color 0.2s linear;
+  transition: all 0.2s linear;
 }
 
 img.zoomable:hover {
@@ -235,6 +281,10 @@ img.zoomable:hover {
 
 .c-pointer:hover {
   cursor: pointer;
+}
+
+.c-zoom-in:hover {
+  cursor: zoom-in;
 }
 
 .invalid-feedback {

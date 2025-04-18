@@ -1,0 +1,91 @@
+.mapcode_input {
+  width: 15rem;
+  max-width: 100%;
+  margin: 0 auto 0.5rem auto;
+}
+
+.map_preview {
+  position: relative;
+}
+
+.map_name_container {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: -1rem;
+
+  display: flex;
+  justify-content: center;
+}
+
+.vcompat {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.vcompat > * {
+  display: inline-block;
+}
+
+.vcompat > p {
+  margin-top: 0.4rem;
+  margin-bottom: 0;
+}
+
+.vcompat_input {
+  width: 4rem;
+}
+
+.vcompat_select {
+  flex: 1;
+  max-width: 15rem;
+}
+
+.addmap h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.herobtn_container {
+  display: flex;
+  justify-content: center;
+  row-gap: 0.5rem;
+  column-gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.herobtn_container img {
+  width: 4rem;
+  height: 4rem;
+}
+
+button.herobtn {
+  padding: 0.3rem;
+  min-width: 5rem;
+  width: 5rem;
+}
+
+.herobtn > img {
+  filter: saturate(0%);
+  transition: filter 0.2s linear;
+}
+
+.herobtn.active > img {
+  filter: inherit;
+}
+
+.map_form_rm_field {
+  margin-top: 24px;
+}
+
+@media only screen and (max-width: 575.98px) {
+  button.herobtn {
+    min-width: 4rem;
+    width: 4rem;
+  }
+  .herobtn_container img {
+    width: 3rem;
+    height: 3rem;
+  }
+}

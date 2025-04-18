@@ -6,7 +6,7 @@ describe("Legacy List", () => {
   });
 
   beforeEach(() => {
-    cy.login(uid, 64);
+    cy.login(uid, { permissions: { "!curator": null } });
     cy.visit("/hidden-maps");
   });
 

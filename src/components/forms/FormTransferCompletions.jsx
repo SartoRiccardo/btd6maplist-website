@@ -1,17 +1,17 @@
 "use client";
 import cssDangerZone from "./DangerZone.module.css";
 import { FormikContext } from "@/contexts";
-import { useAuthLevels, useDiscordToken } from "@/utils/hooks";
+import { useDiscordToken } from "@/utils/hooks";
 import { Formik } from "formik";
 import { useState } from "react";
 import MapCodeController, { codeRegex } from "./MapCodeController";
-import { difficulties } from "@/utils/maplistUtils";
-import Link from "next/link";
+import { botbDifficulties, difficulties } from "@/utils/maplistUtils";
 import { transferCompletions } from "@/server/maplistRequests.client";
 import ErrorToast from "./ErrorToast";
 import { revalidateMap } from "@/server/revalidations";
 import LazyModal from "../transitions/LazyModal";
 import LazyToast from "../transitions/LazyToast";
+import RetroMapName from "../dynamic/RetroMapName";
 
 const defaultValues = {
   code: "",
@@ -25,7 +25,6 @@ export default function FormTransferCompletion({ from }) {
   const [success, setSuccess] = useState(false);
   const [currentMap, setCurrentMap] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const authLevels = useAuthLevels();
   const token = useDiscordToken();
 
   const handleHide = () => setShow(false);
@@ -67,18 +66,10 @@ export default function FormTransferCompletion({ from }) {
                 >
                   <h2>Transfer Completions</h2>
                   <p>Transfer all completions to another map.</p>
-                  {!(authLevels.isExplistMod || authLevels.isAdmin) && (
-                    <p className="muted">
-                      It will not transfer completions marked as Expert List
-                      completions.
-                    </p>
-                  )}
-                  {!(authLevels.isListMod || authLevels.isAdmin) && (
-                    <p className="muted">
-                      It will not transfer completions marked as Maplist
-                      completions.
-                    </p>
-                  )}
+                  <p className="muted">
+                    It will only transfer completions you have privileges to
+                    edit.
+                  </p>
 
                   <div className="row d-flex justify-content-between align-items-start gy-3">
                     <div className="col-12 col-md-4">
@@ -133,9 +124,7 @@ export default function FormTransferCompletion({ from }) {
                   </div>
 
                   {values.mapData && (
-                    <p className="text-start">
-                      <TransferMapDescription {...values.mapData} />
-                    </p>
+                    <TransferMapDescription {...values.mapData} />
                   )}
                 </div>
 
@@ -147,7 +136,6 @@ export default function FormTransferCompletion({ from }) {
                   <div className="modal-body text-center">
                     <h2>Transfer Completions?</h2>
                     <p>
-                      You are about to transfer completions to:{" "}
                       {values.mapData && (
                         <TransferMapDescription {...values.mapData} />
                       )}
@@ -210,18 +198,45 @@ export default function FormTransferCompletion({ from }) {
   );
 }
 
-function TransferMapDescription({ placement_cur, difficulty, code, name }) {
+function TransferMapDescription({
+  placement_curver,
+  difficulty,
+  botb_difficulty,
+  remake_of,
+  code,
+  name,
+}) {
   return (
-    <span>
-      Transfer completions to{" "}
-      <Link target="_blank" href={`/map/${code}`}>
-        {name}
-      </Link>
-      {placement_cur > 0 && ` (Maplist placement: #${placement_cur})`}
-      {difficulty >= 0 &&
-        ` (Difficulty: ${
-          difficulties.find(({ value }) => value === difficulty).name
-        } Expert)`}
-    </span>
+    <div className="text-start">
+      <p className="mt-3 mb-1">
+        Transfer completions to{" "}
+        <a target="_blank" href={`/map/${code}`}>
+          {name}
+        </a>
+      </p>
+      <ul>
+        {placement_curver !== null && (
+          <li>Maplist placement: #{placement_curver}</li>
+        )}
+        {difficulty !== null && (
+          <li>
+            Difficulty:{" "}
+            {difficulties.find(({ value }) => value === difficulty).name} Expert
+          </li>
+        )}
+        {botb_difficulty !== null && (
+          <li>
+            BotB Difficulty:{" "}
+            {
+              botbDifficulties.find(({ value }) => value === botb_difficulty)
+                .name
+            }{" "}
+          </li>
+        )}
+        {remake_of !== null && (
+          <li>Nostalgia Pack Remake Of: {remake_of.name}</li>
+        )}
+      </ul>
+    </div>
   );
 }

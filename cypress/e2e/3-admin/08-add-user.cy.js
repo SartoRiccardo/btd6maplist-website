@@ -9,12 +9,12 @@ describe("Add User", () => {
   });
 
   before(() => {
-    cy.request(`${Cypress.env("maplist_api_url")}/reset-test`);
+    cy.resetApi();
   });
 
   beforeEach(() => {
-    cy.login(uid, 64);
-    cy.visit("/config");
+    cy.login(uid, { permissions: { "!mod": null } });
+    cy.visit("/user/add");
     cy.intercept("POST", "/users").as("req-add-user");
     cy.get("[data-cy=form-add-user]").as("form");
     cy.get("@form").find("[name=discord_id]").as("in-id");
