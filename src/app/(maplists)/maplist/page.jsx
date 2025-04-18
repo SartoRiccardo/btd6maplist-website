@@ -55,7 +55,7 @@ export default async function TheListPage({ searchParams }) {
 
       <MapList
         maps={maps}
-        formcompletionFormatsats={[1, curFormat.value]}
+        completionFormats={[1, curFormat.value]}
         showPlacement
       />
     </>

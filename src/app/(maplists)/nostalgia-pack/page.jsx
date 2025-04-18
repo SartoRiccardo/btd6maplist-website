@@ -1,5 +1,5 @@
 import styles from "../maplist.module.css";
-import cssLeaderboard from "@/app/(visitor)/leaderboard/leaderboard.module.css";
+import cssLeaderboard from "@/app/leaderboard/leaderboard.module.css";
 import DifficultySelector from "@/components/maps/DifficultySelector";
 import { discordInvites, npDifficulties } from "@/utils/maplistUtils";
 import { getMaplist } from "@/server/maplistRequests";
