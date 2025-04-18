@@ -39,7 +39,7 @@ export default function SubmitRunForm({ onSubmit, mapData }) {
     ({ run_submission_status, hidden, id }) =>
       !hidden &&
       run_submission_status !== "closed" &&
-      mapData?.[formatToKey?.[id]] &&
+      mapData?.[formatToKey?.[id]] !== null &&
       hasPerms("create:completion_submission", { format: id })
   );
 
@@ -325,31 +325,38 @@ function SidebarForm({ formats }) {
   return (
     <div className="my-2">
       {formats.length > 1 && (
-        <div className="d-flex w-100 justify-content-between mt-3">
-          <p className=" align-self-center">Format</p>
-          <div className="align-self-end">
-            <select
-              className="form-select"
-              name="format"
-              value={values.proposed}
-              onChange={(evt) => {
-                const newFormat = formats.find(
-                  ({ id }) => id === parseInt(evt.target.value)
-                );
-                if (newFormat.run_submission_status === "lcc_only")
-                  setFieldValue("current_lcc", true);
-                setFieldValue(evt.target.name, evt.target.value);
-              }}
-              onBlur={handleBlur}
-            >
-              {formats.map(({ name, id }) => (
-                <option value={id} key={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
+        <>
+          <p className="mb-2">
+            This map belongs to different lists, which may have different rules
+            for what's considered a valid completion. You can select the list
+            you are submitting you completion to!
+          </p>
+          <div className="d-flex w-100 justify-content-between mt-3">
+            <p className=" align-self-center">List</p>
+            <div className="align-self-end">
+              <select
+                className="form-select"
+                name="format"
+                value={values.proposed}
+                onChange={(evt) => {
+                  const newFormat = formats.find(
+                    ({ id }) => id === parseInt(evt.target.value)
+                  );
+                  if (newFormat.run_submission_status === "lcc_only")
+                    setFieldValue("current_lcc", true);
+                  setFieldValue(evt.target.name, evt.target.value);
+                }}
+                onBlur={handleBlur}
+              >
+                {formats.map(({ name, id }) => (
+                  <option value={id} key={id}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       <div data-cy="fgroup-notes">

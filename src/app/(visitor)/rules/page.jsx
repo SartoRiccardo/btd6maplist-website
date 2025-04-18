@@ -16,7 +16,7 @@ export default function RulePage() {
       <h1 className="text-center">Submission Rules</h1>
 
       <p className="muted text-center">
-        Rules differ slightly depending on the format
+        Rules differ slightly depending on the list
       </p>
       <div className="flex-hcenter flex-col-space" data-cy="btn-rules">
         {allFormats
