@@ -43,3 +43,9 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+@media only screen and (max-width: 575.98px) {
+  .home_formats > div p {
+    padding: 0 1rem;
+  }
+}

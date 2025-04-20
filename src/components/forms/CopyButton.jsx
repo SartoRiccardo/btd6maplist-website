@@ -13,8 +13,12 @@ export default function CopyButton({ content }) {
   };
 
   return (
-    <a href="#" onClick={handleCopy} data-cy="btn-copy">
+    <span
+      className={`a ${isCheck ? "" : "c-pointer"}`}
+      onClick={handleCopy}
+      data-cy="btn-copy"
+    >
       <i className={`bi ${isCheck ? "bi-check2" : "bi-copy"}`} />
-    </a>
+    </span>
   );
 }

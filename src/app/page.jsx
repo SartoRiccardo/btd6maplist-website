@@ -140,9 +140,9 @@ export default async function Home() {
                 height={350}
               />
               <div className={cssHome.map_preview_container}>
-                <Btd6Map code="ZFGGFRV" />
-                <Btd6Map code="ZFMWKKL" />
-                <Btd6Map code="ZFFPRCS" />
+                <Btd6Map code="ZFKOPFD" />
+                <Btd6Map code="ZFFBOHD" />
+                <Btd6Map code="ZFFCUCU" />
               </div>
             </div>
             <div className="col-12 col-md-6">
@@ -182,9 +182,9 @@ export default async function Home() {
                 height={350}
               />
               <div className={cssHome.map_preview_container}>
-                <Btd6Map code="ZMOPRVY" />
+                <Btd6Map code="ZFFECXW" />
                 <Btd6Map code="ZFMXPDS" />
-                <Btd6Map code="ZFMKRDL" />
+                <Btd6Map code="ZFFPHXD" />
               </div>
             </div>
             <div className="col-12 col-md-6">

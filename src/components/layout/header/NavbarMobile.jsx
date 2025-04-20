@@ -8,10 +8,13 @@ import ProtectedLinks from "./ProtectedLinks";
 import LazyOffcanvas from "@/components/transitions/LazyOffcanvas";
 import LazyCollapse from "@/components/transitions/LazyCollapse";
 import SearchTab from "./SearchTab";
+import { listRoutes } from "@/utils/routeInfo";
+import { useVisibleFormats } from "@/utils/hooks";
 
 export function NavbarMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState([]);
+  const visibleFormats = useVisibleFormats();
 
   const toggleSubmenu = (id, remove) => {
     return (_e) => {
@@ -78,22 +81,22 @@ export function NavbarMobile() {
                     className={`${styles.submenu} ${styles.mobile}`}
                     data-cy="nav-dropdown"
                   >
-                    <li>
-                      <Link
-                        href="/expert-list"
-                        onClick={(_e) => setIsMenuOpen(false)}
-                      >
-                        Expert List
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/maplist"
-                        onClick={(_e) => setIsMenuOpen(false)}
-                      >
-                        The Maplist
-                      </Link>
-                    </li>
+                    {listRoutes
+                      .filter(({ dependsOn }) =>
+                        dependsOn.some((format) =>
+                          visibleFormats.includes(format)
+                        )
+                      )
+                      .map(({ href, name }) => (
+                        <li key={href}>
+                          <Link
+                            href={href}
+                            onClick={(_e) => setIsMenuOpen(false)}
+                          >
+                            {name}
+                          </Link>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </LazyCollapse>
