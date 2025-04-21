@@ -23,7 +23,7 @@ describe("Map page", () => {
     cy.get("h1").contains("Maplist Map 23");
     cy.get("[data-cy=aliases]");
     cy.get("[data-cy=code]").as("code").contains(mapCode);
-    cy.get("@code").find("[data-cy=btn-copy]").click();
+    cy.get("@code").find("[data-cy=btn-copy]").realClick();
     cy.clipboard().should("equal", mapCode);
     cy.get("[data-cy=btn-custom-map-play]");
 
