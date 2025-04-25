@@ -128,13 +128,13 @@ export function RunSubmissionRules({ on }) {
         </ShowOnFormats>
         <li>
           <Medal src="/medals/medal_lcc.webp" padHeight /> LCC runs must be
-          streamed with 2 moderators as witnesses, or have video proof following
+          streamed with 1 moderator as witness, or have video proof following
           the requirements below.
         </li>
         <ShowOnFormats on={on} formats={[1, 2]}>
           <li>
             <Medal src="/medals/medal_nogerry.webp" padHeight /> No Optimal Hero
-            runs must be streamed with 2 moderators as witnesses, or have video
+            runs must be streamed with 1 moderator as witness, or have video
             proof following the requirements below.
           </li>
         </ShowOnFormats>
@@ -145,7 +145,7 @@ export function RunSubmissionRules({ on }) {
             <ul>
               <li>
                 No Optimal Hero runs <u>on High, True and Extreme experts</u>{" "}
-                must be streamed with 2 moderators as witnesses, or have video
+                must be streamed with 1 moderator as witness, or have video
                 proof following the requirements below.
               </li>
               <li>
