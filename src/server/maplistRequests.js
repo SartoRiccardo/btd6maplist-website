@@ -77,11 +77,16 @@ export async function getMaplistRoles() {
   return await response.json();
 }
 
-export async function getUser(id) {
-  const response = await fetch(`${process.env.API_URL}/users/${id}`, {
-    cache,
-    next: { revalidate, tags: [`usr${id}`] },
-  });
+export async function getUser(id, { minimal = false } = {}) {
+  minimal = minimal ?? false;
+
+  const response = await fetch(
+    `${process.env.API_URL}/users/${id}?minimal=${minimal}`,
+    {
+      cache,
+      next: { revalidate, tags: [`usr${id}`] },
+    }
+  );
   if (response.status !== 200) return null;
   return await response.json();
 }
