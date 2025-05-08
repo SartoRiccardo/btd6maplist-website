@@ -10,7 +10,8 @@ export default async function ContestPage() {
   const fullList = maplist
     .concat(legacyList)
     .filter((map) => map.format_idx !== null)
-    .sort((a, b) => a.format_idx - b.format_idx);
+    .sort((a, b) => a.format_idx - b.format_idx)
+    .slice(0, 100);
 
   return (
     <>
