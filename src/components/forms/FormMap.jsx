@@ -71,6 +71,7 @@ const heros = [
   "geraldo",
   "corvus",
   "rosalia",
+  "silas",
 ];
 
 const defaultValues = {
