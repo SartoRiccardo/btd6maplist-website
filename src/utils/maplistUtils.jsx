@@ -433,6 +433,6 @@ export const formatToKey = {
 };
 
 export const discordInvites = {
-  maplist: "https://discord.com/ZgMtM7X2TS",
+  maplist: "https://discord.gg/ZgMtM7X2TS",
   emporium: "https://discord.gg/T228Dtkfb9",
 };
