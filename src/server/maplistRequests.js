@@ -1,5 +1,37 @@
 import { allFormats } from "@/utils/maplistUtils";
 import { revalidate, cache } from "./cacheOptions";
+import { cookies } from 'next/headers';
+
+// I don't like getting cookies here but w/e
+export async function getOwnSubmissions(type, page) {
+  const cookieStore = cookies();
+  const tokenCookie = cookieStore.get('accessToken');
+  if (!tokenCookie) return { data: [], pages: 0, total: 0 };
+  let token;
+  try {
+    token = JSON.parse(tokenCookie.value);
+  } catch (e) {
+    return { data: [], pages: 0, total: 0 };
+  }
+
+  const url = new URL(`${process.env.API_URL}/users/@me/submissions`);
+  url.searchParams.set('page', page);
+  url.searchParams.set('type', type);
+  url.searchParams.set('status', 'all');
+
+  const response = await fetch(
+    url,
+    {
+      headers: { Authorization: `Bearer ${token.access_token}` },
+      next: { tags: ["my_submissions"], revalidate: 0 },
+      cache: 'no-store',
+    }
+  );
+  if (response.ok) {
+    return await response.json();
+  }
+  return {data: [], pages: 0, total: 0};
+}
 
 export async function maplistAuthenticate(token) {
   const response = await fetch(`${process.env.API_URL}/auth`, {

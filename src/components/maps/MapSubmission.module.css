@@ -1,3 +1,7 @@
 .rejected {
   border-left: 0.5rem solid #b71c1c;
 }
+
+.accepted {
+  border-left: 0.5rem solid green;
+}

@@ -78,6 +78,27 @@ export const groupCompsByMap = (completions) => {
   return { keyOrder, runsOnSameMap };
 };
 
+export const groupConsecutiveCompsByMap = (completions) => {
+  if (completions.length === 0) {
+    return [];
+  }
+
+  const groups = [];
+  let currentGroup = [completions[0]];
+
+  for (let i = 1; i < completions.length; i++) {
+    if ((completions[i].map?.code || completions[i].map) === (currentGroup[0].map?.code || currentGroup[0].map)) {
+      currentGroup.push(completions[i]);
+    } else {
+      groups.push(currentGroup);
+      currentGroup = [completions[i]];
+    }
+  }
+  groups.push(currentGroup);
+
+  return groups;
+};
+
 export const deepChange = (obj, path, value) => {
   const lastPathMatch = /(?:\.?([^\.\[\s]+)|\[(\d+)\])$/g.exec(path);
   const lastPath = lastPathMatch[1] || lastPathMatch[2];

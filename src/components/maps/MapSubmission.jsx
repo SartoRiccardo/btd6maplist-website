@@ -14,6 +14,7 @@ import ZoomableImage from "../ui/ZoomableImage";
 export default async function MapSubmission({
   code,
   rejected_by,
+  is_accepted,
   format,
   proposed_diff_name,
   proposed_diff,
@@ -21,6 +22,7 @@ export default async function MapSubmission({
   submitter,
   completion_proof,
   created_on,
+  readOnly = false,
 }) {
   const btd6Map = await getCustomMap(code);
   const submFormat = allFormats.find(({ value }) => value === format);
@@ -28,7 +30,7 @@ export default async function MapSubmission({
   return (
     <div
       className={`row panel ${cssMap.btd6map_row} my-3 pb-3 gy-2 ${
-        rejected_by !== null ? cssMapSubm.rejected : ""
+        is_accepted ? cssMapSubm.accepted : (rejected_by !== null ? cssMapSubm.rejected : "")
       }`}
       data-cy={`map-submission${rejected_by !== null ? "-deleted" : ""}`}
     >
@@ -75,7 +77,7 @@ export default async function MapSubmission({
 
       <div className="col-2 col-lg-1 d-flex align-items-center justify-content-center">
         {completion_proof && <BtnShowCompletion src={completion_proof} />}
-        {rejected_by === null && (
+        {!readOnly && rejected_by === null && (
           <BtnDeleteSubmission
             className="ps-3"
             name={btd6Map?.name}
