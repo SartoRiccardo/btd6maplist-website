@@ -1,6 +1,7 @@
 "use client";
 import stylesNav from "../layout/header/navbar.module.css";
 import stylesComp from "./MaplistCompletions.module.css";
+import stylesMapSubmission from "./MapSubmission.module.css";
 import CompletionColumn from "./CompletionColumn";
 import Link from "next/link";
 import { useState } from "react";
@@ -23,6 +24,7 @@ export default function CompletionRowSubmission({
   mapIdxAllver,
   userEntry,
   isLast,
+  readOnly = false,
 }) {
   const [modalOpen, setModalOpen] = useState(null);
   const accessToken = useDiscordToken();
@@ -33,7 +35,7 @@ export default function CompletionRowSubmission({
     <>
       <div
         className={`panel rounded-top-0 ${isLast ? "" : "rounded-bottom-0"} ${
-          stylesComp.border_top_primary
+          completion.accepted_by ? stylesMapSubmission.accepted : (completion.deleted_on ? stylesMapSubmission.rejected : "")
         } ${disabled ? stylesComp.darkened : ""}`}
       >
         <div className="row">
@@ -49,8 +51,12 @@ export default function CompletionRowSubmission({
               mapIdxCurver={mapIdxCurver}
               mapIdxAllver={mapIdxAllver}
               onlyIcon
-              button={
-                disabled ? (
+              button={readOnly ? <i
+                className={`${stylesComp.completion_link} bi bi-search`}
+                onClick={() => setModalOpen("proof")}
+                tabIndex={0}
+                data-cy="btn-view-proof"
+              /> : (disabled ? (
                   <></>
                 ) : (
                   <div
@@ -87,8 +93,7 @@ export default function CompletionRowSubmission({
                       </ul>
                     </div>
                   </div>
-                )
-              }
+                ))}
             />
           </div>
 

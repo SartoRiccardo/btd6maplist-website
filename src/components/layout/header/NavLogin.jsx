@@ -63,6 +63,14 @@ export default function NavLogin({ onNavigate }) {
                 </Link>
               </li>
               <li>
+                <Link
+                  href={`/my-submissions`}
+                  onClick={(_e) => onNavigate && onNavigate(_e)}
+                >
+                  My Submissions
+                </Link>
+              </li>
+              <li>
                 <a href="/api/auth/revoke">Logout</a>
               </li>
             </ul>
@@ -97,6 +105,14 @@ export default function NavLogin({ onNavigate }) {
                     onClick={(_e) => onNavigate && onNavigate(_e)}
                   >
                     Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={`/my-submissions`}
+                    onClick={(_e) => onNavigate && onNavigate(_e)}
+                  >
+                    My Submissions
                   </Link>
                 </li>
                 <li>
