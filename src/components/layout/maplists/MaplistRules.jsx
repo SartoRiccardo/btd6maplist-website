@@ -144,12 +144,12 @@ export function RunSubmissionRules({ on }) {
             Hero runs:
             <ul>
               <li>
-                No Optimal Hero runs <u>on High, True and Extreme experts</u>{" "}
+                No Optimal Hero runs <u>on True and Extreme experts</u>{" "}
                 must be streamed with 1 moderator as witness, or have video
                 proof following the requirements below.
               </li>
               <li>
-                Adora runs on Casual and Medium Experts require an additional
+                Adora runs on Casual, Medium and High Experts require an additional
                 screenshot at the start of Round 98.
               </li>
             </ul>
