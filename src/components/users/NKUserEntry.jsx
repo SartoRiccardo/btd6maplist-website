@@ -1,6 +1,7 @@
 import cssUsrE from "./UserEntry.module.css";
 import { getBtd6User } from "@/server/ninjakiwiRequests";
 import Image from "../utils/Image";
+import { emptyImage } from "@/utils/misc";
 
 export default async function NKUserEntry({ userId }) {
   if (!userId) return null;
@@ -12,7 +13,7 @@ export default async function NKUserEntry({ userId }) {
       <Image
         loading="lazy"
         className={`${cssUsrE.pfp} ${cssUsrE.small}`}
-        src={userData.avatarURL}
+        src={userData?.avatarURL ?? emptyImage}
         alt=""
         width={50}
         height={50}

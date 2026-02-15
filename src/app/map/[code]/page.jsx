@@ -44,16 +44,12 @@ export default async function MapOverview({ params, searchParams }) {
       nkUserId = nkMap.creator.match(/\/(\w+)$/)?.[0];
     }
   }
-  const userId =
-    mapData.creators.length > 0
-      ? null
-      : (await getCustomMap(mapData.code))?.creator?.split("/");
 
   const visibleFormats = formats
     .filter(({ hidden }) => !hidden)
     .map(({ id }) => id);
   const validLccs = mapData.lccs.filter(({ format }) =>
-    visibleFormats.includes(format)
+    visibleFormats.includes(format),
   );
 
   return (
