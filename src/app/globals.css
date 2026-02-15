@@ -295,6 +295,11 @@ img.zoomable:hover {
     -1px 1px var(--shadow-clr);
 }
 
+.ruleimg {
+  width: 100%;
+  padding-bottom: 30px;
+}
+
 /* xs */
 @media only screen and (max-width: 575.98px) {
   .lb-position {
@@ -313,5 +318,8 @@ img.zoomable:hover {
 @media only screen and (min-width: 767.98px) {
   .w-md-auto {
     width: auto !important;
+  }
+  .ruleimg {
+    width: 60%;
   }
 }
