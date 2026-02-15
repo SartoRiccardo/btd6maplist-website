@@ -214,9 +214,7 @@ export function RunSubmissionRules({ on }) {
         </ShowOnFormats>
       </ul>
       <ShowOnFormats on={on} formats={[1, 2]}>
-        <img className="w-100 pb-3" src="https://i.imgur.com/2mDWEQ9.png" alt="Click on the icon in the bottom right of the mods widget to show mod hashes" />
-        <br />
-        <br />
+        <img className="text-center w-100 pb-3" src="https://i.imgur.com/2mDWEQ9.png" alt="Click on the icon in the bottom right of the mods widget to show mod hashes" />
       </ShowOnFormats>
         
       <h3 className="text-center mb-2">
