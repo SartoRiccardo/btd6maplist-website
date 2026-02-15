@@ -25,15 +25,27 @@ export function RunSubmissionRules({ on }) {
       )}
       <h3 className="text-center">How to Submit</h3>
       <p>
-        To submit a run, you must submit a valid screenshot after Round 100 is
-        completed by showing either the tower screen after pressing the{" "}
-        <i>Review Map</i> button, or that the current round is 101 or higher.
-        You can submit runs either through the Maplist Discord server or by
-        clicking the <b>Submit Run</b> button on the website on a map's page.
+        Any run submitted must be in line with the following requirements. Before starting/submitting a run please make sure you follow all of these.
+      </p>
+      <ul>
+        <li>
+          The run must be completed in CHIMPS mode.
+        </li>
+        <li>
+          The submission must have a complete screenshot of the game's window
+        </li>
+        <li>
+          The screenshot must be taken either on the review screen after round 100 or at the start of round 101
+        </li>
+        <li>
+          The screenshot must be completely unedited
+        </li>
+      </ul>
+      <p>
         <br />
         <br />
-        Be prepared to list your build order, hardest rounds, early game setup,
-        etc. if your run is deemed suspicious.{" "}
+        You may be asked by a moderator to explain your many parts about your completion if your run is deemed suspicious.
+        Some questions like "What was your build order?", "Which were the hardest rounds?", and "What was your early game set-up?", are likely to be asked.{" "}
         <span className="muted">
           Doesn't happen often, but it <i>can</i> happen.
         </span>
@@ -49,20 +61,20 @@ export function RunSubmissionRules({ on }) {
             <li>
               Black Border runs are worth{" "}
               <b>
-                <u>{maplistCfg.points_multi_bb}x points</u>
+                <u>{maplistCfg.points_multi_bb}x base points</u>
               </b>
             </li>
             <li>
               Alt Hero runs (heroes other than the best hero(s) on the map) are
               worth{" "}
               <b>
-                <u>{maplistCfg.points_multi_gerry}x points</u>
+                <u>{maplistCfg.points_multi_gerry}x base points</u>
               </b>
             </li>
             <li>
-              LCCs are worth{" "}
+              LCC runs are give{" "}
               <b>
-                <u>+{maplistCfg.points_extra_lcc} points</u>
+                <u>+{maplistCfg.points_extra_lcc} points to the current LCC holder</u>
               </b>
             </li>
           </ul>
@@ -163,35 +175,50 @@ export function RunSubmissionRules({ on }) {
         your run does
       </p>
       <ul>
-        <li>In game music and SFX must be audible and not at 0%.</li>
+        <li>Both in-game music and SFX must be audible, never at 0%.</li>
         <li>
-          Audio must only consist of the game itself, and any VC audio during
-          recording.
-        </li>
-        <ShowOnFormats on={on} formats={[1, 2]}>
-          <li>
-            The recording must consist of unedited clips of each round from{" "}
-            <u>91 - 100</u> (unlike the Expert List, which requires 98 - 100).
-          </li>
-        </ShowOnFormats>
-        <ShowOnFormats on={on} formats={[51, 11, 52]}>
-          <li>
-            The recording must consist of unedited clips of each round from{" "}
-            <u>98 - 100</u> (unlike The Maplist, which requires 91 - 100).
-          </li>
-        </ShowOnFormats>
-        <li>
-          Any splices or sections in the recording must reveal all installed
-          mods.
+          On runs that allow editing, you may splice the run to shorten the length, if this happens,
+          you must clearly show your installed mods (or lack of mods by showing your home screen) on each section.
         </li>
         <li>
           Once you beat r100 you must go home and once again show your mod list
           or lack thereof.
         </li>
+        <ShowOnFormats on={on} formats={[51, 11, 52]}>
+          <li>
+            Audio must only consist of the game itself, and any VC audio during recording.
+          </li>
+          <li>
+            The recording must consist of unedited clips of each round from{" "}
+            <u>98 - 100</u> (unlike The Maplist, which requires different rounds).
+          </li>
+        </ShowOnFormats>
+        <ShowOnFormats on={on} formats={[1, 2]}>
+          <li>
+            Audio must only consist of the game itself. This can be done with many recording softwares,
+            if yours can't, you should install OBS to submit runs.
+          </li>
+          <li>
+            List of runs and their requirements:
+              <ul>
+                <li>Regular completions maps between and including #26 to #50, don't require a recording, only the screenshot.</li>
+                <li>Alt Hero and LCC runs on maps between and including #26 to #50 must have a recording of r6-40 and r91-100</li>
+                <li>Any run on maps #11 to #25 must have a recording of r6-40 and r91-100</li>
+                <li>Any run on maps #1 to #10 must have an unedited recording of r6-100</li>
+              </ul>
+          </li>
+          <li>
+            When you are showing your active mods list you must showing the hash identifiers for the active mods.
+            You can enable this in the mods menu by clicking on the icon at the bottom right of the mods widget. Example image:
+          </li>
+        </ShowOnFormats>
       </ul>
-
+      <ShowOnFormats on={on} formats={[1, 2]}>
+        <img src="https://media.discordapp.net/attachments/1280618910495936542/1472628790088700108/image.png?ex=699343ef&is=6991f26f&hm=32aabf27855efa6af438ad62bd8c94b236101e5e1329902733b70bf556f0ee47&animated=true" alt="Click on the icon in the bottom right of the mods widget to show mod hashes" width="1031" height="1135"> 
+      </ShowOnFormats>
+        
       <h3 className="text-center mb-2">
-        Allowed/Forbidden Mods, Hacks and Glitches
+        Mods, Hacks and Glitches
       </h3>
       <p className="text-center text-warning">
         <u>
