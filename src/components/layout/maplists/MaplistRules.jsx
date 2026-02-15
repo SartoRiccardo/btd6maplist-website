@@ -214,7 +214,9 @@ export function RunSubmissionRules({ on }) {
         </ShowOnFormats>
       </ul>
       <ShowOnFormats on={on} formats={[1, 2]}>
-        <img src="https://media.discordapp.net/attachments/1280618910495936542/1472628790088700108/image.png?ex=699343ef&is=6991f26f&hm=32aabf27855efa6af438ad62bd8c94b236101e5e1329902733b70bf556f0ee47&animated=true" alt="Click on the icon in the bottom right of the mods widget to show mod hashes" width="1031" height="1135"> 
+        <img className="text-center" src="https://imgur.com/2mDWEQ9" alt="Click on the icon in the bottom right of the mods widget to show mod hashes" width="500" />
+        <br />
+        <br />
       </ShowOnFormats>
         
       <h3 className="text-center mb-2">
