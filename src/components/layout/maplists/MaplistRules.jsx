@@ -25,27 +25,28 @@ export function RunSubmissionRules({ on }) {
       )}
       <h3 className="text-center">How to Submit</h3>
       <p>
-        Any run submitted must be in line with the following requirements. Before starting/submitting a run please make sure you follow all of these.
+        Any run submitted must be in line with the following requirements.
+        Before starting/submitting a run please make sure you follow all of
+        these.
       </p>
       <ul>
-        <li>
-          The run must be completed in CHIMPS mode.
-        </li>
+        <li>The run must be completed in CHIMPS mode.</li>
         <li>
           The submission must have a complete screenshot of the game's window
         </li>
         <li>
-          The screenshot must be taken either on the review screen after round 100 or at the start of round 101
+          The screenshot must be taken either on the review screen after round
+          100 or at the start of round 101
         </li>
-        <li>
-          The screenshot must be completely unedited
-        </li>
+        <li>The screenshot must be completely unedited</li>
       </ul>
       <p>
         <br />
         <br />
-        You may be asked by a moderator to explain your many parts about your completion if your run is deemed suspicious.
-        Some questions like "What was your build order?", "Which were the hardest rounds?", and "What was your early game set-up?", are likely to be asked.{" "}
+        You may be asked by a moderator to explain your many parts about your
+        completion if your run is deemed suspicious. Some questions like "What
+        was your build order?", "Which were the hardest rounds?", and "What was
+        your early game set-up?", are likely to be asked.{" "}
         <span className="muted">
           Doesn't happen often, but it <i>can</i> happen.
         </span>
@@ -74,7 +75,10 @@ export function RunSubmissionRules({ on }) {
             <li>
               LCC runs are give{" "}
               <b>
-                <u>+{maplistCfg.points_extra_lcc} points to the current LCC holder</u>
+                <u>
+                  +{maplistCfg.points_extra_lcc} points to the current LCC
+                  holder
+                </u>
               </b>
             </li>
           </ul>
@@ -89,7 +93,7 @@ export function RunSubmissionRules({ on }) {
                 {difficulties.map(({ query, value, points_cfg, name }) => {
                   const pointsNoGerryCfg = points_cfg.replace(
                     "_points",
-                    "_nogerry_points"
+                    "_nogerry_points",
                   );
                   return (
                     maplistCfg[pointsNoGerryCfg] > 0 && (
@@ -156,13 +160,13 @@ export function RunSubmissionRules({ on }) {
             Hero runs:
             <ul>
               <li>
-                No Optimal Hero runs <u>on True and Extreme experts</u>{" "}
-                must be streamed with 1 moderator as witness, or have video
-                proof following the requirements below.
+                No Optimal Hero runs <u>on True and Extreme experts</u> must be
+                streamed with 1 moderator as witness, or have video proof
+                following the requirements below.
               </li>
               <li>
-                Adora runs on Casual, Medium and High Experts require an additional
-                screenshot at the start of Round 98.
+                Adora runs on Casual, Medium and High Experts require an
+                additional screenshot at the start of Round 98.
               </li>
             </ul>
           </li>
@@ -177,8 +181,9 @@ export function RunSubmissionRules({ on }) {
       <ul>
         <li>Both in-game music and SFX must be audible, never at 0%.</li>
         <li>
-          On runs that allow editing, you may splice the run to shorten the length, if this happens,
-          you must clearly show your installed mods (or lack of mods by showing your home screen) on each section.
+          On runs that allow editing, you may splice the run to shorten the
+          length, if this happens, you must clearly show your installed mods (or
+          lack of mods by showing your home screen) on each section.
         </li>
         <li>
           Once you beat r100 you must go home and once again show your mod list
@@ -186,40 +191,61 @@ export function RunSubmissionRules({ on }) {
         </li>
         <ShowOnFormats on={on} formats={[51, 11, 52]}>
           <li>
-            Audio must only consist of the game itself, and any VC audio during recording.
+            Audio must only consist of the game itself, and any VC audio during
+            recording.
           </li>
           <li>
             The recording must consist of unedited clips of each round from{" "}
-            <u>98 - 100</u> (unlike The Maplist, which requires different rounds).
+            <u>98 - 100</u> (unlike The Maplist, which requires different
+            rounds).
           </li>
         </ShowOnFormats>
         <ShowOnFormats on={on} formats={[1, 2]}>
           <li>
-            Audio must only consist of the game itself. This can be done with many recording softwares,
-            if yours can't, you should install OBS to submit runs.
+            Audio must only consist of the game itself. This can be done with
+            many recording softwares, if yours can't, you should install OBS to
+            submit runs.
           </li>
           <li>
             List of runs and their requirements:
-              <ul>
-                <li>Regular completions maps between and including #26 to #50, don't require a recording, only the screenshot.</li>
-                <li>Alt Hero and LCC runs on maps between and including #26 to #50 must have a recording of r6-40 and r91-100</li>
-                <li>Any run on maps #11 to #25 must have a recording of r6-40 and r91-100</li>
-                <li>Any run on maps #1 to #10 must have an unedited recording of r6-100</li>
-              </ul>
+            <ul>
+              <li>
+                Regular completions maps between and including #26 to #50, don't
+                require a recording, only the screenshot.
+              </li>
+              <li>
+                Alt Hero and LCC runs on maps between and including #26 to #50
+                must have a recording of r6-40 and r91-100
+              </li>
+              <li>
+                Any run on maps #11 to #25 must have a recording of r6-40 and
+                r91-100
+              </li>
+              <li>
+                Any run on maps #1 to #10 must have an unedited recording of
+                r6-100
+              </li>
+            </ul>
           </li>
           <li>
-            When you are showing your active mods list you must showing the hash identifiers for the active mods.
-            You can enable this in the mods menu by clicking on the icon at the bottom right of the mods widget. Example image:
+            When you are showing your active mods list you must showing the hash
+            identifiers for the active mods. You can enable this in the mods
+            menu by clicking on the icon at the bottom right of the mods widget.
+            Example image:
           </li>
         </ShowOnFormats>
       </ul>
       <ShowOnFormats on={on} formats={[1, 2]}>
-        <img className="ruleimg" src="https://i.imgur.com/2mDWEQ9.png" alt="Click on the icon in the bottom right of the mods widget to show mod hashes"/>
+        <div className="d-flex justify-content-center">
+          <img
+            className="ruleimg"
+            src="https://i.imgur.com/2mDWEQ9.png"
+            alt="Click on the icon in the bottom right of the mods widget to show mod hashes"
+          />
+        </div>
       </ShowOnFormats>
-        
-      <h3 className="text-center mb-2">
-        Mods, Hacks and Glitches
-      </h3>
+
+      <h3 className="text-center mb-2">Mods, Hacks and Glitches</h3>
       <p className="text-center text-warning">
         <u>
           WARNING: Using mods can result in your account getting flagged. It is
