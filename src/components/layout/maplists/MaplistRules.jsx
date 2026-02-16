@@ -222,8 +222,7 @@ export function RunSubmissionRules({ on }) {
                 r91-100
               </li>
               <li>
-                Any run on maps #1 to #10 must have an unedited recording of
-                r6-100
+                Any run on maps #1 to #10 must have a recording of r6-100
               </li>
             </ul>
           </li>
