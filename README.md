@@ -1,5 +1,7 @@
 # BTD6 Maplist Website
 
+> ⚠️ **THIS REPO IS ARCHIVED.** Please check out [this repo](https://github.com/SartoRiccardo/btd6maplist-front-v2) for the new project
+
 A website for the BTD6 Maplist project.
 
 ## Running locally
